@@ -1,0 +1,47 @@
+version: '3.7'
+
+services:
+  web:
+    env_file: .env
+    container_name: buzzingpixel-web
+    ports:
+      - 14690:14690
+      - 14691:14691
+    environment:
+      HOSTNAME: buzzingpixel-web
+
+  php:
+    env_file: .env
+    container_name: buzzingpixel-php
+    environment:
+      HOSTNAME: buzzingpixel-php
+      COMPOSER_HOME: /composer-home-volume
+    volumes:
+      - composer-home-volume:/composer-home-volume
+    networks:
+      default:
+        aliases:
+          - tnvequipment-php
+
+  db:
+    env_file: .env
+    container_name: buzzingpixel-db
+    environment:
+      HOSTNAME: buzzingpixel-db
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+    ports:
+      - 14692:5432
+    networks:
+      default:
+        aliases:
+          - buzzingpixel-db
+
+volumes:
+  composer-home-volume:
+  db-volume:
+
+networks:
+  default:
+    external:
+      name: proxy

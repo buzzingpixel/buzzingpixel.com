@@ -1,0 +1,76 @@
+version: '3.7'
+
+services:
+  web:
+    build:
+      target: dev
+      context: ./
+      dockerfile: ./docker/web/Dockerfile
+    volumes:
+      - .:/opt/project:delegated
+      - ./docker/web/nginx.conf:/etc/nginx/conf.d/nginx.conf:delegated
+      - ./docker/web/buzzingpixel.localtest.me.cert:/etc/letsencrypt/live/www.buzzingpixel.com/fullchain.pem:delegated
+      - ./docker/web/buzzingpixel.localtest.me.key:/etc/letsencrypt/live/www.buzzingpixel.com/privkey.pem:delegated
+      - storage-volume:/opt/project/storage
+      - vendor-volume:/opt/project/vendor
+    networks:
+      default:
+        aliases:
+          - buzzingpixel.localtest.me
+          - buzzingpixel.ngrok.io
+
+  php:
+    build:
+      target: dev
+      context: ./
+      dockerfile: ./docker/php/Dockerfile
+    volumes:
+      - .:/opt/project:delegated
+      - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - storage-volume:/opt/project/storage
+      - vendor-volume:/opt/project/vendor
+
+  db:
+    build:
+      context: ./
+      dockerfile: ./docker/db/Dockerfile
+    volumes:
+      - .:/opt/project:delegated
+
+  bg-sync-node-modules:
+    container_name: buzzingpixel-bg-sync-node-modules
+    image: cweagans/bg-sync
+    volumes:
+      - node-modules-volume:/source
+      - ./node_modules:/destination:delegated
+    environment:
+      - SYNC_MAX_INOTIFY_WATCHES=40000
+      - SYNC_VERBOSE=1
+    privileged: true
+
+  bg-sync-storage:
+    container_name: buzzingpixel-bg-sync-storage
+    image: cweagans/bg-sync
+    volumes:
+      - storage-volume:/source
+      - ./storage:/destination:delegated
+    environment:
+      - SYNC_MAX_INOTIFY_WATCHES=40000
+      - SYNC_VERBOSE=1
+    privileged: true
+
+  bg-sync-vendor:
+    container_name: buzzingpixel-bg-sync-vendor
+    image: cweagans/bg-sync
+    volumes:
+      - vendor-volume:/source
+      - ./vendor:/destination:delegated
+    environment:
+      - SYNC_MAX_INOTIFY_WATCHES=40000
+      - SYNC_VERBOSE=1
+    privileged: true
+
+volumes:
+  node-modules-volume:
+  storage-volume:
+  vendor-volume:
