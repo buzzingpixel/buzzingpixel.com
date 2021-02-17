@@ -1,0 +1,98 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Application;
+
+// Run bootstrap and get di container
+$bootstrap = require __DIR__ . '/config/bootstrap.php';
+/** @var ContainerInterface $container */
+$container = $bootstrap();
+
+// Create application
+/** @var Application $app */
+$app = $container->get(Application::class);
+
+// We'll handle exceptions below so we can implement logging
+$app->setCatchExceptions(false);
+
+// Get directory iterator for iterating our path for CLI commands
+$directory = new RecursiveDirectoryIterator(__DIR__ . '/src/Cli/Commands');
+$iterator = new RecursiveIteratorIterator($directory);
+$finalIterator = new RegexIterator(
+    $iterator,
+    '/^.+\.php$/i',
+    RecursiveRegexIterator::GET_MATCH
+);
+
+// We need an array of directories up to the source directory
+$dir = __DIR__ . '/src';
+$dirArray = explode('/', $dir);
+
+// Iterate through each CLI command file, get the class from the DI, and add
+// it to the application
+/** @psalm-suppress MixedAssignment */
+foreach ($finalIterator as $files) {
+    /** @psalm-suppress MixedAssignment */
+    foreach ($files as $file) {
+        /** @psalm-suppress MixedArgument */
+        $baseName = basename($file, '.php');
+
+        /** @psalm-suppress MixedArgument */
+        $fileNameArray = explode('/', $file);
+
+        $newFileNameArray = array_slice(
+            $fileNameArray,
+            count($dirArray)
+        );
+
+        unset($newFileNameArray[count($newFileNameArray) - 1]);
+
+        $className = implode('\\', $newFileNameArray);
+
+        $className = '\App\\' . $className . '\\' . $baseName;
+
+        $commandPosition = mb_strpos(
+            strrev($className),
+            strrev('Command'),
+        );
+
+        if ($commandPosition === 0) {
+            /** @psalm-suppress MixedAssignment */
+            $command = $container->get($className);
+
+            /** @psalm-suppress MixedArgument */
+            $app->add($command);
+        }
+    }
+}
+
+// Run the application
+try {
+    $app->run();
+} catch (Throwable $exception) {
+    // Get the logger
+    $logger = $container->get(LoggerInterface::class);
+
+    assert($logger instanceof LoggerInterface);
+
+    // Log the error
+    $logger->error(
+        'A console exception was thrown',
+        ['exception' => $exception]
+    );
+
+    // Handle the error
+    echo 'An exception was thrown' . PHP_EOL;
+
+    if (function_exists('dd')) {
+        dd($exception);
+    } else {
+        echo 'Message: ' . $exception->getMessage() . PHP_EOL;
+        echo 'File: ' . $exception->getFile() . PHP_EOL;
+        echo 'Line: ' . $exception->getLine() . PHP_EOL;
+    }
+}

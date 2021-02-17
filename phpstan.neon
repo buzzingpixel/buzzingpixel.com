@@ -1,0 +1,11 @@
+parameters:
+    level: max
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+    excludes_analyse:
+        - %currentWorkingDirectory%/config/dumper.php
+        - %currentWorkingDirectory%/config/Abstractions/SimpleModel.php
+
+includes:
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon

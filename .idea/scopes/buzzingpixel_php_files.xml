@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="buzzingpixel-php-files" pattern="file[buzzingpixel.com]:config//*||file[buzzingpixel.com]:public//*||file[buzzingpixel.com]:src//*||file:cli" />
+</component>
