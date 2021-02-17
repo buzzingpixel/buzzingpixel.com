@@ -27,7 +27,7 @@ class General extends SimpleModel
     {
         $rootPath = dirname(__DIR__);
 
-        static::$devMode = getenv('DEV_MODE') === 'true';
+        static::$devMode = (bool) getenv('DEV_MODE');
 
         static::$rootPath = $rootPath;
 

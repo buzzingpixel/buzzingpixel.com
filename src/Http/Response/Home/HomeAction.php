@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Response\Home;
 
+use App\Http\Entities\Meta;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment as TwigEnvironment;
@@ -34,7 +35,11 @@ class HomeAction
         $response = $this->responseFactory->createResponse();
 
         $response->getBody()->write(
-            $this->twig->render('@home/Index.twig')
+            $this->twig->render('@home/Index.twig', [
+                'meta' => new Meta(
+                    metaTitle: 'Hello World',
+                ),
+            ])
         );
 
         return $response;

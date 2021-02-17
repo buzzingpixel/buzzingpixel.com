@@ -33,7 +33,7 @@ class TwigEnvironmentFactory
      */
     public function __invoke(ContainerInterface $di): TwigEnvironment
     {
-        $debug = getenv('DEV_MODE') === 'true';
+        $debug = (bool) getenv('DEV_MODE');
 
         $projectPath = dirname(__DIR__, 2);
 
