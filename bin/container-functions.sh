@@ -40,3 +40,15 @@ function docker-db() {
 
     return 0;
 }
+
+function docker-node() {
+    docker run -it \
+        -p 3000:3000 \
+        -p 3001:3001 \
+        -v ${PWD}:/app \
+        -v buzzingpixel_node-modules-volume:/app/node_modules \
+        -v buzzingpixel_yarn-cache-volume:/usr/local/share/.cache/yarn \
+        -w /app \
+        --network=proxy \
+        ${nodeDockerImage} bash -c "${allArgsExceptFirst}";
+}
