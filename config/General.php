@@ -6,8 +6,10 @@ namespace Config;
 
 use Config\Abstractions\SimpleModel;
 
+use function assert;
 use function dirname;
 use function getenv;
+use function is_string;
 
 /**
  * @method bool devMode()
@@ -34,7 +36,11 @@ class General extends SimpleModel
         static::$pathToStorageDirectory = $rootPath . '/storage';
 
         if (getenv('SITE_URL') !== false) {
-            static::$siteUrl = getenv('SITE_URL');
+            $siteUrl = getenv('SITE_URL');
+
+            assert(is_string($siteUrl));
+
+            static::$siteUrl = $siteUrl;
         }
 
         if (

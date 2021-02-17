@@ -57,11 +57,15 @@ return [
         /** @phpstan-ignore-next-line */
         $logLevel = getenv('LOG_LEVEL') ?: 'DEBUG';
 
+        assert(is_string($logLevel));
+
         $logger = new Logger('app');
 
         $logPath = getenv('LOG_FILE');
 
         if ($logPath !== false) {
+            assert(is_string($logPath));
+
             /** @psalm-suppress MixedArgument */
             $logger->pushHandler(
                 new StreamHandler(
