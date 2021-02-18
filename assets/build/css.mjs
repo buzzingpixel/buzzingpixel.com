@@ -118,8 +118,10 @@ export default (prod) => {
                 content: [
                     `${appDir}/assets/templates/**/*.html`,
                     `${appDir}/assets/templates/**/*.twig`,
+                    `${appDir}/assets/templates/**/*.svg`,
                     `${appDir}/src/**/*.html`,
                     `${appDir}/src/**/*.twig`,
+                    `${appDir}/src/**/*.svg`,
                 ],
                 defaultExtractor: (content) => content.match(/[\w-/.:]+(?<!:)/g) || [],
                 whitelistPatternsChildren: [

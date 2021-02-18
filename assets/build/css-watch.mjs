@@ -13,6 +13,7 @@ const extensions = [
     '.twig',
     '.css',
     '.pcss',
+    '.svg',
 ];
 
 let timer = setTimeout(() => {});

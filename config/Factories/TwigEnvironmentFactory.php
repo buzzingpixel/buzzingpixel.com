@@ -9,6 +9,7 @@ use App\Http\Utilities\Segments\ExtractUriSegments;
 use App\Templating\TwigExtensions\BreakToSpace;
 use App\Templating\TwigExtensions\PhpFunctions;
 use App\Templating\TwigExtensions\ReadJson;
+use App\Templating\TwigExtensions\SiteUrl;
 use App\Templating\TwigExtensions\TemplateExists;
 use BuzzingPixel\TwigDumper\TwigDumper;
 use BuzzingPixel\TwigMarkdown\MarkdownTwigExtension;
@@ -83,6 +84,8 @@ class TwigEnvironmentFactory
         $twig->addExtension($di->get(MarkdownTwigExtension::class));
 
         $twig->addExtension($di->get(BreakToSpace::class));
+
+        $twig->addExtension($di->get(SiteUrl::class));
 
         $twig->addGlobal('GeneralConfig', $di->get(General::class));
 
