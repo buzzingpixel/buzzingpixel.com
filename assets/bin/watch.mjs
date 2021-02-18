@@ -8,4 +8,7 @@ cssWatch();
 stylelintWatch();
 javascriptWatch();
 eslintWatch();
-browsersync();
+
+if (process.argv[2] === 'browsersync') {
+    browsersync();
+}
