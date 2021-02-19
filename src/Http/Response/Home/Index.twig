@@ -249,4 +249,34 @@
             </div>
         </div>
     </div>
+
+    {# About Me #}
+    <div class="relative py-16 bg-white overflow-hidden">
+        <div class="relative px-4 sm:px-6 lg:px-8">
+            <div class="text-lg max-w-prose mx-auto">
+                <h1>
+                    <span class="block text-base text-center text-aqua-deep font-semibold tracking-wide uppercase">About</span>
+                    <span class="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">BuzzingPixel</span>
+                </h1>
+                <p class="mt-8 text-xl text-gray-500 leading-8">
+                    {{ "BuzzingPixel is me, TJ Draper. This is where you'll find my work, add-ons, and more."|smartypants|widont }}
+                </p>
+            </div>
+            <div class="mt-6 prose prose-indigo prose-lg text-gray-500 mx-auto">
+                <figure>
+                    {# TODO: Real images here #}
+                    <img
+                        class="w-full rounded-lg"
+                        src="{{ siteUrl('/assets/img/me-desktop-2x.jpg') }}"
+                        alt=""
+                        width="1310"
+                        height="873"
+                    >
+                    <figcaption>Rare photo of TJ captured in his unnatural habitat: the outdoors</figcaption>
+                </figure>
+                <p>{{ 'I write HTML, CSS, JavaScript, PHP, and C# to make great software and great websites. I also create great content management experiences and write great add-ons for great CMSes. In short, I enjoy building things that delight people.'|smartypants|widont }}</p>
+                <p>{{ "When I'm not developing softare, I'm probably spending time with my 4 children and/or my beautiful wife, watching a movie or TV show, or podcating."|smartypants|widont }}</p>
+            </div>
+        </div>
+    </div>
 {% endblock %}
