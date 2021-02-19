@@ -1,5 +1,6 @@
 {
     "scripts": {
+        "browsersync": "node assets/bin/browsersync.mjs",
         "build": "node assets/bin/build.mjs",
         "build-prod": "node assets/bin/build-prod.mjs",
         "watch": "node assets/bin/watch.mjs",
