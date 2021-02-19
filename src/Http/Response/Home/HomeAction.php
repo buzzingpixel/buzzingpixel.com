@@ -37,7 +37,7 @@ class HomeAction
         $response->getBody()->write(
             $this->twig->render('@home/Index.twig', [
                 'meta' => new Meta(
-                    metaTitle: 'Hello World',
+                    metaTitle: 'Specializing in Fine Web Software',
                 ),
             ])
         );
