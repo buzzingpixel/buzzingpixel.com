@@ -4,19 +4,9 @@ declare(strict_types=1);
 
 namespace Config\Factories;
 
-use App\Globals;
-use App\Http\Utilities\Segments\ExtractUriSegments;
-use App\Templating\TwigExtensions\BreakToSpace;
-use App\Templating\TwigExtensions\PhpFunctions;
-use App\Templating\TwigExtensions\ReadJson;
-use App\Templating\TwigExtensions\SiteUrl;
 use App\Templating\TwigExtensions\TemplateExists;
 use BuzzingPixel\TwigDumper\TwigDumper;
-use BuzzingPixel\TwigMarkdown\MarkdownTwigExtension;
-use buzzingpixel\twigsmartypants\SmartypantsTwigExtension;
-use buzzingpixel\twigswitch\SwitchTwigExtension;
-use buzzingpixel\twigwidont\WidontTwigExtension;
-use Config\General;
+use Config\Twig;
 use Psr\Container\ContainerInterface;
 use Throwable;
 use Twig\Environment as TwigEnvironment;
@@ -40,17 +30,12 @@ class TwigEnvironmentFactory
 
         $loader = $di->get(FilesystemLoader::class);
 
-        $loader->addPath($projectPath . '/assets/templates');
-
-        $loader->addPath(
-            $projectPath . '/src/Http/Response/Home',
-            'home'
-        );
-
-        $loader->addPath(
-            $projectPath . '/src/Http/Response/Error',
-            'error'
-        );
+        foreach (Twig::PATHS as $nameSpace => $path) {
+            $loader->addPath(
+                $projectPath . $path,
+                $nameSpace
+            );
+        }
 
         $twig = new TwigEnvironment(
             $loader,
@@ -69,34 +54,17 @@ class TwigEnvironmentFactory
             }
         }
 
-        $twig->addExtension($di->get(PhpFunctions::class));
-
-        $twig->addExtension($di->get(SmartypantsTwigExtension::class));
-
-        $twig->addExtension($di->get(WidontTwigExtension::class));
-
-        $twig->addExtension($di->get(SwitchTwigExtension::class));
-
-        $twig->addExtension(new TemplateExists($twig->getLoader()));
-
-        $twig->addExtension($di->get(ReadJson::class));
-
-        $twig->addExtension($di->get(MarkdownTwigExtension::class));
-
-        $twig->addExtension($di->get(BreakToSpace::class));
-
-        $twig->addExtension($di->get(SiteUrl::class));
-
-        $twig->addGlobal('GeneralConfig', $di->get(General::class));
-
-        $twig->addGlobal('Request', Globals::request());
-
-        $twig->addGlobal(
-            'UriSegments',
-            $di->get(ExtractUriSegments::class)(
-                Globals::request()->getUri()
-            )
+        $twig->addExtension(
+            new TemplateExists($twig->getLoader())
         );
+
+        foreach (Twig::EXTENSIONS as $extClassString) {
+            $twig->addExtension($di->get($extClassString));
+        }
+
+        foreach (Twig::globals($di) as $name => $val) {
+            $twig->addGlobal($name, $val);
+        }
 
         return $twig;
     }
