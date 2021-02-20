@@ -23,6 +23,7 @@ class Twig
         FilesystemLoader::MAIN_NAMESPACE => '/assets/templates',
         'error' => '/src/Http/Response/Error',
         'home' => '/src/Http/Response/Home',
+        'software' => '/src/Http/Response/Software',
     ];
 
     public const EXTENSIONS = [
