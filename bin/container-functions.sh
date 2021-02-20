@@ -43,8 +43,6 @@ function docker-db() {
 
 function docker-node() {
     docker run -it \
-        -p 3000:3000 \
-        -p 3001:3001 \
         -v ${PWD}:/app \
         -v buzzingpixel_node-modules-volume:/app/node_modules \
         -v buzzingpixel_yarn-cache-volume:/usr/local/share/.cache/yarn \

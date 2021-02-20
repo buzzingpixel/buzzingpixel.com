@@ -1,0 +1,50 @@
+{# @var \App\Http\Utilities\Segments\UriSegments UriSegments #}
+
+{# @var array navItems #}
+
+{% set baseNavItemClasses = [
+    'rounded-md',
+    'py-2',
+    'px-3',
+    'inline-flex',
+    'items-center',
+    'text-sm',
+    'font-medium',
+] %}
+
+{% set inActiveNavItemClasses = baseNavItemClasses|merge([
+    'text-gray-800',
+    'hover:bg-gray-100',
+    'hover:text-gray-900',
+])|join(' ') %}
+
+{% set activeNavItemClasses = baseNavItemClasses|merge([
+    'bg-gray-200',
+    'text-gray-900',
+])|join(' ') %}
+
+{% set navItemContent %}
+    {% for item in navItems %}
+        <a
+            href="{{ siteUrl(item.uri) }}"
+            class="{{ item.uri == UriSegments.path('/') ? activeNavItemClasses : inActiveNavItemClasses }}"
+        >
+            {{ item.content|smartypants }}
+        </a>
+    {% endfor %}
+{% endset %}
+
+<header class="bg-white shadow">
+    <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:divide-y lg:divide-gray-200 lg:px-8">
+        <nav class="hidden py-2 space-x-8 sm:flex items-center justify-center" aria-label="Global">
+            {{ navItemContent }}
+        </nav>
+    </div>
+
+    {# Mobile menu, show/hide based on menu state. #}
+    <nav class="sm:hidden" aria-label="Global" id="mobile-menu">
+        <div class="pt-2 pb-3 px-2 space-y-1">
+            {{ navItemContent }}
+        </div>
+    </nav>
+</header>

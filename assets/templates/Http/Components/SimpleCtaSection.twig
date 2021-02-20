@@ -1,0 +1,73 @@
+{% set heading = heading ?? block('heading') ?? '' %}
+{% set content = content ?? block('content') ?? '' %}
+{% set ctas = ctas ?? null %}
+
+<div class="bg-deep-sea">
+    <div class="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
+        {% if heading %}
+            <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                {{ heading|smartypants }}
+            </h2>
+        {% endif %}
+        <div>
+            {{ content|smartypants|widont }}
+        </div>
+        {% if ctas|length > 0 %}
+            <div class="mt-8 sm:flex justify-center">
+                {% for cta in ctas %}
+                    {% set containerClasses = [
+                        'mb-2',
+                        'mt-2',
+                        'sm:mb-0',
+                        'sm:mt-0',
+                        'sm:ml-1',
+                        'sm:mr-1',
+                    ] %}
+                    {% set anchorClasses = [
+                        'inline-flex',
+                        'items-center',
+                        'justify-center',
+                        'px-5',
+                        'py-3',
+                        'border',
+                        'border-transparent',
+                        'text-base',
+                        'font-medium',
+                        'rounded-md',
+                    ] %}
+                    {% if cta.type is not defined or cta.type == 'primary' %}
+                        {% set anchorClasses = anchorClasses|merge([
+                            'text-gray-900',
+                            'bg-gold-sand',
+                            'hover:bg-whiskey',
+                            'shadow-md',
+                        ]) %}
+                    {% else %}
+                        {% set anchorClasses = anchorClasses|merge([
+                            'text-aqua-deep',
+                            'bg-aqua-haze-2',
+                            'hover:bg-aqua-island',
+                            'shadow',
+                        ]) %}
+                    {% endif %}
+                    <div class="{{ containerClasses|join(' ') }}">
+                        <a
+                            href="{{ cta.href }}"
+                            class="{{ anchorClasses|join(' ') }}"
+                        >
+                            {{ cta.content|smartypants }}
+                            {% if cta.caret is defined and cta.caret %}
+                                <span
+                                    class="inline-block ml-2"
+                                    style="width: 8px; height: 15px;"
+                                >
+                                        {{ include('Http/_Infrastructure/Svg/RightCaret.svg') }}
+                                    </span>
+                            {% endif %}
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>

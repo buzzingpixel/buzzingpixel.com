@@ -81,9 +81,9 @@ class UriSegments
         return count($this->segments);
     }
 
-    public function getPath(): string
+    public function getPath(string $prefix = ''): string
     {
-        return implode('/', $this->segments);
+        return $prefix . implode('/', $this->segments);
     }
 
     public function getPathFromSegmentSlice(int $length, int $offset = 0): string
