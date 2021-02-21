@@ -41,6 +41,7 @@ class AnselCraftAction
                     'meta' => new Meta(
                         metaTitle: 'Ansel Image Field Type for Craft CMS',
                     ),
+                    'navItems' => AnselCraftVariables::NAV,
                 ]
             )
         );

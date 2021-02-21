@@ -1,3 +1,5 @@
+{# @var \App\Http\Response\Software\AnselCraft\AnselCraftVariables::NAV navItems #}
+
 {% extends 'Http/_Infrastructure/_Layout.twig' %}
 
 {% set ctas = [
@@ -24,24 +26,7 @@
 {% block content %}
     {# Nav #}
     {% include 'Http/Components/NavBar.twig' with {
-        navItems: [
-            {
-                uri: '/software/ansel-craft',
-                content: 'Features',
-            },
-            {
-                uri: '/software/ansel-craft/documentation',
-                content: 'Documentation',
-            },
-            {
-                uri: '/software/ansel-craft/videos',
-                content: 'Videos',
-            },
-            {
-                uri: '/software/ansel-craft/changelog',
-                content: 'Changelog',
-            },
-        ]
+        navItems: navItems,
     } only %}
 
     {# Hero #}
