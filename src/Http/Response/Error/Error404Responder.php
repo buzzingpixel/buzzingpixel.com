@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Response\Error;
 
+use App\Http\Entities\Meta;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment as TwigEnvironment;
@@ -37,7 +38,14 @@ class Error404Responder
         );
 
         $response->getBody()->write(
-            $this->twig->render('@error/404Template.twig')
+            $this->twig->render(
+                '@error/404Template.twig',
+                [
+                    'meta' => new Meta(
+                        metaTitle: 'Page Not Found',
+                    ),
+                ],
+            ),
         );
 
         return $response;

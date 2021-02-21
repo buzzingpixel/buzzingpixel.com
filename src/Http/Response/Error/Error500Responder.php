@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Response\Error;
 
+use App\Http\Entities\Meta;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -47,7 +48,14 @@ class Error500Responder
         );
 
         $response->getBody()->write(
-            $this->twig->render('@error/500Template.twig')
+            $this->twig->render(
+                '@error/500Template.twig',
+                [
+                    'meta' => new Meta(
+                        metaTitle: 'Internal Server Error',
+                    ),
+                ],
+            )
         );
 
         return $response;

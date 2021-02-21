@@ -1,1 +1,30 @@
-TODO: 404
+{% extends 'Http/_Infrastructure/_Layout.twig' %}
+
+{% block content %}
+    <div class="relative py-16 bg-white overflow-hidden">
+        <div class="relative px-4 sm:px-6 lg:px-8">
+            <div class="text-lg max-w-prose mx-auto">
+                <h1>
+                    <span class="block text-base text-center text-indigo-600 font-semibold tracking-wide uppercase">Oh noes!</span>
+                    <span class="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">You broke teh interwebz with ur fancy typin</span>
+                </h1>
+            </div>
+            <div class="mt-6 prose prose-lg text-gray-500 mx-auto">
+                <figure>
+                    <img
+                        class="w-full rounded-lg"
+                        src="{{ siteUrl('/assets/img/faceplant.gif') }}"
+                        alt="Imperial Walker Falling Over"
+                    >
+                    <figcaption>An embarrassing picture of what just happened to our server</figcaption>
+                </figure>
+                <p>
+                    {% apply smartypants|widont %}
+                        You'll need to get back to civilization by choosing a link from the menu or clicking <a href="{{ siteUrl() }}">this link</a> to get back to the home page
+                    {% endapply %}
+                </p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

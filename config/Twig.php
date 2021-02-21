@@ -17,6 +17,8 @@ use buzzingpixel\twigwidont\WidontTwigExtension;
 use Psr\Container\ContainerInterface;
 use Twig\Loader\FilesystemLoader;
 
+use function assert;
+
 class Twig
 {
     public const PATHS = [
@@ -37,12 +39,19 @@ class Twig
         SiteUrl::class,
     ];
 
+    /**
+     * @return mixed[]
+     */
     public static function globals(ContainerInterface $di): array
     {
+        $extractUriSegments = $di->get(ExtractUriSegments::class);
+
+        assert($extractUriSegments instanceof ExtractUriSegments);
+
         return [
             'GeneralConfig' => $di->get(General::class),
             'Request' => Globals::request(),
-            'UriSegments' => $di->get(ExtractUriSegments::class)(
+            'UriSegments' => $extractUriSegments(
                 Globals::request()->getUri()
             ),
         ];

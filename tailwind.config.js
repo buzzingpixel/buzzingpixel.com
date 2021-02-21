@@ -38,12 +38,27 @@ module.exports = {
                 red: '#870f12',
             },
             fontFamily: {},
+            typography: (theme) => ({
+                DEFAULT: {
+                    css: {
+                        a: {
+                            color: theme('colors.pumpkin-skin'),
+                            textDecoration: 'underline',
+                            '&:hover': {
+                                color: theme('colors.totem-pole'),
+                            }
+                        },
+                    }
+                }
+            }),
         },
     },
     variants: {},
     plugins: [
         require('@tailwindcss/ui'),
         require('@tailwindcss/aspect-ratio'),
+        // Customize: https://github.com/tailwindlabs/tailwindcss-typography#customization
+        // https://github.com/tailwindlabs/tailwindcss-typography/blob/master/src/styles.js
         require('@tailwindcss/typography'),
     ],
 };

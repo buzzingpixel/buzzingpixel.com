@@ -35,11 +35,14 @@ class HomeAction
         $response = $this->responseFactory->createResponse();
 
         $response->getBody()->write(
-            $this->twig->render('@home/HomeTemplate.twig', [
-                'meta' => new Meta(
-                    metaTitle: 'Specializing in Fine Web Software',
-                ),
-            ])
+            $this->twig->render(
+                '@home/HomeTemplate.twig',
+                [
+                    'meta' => new Meta(
+                        metaTitle: 'Specializing in Fine Web Software',
+                    ),
+                ],
+            ),
         );
 
         return $response;
