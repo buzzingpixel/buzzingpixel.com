@@ -35,7 +35,7 @@ class SoftwareAction
         $response = $this->responseFactory->createResponse();
 
         $response->getBody()->write(
-            $this->twig->render('@software/Index.twig', [
+            $this->twig->render('@software/SoftwareTemplate.twig', [
                 'meta' => new Meta(
                     metaTitle: 'Software',
                 ),

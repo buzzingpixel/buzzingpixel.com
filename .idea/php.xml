@@ -8,7 +8,7 @@
   </component>
   <component name="PhpCodeSniffer">
     <phpcs_settings>
-      <PhpCSConfiguration beautifier_path="$PROJECT_DIR$/vendor/bin/phpcbf" standards="Doctrine;MySource;PEAR;PSR1;PSR12;PSR2;Squiz;Zend" tool_path="$PROJECT_DIR$/vendor/bin/phpcs" />
+      <PhpCSConfiguration beautifier_path="$PROJECT_DIR$/vendor/bin/phpcbf" standards="Doctrine;MySource;PEAR;PSR1;PSR12;PSR2;SlevomatCodingStandard;Squiz;Zend" tool_path="$PROJECT_DIR$/vendor/bin/phpcs" />
       <phpcs_by_interpreter interpreter_id="be8b5875-b8b3-42cb-81d9-8d83e4ca69f8" beautifier_path="/opt/project/vendor/bin/phpcbf" standards="MySource;PEAR;PSR1;PSR12;PSR2;Squiz;Zend" tool_path="/opt/project/vendor/bin/phpcs" timeout="30000" />
     </phpcs_settings>
   </component>

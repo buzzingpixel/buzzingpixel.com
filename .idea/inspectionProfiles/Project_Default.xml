@@ -22,16 +22,15 @@
       <option name="myCustomValuesEnabled" value="true" />
     </inspection_tool>
     <inspection_tool class="PhpArrayShapeAttributeCanBeAddedInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
-    <inspection_tool class="PhpCSFixerValidationInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+    <inspection_tool class="PhpCSFixerValidationInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="CODING_STANDARD" value="Custom" />
       <option name="CUSTOM_RULESET_PATH" value="$PROJECT_DIR$/.php_cs" />
       <option name="ALLOW_RISKY_RULES" value="true" />
     </inspection_tool>
-    <inspection_tool class="PhpCSValidationInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+    <inspection_tool class="PhpCSValidationInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="CODING_STANDARD" value="Custom" />
       <option name="CUSTOM_RULESET_PATH" value="$PROJECT_DIR$/phpcs.xml" />
       <option name="SHOW_SNIFF_NAMES" value="true" />
-      <option name="USE_INSTALLED_PATHS" value="true" />
       <option name="INSTALLED_PATHS" value="$PROJECT_DIR$/vendor/doctrine/coding-standard/lib/Doctrine" />
       <option name="EXTENSIONS" value="php" />
     </inspection_tool>
@@ -41,12 +40,12 @@
     <inspection_tool class="PhpDocSignatureInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <option name="ALLOW_MISSING_PARAMETERS" value="true" />
     </inspection_tool>
-    <inspection_tool class="PhpStanGlobal" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+    <inspection_tool class="PhpStanGlobal" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="memoryLimit" value="4G" />
       <option name="level" value="8" />
-      <option name="config" value="$PROJECT_DIR$/../buzzingpixel/phpstan.neon" />
+      <option name="config" value="$PROJECT_DIR$/phpstan.neon" />
     </inspection_tool>
-    <inspection_tool class="PsalmGlobal" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+    <inspection_tool class="PsalmGlobal" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="config" value="$PROJECT_DIR$/psalm.xml" />
       <option name="showInfo" value="true" />
       <option name="findUnusedCode" value="true" />

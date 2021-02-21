@@ -47,7 +47,7 @@ class Error500Responder
         );
 
         $response->getBody()->write(
-            $this->twig->render('@error/500.twig')
+            $this->twig->render('@error/500Template.twig')
         );
 
         return $response;

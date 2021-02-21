@@ -37,7 +37,7 @@ class Error404Responder
         );
 
         $response->getBody()->write(
-            $this->twig->render('@error/404.twig')
+            $this->twig->render('@error/404Template.twig')
         );
 
         return $response;

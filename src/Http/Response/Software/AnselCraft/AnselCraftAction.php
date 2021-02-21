@@ -36,7 +36,7 @@ class AnselCraftAction
 
         $response->getBody()->write(
             $this->twig->render(
-                '@software/AnselCraft/Index.twig',
+                '@software/AnselCraft/AnselCraftTemplate.twig',
                 [
                     'meta' => new Meta(
                         metaTitle: 'Ansel Image Field Type for Craft CMS',
