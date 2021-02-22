@@ -42,6 +42,26 @@ class AnselCraftAction
                         metaTitle: 'Ansel Image Field Type for Craft CMS',
                     ),
                     'navItems' => AnselCraftVariables::NAV,
+                    'ctas' => [
+                        [
+                            'caret' => true,
+                            'href' => 'https://plugins.craftcms.com/ansel',
+                            'content' => 'On the Plugin Store',
+                            'type' => 'primary',
+                        ],
+                        [
+                            'caret' => true,
+                            'href' => 'https://github.com/buzzingpixel/ansel-craft',
+                            'content' => 'On GitHub',
+                            'type' => 'secondary',
+                        ],
+                        [
+                            'caret' => true,
+                            'href' => 'https://packagist.org/packages/buzzingpixel/ansel-craft',
+                            'content' => 'On Packagist',
+                            'type' => 'secondary',
+                        ],
+                    ],
                 ]
             )
         );
