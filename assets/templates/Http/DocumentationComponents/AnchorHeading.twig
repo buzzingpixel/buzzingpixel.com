@@ -1,0 +1,12 @@
+{% set level = level ?? block('level') ?? 'h2' %}
+{% set heading = heading ?? block('heading') %}
+{% set id = id ?? block('id') ?? null %}
+
+{% if not id %}
+    {% set id = heading|toCamelCase %}
+{% endif %}
+
+<{{ level }}>
+    <a href="#{{ id }}" id="{{ id }}">#</a>
+    {{ heading }}
+</{{ level }}>

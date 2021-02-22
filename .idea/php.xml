@@ -111,6 +111,7 @@
       <path value="$PROJECT_DIR$/vendor/amphp/byte-stream" />
       <path value="$PROJECT_DIR$/vendor/amphp/amp" />
       <path value="$PROJECT_DIR$/vendor/slevomat/coding-standard" />
+      <path value="$PROJECT_DIR$/vendor/jawira/case-converter" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

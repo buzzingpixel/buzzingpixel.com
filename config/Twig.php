@@ -7,6 +7,7 @@ namespace Config;
 use App\Globals;
 use App\Http\Utilities\Segments\ExtractUriSegments;
 use App\Templating\TwigExtensions\BreakToSpace;
+use App\Templating\TwigExtensions\CaseConverter;
 use App\Templating\TwigExtensions\PhpFunctions;
 use App\Templating\TwigExtensions\ReadJson;
 use App\Templating\TwigExtensions\SiteUrl;
@@ -29,14 +30,15 @@ class Twig
     ];
 
     public const EXTENSIONS = [
-        PhpFunctions::class,
-        SmartypantsTwigExtension::class,
-        WidontTwigExtension::class,
-        SwitchTwigExtension::class,
-        ReadJson::class,
-        MarkdownTwigExtension::class,
         BreakToSpace::class,
+        CaseConverter::class,
+        MarkdownTwigExtension::class,
+        PhpFunctions::class,
+        ReadJson::class,
         SiteUrl::class,
+        SmartypantsTwigExtension::class,
+        SwitchTwigExtension::class,
+        WidontTwigExtension::class,
     ];
 
     /**
