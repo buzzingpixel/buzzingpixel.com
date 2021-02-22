@@ -1,0 +1,85 @@
+{% extends 'Http/_Infrastructure/_LayoutDocumentation.twig' %}
+
+{% block content %}
+    {% apply smartypants %}
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Getting To Know Ansel',
+            level: 'h2',
+        } only %}
+
+        <p>Ansel 2 features an intuitive drag and drop interface. Content editors can open Finder (Macintosh) or Explorer (Windows) and drag image right onto the field. If an image does meet a field's specified minimum dimension requirements (if applicable) the image will be rejected.</p>
+
+        <p>Additionally, if the user knows the source image they want is already in Craft, they can choose an image from existing files.</p>
+
+        <figure>
+            <img
+                class="w-full"
+                src="{{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel2-field-in-global-set.png') }}"
+                srcset="{{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel2-field-in-global-set.png') }} 1x, {{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel2-field-in-global-set-2x.png') }} 2x"
+                alt="Ansel Field Type"
+            >
+            <figcaption>Ansel Field Type</figcaption>
+        </figure>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Adding Images',
+            level: 'h3',
+        } only %}
+
+        <p>When you drag and drop an image over the upload area in a field (or choose existing Assets), Ansel will automatically select the largest portion of the image possible given the constraints set up for the field.</p>
+
+        <p>To reorder images in the field, simply drag them around.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Editing Image Fields',
+            level: 'h3',
+        } only %}
+
+        <p>If a field has any additional fields enabled (title, caption, and/or cover), each image will feature an edit icon at the top left of the image. Clicking this icon will display the image's field editor. If any of the fields are required and not yet filled in, the icon will pulse a redish orange color.</p>
+
+        <figure>
+            <img
+                class="w-full"
+                src="{{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel2-craft-image-field-editor.png') }}"
+                srcset="{{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel2-craft-image-field-editor.png') }} 1x, {{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel2-craft-image-field-editor-2x.png') }} 2x"
+                alt="Ansel Field Image Editor"
+            >
+            <figcaption>Ansel Field Image Editor</figcaption>
+        </figure>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Cropping/Sizing Images',
+            level: 'h3',
+        } only %}
+
+        <p>Sometimes users and content editors have images that only have a particular point of relevance. Let's face it, most of those folks are not going to know how to use Photoshop, nor should they have to. That's why Ansel provides the wonderful little crop button for every image in a field. Click that magical button, and users can select the portion of the image they want. And of course, all within the developer defined specs.</p>
+
+        <figure>
+            <img
+                class="w-full"
+                src="{{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel-2-image-crop.png') }}"
+                srcset="{{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel-2-image-crop.png') }} 1x, {{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel-2-image-crop-2x.png') }} 2x"
+                alt="Cropping an Image in Ansel"
+            >
+            <figcaption>Cropping an Image in Ansel</figcaption>
+        </figure>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Focal Points',
+            level: 'h3',
+        } only %}
+
+        <p>Cropping and sizing images is great, but often an image may be used in many different contexts, cropped to different sizes, and more. In order for images to work in the maximum amount of contexts, Ansel works with Craft's native focal point system. Just click the focal point icon and you can set the focal point anywhere on the cropped image. Then in your templates, if you specify dimensions on the Asset that result in cropping, Craft will use the focal point to crop the image.</p>
+
+        <figure>
+            <img
+                class="w-full"
+                src="{{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel2-focal-point.png') }}"
+                srcset="{{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel2-focal-point.png') }} 1x, {{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel2-focal-point-2x.png') }} 2x"
+                alt="Focal Points in Ansel"
+            >
+            <figcaption>Focal Points in Ansel</figcaption>
+        </figure>
+    {% endapply %}
+{% endblock %}
+
