@@ -1,0 +1,15 @@
+{% set heading = heading ?? block('heading') ?? 'Note' %}
+{% set content = content ?? block('content') ?? '' %}
+
+<div class="note relative bg-spring-wood rounded-lg shadow-lg">
+    <div class="relative flex items-center sm:items-start bg-deep-sea rounded-t-lg not-italic px-3 py-2">
+        <span class="relative text-white font-semibold leading-6">
+            <p class="text-white font-semibold my-0 text-base">{{ heading|smartypants }}</p>
+        </span>
+    </div>
+    <div class="rounded-t-lg px-4 py-3">
+        <div class="relative text-base text-gray-700 font-medium">
+            {{ content|smartypants }}
+        </div>
+    </div>
+</div>

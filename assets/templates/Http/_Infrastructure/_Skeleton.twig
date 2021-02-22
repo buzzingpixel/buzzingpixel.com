@@ -1,0 +1,68 @@
+{# @var \Config\General GeneralConfig #}
+{# @var \App\Http\Entities\Meta meta #}
+
+{% set cssManifestJson = readJson(GeneralConfig.rootPath ~ '/public/assets/css/manifest.json') %}
+{% set jsManifestJson = readJson(GeneralConfig.rootPath ~ '/public/assets/js/manifest.json') %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    {# Reporting for duty #}
+    <title>{% if meta.metaTitle.hasValue %}{{ meta.metaTitle }} | {% endif %}{{ GeneralConfig.siteName }}</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {# TODO: Icons #}
+    {# Icons #}
+    {# <link rel="apple-touch-icon" href="/touchicon.png">
+    <link rel="shortcut icon" href="/favicon.ico"> #}
+
+    {# CSS #}
+    {% for stylesheet in GeneralConfig.stylesheets %}
+    <link rel="stylesheet" href="{{ stylesheet }}">
+    {% endfor %}
+    <link
+        rel="stylesheet"
+        href="/assets/css/{{ cssManifestJson['style.min.css'] }}"
+    >
+
+    {# Head JS #}
+    <script
+        src="/assets/js/{{ jsManifestJson['run-when-ready.js'] }}"
+        type="text/javascript"
+    ></script>
+</head>
+
+<body
+    data-app-info='{
+        "csrf": {
+            "tokenNameKey": "{!--csrfTokenNameKey--}",
+            "tokenName": "{!--csrfTokenName--}",
+            "tokenValueKey": "{!--csrfTokenValueKey--}",
+            "tokenValue": "{!--csrfTokenValue--}"
+        }
+    }'
+>
+    <main class="min-h-screen bg-white">
+        {{ block('skeletonContent') }}
+    </main>
+
+    {% for jsFile in GeneralConfig.jsFiles %}
+        {% if jsFile is iterable %}
+            <script
+                src="{{ jsFile.src }}"
+                {% if jsFile['type'] is defined %}
+                    type="{{ jsFile.type }}"
+                {% endif %}
+            ></script>
+        {% else %}
+            <script src="{{ jsFile }}"></script>
+        {% endif %}
+    {% endfor %}
+    <script
+        src="/assets/js/{{ jsManifestJson['main.js'] }}"
+        type="module"
+    ></script>
+</body>

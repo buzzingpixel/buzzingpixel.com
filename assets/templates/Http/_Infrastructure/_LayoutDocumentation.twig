@@ -1,0 +1,102 @@
+{% extends 'Http/_Infrastructure/_Skeleton.twig' %}
+
+{% set breadcrumbTrail = breadcrumbTrail ?? [] %}
+{% set breadcrumbSingle = breadcrumbSingle ?? {} %}
+{% set documentationVersions = documentationVersions ?? [] %}
+{% set documentationPageLinks = documentationPageLinks ?? [] %}
+{% set heading = heading ?? null %}
+
+{% set baseNavItemClasses = [
+    'flex',
+    'items-center',
+    'px-3',
+    'py-2',
+    'text-sm',
+    'font-medium',
+    'rounded-md',
+] %}
+
+{% set inActiveNavItemClasses = baseNavItemClasses|merge([
+    'text-gray-600',
+    'hover:bg-gold-sand',
+    'hover:text-gray-900',
+])|join(' ') %}
+
+{% set activeNavItemClasses = baseNavItemClasses|merge([
+    'bg-rich-gold',
+    'text-gray-100',
+])|join(' ') %}
+
+{% block skeletonContent %}
+    {% include 'Http/_Infrastructure/Breadcrumbs.twig' with {
+        breadcrumbTrail: breadcrumbTrail,
+        breadcrumbSingle: breadcrumbSingle,
+        useMaxWidth: false,
+    } only %}
+    <div class="documentation">
+        <div class="documentation__navs md:fixed md:w-52 lg:w-56 xl:w-64 overflow-y-auto left-0">
+            {% if documentationVersions|length > 0 %}
+                <div class="p-2">
+                    <nav
+                        class="documentation__nav space-y-1"
+                        aria-label="Sidebar"
+                    >
+                        <h2 class="text-gray-900 text-lg font-bold">
+                            Doc Versions
+                        </h2>
+                        {% for version in documentationVersions %}
+                            <a
+                                href="{{ siteUrl(version.uri) }}"
+                                class="{{ version.isActive ? activeNavItemClasses : inActiveNavItemClasses }}"
+                                {% if version.isActive %}
+                                aria-current="page"
+                                {% endif %}
+                            >
+                                <span class="truncate">
+                                    {{ version.content|smartypants }}
+                                </span>
+                            </a>
+                        {% endfor %}
+                    </nav>
+                </div>
+            {% endif %}
+            {% if documentationPageLinks|length > 0 %}
+                <div class="p-2">
+                    <nav
+                        class="documentation__nav space-y-1"
+                        aria-label="Sidebar"
+                    >
+                        <h2 class="text-gray-900 text-lg font-bold">
+                            Doc Pages
+                        </h2>
+                        {% for link in documentationPageLinks %}
+                            <a
+                                href="{{ siteUrl(link.uri) }}"
+                                class="{{ link.isActive ? activeNavItemClasses : inActiveNavItemClasses }}"
+                                {% if link.isActive %}
+                                aria-current="page"
+                                {% endif %}
+                            >
+                                <span class="truncate">
+                                    {{ link.content|smartypants }}
+                                </span>
+                            </a>
+                        {% endfor %}
+                    </nav>
+                </div>
+            {% endif %}
+        </div>
+        <div class="documentation__content p-3 md:pl-56 lg:pl-60 xl:pl-72 max-w-7xl">
+            {% if heading %}
+                <h2 class="text-4xl font-extrabold text-aqua-deep sm:tracking-tight mb-8">
+                    {{ heading|smartypants }}
+                </h2>
+            {% endif %}
+            <div class="prose documentation__content-prose">
+                {% block content %}
+                    <div class="border-4 border-dashed border-gray-200 rounded-lg h-96"></div>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

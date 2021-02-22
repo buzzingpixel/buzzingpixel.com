@@ -48,6 +48,14 @@ module.exports = {
                                 color: theme('colors.totem-pole'),
                             }
                         },
+                        'ul>li>:first-child': {
+                            marginTop: 0,
+                            marginBottom: 0,
+                        },
+                        'ul>li>:last-child': {
+                            marginTop: 0,
+                            marginBottom: 0,
+                        },
                     }
                 }
             }),
