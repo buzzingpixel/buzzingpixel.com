@@ -36,7 +36,8 @@ class HomeAction
      */
     public function __invoke(): ResponseInterface
     {
-        $response = $this->responseFactory->createResponse();
+        $response = $this->responseFactory->createResponse()
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
             $this->twig->render(
