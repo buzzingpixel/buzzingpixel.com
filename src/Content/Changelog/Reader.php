@@ -69,6 +69,7 @@ class Reader extends ErwinReader
                 $end = key($headings);
 
                 if ($end !== null) {
+                    /** @psalm-suppress RedundantCastGivenDocblockType */
                     $end  = (int) $end;
                     $end -= $start;
                 }

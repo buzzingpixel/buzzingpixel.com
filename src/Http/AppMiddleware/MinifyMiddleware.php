@@ -46,7 +46,7 @@ class MinifyMiddleware implements MiddlewareInterface
 
         $content = (string) $response->getBody();
 
-        if (trim(string: $content) === '') {
+        if (trim($content) === '') {
             return $response;
         }
 
