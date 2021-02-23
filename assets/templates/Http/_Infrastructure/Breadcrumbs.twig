@@ -3,7 +3,7 @@
 {% set useMaxWidth = useMaxWidth ?? true %}
 
 {% if breadcrumbTrail|length > 0 %}
-    <nav class="bg-white border-b border-gray-200 sm:flex" aria-label="Breadcrumb">
+    <nav class="bg-white border-b border-t border-gray-200 sm:flex" aria-label="Breadcrumb">
         <div class="m-2 sm:hidden">
             <a
                 href="{{ siteUrl(breadcrumbSingle.uri) }}"
