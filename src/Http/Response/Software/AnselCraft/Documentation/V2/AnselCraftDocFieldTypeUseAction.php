@@ -45,8 +45,8 @@ class AnselCraftDocFieldTypeUseAction
                     'meta' => new Meta(
                         metaTitle: 'Ansel for Craft Field Type Settings',
                     ),
-                    'breadcrumbTrail' => AnselCraftDocVariables::BREADCRUMB_TRAIL,
-                    'breadcrumbSingle' => AnselCraftDocVariables::BREADCRUMB_TRAIL[count(AnselCraftDocVariables::BREADCRUMB_TRAIL) - 2],
+                    'breadcrumbTrail' => AnselCraftDocVariables::V2_BREADCRUMB_TRAIL,
+                    'breadcrumbSingle' => AnselCraftDocVariables::V2_BREADCRUMB_TRAIL[count(AnselCraftDocVariables::V2_BREADCRUMB_TRAIL) - 2],
                     'documentationVersions' => AnselCraftDocVariables::getVersionNav('ansel2'),
                     'documentationPageLinks' => AnselCraftDocVariables::getVersion2Pages('field-type-use'),
                     'heading' => 'Field Type Settings',

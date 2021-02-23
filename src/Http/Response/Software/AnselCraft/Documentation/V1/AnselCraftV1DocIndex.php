@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Software\AnselCraft\Documentation\V2;
+namespace App\Http\Response\Software\AnselCraft\Documentation\V1;
 
 use App\Http\Entities\Meta;
 use App\Http\Response\Software\AnselCraft\Documentation\AnselCraftDocVariables;
@@ -15,7 +15,7 @@ use Twig\Error\SyntaxError;
 
 use function count;
 
-class AnselCraftDocFieldTypeSettingsAction
+class AnselCraftV1DocIndex
 {
     private ResponseFactoryInterface $responseFactory;
     private TwigEnvironment $twig;
@@ -40,16 +40,16 @@ class AnselCraftDocFieldTypeSettingsAction
 
         $response->getBody()->write(
             $this->twig->render(
-                '@software/AnselCraft/Documentation/V2/AnselCraftDocFieldTypeSettings.twig',
+                '@software/AnselCraft/Documentation/V1/AnselCraftV1DocIndex.twig',
                 [
                     'meta' => new Meta(
-                        metaTitle: 'Ansel for Craft Field Type Settings',
+                        metaTitle: 'Getting Started With Ansel for Craft',
                     ),
-                    'breadcrumbTrail' => AnselCraftDocVariables::V2_BREADCRUMB_TRAIL,
-                    'breadcrumbSingle' => AnselCraftDocVariables::V2_BREADCRUMB_TRAIL[count(AnselCraftDocVariables::V2_BREADCRUMB_TRAIL) - 2],
-                    'documentationVersions' => AnselCraftDocVariables::getVersionNav('ansel2'),
-                    'documentationPageLinks' => AnselCraftDocVariables::getVersion2Pages('field-type-settings'),
-                    'heading' => 'Field Type Settings',
+                    'breadcrumbTrail' => AnselCraftDocVariables::V1_BREADCRUMB_TRAIL,
+                    'breadcrumbSingle' => AnselCraftDocVariables::V1_BREADCRUMB_TRAIL[count(AnselCraftDocVariables::V1_BREADCRUMB_TRAIL) - 2],
+                    'documentationVersions' => AnselCraftDocVariables::getVersionNav('ansel1'),
+                    'documentationPageLinks' => AnselCraftDocVariables::getVersion1Pages('getting-started'),
+                    'heading' => 'Getting Started',
                 ]
             )
         );

@@ -8,7 +8,18 @@ use LogicException;
 
 class AnselCraftDocVariables
 {
-    public const BREADCRUMB_TRAIL = [
+    public const V1_BREADCRUMB_TRAIL = [
+        [
+            'content' => 'Software',
+            'uri' => '/software',
+        ],
+        [
+            'content' => 'Ansel for Craft',
+            'uri' => '/software/ansel-craft',
+        ],
+        ['content' => 'Documentation (V1 Legacy)'],
+    ];
+    public const V2_BREADCRUMB_TRAIL = [
         [
             'content' => 'Software',
             'uri' => '/software',
@@ -27,9 +38,8 @@ class AnselCraftDocVariables
             'isActive' => false,
         ],
         'ansel1' => [
-
             'content' => 'Ansel 1.x (legacy)',
-            'uri' => '/software/ansel-craft/documentation-v1',
+            'uri' => '/software/ansel-craft/documentation/v1',
             'isActive' => false,
         ],
     ];
@@ -52,6 +62,49 @@ class AnselCraftDocVariables
         }
 
         return $versionNav;
+    }
+
+    public const VERSION_1_PAGES = [
+        'getting-started' => [
+            'content' => 'Getting Started',
+            'uri' => '/software/ansel-craft/documentation/v1',
+            'isActive' => false,
+        ],
+        'field-type-settings' => [
+            'content' => 'Field Type Settings',
+            'uri' => '/software/ansel-craft/documentation/v1/field-type-settings',
+            'isActive' => false,
+        ],
+        'field-type-use' => [
+            'content' => 'Field Type Use',
+            'uri' => '/software/ansel-craft/documentation/v1/field-type-use',
+            'isActive' => false,
+        ],
+        'templating' => [
+            'content' => 'Templating',
+            'uri' => '/software/ansel-craft/documentation/v1/templating',
+            'isActive' => false,
+        ],
+    ];
+
+    /**
+     * @return mixed[]
+     */
+    public static function getVersion1Pages(?string $activeHandle = null): array
+    {
+        $pages = self::VERSION_1_PAGES;
+
+        if ($activeHandle !== null) {
+            if (! isset($pages[$activeHandle])) {
+                throw new LogicException(
+                    'Version 2 pages handle ' . $activeHandle . ' does not exist'
+                );
+            }
+
+            $pages[$activeHandle]['isActive'] = true;
+        }
+
+        return $pages;
     }
 
     public const VERSION_2_PAGES = [

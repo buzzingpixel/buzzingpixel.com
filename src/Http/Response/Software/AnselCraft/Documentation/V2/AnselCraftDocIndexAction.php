@@ -45,8 +45,8 @@ class AnselCraftDocIndexAction
                     'meta' => new Meta(
                         metaTitle: 'Getting Started With Ansel for Craft',
                     ),
-                    'breadcrumbTrail' => AnselCraftDocVariables::BREADCRUMB_TRAIL,
-                    'breadcrumbSingle' => AnselCraftDocVariables::BREADCRUMB_TRAIL[count(AnselCraftDocVariables::BREADCRUMB_TRAIL) - 2],
+                    'breadcrumbTrail' => AnselCraftDocVariables::V2_BREADCRUMB_TRAIL,
+                    'breadcrumbSingle' => AnselCraftDocVariables::V2_BREADCRUMB_TRAIL[count(AnselCraftDocVariables::V2_BREADCRUMB_TRAIL) - 2],
                     'documentationVersions' => AnselCraftDocVariables::getVersionNav('ansel2'),
                     'documentationPageLinks' => AnselCraftDocVariables::getVersion2Pages('getting-started'),
                     'heading' => 'Getting Started',

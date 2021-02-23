@@ -1,0 +1,261 @@
+{% extends 'Http/_Infrastructure/_LayoutDocumentation.twig' %}
+
+{% block content %}
+    {% apply smartypants %}
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'System Requirements',
+            level: 'h2',
+        } only %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'General requirements',
+            level: 'h3',
+        } only %}
+        <ul>
+            <li>Craft CMS 2.6 or greater</li>
+            <li>
+                PHP 5.3.0 or newer compiled with GD (or GD 2) library
+                <ul>
+                    <li>ImageMagick is also supported if installed</li>
+                </ul>
+            </li>
+            <li>MySQL 5.1.0 or newer</li>
+            <li>
+                At least 128 megabytes of memory allocated and available to PHP
+                <ul>
+                    <li>512 megabytes is recommended (and more if you can spare it). Manipulating images can take a lot of memory. And particularly, the larger image, the more memory it will take.</li>
+                </ul>
+            </li>
+        </ul>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Control panel interface and entry field type use requirements',
+            level: 'h3',
+        } only %}
+        <ul>
+            <li>Internet Explorer 10 or greater</li>
+            <li>Chrome (tested on version 55)</li>
+            <li>Firefox (tested on version 50)</li>
+            <li>Safari (Mac) (tested on version 10)</li>
+        </ul>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Image optimization requirements',
+            level: 'h3',
+        } only %}
+        <p>Ansel will also utilize various image optimization libraries if they are installed on the server and your PHP version is high enough.</p>
+        <ul>
+            <li>PHP 5.5 or greater</li>
+            <li><code>jpegoptim</code> for jpeg optimization</li>
+            <li><code>gifsicle</code> for gif optimization</li>
+            <li><code>optipng</code> for PNG optimization</li>
+        </ul>
+
+        <hr>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Installing Or Updating',
+            level: 'h2',
+        } only %}
+        <p>Installing and updating Ansel is very easy.</p>
+
+        <ul>
+            <li>Download the Ansel zip file and unzip it</li>
+            <li>
+                Copy <code>craft/plugins/ansel</code> to the same directory location in your Craft instance
+                <ul>
+                    <li>If you are updating, replace the existing <code>ansel</code> directory</li>
+                </ul>
+            </li>
+            <li>Log in to your Craft control panel. If you are updating Ansel, you are now done</li>
+            <li>If you are installing Ansel for the first time, navigate to "Settings > Plugins"</li>
+            <li>Locate Ansel in the list and click 'Install"</li>
+        </ul>
+
+        <p>Ansel is now installed or updated.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Configuring',
+            level: 'h2',
+        } only %}
+
+        <p>Ansel has a few settings you may want to look at before diving in to making your Ansel fields.</p>
+
+        <figure>
+            <img
+                class="w-full"
+                src="{{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel-global-settings.png') }}"
+                srcset="{{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel-global-settings.png') }} 1x, {{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel-global-settings-2x.png') }} 2x"
+                alt="Ansel Global Settings"
+            >
+            <figcaption>Ansel for Craft Settings</figcaption>
+        </figure>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'License Key',
+            level: 'h3',
+        } only %}
+        <p>The first thing you will want to do is visit the License page and enter your license key from your purchase.</p>
+
+        <p>The license page can by located by clicking on "Ansel" on Craft's Settings page, then clicking on the "License" tab.</p>
+
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block heading %}Remember{% endblock %}
+            {% block content %}
+                <p>You will need a license for each of the sites/public domain names you install Ansel on.</p>
+            {% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Global Settings',
+            level: 'h3',
+        } only %}
+        <p>Ansel has a number of other global settings you may wish to take advantage of. To access them, click on "Ansel" on Craft's Settings page.</p>
+
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block content %}
+                <p>On applicable settings, you can override the settings in config files. In order to take advantage of this feature, you can create an <code>ansel.php</code> file in <code>/config</code> and return an array of settings.</p>
+            {% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Hide the Upload/Save directory instructions when setting up a new field?',
+            level: 'h4',
+        } only %}
+        <p>Hide the instructions for how to use the Upload/Save location settings when setting up/editing Ansel fields.</p>
+        <p>The config override item is <code>'hideSourceSaveInstructions' => true</code>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Default maximum quantity',
+            level: 'h4',
+        } only %}
+        <p>Use this to set a default value for maximum quantity when creating new fields.</p>
+        <p>The config override item is <code>defaultMaxQty</code>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Default image quality',
+            level: 'h4',
+        } only %}
+        <p>Use this to set a default value for the image quality setting when creating new fields.</p>
+        <p>The config override item is <code>defaultImageQuality</code>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Default force JPG setting',
+            level: 'h4',
+        } only %}
+        <p>Use this to set newly created fields to default to forcing JPG.</p>
+        <p>The config override item is <code>defaultJpg</code>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Default retina mode',
+            level: 'h4',
+        } only %}
+        <p>Use this to set newly created fields to default to retina mode.</p>
+        <p>The config override item is <code>defaultRetina</code>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Default display title field',
+            level: 'h4',
+        } only %}
+        <p>Use this to set newly created fields to default to show the title field.</p>
+        <p>The config override item is <code>defaultShowTitle</code>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Default require title',
+            level: 'h4',
+        } only %}
+        <p>Use this to set newly created fields to default to require the title field.</p>
+        <p>The config override item is <code>defaultRequireTitle</code>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Default customize title label',
+            level: 'h4',
+        } only %}
+        <p>Use this to set newly created fields to have a default value for the title label.</p>
+        <p>The config override item is <code>defaultTitleLabel</code>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Default display caption field',
+            level: 'h4',
+        } only %}
+        <p>Use this to set newly created fields to default to show the caption field.</p>
+        <p>The config override item is <code>defaultShowCaption</code>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Default require caption',
+            level: 'h4',
+        } only %}
+        <p>Use this to set newly created fields to default to require the caption field.</p>
+        <p>The config override item is <code>defaultRequireCaption</code>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Default customize caption label',
+            level: 'h4',
+        } only %}
+        <p>Use this to set newly created fields to have a default value for the caption label.</p>
+        <p>The config override item is <code>defaultCaptionLabel</code>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Default display cover field',
+            level: 'h4',
+        } only %}
+        <p>Use this to set newly created fields to default to show the cover field.</p>
+        <p>The config override item is <code>defaultShowCover</code>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Default require cover',
+            level: 'h4',
+        } only %}
+        <p>Use this to set newly created fields to default to require the cover field.</p>
+        <p>The config override item is <code>defaultRequireCover</code>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Default customize cover label',
+            level: 'h4',
+        } only %}
+        <p>Use this to set newly created fields to have a default value for the cover label.</p>
+        <p>The config override item is <code>defaultCoverLabel</code>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Config file only options',
+            level: 'h3',
+        } only %}
+        <p>There are a couple of configuration options that can only be set in the config  file.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'optimizerShowErrors',
+            level: 'h4',
+        } only %}
+        <p>Normally the optimizer for <code>jpegoptim</code>, <code>gifsicle</code>, and <code>optipng</code> will fail silently. However, it can sometimes be useful to know if something is going wrong &mdash; for instance, when you install the tools on your server and want to make sure they are working. If the optimizer is not able to find the tools or they return an error code when trying to optimize the image, when this config setting is set to true, the optimizer will throw an error for you to see.</p>
+        <p><code>'optimizerShowErrors' => true;</code></p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'disableOptipng',
+            level: 'h4',
+        } only %}
+        <p>Disables <code>optipng</code> optimization.</p>
+        <p><code>'disableOptipng' => true;</code></p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'disableJpegoptim',
+            level: 'h4',
+        } only %}
+        <p>Disables <code>jpegoptim</code> optimization.</p>
+        <p><code>'disableJpegoptim' => true;</code></p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'disableGifsicle',
+            level: 'h4',
+        } only %}
+        <p>Disables <code>gifsicle</code> optimization.</p>
+        <p><code>'disableGifsicle' => true;</code></p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'forceGD',
+            level: 'h4',
+        } only %}
+        <p>Forces Ansel to use <a href="http://php.net/manual/en/book.image.php">GD</a> image processing for manipulating images. Normally, Ansel will auto-detect if
+            <a href="https://www.imagemagick.org">ImageMagick</a> is installed/setup with PHP and use it for manipulating images. If for whatever reason you would like to force Ansel to use GD even though ImageMagick is available, make this setting <code>true</code>.</p>
+        <p><code>'forceGD' => true;</code></p>
+    {% endapply %}
+{% endblock %}
