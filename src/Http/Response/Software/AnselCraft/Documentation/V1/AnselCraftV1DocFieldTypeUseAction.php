@@ -15,7 +15,7 @@ use Twig\Error\SyntaxError;
 
 use function count;
 
-class AnselCraftV1DocFieldTypeSettingsAction
+class AnselCraftV1DocFieldTypeUseAction
 {
     private ResponseFactoryInterface $responseFactory;
     private TwigEnvironment $twig;
@@ -40,7 +40,7 @@ class AnselCraftV1DocFieldTypeSettingsAction
 
         $response->getBody()->write(
             $this->twig->render(
-                '@software/AnselCraft/Documentation/V1/AnselCraftV1DocFieldTypeSettings.twig',
+                '@software/AnselCraft/Documentation/V1/AnselCraftV1DocFieldTypeUse.twig',
                 [
                     'meta' => new Meta(
                         metaTitle: 'Ansel for Craft Field Type Settings',
@@ -48,8 +48,8 @@ class AnselCraftV1DocFieldTypeSettingsAction
                     'breadcrumbTrail' => AnselCraftDocVariables::V1_BREADCRUMB_TRAIL,
                     'breadcrumbSingle' => AnselCraftDocVariables::V1_BREADCRUMB_TRAIL[count(AnselCraftDocVariables::V1_BREADCRUMB_TRAIL) - 2],
                     'documentationVersions' => AnselCraftDocVariables::getVersionNav('ansel1'),
-                    'documentationPageLinks' => AnselCraftDocVariables::getVersion1Pages('field-type-settings'),
-                    'heading' => 'Field Type Settings',
+                    'documentationPageLinks' => AnselCraftDocVariables::getVersion1Pages('field-type-use'),
+                    'heading' => 'Field Type Use',
                 ]
             )
         );

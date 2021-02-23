@@ -1,0 +1,54 @@
+{% extends 'Http/_Infrastructure/_LayoutDocumentation.twig' %}
+
+{% block content %}
+    {% apply smartypants %}
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Getting To Know Ansel',
+            level: 'h2',
+        } only %}
+
+        <p>Ansel will feel very familiar to use in the publishing workflow because it builds on the basic Craft CMS control panel styles. The images in a field use Craft's Table styles and metaphor. Each row in the table is an image. If you have enabled any of the three optional fields, they will show up in the row as well.</p>
+
+        <p>There are two options for getting an image into your field:</p>
+
+        <ul>
+            <li>Drag and drop an image to the drop area or click it to select an image to upload</li>
+            <li>Choose an existing image in the file manager (or use the file manager to upload an image)</li>
+        </ul>
+
+        <p>One of the advantages to using the drag and drop interface is the image will never be uploaded if it does not meet requirements — whereas if you go through the file manger interface and upload from there, the image will be uploaded by Craft then evaluated by Ansel.</p>
+
+        <figure>
+            <img
+                class="w-full"
+                src="{{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel-field-type.png') }}"
+                srcset="{{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel-field-type.png') }} 1x, {{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel-field-type-2x.png') }} 2x"
+                alt="Ansel Field Type"
+            >
+            <figcaption>Ansel Field Type</figcaption>
+        </figure>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Adding Images',
+            level: 'h3',
+        } only %}
+
+        <p>When you drag and drop an image over the upload area in a field (or choose one from the existing images in the file manager), Ansel will automatically select the largest portion of the image possible given the constraints set up for the field and add an image row.</p>
+
+        <p>You can use the re-order handles to the left of a row to change the order of the images in the field.</p>
+
+        <p>To change the selected area and/or crop of the image, click the image thumbnail which will bring up the cropping interface with a lasso to select the relevant portion of the image. When you have selected the area of the image you want, click the save button with the green check mark or press the enter key.</p>
+
+        <p>If you wish to cancel the crop operation, click the cancel button, or press escape.</p>
+
+        <figure>
+            <img
+                class="w-full"
+                src="{{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel-field-image-crop.jpg') }}"
+                srcset="{{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel-field-image-crop.jpg') }} 1x, {{ siteUrl('/assets/img/software/ansel-craft/documentation/ansel-field-image-crop-2x.jpg') }} 2x"
+                alt="Ansel Field Image Editor"
+            >
+            <figcaption>Ansel Field Image Editor</figcaption>
+        </figure>
+    {% endapply %}
+{% endblock %}
