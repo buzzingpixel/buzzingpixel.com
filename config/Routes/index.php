@@ -7,6 +7,7 @@ use App\Http\Response\Software\AnselCraft\AnselCraftAction;
 use App\Http\Response\Software\AnselCraft\Documentation\V1\AnselCraftV1DocFieldTypeSettingsAction;
 use App\Http\Response\Software\AnselCraft\Documentation\V1\AnselCraftV1DocFieldTypeUseAction;
 use App\Http\Response\Software\AnselCraft\Documentation\V1\AnselCraftV1DocIndexAction;
+use App\Http\Response\Software\AnselCraft\Documentation\V1\AnselCraftV1DocTemplatingAction;
 use App\Http\Response\Software\AnselCraft\Documentation\V2\AnselCraftDocFieldTypeSettingsAction;
 use App\Http\Response\Software\AnselCraft\Documentation\V2\AnselCraftDocFieldTypeUseAction;
 use App\Http\Response\Software\AnselCraft\Documentation\V2\AnselCraftDocIndexAction;
@@ -37,4 +38,5 @@ return static function (App $app): void {
     $app->get('/software/ansel-craft/documentation/v1', AnselCraftV1DocIndexAction::class);
     $app->get('/software/ansel-craft/documentation/v1/field-type-settings', AnselCraftV1DocFieldTypeSettingsAction::class);
     $app->get('/software/ansel-craft/documentation/v1/field-type-use', AnselCraftV1DocFieldTypeUseAction::class);
+    $app->get('/software/ansel-craft/documentation/v1/templating', AnselCraftV1DocTemplatingAction::class);
 };

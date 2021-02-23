@@ -43,7 +43,7 @@ class AnselCraftV1DocIndexAction
                 '@software/AnselCraft/Documentation/V1/AnselCraftV1DocIndex.twig',
                 [
                     'meta' => new Meta(
-                        metaTitle: 'Getting Started With Ansel for Craft',
+                        metaTitle: 'Getting Started With Ansel 1.x for Craft',
                     ),
                     'breadcrumbTrail' => AnselCraftDocVariables::V1_BREADCRUMB_TRAIL,
                     'breadcrumbSingle' => AnselCraftDocVariables::V1_BREADCRUMB_TRAIL[count(AnselCraftDocVariables::V1_BREADCRUMB_TRAIL) - 2],

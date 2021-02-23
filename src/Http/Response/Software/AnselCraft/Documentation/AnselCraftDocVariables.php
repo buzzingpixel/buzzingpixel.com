@@ -76,7 +76,7 @@ class AnselCraftDocVariables
             'isActive' => false,
         ],
         'field-type-use' => [
-            'content' => 'Field Type Use',
+            'content' => 'Field Type Usage',
             'uri' => '/software/ansel-craft/documentation/v1/field-type-use',
             'isActive' => false,
         ],
@@ -119,7 +119,7 @@ class AnselCraftDocVariables
             'isActive' => false,
         ],
         'field-type-use' => [
-            'content' => 'Field Type Use',
+            'content' => 'Field Type Usage',
             'uri' => '/software/ansel-craft/documentation/field-type-use',
             'isActive' => false,
         ],

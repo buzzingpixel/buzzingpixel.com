@@ -43,7 +43,7 @@ class AnselCraftV1DocFieldTypeSettingsAction
                 '@software/AnselCraft/Documentation/V1/AnselCraftV1DocFieldTypeSettings.twig',
                 [
                     'meta' => new Meta(
-                        metaTitle: 'Ansel for Craft Field Type Settings',
+                        metaTitle: 'Ansel 1.x for Craft Field Type Settings',
                     ),
                     'breadcrumbTrail' => AnselCraftDocVariables::V1_BREADCRUMB_TRAIL,
                     'breadcrumbSingle' => AnselCraftDocVariables::V1_BREADCRUMB_TRAIL[count(AnselCraftDocVariables::V1_BREADCRUMB_TRAIL) - 2],

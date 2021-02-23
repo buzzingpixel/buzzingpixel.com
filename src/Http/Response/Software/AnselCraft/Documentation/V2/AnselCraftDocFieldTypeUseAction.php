@@ -43,13 +43,13 @@ class AnselCraftDocFieldTypeUseAction
                 '@software/AnselCraft/Documentation/V2/AnselCraftDocFieldTypeUse.twig',
                 [
                     'meta' => new Meta(
-                        metaTitle: 'Ansel for Craft Field Type Settings',
+                        metaTitle: 'Ansel for Craft Field Type Usage',
                     ),
                     'breadcrumbTrail' => AnselCraftDocVariables::V2_BREADCRUMB_TRAIL,
                     'breadcrumbSingle' => AnselCraftDocVariables::V2_BREADCRUMB_TRAIL[count(AnselCraftDocVariables::V2_BREADCRUMB_TRAIL) - 2],
                     'documentationVersions' => AnselCraftDocVariables::getVersionNav('ansel2'),
                     'documentationPageLinks' => AnselCraftDocVariables::getVersion2Pages('field-type-use'),
-                    'heading' => 'Field Type Settings',
+                    'heading' => 'Field Type Usage',
                 ]
             )
         );

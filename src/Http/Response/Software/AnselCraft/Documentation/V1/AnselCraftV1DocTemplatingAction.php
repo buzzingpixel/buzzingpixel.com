@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Software\AnselCraft\Documentation\V2;
+namespace App\Http\Response\Software\AnselCraft\Documentation\V1;
 
 use App\Http\Entities\Meta;
 use App\Http\Response\Software\AnselCraft\Documentation\AnselCraftDocVariables;
@@ -15,7 +15,7 @@ use Twig\Error\SyntaxError;
 
 use function count;
 
-class AnselCraftDocTemplatingAction
+class AnselCraftV1DocTemplatingAction
 {
     private ResponseFactoryInterface $responseFactory;
     private TwigEnvironment $twig;
@@ -40,15 +40,15 @@ class AnselCraftDocTemplatingAction
 
         $response->getBody()->write(
             $this->twig->render(
-                '@software/AnselCraft/Documentation/V2/AnselCraftDocTemplating.twig',
+                '@software/AnselCraft/Documentation/V1/AnselCraftV1DocTemplating.twig',
                 [
                     'meta' => new Meta(
-                        metaTitle: 'Templating With Ansel for Craft',
+                        metaTitle: 'Templating With Ansel 1.x for Craft',
                     ),
-                    'breadcrumbTrail' => AnselCraftDocVariables::V2_BREADCRUMB_TRAIL,
-                    'breadcrumbSingle' => AnselCraftDocVariables::V2_BREADCRUMB_TRAIL[count(AnselCraftDocVariables::V2_BREADCRUMB_TRAIL) - 2],
-                    'documentationVersions' => AnselCraftDocVariables::getVersionNav('ansel2'),
-                    'documentationPageLinks' => AnselCraftDocVariables::getVersion2Pages('templating'),
+                    'breadcrumbTrail' => AnselCraftDocVariables::V1_BREADCRUMB_TRAIL,
+                    'breadcrumbSingle' => AnselCraftDocVariables::V1_BREADCRUMB_TRAIL[count(AnselCraftDocVariables::V1_BREADCRUMB_TRAIL) - 2],
+                    'documentationVersions' => AnselCraftDocVariables::getVersionNav('ansel1'),
+                    'documentationPageLinks' => AnselCraftDocVariables::getVersion1Pages('templating'),
                     'heading' => 'Templating',
                 ]
             )
