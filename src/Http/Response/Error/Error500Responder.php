@@ -16,18 +16,11 @@ use Twig\Error\SyntaxError;
 
 class Error500Responder
 {
-    private ResponseFactoryInterface $responseFactory;
-    private LoggerInterface $logger;
-    private TwigEnvironment $twig;
-
     public function __construct(
-        ResponseFactoryInterface $responseFactory,
-        LoggerInterface $logger,
-        TwigEnvironment $twig
+        private ResponseFactoryInterface $responseFactory,
+        private LoggerInterface $logger,
+        private TwigEnvironment $twig
     ) {
-        $this->responseFactory = $responseFactory;
-        $this->logger          = $logger;
-        $this->twig            = $twig;
     }
 
     /**

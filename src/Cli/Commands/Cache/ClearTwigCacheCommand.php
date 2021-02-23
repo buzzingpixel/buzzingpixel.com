@@ -11,13 +11,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ClearTwigCacheCommand extends Command
 {
-    private TwigCacheApi $twigCacheApi;
-
-    public function __construct(TwigCacheApi $twigCacheApi)
+    public function __construct(private TwigCacheApi $twigCacheApi)
     {
         parent::__construct();
-
-        $this->twigCacheApi = $twigCacheApi;
     }
 
     protected function configure(): void

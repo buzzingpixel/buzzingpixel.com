@@ -11,12 +11,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ClearStaticCacheCommand extends Command
 {
-    private StaticCacheApi $staticCacheApi;
-
-    public function __construct(StaticCacheApi $staticCacheApi)
+    public function __construct(private StaticCacheApi $staticCacheApi)
     {
-        $this->staticCacheApi = $staticCacheApi;
-
         parent::__construct();
     }
 

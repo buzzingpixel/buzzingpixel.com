@@ -14,5 +14,7 @@
     <file>cli</file>
 
     <!-- Include full Doctrine Coding Standard -->
-    <rule ref="Doctrine"/>
+    <rule ref="Doctrine">
+        <exclude name="Generic.WhiteSpace.ScopeIndent.IncorrectExact"/>
+    </rule>
 </ruleset>

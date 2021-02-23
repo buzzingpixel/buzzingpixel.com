@@ -14,15 +14,10 @@ use Twig\Error\SyntaxError;
 
 class AnselCraftAction
 {
-    private ResponseFactoryInterface $responseFactory;
-    private TwigEnvironment $twig;
-
     public function __construct(
-        ResponseFactoryInterface $responseFactory,
-        TwigEnvironment $twig
+        private ResponseFactoryInterface $responseFactory,
+        private TwigEnvironment $twig
     ) {
-        $this->responseFactory = $responseFactory;
-        $this->twig            = $twig;
     }
 
     /**

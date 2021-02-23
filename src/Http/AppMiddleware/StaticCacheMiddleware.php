@@ -13,15 +13,10 @@ use Throwable;
 
 class StaticCacheMiddleware implements MiddlewareInterface
 {
-    private StaticCacheApi $staticCacheApi;
-    private bool $staticCacheEnabled;
-
     public function __construct(
-        StaticCacheApi $staticCacheApi,
-        bool $staticCacheEnabled
+        private StaticCacheApi $staticCacheApi,
+        private bool $staticCacheEnabled
     ) {
-        $this->staticCacheApi     = $staticCacheApi;
-        $this->staticCacheEnabled = $staticCacheEnabled;
     }
 
     /**

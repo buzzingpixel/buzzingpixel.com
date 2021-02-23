@@ -15,18 +15,11 @@ use Twig\Error\SyntaxError;
 
 class HomeAction
 {
-    private ResponseFactoryInterface $responseFactory;
-    private TwigEnvironment $twig;
-    private SiteUrl $siteUrl;
-
     public function __construct(
-        ResponseFactoryInterface $responseFactory,
-        TwigEnvironment $twig,
-        SiteUrl $siteUrl,
+        private ResponseFactoryInterface $responseFactory,
+        private TwigEnvironment $twig,
+        private SiteUrl $siteUrl,
     ) {
-        $this->responseFactory = $responseFactory;
-        $this->twig            = $twig;
-        $this->siteUrl         = $siteUrl;
     }
 
     /**

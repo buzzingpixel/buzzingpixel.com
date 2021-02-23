@@ -14,15 +14,10 @@ use Twig\Error\SyntaxError;
 
 class HttpErrorAction
 {
-    private Error404Responder $error404Responder;
-    private Error500Responder $error500Responder;
-
     public function __construct(
-        Error404Responder $error404Responder,
-        Error500Responder $error500Responder
+        private Error404Responder $error404Responder,
+        private Error500Responder $error500Responder
     ) {
-        $this->error404Responder = $error404Responder;
-        $this->error500Responder = $error500Responder;
     }
 
     /**

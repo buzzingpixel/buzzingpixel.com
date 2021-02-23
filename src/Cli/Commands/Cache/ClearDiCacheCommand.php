@@ -13,13 +13,9 @@ use function exec;
 
 class ClearDiCacheCommand extends Command
 {
-    private General $config;
-
-    public function __construct(General $config)
+    public function __construct(private General $config)
     {
         parent::__construct();
-
-        $this->config = $config;
     }
 
     protected function configure(): void

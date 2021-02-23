@@ -10,20 +10,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ClearAllCacheCommand extends Command
 {
-    private ClearDiCacheCommand $clearDiCache;
-    private ClearStaticCacheCommand $clearStaticCache;
-    private ClearTwigCacheCommand $clearTwigCache;
-
     public function __construct(
-        ClearDiCacheCommand $clearDiCache,
-        ClearStaticCacheCommand $clearStaticCache,
-        ClearTwigCacheCommand $clearTwigCache
+        private ClearDiCacheCommand $clearDiCache,
+        private ClearStaticCacheCommand $clearStaticCache,
+        private ClearTwigCacheCommand $clearTwigCache
     ) {
         parent::__construct();
-
-        $this->clearDiCache     = $clearDiCache;
-        $this->clearStaticCache = $clearStaticCache;
-        $this->clearTwigCache   = $clearTwigCache;
     }
 
     protected function configure(): void

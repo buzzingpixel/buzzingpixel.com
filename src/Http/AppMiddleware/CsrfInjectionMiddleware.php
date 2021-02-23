@@ -16,15 +16,10 @@ use function str_replace;
 
 class CsrfInjectionMiddleware implements MiddlewareInterface
 {
-    private Guard $csrfGuard;
-    private StreamFactory $streamFactory;
-
     public function __construct(
-        Guard $csrfGuard,
-        StreamFactory $streamFactory
+        private Guard $csrfGuard,
+        private StreamFactory $streamFactory
     ) {
-        $this->csrfGuard     = $csrfGuard;
-        $this->streamFactory = $streamFactory;
     }
 
     /**

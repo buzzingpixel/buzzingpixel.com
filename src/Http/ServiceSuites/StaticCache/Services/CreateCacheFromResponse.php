@@ -13,15 +13,10 @@ use function serialize;
 
 class CreateCacheFromResponse
 {
-    private Filesystem $filesystem;
-    private GetCachePathFromRequest $getCachePathFromRequest;
-
     public function __construct(
-        Filesystem $filesystem,
-        GetCachePathFromRequest $getCachePathFromRequest
+        private Filesystem $filesystem,
+        private GetCachePathFromRequest $getCachePathFromRequest
     ) {
-        $this->filesystem              = $filesystem;
-        $this->getCachePathFromRequest = $getCachePathFromRequest;
     }
 
     public function __invoke(

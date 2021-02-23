@@ -13,11 +13,8 @@ use function exec;
  */
 class ClearStaticCache
 {
-    private General $generalConfig;
-
-    public function __construct(General $generalConfig)
+    public function __construct(private General $generalConfig)
     {
-        $this->generalConfig = $generalConfig;
     }
 
     public function __invoke(): void

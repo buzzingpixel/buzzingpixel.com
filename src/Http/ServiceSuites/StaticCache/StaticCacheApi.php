@@ -16,11 +16,8 @@ use function assert;
 
 class StaticCacheApi
 {
-    private ContainerInterface $di;
-
-    public function __construct(ContainerInterface $di)
+    public function __construct(private ContainerInterface $di)
     {
-        $this->di = $di;
     }
 
     public function createCacheFromResponse(

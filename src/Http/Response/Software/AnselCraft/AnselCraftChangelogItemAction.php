@@ -20,18 +20,11 @@ use function str_replace;
 
 class AnselCraftChangelogItemAction
 {
-    private ResponseFactoryInterface $responseFactory;
-    private TwigEnvironment $twig;
-    private ParseChangelogFromMarkdownFile $parseChangelogFromMarkdownFile;
-
     public function __construct(
-        ResponseFactoryInterface $responseFactory,
-        TwigEnvironment $twig,
-        ParseChangelogFromMarkdownFile $parseChangelogFromMarkdownFile
+        private ResponseFactoryInterface $responseFactory,
+        private TwigEnvironment $twig,
+        private ParseChangelogFromMarkdownFile $parseChangelogFromMarkdownFile
     ) {
-        $this->responseFactory                = $responseFactory;
-        $this->twig                           = $twig;
-        $this->parseChangelogFromMarkdownFile = $parseChangelogFromMarkdownFile;
     }
 
     /**

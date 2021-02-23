@@ -10,15 +10,10 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class GetCachePathFromRequest
 {
-    private General $generalConfig;
-    private ExtractUriSegments $extractUriSegments;
-
     public function __construct(
-        General $generalConfig,
-        ExtractUriSegments $extractUriSegments
+        private General $generalConfig,
+        private ExtractUriSegments $extractUriSegments
     ) {
-        $this->generalConfig      = $generalConfig;
-        $this->extractUriSegments = $extractUriSegments;
     }
 
     public function __invoke(ServerRequestInterface $request): string

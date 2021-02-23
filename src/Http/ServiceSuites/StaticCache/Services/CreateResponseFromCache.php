@@ -16,18 +16,11 @@ use function unserialize;
 
 class CreateResponseFromCache
 {
-    private ResponseFactoryInterface $responseFactory;
-    private GetCachePathFromRequest $getCachePathFromRequest;
-    private Filesystem $filesystem;
-
     public function __construct(
-        ResponseFactoryInterface $responseFactory,
-        GetCachePathFromRequest $getCachePathFromRequest,
-        Filesystem $filesystem
+        private ResponseFactoryInterface $responseFactory,
+        private GetCachePathFromRequest $getCachePathFromRequest,
+        private Filesystem $filesystem
     ) {
-        $this->responseFactory         = $responseFactory;
-        $this->getCachePathFromRequest = $getCachePathFromRequest;
-        $this->filesystem              = $filesystem;
     }
 
     /**

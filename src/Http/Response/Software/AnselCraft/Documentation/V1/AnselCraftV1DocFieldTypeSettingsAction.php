@@ -17,15 +17,10 @@ use function count;
 
 class AnselCraftV1DocFieldTypeSettingsAction
 {
-    private ResponseFactoryInterface $responseFactory;
-    private TwigEnvironment $twig;
-
     public function __construct(
-        ResponseFactoryInterface $responseFactory,
-        TwigEnvironment $twig
+        private ResponseFactoryInterface $responseFactory,
+        private TwigEnvironment $twig
     ) {
-        $this->responseFactory = $responseFactory;
-        $this->twig            = $twig;
     }
 
     /**

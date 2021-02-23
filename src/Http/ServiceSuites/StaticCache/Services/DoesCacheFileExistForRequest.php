@@ -9,15 +9,10 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class DoesCacheFileExistForRequest
 {
-    private GetCachePathFromRequest $getCachePathFromRequest;
-    private Filesystem $filesystem;
-
     public function __construct(
-        GetCachePathFromRequest $getCachePathFromRequest,
-        Filesystem $filesystem
+        private GetCachePathFromRequest $getCachePathFromRequest,
+        private Filesystem $filesystem
     ) {
-        $this->getCachePathFromRequest = $getCachePathFromRequest;
-        $this->filesystem              = $filesystem;
     }
 
     public function __invoke(ServerRequestInterface $request): bool

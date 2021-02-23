@@ -16,15 +16,10 @@ use function trim;
 
 class MinifyMiddleware implements MiddlewareInterface
 {
-    private Minifier $minifier;
-    private StreamFactory $streamFactory;
-
     public function __construct(
-        Minifier $minifier,
-        StreamFactory $streamFactory
+        private Minifier $minifier,
+        private StreamFactory $streamFactory
     ) {
-        $this->minifier      = $minifier;
-        $this->streamFactory = $streamFactory;
     }
 
     /**
