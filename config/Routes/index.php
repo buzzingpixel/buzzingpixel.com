@@ -14,6 +14,7 @@ use App\Http\Response\Software\AnselCraft\Documentation\V2\AnselCraftDocFieldTyp
 use App\Http\Response\Software\AnselCraft\Documentation\V2\AnselCraftDocFieldTypeUseAction;
 use App\Http\Response\Software\AnselCraft\Documentation\V2\AnselCraftDocIndexAction;
 use App\Http\Response\Software\AnselCraft\Documentation\V2\AnselCraftDocTemplatingAction;
+use App\Http\Response\Software\AnselEE\AnselEEAction;
 use App\Http\Response\Software\SoftwareAction;
 use Slim\App;
 
@@ -43,4 +44,9 @@ return static function (App $app): void {
     $app->get(pattern: '/software/ansel-craft/documentation/v1/field-type-settings', callable: AnselCraftV1DocFieldTypeSettingsAction::class);
     $app->get(pattern: '/software/ansel-craft/documentation/v1/field-type-use', callable: AnselCraftV1DocFieldTypeUseAction::class);
     $app->get(pattern: '/software/ansel-craft/documentation/v1/templating', callable: AnselCraftV1DocTemplatingAction::class);
+
+    /**
+     * Ansel for ExpressionEngine
+     */
+    $app->get(pattern: '/software/ansel-ee', callable: AnselEEAction::class);
 };

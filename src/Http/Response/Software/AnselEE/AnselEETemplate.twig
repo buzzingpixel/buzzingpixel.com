@@ -1,0 +1,173 @@
+{# @var \App\Http\Response\Software\AnselEE\AnselEEVariables::NAV navItems #}
+
+{% extends 'Http/_Infrastructure/_Layout.twig' %}
+
+{% block content %}
+    {# Nav #}
+    {% include 'Http/Components/NavBar.twig' with {
+        navItems: navItems,
+    } only %}
+
+    {# Hero #}
+    {# TODO: Image sizes here #}
+    {% embed 'Http/Components/Hero.twig' with {
+        image: {
+            src: siteUrl('/assets/img/ansel-craft-desktop-2x.jpg'),
+            alt: 'Ansel Screenshot',
+        },
+        content: [
+            'Featuring a great user experience, great performance, drag and drop uploading, and more! Ansel is compatible with Grid, Bloqs, and Low Variables in addition to working right out of the box as a Channel Entry field.',
+            'And now you can try Ansel for 30 days and pay when you’re ready!',
+        ],
+        ctas: ctas,
+    } only %}
+        {% block heading %}
+            Ansel
+        {% endblock %}
+        {% block subHeading %}
+            for ExpressionEngine
+        {% endblock %}
+    {% endembed %}
+
+    {# Testimonials #}
+    {# TODO: Image sizes here #}
+    {% include 'Http/Components/SideBySideTestimonials.twig' with {
+        testimonial1: {
+            content: 'I love the way Ansel allows the client to crop images based on developer defined aspect ratios. Plus it has excellent support. Ansel is now my new, standard install, image plugin.',
+            name: 'Michael Lohrman',
+            href: 'http://www.5byfivecreative.com/',
+            image: {
+                src: siteUrl('/assets/img/mike-lohrman-2x.jpg'),
+            },
+            positionOrCompany: '5BYFIVE Creative',
+        },
+        testimonial2: {
+            content: 'Ansel has become a default install. Our clients love the ability to define areas of images, whilst we control other aspects to ensure no unusual images ruin the look of a site.',
+            name: 'James Cottis',
+            href: 'http://www.twist-id.co.uk/about',
+            image: {
+                src: siteUrl('/assets/img/james-cottis-2x.jpg'),
+            },
+            positionOrCompany: 'Twist Interactive Design',
+        },
+    } only %}
+
+    {# Solving the problem #}
+    {# TODO: Image sizes here #}
+    {% embed 'Http/Components/FeatureLeftContentRightImage.twig' with {
+        image: {
+            src: siteUrl('/assets/img/ansel2-field-type-tablet-desktop-2x.png'),
+            alt: 'Ansel for Craft Field Type',
+        }
+    } only %}
+        {% block content %}
+            <h2 class="text-3xl font-extrabold tracking-tight text-gray-900">
+                Problem Solved
+            </h2>
+            <p class="mt-4 text-lg text-gray-500">
+                It's an old problem: how can images be constrained to fit any given context, make sure it meets minimum/maximum requirements, and still get the part of the image that's relevant?
+            </p>
+            <p class="mt-4 text-lg text-gray-500">
+                Ansel puts you in charge by defining image fields with minimum and/or maximum requirements, aspect ratios, minimum/maximum number of images, and more. This means you don't need to worry if images are the right size — Ansel makes them the right size.
+            </p>
+        {% endblock %}
+    {% endembed %}
+
+    {# Field settings #}
+    {# TODO: Image sizes here #}
+    <div class="relative py-16 bg-gray-200 overflow-hidden">
+        <div class="relative px-4 sm:px-6 lg:px-8">
+            <div class="text-lg max-w-prose mx-auto">
+                <h1 class="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Field Settings
+                </h1>
+                <p class="mt-8 text-xl text-gray-500 leading-8">
+                    Define the settings that are needed for any given field or location so that your design and front end will look right every time.
+                </p>
+            </div>
+            <div class="mt-6 prose prose-indigo prose-lg text-gray-500 mx-auto">
+                <img
+                    class="w-full rounded-lg border shadow-lg"
+                    src="{{ siteUrl('/assets/img/ansel-field-settings-2x.jpg') }}"
+                    alt="Ansel for Craft Field Settings"
+                >
+            </div>
+        </div>
+    </div>
+
+    {# Peace of mind #}
+    <!-- This example requires Tailwind CSS v2.0+ -->
+    <div class="bg-white">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-24 lg:px-8">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl font-extrabold text-gray-900">Peace of Mind</h2>
+                <p class="mt-4 text-lg text-gray-500 text-left">
+                    Anyone managing content in ExpressionEngine can now upload any image with the peace of mind that nothing about the design or front end will break in any way. The image constraints have been defined and their image will live within those constraints.
+                </p>
+                <p class="mt-4 text-lg text-gray-500 text-left">
+                    And what if the action of the image they want to use is not in the frame? No problem. Use the crop lasso to select the correct portion of the image!
+                </p>
+            </div>
+            <dl class="mt-12 space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4 lg:gap-x-8">
+                <div class="flex">
+                    {% include 'Http/_Infrastructure/Svg/CheckMark.svg' %}
+                    <div class="ml-3">
+                        <dt class="text-lg leading-6 font-medium text-gray-900">
+                            Templating
+                        </dt>
+                        <dd class="mt-2 text-base text-gray-500">
+                            {{ "Ansel's template tags make templating easy with access to the image URL, height, width, custom fields, and more. Ansel's tags are also namespaced to prevent nesting conflicts."|smartypants|widont }}
+                        </dd>
+                    </div>
+                </div>
+                <div class="flex">
+                    {% include 'Http/_Infrastructure/Svg/CheckMark.svg' %}
+                    <div class="ml-3">
+                        <dt class="text-lg leading-6 font-medium text-gray-900">
+                            On-the-fly manipulations
+                        </dt>
+                        <dd class="mt-2 text-base text-gray-500">
+                            {{ "Built in to Ansel is the abilty to manipulate images on the fly with simple template tag parameters, so you can get the size image you need: altering crop, width, height, size, ratio, and more."|smartypants|widont }}
+                        </dd>
+                    </div>
+                </div>
+                <div class="flex">
+                    {% include 'Http/_Infrastructure/Svg/CheckMark.svg' %}
+                    <div class="ml-3">
+                        <dt class="text-lg leading-6 font-medium text-gray-900">
+                            Cropping and Sizing
+                        </dt>
+                        <dd class="mt-2 text-base text-gray-500">
+                            {{ "Cropping, resizing, and manipulating images right in the field type. Developers can define constraints and aspect ratios and content managers just add the images. No mess, no fuss."|smartypants|widont }}
+                        </dd>
+                    </div>
+                </div>
+                <div class="flex">
+                    {% include 'Http/_Infrastructure/Svg/CheckMark.svg' %}
+                    <div class="ml-3">
+                        <dt class="text-lg leading-6 font-medium text-gray-900">
+                            Easy Uploading
+                        </dt>
+                        <dd class="mt-2 text-base text-gray-500">
+                            {{ "Drag and drop uploading makes it super easy for users of any experience level to get images into the content management flow. Drag the image in, let Ansel take care of the rest."|smartypants|widont }}
+                        </dd>
+                    </div>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+    {# CTA #}
+    {% embed 'Http/Components/SimpleCtaSection.twig' with {
+        ctas: ctas,
+    } only %}
+        {% block heading %}
+            Getting Started With Ansel
+        {% endblock %}
+        {% block content %}
+            <p class="mt-4 text-lg leading-6 text-gray-100">
+                So let's get you started with Ansel right now. You can download Ansel and try it for 30 days to see if it's a good fit for you. Or you can go ahead and buy it by adding it to your cart. When you've bought it, a license will show up in your account and you can add one authorized domain for that license to run on.
+            </p>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
