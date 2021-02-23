@@ -34,38 +34,38 @@ class CsrfInjectionMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface {
-        $response = $handler->handle($request);
+        $response = $handler->handle(request: $request);
 
         $bodyString = $response->getBody()->__toString();
 
         $bodyString = str_replace(
-            '{!--csrfTokenNameKey--}',
-            $this->csrfGuard->getTokenNameKey(),
-            $bodyString,
+            search: '{!--csrfTokenNameKey--}',
+            replace: $this->csrfGuard->getTokenNameKey(),
+            subject: $bodyString,
         );
 
         $bodyString = str_replace(
-            '{!--csrfTokenName--}',
-            (string) $this->csrfGuard->getTokenName(),
-            $bodyString,
+            search: '{!--csrfTokenName--}',
+            replace: (string) $this->csrfGuard->getTokenName(),
+            subject: $bodyString,
         );
 
         $bodyString = str_replace(
-            '{!--csrfTokenValueKey--}',
-            $this->csrfGuard->getTokenValueKey(),
-            $bodyString,
+            search: '{!--csrfTokenValueKey--}',
+            replace: $this->csrfGuard->getTokenValueKey(),
+            subject: $bodyString,
         );
 
         $bodyString = str_replace(
-            '{!--csrfTokenValue--}',
-            (string) $this->csrfGuard->getTokenValue(),
-            $bodyString,
+            search: '{!--csrfTokenValue--}',
+            replace: (string) $this->csrfGuard->getTokenValue(),
+            subject: $bodyString,
         );
 
         $body = $this->streamFactory->make();
 
-        $body->write($bodyString);
+        $body->write(string: $bodyString);
 
-        return $response->withBody($body);
+        return $response->withBody(body: $body);
     }
 }

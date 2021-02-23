@@ -17,28 +17,28 @@ use App\Http\Response\Software\SoftwareAction;
 use Slim\App;
 
 return static function (App $app): void {
-    $app->get('/', HomeAction::class);
+    $app->get(pattern: '/', callable: HomeAction::class);
 
     /**
      * Software
      */
-    $app->get('/software', SoftwareAction::class);
+    $app->get(pattern: '/software', callable: SoftwareAction::class);
 
     /**
      * Ansel for Craft
      */
-    $app->get('/software/ansel-craft', AnselCraftAction::class);
-    $app->get('/software/ansel-craft/changelog', AnselCraftChangelogAction::class);
+    $app->get(pattern: '/software/ansel-craft', callable: AnselCraftAction::class);
+    $app->get(pattern: '/software/ansel-craft/changelog', callable: AnselCraftChangelogAction::class);
 
     // Ansel for Craft Current Docs
-    $app->get('/software/ansel-craft/documentation', AnselCraftDocIndexAction::class);
-    $app->get('/software/ansel-craft/documentation/field-type-settings', AnselCraftDocFieldTypeSettingsAction::class);
-    $app->get('/software/ansel-craft/documentation/field-type-use', AnselCraftDocFieldTypeUseAction::class);
-    $app->get('/software/ansel-craft/documentation/templating', AnselCraftDocTemplatingAction::class);
+    $app->get(pattern: '/software/ansel-craft/documentation', callable: AnselCraftDocIndexAction::class);
+    $app->get(pattern: '/software/ansel-craft/documentation/field-type-settings', callable: AnselCraftDocFieldTypeSettingsAction::class);
+    $app->get(pattern: '/software/ansel-craft/documentation/field-type-use', callable: AnselCraftDocFieldTypeUseAction::class);
+    $app->get(pattern: '/software/ansel-craft/documentation/templating', callable: AnselCraftDocTemplatingAction::class);
 
     // Ansel for Craft Legacy V1 Docs
-    $app->get('/software/ansel-craft/documentation/v1', AnselCraftV1DocIndexAction::class);
-    $app->get('/software/ansel-craft/documentation/v1/field-type-settings', AnselCraftV1DocFieldTypeSettingsAction::class);
-    $app->get('/software/ansel-craft/documentation/v1/field-type-use', AnselCraftV1DocFieldTypeUseAction::class);
-    $app->get('/software/ansel-craft/documentation/v1/templating', AnselCraftV1DocTemplatingAction::class);
+    $app->get(pattern: '/software/ansel-craft/documentation/v1', callable: AnselCraftV1DocIndexAction::class);
+    $app->get(pattern: '/software/ansel-craft/documentation/v1/field-type-settings', callable: AnselCraftV1DocFieldTypeSettingsAction::class);
+    $app->get(pattern: '/software/ansel-craft/documentation/v1/field-type-use', callable: AnselCraftV1DocFieldTypeUseAction::class);
+    $app->get(pattern: '/software/ansel-craft/documentation/v1/templating', callable: AnselCraftV1DocTemplatingAction::class);
 };

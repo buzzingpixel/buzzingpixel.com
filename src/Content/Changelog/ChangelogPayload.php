@@ -17,7 +17,8 @@ class ChangelogPayload
      */
     public function __construct(array $releases = [])
     {
-        array_walk($releases, [$this, 'addRelease']);
+        /** @psalm-suppress InvalidNamedArgument */
+        array_walk(array: $releases, callback: [$this, 'addRelease']);
     }
 
     protected function addRelease(Release $release): void
@@ -38,9 +39,9 @@ class ChangelogPayload
         int $offset = 0
     ): ChangelogPayload {
         return new ChangelogPayload(array_slice(
-            $this->releases,
-            $offset,
-            $length
+            array: $this->releases,
+            offset: $offset,
+            length: $length,
         ));
     }
 }

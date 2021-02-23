@@ -16,7 +16,7 @@ class Meta
         ?string $metaTitle = null,
     ) {
         $this->metaTitle = new MetaTitle(
-            is_string($metaTitle) ? $metaTitle : '',
+            value: is_string($metaTitle) ? $metaTitle : '',
         );
     }
 

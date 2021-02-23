@@ -23,7 +23,7 @@ class HoneyPotMiddleware implements MiddlewareInterface
         RequestHandlerInterface $handler
     ): ResponseInterface {
         if (mb_strtolower($request->getMethod()) === 'get') {
-            return $handler->handle($request);
+            return $handler->handle(request: $request);
         }
 
         $post = (array) $request->getParsedBody();
@@ -32,11 +32,11 @@ class HoneyPotMiddleware implements MiddlewareInterface
 
         if ($honeyPotField !== '') {
             throw new HttpBadRequestException(
-                $request,
-                'The honeypot field must not be filled in',
+                request: $request,
+                message: 'The honeypot field must not be filled in',
             );
         }
 
-        return $handler->handle($request);
+        return $handler->handle(request: $request);
     }
 }

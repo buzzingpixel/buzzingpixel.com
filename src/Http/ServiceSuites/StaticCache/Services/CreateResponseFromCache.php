@@ -36,18 +36,18 @@ class CreateResponseFromCache
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
         $content = $this->filesystem->read(
-            ($this->getCachePathFromRequest)($request)
+            location: ($this->getCachePathFromRequest)($request)
         );
 
-        $cacheItem = unserialize($content);
+        $cacheItem = unserialize(data: $content);
 
-        assert($cacheItem instanceof CacheItem);
+        assert(assertion: $cacheItem instanceof CacheItem);
 
         $response = $this->responseFactory->createResponse(
-            $cacheItem->statusCode,
-            $cacheItem->reasonPhrase
+            code: $cacheItem->statusCode,
+            reasonPhrase: $cacheItem->reasonPhrase
         )
-            ->withProtocolVersion($cacheItem->protocolVersion);
+            ->withProtocolVersion(version: $cacheItem->protocolVersion);
 
         /**
          * @psalm-suppress MixedAssignment
@@ -62,13 +62,13 @@ class CreateResponseFromCache
                  * @psalm-suppress MixedArgumentTypeCoercion
                  */
                 $response = $response->withHeader(
-                    $key,
-                    $headerVal
+                    name: $key,
+                    value: $headerVal
                 );
             }
         }
 
-        $response->getBody()->write($cacheItem->body);
+        $response->getBody()->write(string: $cacheItem->body);
 
         return $response;
     }

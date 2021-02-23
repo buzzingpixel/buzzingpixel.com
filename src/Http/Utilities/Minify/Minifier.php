@@ -15,6 +15,6 @@ class Minifier
             'jsMinifier' => '\JSMin\JSMin::minify',
         ];
 
-        return (new Minify_HTML($html, $options))->process();
+        return (new Minify_HTML(html: $html, options: $options))->process();
     }
 }

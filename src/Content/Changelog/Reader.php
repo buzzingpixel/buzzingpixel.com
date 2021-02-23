@@ -58,7 +58,7 @@ class Reader extends ErwinReader
 
             $headings = preg_grep(
                 '/^## (\[?)([^\s\[\]#]*)(\]?)( - ([0-9]{4}-[0-9]{2}-[0-9]{2}))?$/',
-                $this->content
+                $this->content,
             );
 
             assert(is_array($headings));
@@ -74,12 +74,12 @@ class Reader extends ErwinReader
                 }
 
                 $releaseContent = array_slice(
-                    $this->content,
-                    $start,
-                    $end
+                    array: $this->content,
+                    offset: $start,
+                    length: $end,
                 );
 
-                $release = new Release($releaseContent);
+                $release = new Release(content: $releaseContent);
 
                 $this->releases[$release->getVersion()] = $release;
             }

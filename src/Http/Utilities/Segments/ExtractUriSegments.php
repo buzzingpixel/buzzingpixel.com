@@ -15,12 +15,13 @@ class ExtractUriSegments
 {
     public function __invoke(UriInterface $uri): UriSegments
     {
-        return $this->extract($uri);
+        return $this->extract(uri: $uri);
     }
 
     public function extract(UriInterface $uri): UriSegments
     {
-        $segments = explode('/', $uri->getPath());
+        /** @psalm-suppress InvalidNamedArgument */
+        $segments = explode(separator: '/', string: $uri->getPath());
 
         foreach ($segments as $key => $val) {
             if ($val !== '') {
@@ -30,7 +31,7 @@ class ExtractUriSegments
             unset($segments[$key]);
         }
 
-        $segments = array_values($segments);
+        $segments = array_values(array: $segments);
 
         $segmentsSansPagination = $segments;
 
@@ -46,17 +47,17 @@ class ExtractUriSegments
             $pageNum = (int) $segments[$segmentsCount - 1];
 
             $segmentsSansPagination = array_slice(
-                $segments,
-                0,
-                $segmentsCount - 2
+                array: $segments,
+                offset: 0,
+                length: $segmentsCount - 2,
             );
         }
 
         return new UriSegments(
-            $segments,
-            $segmentsSansPagination,
-            $pageNum,
-            $hasPaginationTrigger
+            segments: $segments,
+            segmentsSansPagination: $segmentsSansPagination,
+            pageNum: $pageNum,
+            hasPaginationTrigger: $hasPaginationTrigger,
         );
     }
 }

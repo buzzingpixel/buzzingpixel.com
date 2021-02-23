@@ -17,6 +17,6 @@ class StreamFactory
      */
     public function make(): StreamInterface
     {
-        return new Stream(fopen('php://temp', 'r+'));
+        return new Stream(stream: fopen('php://temp', mode: 'r+'));
     }
 }

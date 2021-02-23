@@ -35,7 +35,7 @@ class Release extends ErwinRelease
         /** @psalm-suppress MixedAssignment */
         foreach ($this->toArray() as $key => $item) {
             if (
-                ! in_array($key, self::MESSAGE_TYPES, true) ||
+                ! in_array(needle: $key, haystack:  self::MESSAGE_TYPES, strict: true) ||
                 ! is_array($item) ||
                 count($item) < 1
             ) {

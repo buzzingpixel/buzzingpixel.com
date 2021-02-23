@@ -22,22 +22,22 @@ class ClearTwigCacheCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('cache:clear-twig');
+        $this->setName(name: 'cache:clear-twig');
 
-        $this->setDescription('Clears the twig cache');
+        $this->setDescription(description: 'Clears the twig cache');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln('<fg=yellow>Clearing twig cache...</>');
+        $output->writeln(messages: '<fg=yellow>Clearing twig cache...</>');
 
         if (! $this->twigCacheApi->clearTwigCache()) {
-            $output->writeln('<fg=green>Twig cache not enabled</>');
+            $output->writeln(messages: '<fg=green>Twig cache not enabled</>');
 
             return 0;
         }
 
-        $output->writeln('<fg=green>Twig cache cleared</>');
+        $output->writeln(messages: '<fg=green>Twig cache cleared</>');
 
         return 0;
     }

@@ -36,12 +36,12 @@ class AnselCraftV1DocTemplatingAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader('EnableStaticCache', 'true');
+            ->withHeader(name: 'EnableStaticCache', value: 'true');
 
         $response->getBody()->write(
-            $this->twig->render(
-                '@software/AnselCraft/Documentation/V1/AnselCraftV1DocTemplating.twig',
-                [
+            string: $this->twig->render(
+                name: '@software/AnselCraft/Documentation/V1/AnselCraftV1DocTemplating.twig',
+                context: [
                     'meta' => new Meta(
                         metaTitle: 'Templating With Ansel 1.x for Craft',
                     ),
@@ -50,8 +50,8 @@ class AnselCraftV1DocTemplatingAction
                     'documentationVersions' => AnselCraftDocVariables::getVersionNav('ansel1'),
                     'documentationPageLinks' => AnselCraftDocVariables::getVersion1Pages('templating'),
                     'heading' => 'Templating',
-                ]
-            )
+                ],
+            ),
         );
 
         return $response;

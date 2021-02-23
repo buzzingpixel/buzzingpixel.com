@@ -26,6 +26,6 @@ class ClearStaticCache
 
         $staticCachePath = $storagePath . '/static-cache/*';
 
-        exec('rm -rf ' . $staticCachePath);
+        exec(command: 'rm -rf ' . $staticCachePath);
     }
 }

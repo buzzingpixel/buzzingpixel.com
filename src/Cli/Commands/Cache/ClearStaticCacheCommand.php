@@ -22,18 +22,18 @@ class ClearStaticCacheCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('cache:clear-static');
+        $this->setName(name: 'cache:clear-static');
 
-        $this->setDescription('Clears the static cache');
+        $this->setDescription(description: 'Clears the static cache');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln('<fg=yellow>Clearing static cache...</>');
+        $output->writeln(messages: '<fg=yellow>Clearing static cache...</>');
 
         $this->staticCacheApi->clearStaticCache();
 
-        $output->writeln('<fg=green>Static cache cleared</>');
+        $output->writeln(messages: '<fg=green>Static cache cleared</>');
 
         return 0;
     }

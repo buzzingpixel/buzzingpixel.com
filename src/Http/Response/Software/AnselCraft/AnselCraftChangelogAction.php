@@ -51,8 +51,8 @@ class AnselCraftChangelogAction
                         location: 'https://raw.githubusercontent.com/buzzingpixel/ansel-craft/master/changelog.md'
                     ),
                     'baseUri' => AnselCraftVariables::CHANGELOG_BASE_URI,
-                ]
-            )
+                ],
+            ),
         );
 
         return $response;

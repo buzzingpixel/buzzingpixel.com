@@ -27,7 +27,7 @@ class GetCachePathFromRequest
 
         $staticCachePath = $storagePath . '/static-cache';
 
-        $uriSegments = ($this->extractUriSegments)($request->getUri());
+        $uriSegments = ($this->extractUriSegments)(uri: $request->getUri());
 
         $path = $uriSegments->getPath();
 

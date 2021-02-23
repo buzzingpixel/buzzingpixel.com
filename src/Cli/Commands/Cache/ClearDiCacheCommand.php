@@ -24,22 +24,22 @@ class ClearDiCacheCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('cache:clear-di');
+        $this->setName(name: 'cache:clear-di');
 
-        $this->setDescription('Clears the compiled DI cache');
+        $this->setDescription(description: 'Clears the compiled DI cache');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln('<fg=yellow>Clearing DI cache...</>');
+        $output->writeln(messages: '<fg=yellow>Clearing DI cache...</>');
 
         $storagePath = $this->config->pathToStorageDirectory();
 
         $diCachePath = $storagePath . '/di-cache/*';
 
-        exec('rm -rf ' . $diCachePath);
+        exec(command: 'rm -rf ' . $diCachePath);
 
-        $output->writeln('<fg=green>DI cache cleared</>');
+        $output->writeln(messages: '<fg=green>DI cache cleared</>');
 
         return 0;
     }

@@ -30,9 +30,9 @@ class StaticCacheApi
         /** @psalm-suppress MixedAssignment */
         $service = $this->di->get(CreateCacheFromResponse::class);
 
-        assert($service instanceof CreateCacheFromResponse);
+        assert(assertion: $service instanceof CreateCacheFromResponse);
 
-        $service($response, $request);
+        $service(response: $response, request: $request);
     }
 
     public function doesCacheFileExistForRequest(
@@ -41,9 +41,9 @@ class StaticCacheApi
         /** @psalm-suppress MixedAssignment */
         $service = $this->di->get(DoesCacheFileExistForRequest::class);
 
-        assert($service instanceof DoesCacheFileExistForRequest);
+        assert(assertion: $service instanceof DoesCacheFileExistForRequest);
 
-        return $service($request);
+        return $service(request: $request);
     }
 
     public function createResponseFromCache(
@@ -52,9 +52,9 @@ class StaticCacheApi
         /** @psalm-suppress MixedAssignment */
         $service = $this->di->get(CreateResponseFromCache::class);
 
-        assert($service instanceof CreateResponseFromCache);
+        assert(assertion: $service instanceof CreateResponseFromCache);
 
-        return $service($request);
+        return $service(request: $request);
     }
 
     public function clearStaticCache(): void
@@ -62,7 +62,7 @@ class StaticCacheApi
         /** @psalm-suppress MixedAssignment */
         $service = $this->di->get(ClearStaticCache::class);
 
-        assert($service instanceof ClearStaticCache);
+        assert(assertion: $service instanceof ClearStaticCache);
 
         $service();
     }

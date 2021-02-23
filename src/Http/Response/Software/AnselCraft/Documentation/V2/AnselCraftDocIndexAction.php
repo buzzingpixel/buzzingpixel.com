@@ -36,12 +36,12 @@ class AnselCraftDocIndexAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader('EnableStaticCache', 'true');
+            ->withHeader(name: 'EnableStaticCache', value: 'true');
 
         $response->getBody()->write(
-            $this->twig->render(
-                '@software/AnselCraft/Documentation/V2/AnselCraftDocIndex.twig',
-                [
+            string: $this->twig->render(
+                name: '@software/AnselCraft/Documentation/V2/AnselCraftDocIndex.twig',
+                context: [
                     'meta' => new Meta(
                         metaTitle: 'Getting Started With Ansel for Craft',
                     ),
@@ -50,8 +50,8 @@ class AnselCraftDocIndexAction
                     'documentationVersions' => AnselCraftDocVariables::getVersionNav('ansel2'),
                     'documentationPageLinks' => AnselCraftDocVariables::getVersion2Pages('getting-started'),
                     'heading' => 'Getting Started',
-                ]
-            )
+                ],
+            ),
         );
 
         return $response;

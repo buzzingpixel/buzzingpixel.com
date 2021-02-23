@@ -28,18 +28,18 @@ class ClearAllCacheCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('cache:clear');
+        $this->setName(name: 'cache:clear');
 
-        $this->setDescription('Clears all cache types');
+        $this->setDescription(description: 'Clears all cache types');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->clearDiCache->execute($input, $output);
+        $this->clearDiCache->execute(input: $input, output: $output);
 
-        $this->clearStaticCache->execute($input, $output);
+        $this->clearStaticCache->execute(input: $input, output: $output);
 
-        $this->clearTwigCache->execute($input, $output);
+        $this->clearTwigCache->execute(input: $input, output: $output);
 
         return 0;
     }

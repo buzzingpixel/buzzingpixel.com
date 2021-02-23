@@ -38,19 +38,19 @@ class Error500Responder
     public function __invoke(Throwable $exception): ResponseInterface
     {
         $this->logger->error(
-            'An exception was thrown',
-            ['exception' => $exception]
+            message: 'An exception was thrown',
+            context: ['exception' => $exception],
         );
 
         $response = $this->responseFactory->createResponse(
-            500,
-            'An internal server error occurred'
+            code: 500,
+            reasonPhrase: 'An internal server error occurred',
         );
 
         $response->getBody()->write(
-            $this->twig->render(
-                '@error/500Template.twig',
-                [
+            string: $this->twig->render(
+                name: '@error/500Template.twig',
+                context: [
                     'meta' => new Meta(
                         metaTitle: 'Internal Server Error',
                     ),

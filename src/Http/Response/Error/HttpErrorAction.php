@@ -38,6 +38,6 @@ class HttpErrorAction
             return ($this->error404Responder)();
         }
 
-        return ($this->error500Responder)($exception);
+        return ($this->error500Responder)(exception: $exception);
     }
 }

@@ -28,7 +28,7 @@ class TwigCacheApi
      */
     public function clearTwigCache(): bool
     {
-        $cache = $this->twig->getCache(false);
+        $cache = $this->twig->getCache(original: false);
 
         $isInstance = $cache instanceof FilesystemCache;
 
@@ -36,20 +36,22 @@ class TwigCacheApi
             return false;
         }
 
-        assert($cache instanceof FilesystemCache);
+        assert(assertion: $cache instanceof FilesystemCache);
 
         $reflection = new ReflectionClass($cache);
 
-        $directory = $reflection->getProperty('directory');
+        $directory = $reflection->getProperty(name: 'directory');
 
-        $directory->setAccessible(true);
+        /** @psalm-suppress InvalidNamedArgument */
+        $directory->setAccessible(accessible: true);
 
+        /** @psalm-suppress InvalidNamedArgument */
         $cacheDirGlob = rtrim(
-            (string) $directory->getValue($cache),
-            '/'
+            string: (string) $directory->getValue(object: $cache),
+            characters: '/'
         ) . '/*';
 
-        exec('rm -rf ' . $cacheDirGlob);
+        exec(command: 'rm -rf ' . $cacheDirGlob);
 
         return true;
     }

@@ -8,8 +8,8 @@ class ParseChangelogFromMarkdownFile
 {
     public function parse(string $location): ChangelogPayload
     {
-        $reader = new Reader($location);
+        $reader = new Reader(filename: $location);
 
-        return new ChangelogPayload($reader->getReleases());
+        return new ChangelogPayload(releases: $reader->getReleases());
     }
 }

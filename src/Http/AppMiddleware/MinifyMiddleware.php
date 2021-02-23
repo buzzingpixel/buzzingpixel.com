@@ -34,9 +34,9 @@ class MinifyMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface {
-        $response = $handler->handle($request);
+        $response = $handler->handle(request: $request);
 
-        $contentType = $response->getHeader('Content-Type');
+        $contentType = $response->getHeader(name: 'Content-Type');
 
         $contentTypeString = $contentType[0] ?? 'text/html';
 
@@ -46,14 +46,14 @@ class MinifyMiddleware implements MiddlewareInterface
 
         $content = (string) $response->getBody();
 
-        if (trim($content) === '') {
+        if (trim(string: $content) === '') {
             return $response;
         }
 
         $body = $this->streamFactory->make();
 
-        $body->write(($this->minifier)($content));
+        $body->write(string: ($this->minifier)(html: $content));
 
-        return $response->withBody($body);
+        return $response->withBody(body: $body);
     }
 }

@@ -23,7 +23,7 @@ class DoesCacheFileExistForRequest
     public function __invoke(ServerRequestInterface $request): bool
     {
         return $this->filesystem->fileExists(
-            ($this->getCachePathFromRequest)($request)
+            location: ($this->getCachePathFromRequest)(request: $request)
         );
     }
 }

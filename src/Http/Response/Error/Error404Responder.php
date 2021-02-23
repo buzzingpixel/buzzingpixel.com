@@ -33,14 +33,14 @@ class Error404Responder
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse(
-            404,
-            'Page not found'
+            code: 404,
+            reasonPhrase: 'Page not found',
         );
 
         $response->getBody()->write(
-            $this->twig->render(
-                '@error/404Template.twig',
-                [
+            string: $this->twig->render(
+                name: '@error/404Template.twig',
+                context: [
                     'meta' => new Meta(
                         metaTitle: 'Page Not Found',
                     ),

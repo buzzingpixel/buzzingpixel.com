@@ -33,12 +33,12 @@ class AnselCraftAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader('EnableStaticCache', 'true');
+            ->withHeader(name: 'EnableStaticCache', value: 'true');
 
         $response->getBody()->write(
-            $this->twig->render(
-                '@software/AnselCraft/AnselCraftTemplate.twig',
-                [
+            string: $this->twig->render(
+                name: '@software/AnselCraft/AnselCraftTemplate.twig',
+                context: [
                     'meta' => new Meta(
                         metaTitle: 'Ansel Image Field Type for Craft CMS',
                     ),
@@ -63,8 +63,8 @@ class AnselCraftAction
                             'type' => 'secondary',
                         ],
                     ],
-                ]
-            )
+                ],
+            ),
         );
 
         return $response;

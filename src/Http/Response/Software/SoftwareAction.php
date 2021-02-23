@@ -33,10 +33,10 @@ class SoftwareAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader('EnableStaticCache', 'true');
+            ->withHeader(name: 'EnableStaticCache', value: 'true');
 
         $response->getBody()->write(
-            $this->twig->render('@software/SoftwareTemplate.twig', [
+            string: $this->twig->render('@software/SoftwareTemplate.twig', [
                 'meta' => new Meta(
                     metaTitle: 'Software',
                 ),
