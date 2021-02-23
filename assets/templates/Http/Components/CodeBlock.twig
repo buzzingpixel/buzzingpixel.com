@@ -1,0 +1,3 @@
+{% set language = language ?? block('language') ?? '' %}
+{% set codeContent = codeContent ?? block('codeContent') %}
+<pre class="language-{{ language }}"><code>{% apply escape %}{{ codeContent|raw }}{% endapply %}</code></pre>

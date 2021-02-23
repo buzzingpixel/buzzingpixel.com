@@ -72,7 +72,7 @@ class AnselCraftDocVariables
         ],
         'templating' => [
             'content' => 'Templating',
-            'uri' => 'software/ansel-craft/documentation/templating',
+            'uri' => '/software/ansel-craft/documentation/templating',
             'isActive' => false,
         ],
     ];

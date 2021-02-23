@@ -65,7 +65,9 @@
             level: 'h3',
         } only %}
         <p>For those who are comfortable with and/or prefer the command line, you can install via Composer directly:</p>
-        <pre><code class="language-shell">composer require buzzingpixel/ansel-craft</code></pre>
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'shell'}) only %}
+            {% block codeContent %}composer require buzzingpixel/ansel-craft{% endblock %}
+        {% endembed %}
         <p>After installing via composer, go to your Craft CP > Settings > Plugins and install Ansel.</p>
 
         {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {

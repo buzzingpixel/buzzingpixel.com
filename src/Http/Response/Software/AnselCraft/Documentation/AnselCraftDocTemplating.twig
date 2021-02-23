@@ -1,0 +1,235 @@
+{% extends 'Http/_Infrastructure/_LayoutDocumentation.twig' %}
+
+{% block content %}
+    {% apply smartypants %}
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Ansel Image Service',
+            level: 'h2',
+        } only %}
+
+        <p>Both <code>entry.myAnselField</code> and <code>craft.ansel.images</code> return an instance of the Ansel Image Service. In the case of an entry field, that service is pre-loaded with the properties that load up the images in that field. But regardless, the usage is the same</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'twig'}) only %}
+{% block codeContent %}{% verbatim %}{% for image in craft.ansel.images.all() %}
+    <img src="{{ image.getAsset().getUrl() }}" alt="{{ image.title }}">
+{% endfor %}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        <p>Like <code>craft.entries</code>, parameters can be chained so that you can use things like <code>skipCover</code>, <code>position(2)</code>, <code>limit(4)</code> and all those goodies.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'twig'}) only %}
+{% block codeContent %}{% verbatim %}{% for image in entry.myAnselField.skipCover().position(2).limit(4).all() %}
+    <img src="{{ image.getAsset().getUrl() }}" alt="{{ image.title }}">
+{% endfor %}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Ansel Image Service Parameters',
+            level: 'h3',
+        } only %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'twig'}) only %}
+{% block codeContent %}{% verbatim %}{% set image = craft.ansel.images %}
+
+{% set image = image.id('12,43') %} // Ansel image primary key
+{% set image = image.notId('305,34') %}
+
+{% set image = image.elementId('134,3456') %} // The owning element ID (such as an entry)
+{% set image = image.notElementId('3453,56') %}
+
+{% set image = image.fieldId('2,3') %}
+{% set image = image.notFieldId('5,6') %}
+
+{% set image = image.userId('7,8') %}
+{% set image = image.notUserId('4,3') %}
+
+{% set image = image.assetId('10,4565') %}
+{% set image = image.notAssetId('3,8') %}
+
+{% set image = image.originalAssetId('12,4568') %}
+{% set image = image.notOriginalAssetId('4,18') %}
+
+{% set image = image.width(300) %}
+{% set image = image.width('< 300') %}
+{% set image = image.width('> 300') %}
+
+{% set image = image.height(300) %}
+{% set image = image.height('< 300') %}
+{% set image = image.height('> 300') %}
+
+{% set image = image.title('my title,my other title') %}
+{% set image = image.notTitle('foo,baz') %}
+
+{% set image = image.caption('my caption,my other caption') %}
+{% set image = image.notCaption('foo,baz') %}
+
+{% set image = image.coverOnly(true) %}
+{% set image = image.skipCover(true) %}
+{% set image = image.showDisabled(true) %}
+
+{% set image = image.position(2) %}
+{% set image = image.position('< 2') %}
+{% set image = image.position('> 2') %}
+
+{% set image = image.limit(4) %}
+
+{% set image = image.offset(4) %}
+
+{% set image = image.order('position desc, fieldId asc') %}
+
+{% set image = image.random(true) %} // Overrides order parameter{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Ansel Image Service Methods',
+            level: 'h3',
+        } only %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'twig'}) only %}
+{% block codeContent %}{% verbatim %}{% set count = craft.ansel.images.width('> 300').count() %} {# Total images (regardless of limit #}
+
+{% set image = craft.ansel.images.one() %} {# Get the first image that matches #}
+
+{% set images = craft.ansel.images.all() %} {# Get all matching images #}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Image Model',
+            level: 'h3',
+        } only %}
+
+        <p>Ultimately, when you’re looping through the Image Criteria Model, or getting <code>one()</code> or <code>all()</code>, you will be using the Image Model. The image model has the following properties and methods you can access.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'twig'}) only %}
+{% block codeContent %}{% verbatim %}{% set image = entry.myImageField.random(true).one() %}
+
+{{ image.id }} {# Integer #}
+
+{{ image.elementId }} {# Integer #}
+
+{{ image.fieldId }} {# Integer #}
+
+{{ image.userId }} {# Integer #}
+{% set user = image.getUser() %} {# \craft\elements\User of the user who added the row to the field #}
+
+{{ image.assetId }} {# Integer #}
+{% set imageAsset = image.getAsset() %} {# \craft\elements\Asset of the manipulated asset for this image #}
+
+{{ image.highQualAssetId }} {# Integer #}
+{% set highQualImageAsset = image.getHighQualAsset() %} {# \craft\elements\Asset of the highest possible quality of the manipulated image #}
+
+{{ image.thumbAssetId }} {# Integer #}
+{% set thumbImageAsset = image.getThumbAsset() %} {# \craft\elements\Asset of the image thumbnail #}
+
+{{ image.originalAssetId }} {# Integer #}
+{% set originalImage = image.getOriginalAsset() %} {# \craft\elements\Asset of the original un-manipulated image #}
+
+{{ image.width }} {# Integer #}
+
+{{ image.height }} {# Integer #}
+
+{{ image.title }} {# String #}
+
+{{ image.caption }} {# String #}
+
+{{ image.cover }} {# Boolean #}
+
+{{ image.position }} {# Integer #}
+
+{{ image.disabled }} {# Boolean #}
+
+{{ image.dateCreated }} {# \DateTime #}
+
+{{ image.dateUpdated }} {# \DateTime #}
+
+{{ image.uid }} {# String - the database row's unique identifier #}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Examples',
+            level: 'h3',
+        } only %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'A Field From an Entry',
+            level: 'h4',
+        } only %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'twig'}) only %}
+{% block codeContent %}{% verbatim %}{% for entry in craft.entries.section('mySection').limit(2) %}
+    <h1>{{ entry.title }}</h1>
+    <div class="Images">
+        {% set images = entry.myImagesField.limit(2).coverFirst(true).all() %}
+
+        {% if not images|length %}
+            <div class="Images__NoResults">
+                This gallery has no images at this time. Please check back later.
+            </div>
+        {% endif %}
+
+        {% for image in images %}
+            <div class="Images__Image">
+                <img src="{{ image.getAsset.getUrl() }}" alt="{{ image.title|default(entry.title) }}">
+                <div class="Images__ImageCaption">
+                    {{ image.caption }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Resizing an Image on-the-fly',
+            level: 'h4',
+        } only %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'twig'}) only %}
+{% block codeContent %}{% verbatim %}{% set image = craft.ansel.images.one() %}
+
+{% set imageTransform = {
+    mode: 'crop',
+    width: 600,
+    quality: 80,
+    position: 'Center-Center'
+} %}
+
+<img src="{{ image.highQualityAsset.getUrl(imageTransform) }}" alt="{{ image.title }}">{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Ansel in a Matrix field',
+            level: 'h4',
+        } only %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'twig'}) only %}
+{% block codeContent %}{% verbatim %}{% for entry in craft.entries.section('mySection').limit(2).all() %}
+    <h1>{{ entry.title }}</h1>
+    <div class="Blocks">
+        {% for block in entry.matrixField %}
+            <h2 class="Blocks__Title">{{ block.galleryTitle }}</h2>
+            <div class="Image">
+            {% set images = block.myImagesField.limit(2).coverFirst(true).all() %}
+
+            {% if not images|length %}
+                <div class="Images__NoResults">
+                    This gallery has no images at this time. Please check back later.
+                </div>
+            {% endif %}
+
+            {% for image in images %}
+                <div class="Images__Image">
+                    <img src="{{ image.getAsset().getUrl() }}" alt="{{ image.title|default(entry.title) }}">
+                    <div class="Images__ImageCaption">
+                        {{ image.caption }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+{% endfor %}{% endverbatim %}{% endblock %}
+        {% endembed %}
+    {% endapply %}
+{% endblock %}
+
