@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Software\AnselCraft\Documentation;
+namespace App\Http\Response\Software\AnselCraft\Documentation\V2;
 
 use App\Http\Entities\Meta;
+use App\Http\Response\Software\AnselCraft\Documentation\AnselCraftDocVariables;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment as TwigEnvironment;
@@ -14,7 +15,7 @@ use Twig\Error\SyntaxError;
 
 use function count;
 
-class AnselCraftDocFieldTypeUseAction
+class AnselCraftDocFieldTypeSettingsAction
 {
     private ResponseFactoryInterface $responseFactory;
     private TwigEnvironment $twig;
@@ -39,7 +40,7 @@ class AnselCraftDocFieldTypeUseAction
 
         $response->getBody()->write(
             $this->twig->render(
-                '@software/AnselCraft/Documentation/AnselCraftDocFieldTypeUse.twig',
+                '@software/AnselCraft/Documentation/V2/AnselCraftDocFieldTypeSettings.twig',
                 [
                     'meta' => new Meta(
                         metaTitle: 'Ansel for Craft Field Type Settings',
@@ -47,7 +48,7 @@ class AnselCraftDocFieldTypeUseAction
                     'breadcrumbTrail' => AnselCraftDocVariables::BREADCRUMB_TRAIL,
                     'breadcrumbSingle' => AnselCraftDocVariables::BREADCRUMB_TRAIL[count(AnselCraftDocVariables::BREADCRUMB_TRAIL) - 2],
                     'documentationVersions' => AnselCraftDocVariables::getVersionNav('ansel2'),
-                    'documentationPageLinks' => AnselCraftDocVariables::getVersion2Pages('field-type-use'),
+                    'documentationPageLinks' => AnselCraftDocVariables::getVersion2Pages('field-type-settings'),
                     'heading' => 'Field Type Settings',
                 ]
             )

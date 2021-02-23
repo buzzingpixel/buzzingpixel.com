@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Software\AnselCraft\Documentation;
+namespace App\Http\Response\Software\AnselCraft\Documentation\V2;
 
 use App\Http\Entities\Meta;
+use App\Http\Response\Software\AnselCraft\Documentation\AnselCraftDocVariables;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment as TwigEnvironment;
@@ -39,7 +40,7 @@ class AnselCraftDocIndexAction
 
         $response->getBody()->write(
             $this->twig->render(
-                '@software/AnselCraft/Documentation/AnselCraftDocIndex.twig',
+                '@software/AnselCraft/Documentation/V2/AnselCraftDocIndex.twig',
                 [
                     'meta' => new Meta(
                         metaTitle: 'Getting Started With Ansel for Craft',
