@@ -20,4 +20,6 @@ class AnselCraftVariables
             'content' => 'Changelog',
         ],
     ];
+
+    public const CHANGELOG_BASE_URI = '/software/ansel-craft/changelog';
 }

@@ -1,0 +1,29 @@
+{# @var \App\Http\Response\Software\AnselCraft\AnselCraftVariables::NAV navItems #}
+{# @var \App\Content\Changelog\ChangelogPayload changelog #}
+{# @var string baseUri #}
+
+{% extends 'Http/_Infrastructure/_Layout.twig' %}
+
+{% block content %}
+    {# Nav #}
+    {% include 'Http/Components/NavBar.twig' with {
+        navItems: navItems,
+    } only %}
+
+    {# Changelog #}
+    {% for release in changelog.releases %}
+        {% include 'Http/Changelog/Item.twig' with {
+            baseUri: baseUri,
+            release: release,
+        } only %}
+        {% if not loop.last %}
+            <div class="relative bg-white overflow-hidden">
+                <div class="relative px-4 sm:px-6 lg:px-8">
+                    <div class="text-lg max-w-prose mx-auto">
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

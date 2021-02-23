@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "296004ef03cc3a35208b9eb140deae2a",
+    "content-hash": "e886df5106bedc148a389deda3743f03",
     "packages": [
         {
             "name": "buzzingpixel/corbomite-config-collector",
@@ -533,6 +533,56 @@
             "time": "2020-05-25T17:44:05+00:00"
         },
         {
+            "name": "erusev/parsedown",
+            "version": "1.7.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/erusev/parsedown.git",
+                "reference": "cb17b6477dfff935958ba01325f2e8a2bfa6dab3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/cb17b6477dfff935958ba01325f2e8a2bfa6dab3",
+                "reference": "cb17b6477dfff935958ba01325f2e8a2bfa6dab3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Parsedown": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Emanuil Rusev",
+                    "email": "hello@erusev.com",
+                    "homepage": "http://erusev.com"
+                }
+            ],
+            "description": "Parser for Markdown.",
+            "homepage": "http://parsedown.org",
+            "keywords": [
+                "markdown",
+                "parser"
+            ],
+            "support": {
+                "issues": "https://github.com/erusev/parsedown/issues",
+                "source": "https://github.com/erusev/parsedown/tree/1.7.x"
+            },
+            "time": "2019-12-30T22:54:17+00:00"
+        },
+        {
             "name": "fig/http-message-util",
             "version": "1.1.5",
             "source": {
@@ -843,6 +893,51 @@
                 "source": "https://github.com/michelf/php-smartypants/tree/1.8.1"
             },
             "time": "2016-12-13T01:01:17+00:00"
+        },
+        {
+            "name": "mjerwin/parseachangelog",
+            "version": "0.9.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mjerwin/parseachangelog.git",
+                "reference": "a6ff54a4e9c043ff6727b087c6a0efe4ca72a3b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mjerwin/parseachangelog/zipball/a6ff54a4e9c043ff6727b087c6a0efe4ca72a3b6",
+                "reference": "a6ff54a4e9c043ff6727b087c6a0efe4ca72a3b6",
+                "shasum": ""
+            },
+            "require": {
+                "erusev/parsedown": "^1.6"
+            },
+            "require-dev": {
+                "phpunit/php-code-coverage": "^3.2",
+                "phpunit/phpunit": "5.2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MJErwin\\ParseAChangelog\\": "src/",
+                    "MJErwin\\ParseAChangelog\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matthew Erwin",
+                    "email": "m@tthewerwin.com"
+                }
+            ],
+            "description": "Change log parser based on http://keepachangelog.com/",
+            "support": {
+                "issues": "https://github.com/mjerwin/parseachangelog/issues",
+                "source": "https://github.com/mjerwin/parseachangelog/tree/0.9.4"
+            },
+            "time": "2019-11-07T23:33:56+00:00"
         },
         {
             "name": "monolog/monolog",

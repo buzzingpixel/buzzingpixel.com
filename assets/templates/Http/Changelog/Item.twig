@@ -1,0 +1,27 @@
+{# @var string baseUri #}
+{# @var \App\Content\Changelog\Release release #}
+
+<div class="relative py-16 bg-white overflow-hidden">
+    <div class="relative px-4 sm:px-6 lg:px-8">
+        <div class="text-lg max-w-prose mx-auto">
+            <h1>
+                <span class="block text-base text-deep-sea font-semibold tracking-wide uppercase">
+                    {{ release.date }}
+                </span>
+                <span class="mt-2 block text-xl leading-8 font-extrabold tracking-tight prose">
+                    <small class="text-gray-500 font-normal text-xl">
+                        version:
+                    </small>
+                    <a
+                        href="{{ siteUrl(baseUri ~ '/' ~ release.version|replace({'.': '-'})) }}"
+                    >
+                        {{ release.version }}
+                    </a>
+                </span>
+            </h1>
+        </div>
+        <div class="mt-6 prose prose-indigo prose-lg text-gray-500 mx-auto">
+            {{ release.toHtml|raw }}
+        </div>
+    </div>
+</div>

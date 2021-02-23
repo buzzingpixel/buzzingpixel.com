@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Response\Home\HomeAction;
 use App\Http\Response\Software\AnselCraft\AnselCraftAction;
+use App\Http\Response\Software\AnselCraft\AnselCraftChangelogAction;
 use App\Http\Response\Software\AnselCraft\Documentation\V1\AnselCraftV1DocFieldTypeSettingsAction;
 use App\Http\Response\Software\AnselCraft\Documentation\V1\AnselCraftV1DocFieldTypeUseAction;
 use App\Http\Response\Software\AnselCraft\Documentation\V1\AnselCraftV1DocIndexAction;
@@ -27,6 +28,7 @@ return static function (App $app): void {
      * Ansel for Craft
      */
     $app->get('/software/ansel-craft', AnselCraftAction::class);
+    $app->get('/software/ansel-craft/changelog', AnselCraftChangelogAction::class);
 
     // Ansel for Craft Current Docs
     $app->get('/software/ansel-craft/documentation', AnselCraftDocIndexAction::class);
