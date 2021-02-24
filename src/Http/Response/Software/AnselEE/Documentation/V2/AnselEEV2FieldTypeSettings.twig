@@ -1,0 +1,106 @@
+{% extends 'Http/_Infrastructure/_LayoutDocumentation.twig' %}
+
+{% block content %}
+    {% apply smartypants %}
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Compatibility',
+            level: 'h2',
+        } only %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Field Type Contexts',
+            level: 'h3',
+        } only %}
+        <p>Ansel is compatible with the following contexts, and regardless of the context uses the same settings presented as uniformly as possible.</p>
+        <ul>
+            <li><a href="https://docs.expressionengine.com/latest/control-panel/create.html">Channel Entries</a></li>
+            <li><a href="https://docs.expressionengine.com/latest/fieldtypes/fluid.html">Fluid Field (EE 4+)</a></li>
+            <li><a href="https://docs.expressionengine.com/latest/fieldtypes/grid.html">Grid</a></li>
+            <li><a href="https://boldminded.com/add-ons/bloqs">Bloqs</a></li>
+            <li><a href="https://eeharbor.com/low-variables">Low Variables</a></li>
+        </ul>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Storage Locations',
+            level: 'h3',
+        } only %}
+        <p>Ansel is also compatible with more than one storage location type.</p>
+        <ul>
+            <li><a href="https://docs.expressionengine.com/latest/control-panel/file-manager.html">ExpressionEngine File Locations</a></li>
+            <li><a href="{{ siteUrl('/software/treasury') }}">Treasury</a></li>
+            <li><a href="https://eeharbor.com/assets">Assets</a></li>
+        </ul>
+        <figure>
+            <img
+                class="w-full"
+                src="{{ siteUrl('/assets/img/software/ansel-ee/documentation/ansel-field-options.png') }}"
+                srcset="{{ siteUrl('/assets/img/software/ansel-ee/documentation/ansel-field-options.png') }} 1x, {{ siteUrl('/assets/img/software/ansel-ee/documentation/ansel-field-options-2x.png') }} 2x"
+                alt="Ansel Field Options"
+            >
+            <figcaption>Ansel Field Options</figcaption>
+        </figure>
+
+        <hr>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Upload and Save Locations',
+            level: 'h2',
+        } only %}
+        <p>The first two settings for any Ansel field are very related and require a tiny bit of explanation.</p>
+        <p>The Upload directory is where source images are drawn from or uploaded to. It is meant to be a user facing directory &mdash; the one your users will see when they add an image to an Ansel field.</p>
+        <p>The save directory is where Ansel saves images the user crops or otherwise adds to the field. The end user should not ever need to see this directory. Ansel names the files with image IDs and timestamps for cache breaking purposes and so on when the user updates the images in any field.</p>
+
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block content %}
+                <p>There are a few different approaches and ways of thinking about this. You could create a source and save directory for each field and keep everything separate, or you could create one general upload directory for all source images, and a save directory for each field. Either approach has its merits. Either way, it is highly recommended that you create a save directory for each field you create. This allows you to keep your images well segregated and create unique image manipulations per directory and field as well.</p>
+            {% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Min and Max Quantity',
+            level: 'h2',
+        } only %}
+        <p>Each Ansel field can hold any number of images, and these settings allow you to define how few and how many images a field can hold.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Image Quality',
+            level: 'h2',
+        } only %}
+        <p>Set the JPEG quality from 1 to 100.</p>
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block content %}
+                <p>It is not normally a good idea to set the quality to 100. Anywhere from 70 to 90 is usually a good area to be in terms of quality vs. file size.</p>
+            {% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Force JPEG',
+            level: 'h2',
+        } only %}
+        <p>Normally, image files are manipulated and saved in their original format. However, if you want all images to be saved as JPEG, you can specify so with this setting.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Retina Mode',
+            level: 'h2',
+        } only %}
+        <p>When set to yes, the dimensions you enter for min/max width/height below will all be doubled. This allows you to set dimensions based on how you would think or normally specify dimensions in CSS, but doubles those dimensions so that your images will be retina ready.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Min/Max Width/Height',
+            level: 'h2',
+        } only %}
+        <p>Use these fields to define image dimension requirements. Ansel will ensure that the image the user selects is at least as large as the minimum dimensions specified and that they cannot select a crop smaller than that. And Ansel will resize the image to meet the maximum specified size if the user selects a crop are that is larger than specified.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Crop Ratio',
+            level: 'h2',
+        } only %}
+        <p>Enter a crop ratio to make sure the image is constrained to a certain aspect. The ratio is entered as 16:9, where the first number on the left side of the colon is the width of the ratio, and the number on the right side of the colon is the height of the ratio.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Display Fields',
+            level: 'h2',
+        } only %}
+        <p>There are three optional fields that can be set to show or hide, required, and the label of the fields can be customized. The title and caption fields are text input fields, and the cover field is a checkbox. Only one can be selected per field.</p>
+    {% endapply %}
+{% endblock %}

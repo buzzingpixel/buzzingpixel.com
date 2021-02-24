@@ -21,19 +21,19 @@
 
         {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
             heading: 'Min and Max Quantity',
-            level: 'h3',
+            level: 'h2',
         } only %}
         <p>Each Ansel field can hold any number of images, and these settings allow you to define how few and how many images a field can hold.</p>
 
         {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
             heading: 'Prevent file uploads when max quantity reached',
-            level: 'h3',
+            level: 'h2',
         } only %}
         <p>Normally, Ansel will allow uploads beyond max quantity gray them out to indicate they will not be displayed. This is great for preparing images for later. But rarely you need to keep those images from uploading at all.</p>
 
         {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
             heading: 'Image Quality',
-            level: 'h3',
+            level: 'h2',
         } only %}
         <p>Set the image quality from 1 to 100. This setting will affect both JPEGs and PNGs. JPEGs use every increment, while PNGs only use increments up to 10. Ansel works behind the scenes convert this setting for PNGs.</p>
         {% embed 'Http/Components/Note.twig' only %}
@@ -44,31 +44,31 @@
 
         {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
             heading: 'Force JPEG',
-            level: 'h3',
+            level: 'h2',
         } only %}
         <p>Normally, image files are manipulated and saved in their original format. However, if you want all images to be saved as JPEG, you can specify so with this setting.</p>
 
         {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
             heading: 'Retina Mode',
-            level: 'h3',
+            level: 'h2',
         } only %}
         <p>When set to yes, the dimensions you enter for min/max width/height below will all be doubled. This allows you to set dimensions based on how you would think or normally specify dimensions in CSS, but doubles those dimensions so that your images will be retina ready.</p>
 
         {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
             heading: 'Min/Max Width/Height',
-            level: 'h3',
+            level: 'h2',
         } only %}
         <p>Use these fields to define image dimension requirements. Ansel will ensure that the image the user selects is at least as large as the minimum dimensions specified and that they cannot select a crop smaller than that. And Ansel will resize the image to meet the maximum specified size if the user selects a crop area that is larger than specified.</p>
 
         {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
             heading: 'Ratio',
-            level: 'h3',
+            level: 'h2',
         } only %}
         <p>Enter a ratio to make sure the image is constrained to a certain aspect. The ratio is entered as 16:9, where the first number on the left side of the colon is the width of the ratio, and the number on the right side of the colon is the height of the ratio.</p>
 
         {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
             heading: 'Display Fields',
-            level: 'h3',
+            level: 'h2',
         } only %}
         <p>There are three optional fields that can be set to show or hide, required, and the label of the fields can be customized. The title and caption fields are text input fields, and the cover field is a checkbox. Only one can be selected per field.</p>
     {% endapply %}

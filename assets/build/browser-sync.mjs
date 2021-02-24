@@ -6,13 +6,13 @@ const appDir = process.cwd();
 const cssCacheBreakFile = `${appDir}/public/assets/css//**`;
 const jsOutputDir = `${appDir}/public/assets/js//**`;
 const srcDir = `${appDir}/src//**`;
-const contentDir = `${appDir}/content//**`;
+const configDir = `${appDir}/config//**`;
 
 const watchFiles = [
     cssCacheBreakFile,
     jsOutputDir,
     srcDir,
-    contentDir,
+    configDir,
     '!*.diff',
     '!*.err',
     '!*.log',
