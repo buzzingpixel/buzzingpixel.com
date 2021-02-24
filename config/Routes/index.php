@@ -17,6 +17,7 @@ use App\Http\Response\Software\AnselCraft\Documentation\V2\AnselCraftDocTemplati
 use App\Http\Response\Software\AnselEE\AnselEEAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2DocIndexAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeSettingsAction;
+use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeUseAction;
 use App\Http\Response\Software\SoftwareAction;
 use Slim\App;
 
@@ -55,4 +56,5 @@ return static function (App $app): void {
     // Ansel for EE Current Docs
     $app->get(pattern: '/software/ansel-ee/documentation', callable: AnselEEV2DocIndexAction::class);
     $app->get(pattern: '/software/ansel-ee/documentation/field-type-settings', callable: AnselEEV2FieldTypeSettingsAction::class);
+    $app->get(pattern: '/software/ansel-ee/documentation/field-type-use', callable: AnselEEV2FieldTypeUseAction::class);
 };
