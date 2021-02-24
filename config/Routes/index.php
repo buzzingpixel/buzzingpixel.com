@@ -15,6 +15,7 @@ use App\Http\Response\Software\AnselCraft\Documentation\V2\AnselCraftDocFieldTyp
 use App\Http\Response\Software\AnselCraft\Documentation\V2\AnselCraftDocIndexAction;
 use App\Http\Response\Software\AnselCraft\Documentation\V2\AnselCraftDocTemplatingAction;
 use App\Http\Response\Software\AnselEE\AnselEEAction;
+use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2DocIndexAction;
 use App\Http\Response\Software\SoftwareAction;
 use Slim\App;
 
@@ -49,4 +50,7 @@ return static function (App $app): void {
      * Ansel for ExpressionEngine
      */
     $app->get(pattern: '/software/ansel-ee', callable: AnselEEAction::class);
+
+    // Ansel for EE Current Docs
+    $app->get(pattern: '/software/ansel-ee/documentation', callable: AnselEEV2DocIndexAction::class);
 };

@@ -19,6 +19,7 @@ class AnselCraftDocVariables
         ],
         ['content' => 'Documentation (V1 Legacy)'],
     ];
+
     public const V2_BREADCRUMB_TRAIL = [
         [
             'content' => 'Software',
