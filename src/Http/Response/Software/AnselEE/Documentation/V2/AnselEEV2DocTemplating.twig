@@ -1,0 +1,280 @@
+{% extends 'Http/_Infrastructure/_LayoutDocumentation.twig' %}
+
+{% block content %}
+    {% apply smartypants %}
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Tag Pair',
+            level: 'h2',
+        } only %}
+        <p>The tag pair is how you output Ansel images. Whether you are using the custom field tag within a Channel Entry tag pair, a Grid field tag pair, a Bloqs field tag pair, a Low Variables tag pair, or the stand alone tag pair, usage is almost identical across the tags. In fact, the only real difference is with the stand alone tag pair, which has just a few extra parameters available to it.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{exp:channel:entries channel="my_channel"}
+    {!-- Number of images in field --}
+    {my_ansel_field count="true"}
+
+    {!-- Check if field has images --}
+    {if "{my_ansel_field count='true'}" > 0}
+        // Do stuff if field has images
+    {/if}
+
+    {!-- Output images --}
+    {my_ansel_field}
+        {img:url}
+    {/my_ansel_field}
+
+    {!-- Output images from a grid field --}
+    {grid_field}
+        {grid_field:my_ansel_field}
+            {img:url}
+        {/grid_field:my_ansel_field}
+    {/grid_field}
+
+    {!-- Output images from a blocks field --}
+    {blocks_field}
+        {my_block}
+            {my_ansel_block_field}
+                {img:url}
+            {/my_ansel_block_field}
+        {/my_block}
+    {/blocks_field}
+{/exp:channel:entries}
+
+{!-- Output images from a Low Variables Ansel field --}
+{exp:low_variables:pair var="my_ansel_var"}
+    {img:url:resize width="500"}
+{/exp:low_variables:pair}
+
+{!-- Output images with the stand alone tag --}
+{exp:ansel:images content_id="102" field_id="33"}
+    {if img:no_results}
+        // Do no results markup here
+    {/if}
+    {img:url:resize width="400"}
+{/exp:ansel:images}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Tag Pair Parameters',
+            level: 'h3',
+        } only %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}image_id="104|105"
+not_image_id="106|110"
+
+site_id="2"
+not_site_id="1"
+
+file_id="2|3" // EE file id
+not_file_id="18|27"
+
+original_location_type="ee|assets" // Possible values: ee|assets|treasury
+not_original_location_type="treasury|ee"
+
+original_file_id="34|45"
+not_original_file_id="45|56"
+
+upload_location_type="assets|treasury" // Possible values: ee|assets|treasury
+not_upload_location_type="ee|assets"
+
+upload_location_id="34|45"
+not_upload_location_id="45|56"
+
+filename="my_file" // do not include extension
+not_filename="foo"
+
+extension="jpg"
+not_extension="jpg"
+
+original_extension="png"
+not_original_extension="png"
+
+filesize="182827"
+filesize="< 182827"
+filesize="> 182827"
+
+original_filesize="182827"
+original_filesize="< 182827"
+original_filesize="> 182827"
+
+width="300"
+width="< 300"
+width="> 300"
+
+height="300"
+height="< 300"
+height="> 300"
+
+title="my title|my other title"
+not_title="foo|baz"
+
+caption="my caption|my other caption"
+not_caption="foo|baz"
+
+member_id="23|24"
+not_member_id="56|23"
+
+position="2"
+position="< 2"
+position="> 2"
+
+cover_only="true"
+skip_cover="yes"
+show_disabled="y"
+
+namespace="my_namespace" // Access variables as {my_namespace:var}
+
+limit="4"
+
+offset="4"
+
+order_by="date:desc|order:asc"
+
+random="yes" // Overrides order_by parameter
+
+cover_first="yes"
+
+manipulations="true" // Include EE directory manipulations (requires extra queries)
+
+host="https://cdn.domain.com/"{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        <p>The following parameters are unique to the stand-alone image tag:</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}not_source_id="45|46"
+
+content_id="34|36" // Usually the entry id, but could be low variables id
+not_content_id="46|68"
+
+content_type="channel|grid" // Possible values: channel|grid|blocks|low_variables
+not_content_type="low_variables|channel"
+
+field_id="23|26"
+not_field_id="45|56"
+
+row_id="32|33" // Grid or Blocks
+not_row_id="444|745"
+
+col_id="43|44" // Grid or Blocks
+not_col_id="5|10"{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Tag Pair Variables',
+            level: 'h3',
+        } only %}
+
+        <p>Note all variable examples assume the default namespace of img. Use your custom namespace if you have set the namespace parameter.</p>
+
+        <p>These variables are available in the tag pair:</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{img:id}
+{img:site_id}
+{img:content_id}
+{img:field_id}
+{img:content_type}
+{img:row_id}
+{img:col_id}
+{img:file_id}
+{img:original_file_id}
+{img:upload_location_id}
+{img:filename}
+{img:original_filename}
+{img:basename}
+{img:original_basename}
+{img:extension}
+{img:original_extension}
+{img:filesize}
+{img:original_filesize}
+{img:width}
+{img:height}
+{img:title}
+{img:caption}
+{img:member_id}
+{img:position}
+{img:cover}
+{img:upload_date}
+{img:modify_date}
+{img:path}
+{img:original_path}
+{img:url}
+{img:original_url}
+{img:thumbnail_path}
+{img:thumbnail_url}
+{img:index}
+{img:count}
+{img:total_results}
+{img:host}
+{img:description_field}
+{img:credit_field}
+{img:location_field}
+{img:original_description_field}
+{img:original_credit_field}
+{img:original_location_field}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        <p>When you have made manipulations available with the parameter <code>manipulations="true"</code>, they will be available as follows:</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{img:manipulation_name:path}
+{img:manipulation_name:url}
+{img:manipulation_name:width}
+{img:manipulation_name:height}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'No Results',
+            level: 'h3',
+        } only %}
+
+        <p>If your tag pair has no results, you can use the <code>{if img:no_results}</code> conditional to output content.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'On the Fly Cropping and Resizing',
+            level: 'h3',
+        } only %}
+
+        <p>Ansel can crop and resize images on the fly. Doing so is very efficient because the cropped/resized image is cached after the first request for it is made. Any request for that cropped/resized image thereafter comes straight from the cache on disk.</p>
+
+        <p>Cropping/resizing is available to the <code>{img:url}</code> variable.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}width="400"
+height="100"
+crop="true"
+background="d34747"
+force_jpg="true"
+quality="80"
+scale_up="true"
+cache_time="86400" // Defaults to forever{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{img:url:resize
+    width="400"
+    height="100"
+    crop="true"
+    background="d34747"
+    force_jpg="true"
+    quality="80"
+    scale_up="true"
+}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Get Total',
+            level: 'h3',
+        } only %}
+
+        <p>Sometimes you would like to display the total number of images in a field. Ansel makes this really easy with a parameter on the custom field tag:</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{exp:channel:entries channel="my_channel"}
+    {my_ansel_field count="true"}
+{/exp:channel:entries}{% endverbatim %}{% endblock %}
+        {% endembed %}
+    {% endapply %}
+{% endblock %}
