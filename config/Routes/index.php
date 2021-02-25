@@ -23,6 +23,8 @@ use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeSettin
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeUseAction;
 use App\Http\Response\Software\SoftwareAction;
 use App\Http\Response\Software\Treasury\TreasuryAction;
+use App\Http\Response\Software\Treasury\TreasuryChangelogAction;
+use App\Http\Response\Software\Treasury\TreasuryChangelogItemAction;
 use Slim\App;
 
 return static function (App $app): void {
@@ -69,4 +71,6 @@ return static function (App $app): void {
      * Treasury
      */
     $app->get(pattern: '/software/treasury', callable: TreasuryAction::class);
+    $app->get(pattern: '/software/treasury/changelog', callable: TreasuryChangelogAction::class);
+    $app->get(pattern: '/software/treasury/changelog/{slug:[^\/]+}', callable: TreasuryChangelogItemAction::class);
 };
