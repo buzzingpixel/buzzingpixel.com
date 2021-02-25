@@ -22,6 +22,7 @@ use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2DocTemplatingAc
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeSettingsAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeUseAction;
 use App\Http\Response\Software\SoftwareAction;
+use App\Http\Response\Software\Treasury\TreasuryAction;
 use Slim\App;
 
 return static function (App $app): void {
@@ -63,4 +64,9 @@ return static function (App $app): void {
     $app->get(pattern: '/software/ansel-ee/documentation/field-type-settings', callable: AnselEEV2FieldTypeSettingsAction::class);
     $app->get(pattern: '/software/ansel-ee/documentation/field-type-use', callable: AnselEEV2FieldTypeUseAction::class);
     $app->get(pattern: '/software/ansel-ee/documentation/templating', callable: AnselEEV2DocTemplatingAction::class);
+
+    /**
+     * Treasury
+     */
+    $app->get(pattern: '/software/treasury', callable: TreasuryAction::class);
 };

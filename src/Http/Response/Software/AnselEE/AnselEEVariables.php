@@ -16,7 +16,7 @@ class AnselEEVariables
             'content' => 'Documentation',
         ],
         [
-            'uri' => '/software/ansel-ee/changelog',
+            'uri' => self::CHANGELOG_BASE_URI,
             'content' => 'Changelog',
         ],
     ];

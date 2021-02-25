@@ -1,0 +1,80 @@
+{# @var \App\Http\Response\Software\Treasury\TreasuryVariables::NAV navItems #}
+
+{% extends 'Http/_Infrastructure/_Layout.twig' %}
+
+{% block content %}
+    {# Nav #}
+    {% include 'Http/Components/NavBar.twig' with {
+        navItems: navItems,
+    } only %}
+
+    {# Hero #}
+    {# TODO: Image sizes here #}
+    {% embed 'Http/Components/Hero.twig' with {
+        image: {
+            src: siteUrl('/assets/img/ansel-craft-desktop-2x.jpg'),
+            alt: 'Treasury Screenshot',
+        },
+        ctas: ctas,
+    } only %}
+        {% block heading %}
+            Treasury
+        {% endblock %}
+        {% block subHeading %}
+            for ExpressionEngine
+        {% endblock %}
+        {% block content %}
+            Treasury stores files locally, on Amazon S3, or any FTP/SFTP location and comes with a full developer API so that developers can take advantage of public methods for uploading and manipulating files.
+        {% endblock %}
+    {% endembed %}
+
+    {# TODO: Image sizes here #}
+    {% embed 'Http/Components/FeatureLeftContentRightImage.twig' with {
+        image: {
+            src: siteUrl('/assets/img/ansel2-field-type-tablet-desktop-2x.png'),
+            alt: 'Ansel for Craft Field Type',
+        }
+    } only %}
+        {% block content %}
+            <div class="prose">
+                <h2 class="text-3xl font-extrabold tracking-tight text-gray-900">
+                    File Storage The Right Way
+                </h2>
+                <p class="mt-4 text-lg text-gray-500">
+                    If you need to store files on a CDN such as Amazon S3, or other SFTP/FTP capable location, Treasury is the solution you need!
+                </p>
+                <p class="mt-4 text-lg text-gray-500">
+                    Treasury makes setting up your file locations easy. Use any Amazon S3 bucket, use private key authentication for SFTP &mdash; whether it's a key on your server, or a specific key to your location, or use standard FTP.
+                </p>
+            </div>
+        {% endblock %}
+    {% endembed %}
+
+    {# TODO: Image sizes here #}
+    <div class="relative py-16 bg-gray-200 overflow-hidden">
+        <div class="relative px-4 sm:px-6 lg:px-8">
+            <div class="text-lg max-w-prose mx-auto">
+                <h1 class="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Ansel Integration
+                </h1>
+                <p class="mt-8 text-xl text-gray-500 leading-8">
+                    Treasury also integrate with Ansel &mdash; an ExpressionEngine field type for specifying image constraints, cropping images, and manipulating images so that you'll never have to worry about your image fitting in the right context again.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    {# CTA #}
+    {% embed 'Http/Components/SimpleCtaSection.twig' with {
+        ctas: ctas,
+    } only %}
+        {% block heading %}
+            Get Started with Treasury
+        {% endblock %}
+        {% block content %}
+            <p class="mt-4 text-lg leading-6 text-gray-100">
+                Get started with Treasury today by purchasing a site license! Once you've purchased Treasury, a license will be added to your account and you'll be able to download and use Treasury right away.
+            </p>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

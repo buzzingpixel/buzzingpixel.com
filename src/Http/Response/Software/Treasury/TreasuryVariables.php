@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Software\AnselCraft;
+namespace App\Http\Response\Software\Treasury;
 
-class AnselCraftVariables
+class TreasuryVariables
 {
     public const NAV = [
         [
-            'uri' => '/software/ansel-craft',
+            'uri' => '/software/treasury',
             'content' => 'Features',
         ],
         [
-            'uri' => '/software/ansel-craft/documentation',
+            'uri' => '/software/treasury/documentation',
             'content' => 'Documentation',
         ],
         [
@@ -21,5 +21,5 @@ class AnselCraftVariables
         ],
     ];
 
-    public const CHANGELOG_BASE_URI = '/software/ansel-craft/changelog';
+    public const CHANGELOG_BASE_URI = '/software/treasury/changelog';
 }
