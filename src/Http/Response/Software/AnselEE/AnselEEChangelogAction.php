@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Software\AnselCraft;
+namespace App\Http\Response\Software\AnselEE;
 
 use App\Content\Changelog\ParseChangelogFromMarkdownFile;
 use App\Http\Entities\Meta;
+use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment as TwigEnvironment;
@@ -13,12 +14,13 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class AnselCraftChangelogAction
+class AnselEEChangelogAction
 {
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
         private TwigEnvironment $twig,
-        private ParseChangelogFromMarkdownFile $parseChangelogFromMarkdownFile
+        private ParseChangelogFromMarkdownFile $parseChangelogFromMarkdownFile,
+        private General $generalConfig,
     ) {
     }
 
@@ -37,14 +39,14 @@ class AnselCraftChangelogAction
                 name: 'Http/Changelog/ChangelogTemplate.twig',
                 context: [
                     'meta' => new Meta(
-                        metaTitle: 'Ansel for Craft CMS Changelog',
+                        metaTitle: 'Ansel for ExpressionEngine Changelog',
                     ),
-                    'heading' => 'Ansel for Craft Changelog',
-                    'navItems' => AnselCraftVariables::NAV,
+                    'heading' => 'Ansel for ExpressionEngine Changelog',
+                    'navItems' => AnselEEVariables::NAV,
                     'changelog' => $this->parseChangelogFromMarkdownFile->parse(
-                        location: 'https://raw.githubusercontent.com/buzzingpixel/ansel-craft/master/changelog.md'
+                        location: $this->generalConfig->rootPath() . '/src/Http/Response/Software/AnselEE/AnselEEChangelog.md',
                     ),
-                    'baseUri' => AnselCraftVariables::CHANGELOG_BASE_URI,
+                    'baseUri' => AnselEEVariables::CHANGELOG_BASE_URI,
                 ],
             ),
         );

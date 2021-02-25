@@ -1,4 +1,5 @@
-{# @var \App\Http\Response\Software\AnselCraft\AnselCraftVariables::NAV navItems #}
+{# @var string heading #}
+{# @var array navItems #}
 {# @var \App\Content\Changelog\ChangelogPayload changelog #}
 {# @var string baseUri #}
 
@@ -9,6 +10,16 @@
     {% include 'Http/Components/NavBar.twig' with {
         navItems: navItems,
     } only %}
+
+    <div class="relative bg-white overflow-hidden">
+        <div class="relative px-4 sm:px-6 lg:px-8">
+            <div class="text-lg max-w-prose mx-auto">
+                <h1 class="text-4xl font-extrabold text-aqua-deep sm:tracking-tight mb-0 mt-8">
+                    {{ heading }}
+                </h1>
+            </div>
+        </div>
+    </div>
 
     {# Changelog #}
     {% for release in changelog.releases %}

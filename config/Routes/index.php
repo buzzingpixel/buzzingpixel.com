@@ -15,6 +15,8 @@ use App\Http\Response\Software\AnselCraft\Documentation\V2\AnselCraftDocFieldTyp
 use App\Http\Response\Software\AnselCraft\Documentation\V2\AnselCraftDocIndexAction;
 use App\Http\Response\Software\AnselCraft\Documentation\V2\AnselCraftDocTemplatingAction;
 use App\Http\Response\Software\AnselEE\AnselEEAction;
+use App\Http\Response\Software\AnselEE\AnselEEChangelogAction;
+use App\Http\Response\Software\AnselEE\AnselEEChangelogItemAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2DocIndexAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2DocTemplatingAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeSettingsAction;
@@ -53,6 +55,8 @@ return static function (App $app): void {
      * Ansel for ExpressionEngine
      */
     $app->get(pattern: '/software/ansel-ee', callable: AnselEEAction::class);
+    $app->get(pattern: '/software/ansel-ee/changelog', callable: AnselEEChangelogAction::class);
+    $app->get(pattern: '/software/ansel-ee/changelog/{slug:[^\/]+}', callable: AnselEEChangelogItemAction::class);
 
     // Ansel for EE Current Docs
     $app->get(pattern: '/software/ansel-ee/documentation', callable: AnselEEV2DocIndexAction::class);
