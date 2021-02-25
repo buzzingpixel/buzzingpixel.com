@@ -1,0 +1,267 @@
+{% extends 'Http/_Infrastructure/_LayoutDocumentation.twig' %}
+
+{% block content %}
+    {% apply smartypants %}
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Location Types',
+            level: 'h2',
+        } only %}
+        <p>There are 4 types of locations Treasury can store files in:</p>
+        <ul>
+            <li>Local</li>
+            <li>Amazon S3</li>
+            <li>SFTP</li>
+            <li>FTP</li>
+        </ul>
+        <p>These are fairly self explanatory and do just what you would expect. Each type will have slightly different settings.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Common Location Settings',
+            level: 'h3',
+        } only %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Name (required)',
+            id: 'nameCommon',
+            level: 'h4',
+        } only %}
+        <p>This is the friendly name of the location and can be anything you want.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Handle (required)',
+            id: 'handleCommon',
+            level: 'h4',
+        } only %}
+        <p>This is the programatic name for your location. It must be Alpha Dash (alpha plus dashes and underscores).</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Allowed File Types (required)',
+            id: 'allowedFileTypesCommon',
+            level: 'h4',
+        } only %}
+        <p>This lets you determine whether the location should accept all file types or just images.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Type (required)',
+            id: 'typeCommon',
+            level: 'h4',
+        } only %}
+        <p>The type switcher determines which of the four types this location is. The options are Local, Amazon S3, SFTP, and FTP. As you select from the four different types, the available settings fields will update accordingly.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Local Location Settings',
+            level: 'h3',
+        } only %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Location URL (required)',
+            id: 'locationUrlLocal',
+            level: 'h4',
+        } only %}
+        <p>This should be the full URL used to get to the location.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Location Path (required)',
+            id: 'locationPathCommon',
+            level: 'h4',
+        } only %}
+        <p>This should be the full server path to the location on disk.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Amazon S3 Location Settings',
+            level: 'h3',
+        } only %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Access Key ID (required)',
+            id: 'accessKeyIdS3',
+            level: 'h4',
+        } only %}
+        <p>The Access Key ID from your bucket’s generated credentials.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Secret Access Key (required)',
+            id: 'secretAccessKeyS3',
+            level: 'h4',
+        } only %}
+        <p>The Secret Access Key from your bucket’s generated credentials.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Bucket Region (required)',
+            id: 'bucketRegionS3',
+            level: 'h4',
+        } only %}
+        <p>Select the region your bucket is in.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Bucket (required)',
+            id: 'bucketS3',
+            level: 'h4',
+        } only %}
+        <p>The name of your bucket.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Subfolder',
+            id: 'subfolderS3',
+            level: 'h4',
+        } only %}
+        <p>Optionally specify a subfolder you would like to use on the specified bucket.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Location URL (required)',
+            id: 'locationUrlS3',
+            level: 'h4',
+        } only %}
+        <p>The bucket’s URL (do not include sub-folders).If you set up a CNAME for the bucket use it here. Otherwise use the format <code>http://s3.amazonaws.com/mybucketname</code> or <code>http://s3-eu-west-1.amazonaws.com/mybucketname</code> (etc. depending on the bucket region).</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'SFTP Location Settings',
+            level: 'h3',
+        } only %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Server (required)',
+            id: 'serverSftp',
+            level: 'h4',
+        } only %}
+        <p>The IP address or domain name of the SFTP server your files will be uploaded to.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Username (required)',
+            id: 'usernameSftp',
+            level: 'h4',
+        } only %}
+        <p>The username to log in to the SFTP server.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Password',
+            id: 'passwordSftp',
+            level: 'h4',
+        } only %}
+        <p>If you are logging in with a password, enter it here. If you are logging in with a private key, and the key requires a password, enter it here. Otherwise this can be left blank.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Private Key',
+            id: 'privateKeySftp',
+            level: 'h4',
+        } only %}
+        <p>You can paste a private key in here.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Private Key Path',
+            id: 'privateKeyPathSftp',
+            level: 'h4',
+        } only %}
+        <p>To use a private key on your server, specify the full server path here. This overrides the Private Key setting.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Use Config Private Key Path',
+            id: 'useConfigPrivateKeyPathSftp',
+            level: 'h4',
+        } only %}
+        <p>If you have specified a private key path in your config file (see below), this option is available. When set to yes, this overrides the two key settings above.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Port (required)',
+            id: 'portSftp',
+            level: 'h4',
+        } only %}
+        <p>If your SFTP server uses a custom port, enter it here. Otherwise use the default port 22.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Remote Path',
+            id: 'remotePathSftp',
+            level: 'h4',
+        } only %}
+        <p>Set the remote server path for your upload location.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Location URL (required)',
+            id: 'locationUrlSftp',
+            level: 'h4',
+        } only %}
+        <p>This should be the full URL used to get to the location.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'FTP Location Settings',
+            level: 'h3',
+        } only %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Server (required)',
+            id: 'serverFtp',
+            level: 'h4',
+        } only %}
+        <p>The IP address or domain name of the SFTP server your files will be uploaded to.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Username (required)',
+            id: 'usernameFtp',
+            level: 'h4',
+        } only %}
+        <p>The username to log in to the SFTP server.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Password',
+            id: 'passwordFtp',
+            level: 'h4',
+        } only %}
+        <p>If you are logging in with a password, enter it here.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Port (required)',
+            id: 'portFtp',
+            level: 'h4',
+        } only %}
+        <p>If your FTP server uses a custom port, enter it here. Otherwise use the default port 22.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Remote Path',
+            id: 'remotePathFtp',
+            level: 'h4',
+        } only %}
+        <p>Set the remote server path for your upload location.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Location URL (required)',
+            id: 'locationUrlFtp',
+            level: 'h4',
+        } only %}
+        <p>This should be the full URL used to get to the location.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'File Config',
+            level: 'h3',
+        } only %}
+        <p>Treasury locations can also be controlled in your ExpressionEngine config file (version control ALL THE THINGS!).</p>
+        <p>Here is what the config looks like:</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$config['treasury'] = array(
+    'private_key_path' => '/var/user/.ssh/id_rsa',
+    'locations' => array(
+        // Location handle
+        'bzpxl-test-bucket' => array(
+            'name' => 'My Location', // Common to all location types
+            'type' => 'amazon_s3', // local|amazon_s3|sftp|ftp
+            'allowed_file_types'=> 'images_only', // images_only|all_file_types
+            'url' => 'https://s3.amazonaws.com/mybucket/', // Location URL common to all locations types
+            'path' => '', // Path on disk for local type only
+            'access_key_id' => '******', // Amazon S3,
+            'secret_access_key' => '******', // Amazon S3
+            'bucket_region' => 'us-east-1', // Amazon S3 - must match a bucket region value for Amazon S3
+            'subfolder' => 'mysubdirectory', // Amazon S3
+            'server' => '', // Common to SFTP and FTP
+            'username' => '', // Common to SFTP and FTP
+            'password' => '', // Common to SFTP and FTP
+            'private_key' => '', // SFTP
+            'private_key_path' => '', // SFTP
+            'use_config_private_key_path' => true, // SFTP
+            'port' => '22', // Common to SFTP and FTP
+            'remote_path' => '' // Common to SFTP and FTP
+        )
+    )
+);{% endverbatim %}{% endblock %}
+        {% endembed %}
+    {% endapply %}
+{% endblock %}
