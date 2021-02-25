@@ -1,0 +1,69 @@
+{% extends 'Http/_Infrastructure/_LayoutDocumentation.twig' %}
+
+{% block content %}
+    {% apply smartypants %}
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'System Requirements',
+            level: 'h2',
+        } only %}
+
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block content %}
+                <p>Please note that Treasury’s PHP requirements are higher than ExpressionEngine’s because of the Amazon AWS PHP SDK requirements.</p>
+            {% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'General requirements',
+            level: 'h3',
+        } only %}
+        <ul>
+            <li>ExpressionEngine 3.5.0 or greater</li>
+            <li>PHP 5.5 or newer compiled with GD (or GD 2) library</li>
+            <li>MySQL 5.5.3 or newer</li>
+            <li>
+                At least 256 megabytes of memory allocated and available to PHP
+                <ul>
+                    <li>512 megabytes is recommended (and more if you can spare it).</li>
+                </ul>
+            </li>
+        </ul>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Control panel interface use requirements',
+            level: 'h3',
+        } only %}
+        <ul>
+            <li>Internet Explorer 11 or greater</li>
+            <li>Chrome (tested with 47.0.2526.106)</li>
+            <li>Firefox (tested with 41.0.2)</li>
+            <li>Safari (Mac) (tested with 9.0.2)</li>
+        </ul>
+
+        <hr>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Installing Or Updating',
+            level: 'h2',
+        } only %}
+        <p>Installing and updating Treasury is very easy.</p>
+        <ul>
+            <li>Download the Treasury zip file and unzip it</li>
+            <li>
+                Copy system/user/addons/treasury to the same directory location in your EE instance
+                <ul>
+                    <li>If you are updating, replace the existing treasury directory</li>
+                </ul>
+            </li>
+            <li>
+                Copy themes/user/treasury to the same directory location in your EE instance
+                <ul>
+                    <li>If you are updating, replace the existing treasury directory</li>
+                </ul>
+            </li>
+            <li>Log in to your EE control panel and navigate to the Add-on Manager</li>
+            <li>Scroll down to the "Third Party" section, locate "Treasury" in the list and click "Install" or "Update"</li>
+        </ul>
+        <p>Treasury is now installed or updated.</p>
+    {% endapply %}
+{% endblock %}

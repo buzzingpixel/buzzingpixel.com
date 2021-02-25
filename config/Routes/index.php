@@ -22,6 +22,7 @@ use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2DocTemplatingAc
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeSettingsAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeUseAction;
 use App\Http\Response\Software\SoftwareAction;
+use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocIndexAction;
 use App\Http\Response\Software\Treasury\TreasuryAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogItemAction;
@@ -73,4 +74,7 @@ return static function (App $app): void {
     $app->get(pattern: '/software/treasury', callable: TreasuryAction::class);
     $app->get(pattern: '/software/treasury/changelog', callable: TreasuryChangelogAction::class);
     $app->get(pattern: '/software/treasury/changelog/{slug:[^\/]+}', callable: TreasuryChangelogItemAction::class);
+
+    // Treasury docs
+    $app->get(pattern: '/software/treasury/documentation', callable: TreasuryV1DocIndexAction::class);
 };
