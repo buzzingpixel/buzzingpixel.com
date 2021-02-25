@@ -24,6 +24,7 @@ use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeUseAct
 use App\Http\Response\Software\SoftwareAction;
 use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocIndexAction;
 use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocLocationAction;
+use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocTemplateTagsAction;
 use App\Http\Response\Software\Treasury\TreasuryAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogItemAction;
@@ -79,4 +80,5 @@ return static function (App $app): void {
     // Treasury docs
     $app->get(pattern: '/software/treasury/documentation', callable: TreasuryV1DocIndexAction::class);
     $app->get(pattern: '/software/treasury/documentation/locations', callable: TreasuryV1DocLocationAction::class);
+    $app->get(pattern: '/software/treasury/documentation/template-tags', callable: TreasuryV1DocTemplateTagsAction::class);
 };

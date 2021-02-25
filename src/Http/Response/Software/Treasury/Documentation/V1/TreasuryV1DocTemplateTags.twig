@@ -1,0 +1,113 @@
+{% extends 'Http/_Infrastructure/_LayoutDocumentation.twig' %}
+
+{% block content %}
+    {% apply smartypants %}
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Tag Parameters',
+            level: 'h2',
+        } only %}
+
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block content %}
+                <p>All parameters with an <code>_operator</code> suffix take the following values:</p>
+                <ul>
+                    <li>==</li>
+                    <li>!=</li>
+                    <li><</li>
+                    <li>></li>
+                    <li><=</li>
+                    <li>>=</li>
+                    <li>IN</li>
+                    <li>NOT IN</li>
+                </ul>
+            {% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{exp:treasury:files
+    id="38|45"
+    id_operator="!="
+
+    location_id="1|3"
+    location_id_operator="NOT IN"
+
+    site_id="1|3"
+    site_id_operator="IN"
+
+    file_name="my_file.jpg"
+    file_name_operator="=="
+
+    uploaded_by_member_id="2|6"
+    uploaded_by_member_id_operator="!="
+
+    modified_by_member_id="2|6"
+    modified_by_member_id_operator="!="
+
+    width="200"
+    width_operator=">"
+
+    height="200"
+    height_operator="<"
+
+    limit="10"
+    offset="10"
+
+    order="file_name"
+    sort="asc"
+
+    namespace="my_namespace"
+}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Single Tag',
+            level: 'h2',
+        } only %}
+        <p><code>{my_field}</code></p>
+        <p><code>{exp:treasury:files}</code></p>
+        <p>Using the tags as a single tag (not a tag pair), will output the matching file's URL.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Tag Pair',
+            level: 'h2',
+        } only %}
+        <p><code>{my_field}{treasury:file_url}{/my_field}</code></p>
+        <p><code>{exp:treasury:files}{treasury:file_url}{/exp:treasury:files}</code></p>
+        <p>The tag pair will loop through the matching images and make all variables available within the tag pair.</p>
+
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block content %}
+                <p>Examples assume the default namespace of <code>treasury</code>.</p>
+            {% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{exp:treasury:files}
+    {treasury:id}
+    {treasury:site_id}
+    {treasury:title}
+    {treasury:location_id}
+    {if treasury:is_image}This is an image{/if}
+    {treasury:mime_type}
+    {treasury:file_name}
+    {treasury:extension}
+    {treasury:file_size}
+    {treasury:description}
+    {treasury:uploaded_by_member_id}
+    {treasury:upload_date}
+    {treasury:modified_by_member_id}
+    {treasury:modified_date}
+    {treasury:height}
+    {treasury:width}
+    {treasury:file_url}
+    {treasury:thumb_url}
+    {treasury:index}
+    {treasury:count}
+    {treasury:total}
+    {treasury:total_results}
+
+    {if treasury:no_results}No Files Found{/if}
+{/exp:treasury:files}{% endverbatim %}{% endblock %}
+        {% endembed %}
+    {% endapply %}
+{% endblock %}
