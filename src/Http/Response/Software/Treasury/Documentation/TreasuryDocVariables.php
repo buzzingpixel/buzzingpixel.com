@@ -58,7 +58,7 @@ class TreasuryDocVariables
             'uri' => '/software/treasury/documentation/template-tags',
             'isActive' => false,
         ],
-        'templating' => [
+        'developers' => [
             'content' => 'Developers',
             'uri' => '/software/treasury/documentation/developers',
             'isActive' => false,

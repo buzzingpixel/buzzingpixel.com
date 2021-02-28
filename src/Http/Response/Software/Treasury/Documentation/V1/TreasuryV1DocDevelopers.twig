@@ -1,0 +1,520 @@
+{% extends 'Http/_Infrastructure/_LayoutDocumentation.twig' %}
+
+{% block content %}
+    {% apply smartypants %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'File Picker API',
+            level: 'h2',
+        } only %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}ee('treasury:FilePicker')->make(){% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        <p>The File Picker API lets you get a link or a URL to a file picker modal.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>make()</code>{% endblock %}
+        {% endembed %}
+        <p>Takes one optional argument of the location handle you would like the File Picker to use and returns the Treasury FilePicker service. The FilePicker service has the following methods:</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h4',
+        } only %}
+            {% block heading %}<code>setlocation()</code>{% endblock %}
+        {% endembed %}
+        <p>Set the location handle for the location you would like to use (defaults to all).</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h4',
+        } only %}
+            {% block heading %}<code>getUrl()</code>{% endblock %}
+        {% endembed %}
+        <p>Gets the URL to the location modal.</p>
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block content %}
+                <p>In order for Treasury to be able to instantiate a modal off of this URL, the link you build will need to have the class <code>js-treasury-filepicker</code>.</p>
+            {% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h4',
+        } only %}
+            {% block heading %}<code>getLink()</code>{% endblock %}
+        {% endembed %}
+        <p>Takes one optional argument of the text you would like to use for the <code>{{ '<a>'|escape }}</code> tag.</p>
+
+        <p>This method returns the Treasury <code>FilePicker\Link</code> service which you can use to build an HTML anchor link. The following methods are available from the <code>FilePicker\Link</code> service:</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h5',
+        } only %}
+            {% block heading %}<code>setAttribute($key, $val)</code>{% endblock %}
+        {% endembed %}
+
+        <p>Allows you to add attributes to the <code>{{ '<a>'|escape }}</code> tag.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$link = ee('treasury:FilePicker')->make('my-location')
+    ->getLink('Click Me')
+    ->setAttribute('class', 'my-button');{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h5',
+        } only %}
+            {% block heading %}<code>addAttributes(array())</code>{% endblock %}
+        {% endembed %}
+        <p>Allows you to add multiple attributes to the <code>{{ '<a>'|escape }}</code> tag at once.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$link = ee('treasury:FilePicker')->make('my-location')
+    ->getLink('Click Me')
+    ->addAttributes(array(
+        'class' => 'my-button',
+        'id' => 'my-id'
+    ));{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h5',
+        } only %}
+            {% block heading %}<code>setText('Click Me')</code>{% endblock %}
+        {% endembed %}
+        <p>Set the text of the <code>{{ '<a>'|escape }}</code> tag.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$link = ee('treasury:FilePicker')->make('my-location')
+    ->getLink()
+    ->setText('Click Me');{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h5',
+        } only %}
+            {% block heading %}<code>setHtml($html)</code>{% endblock %}
+        {% endembed %}
+        <p>Set the HTML content of the <code>{{ '<a>'|escape }}</code> tag.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$link = ee('treasury:FilePicker')->make('my-location')
+    ->getLink()
+    ->setHtml('my html');{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h5',
+        } only %}
+            {% block heading %}<code>render()</code>{% endblock %}
+        {% endembed %}
+
+        <p>While the magic <code>__toString()</code> method will usually run the render method when needed, it may sometimes be necessary to manually run the render method to get your rendered HTML <code>{{ '<a>'|escape }}</code> tag. Here’s a full example:</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$link = ee('treasury:FilePicker')->make('my-location')
+    ->getLink('Click Me')
+    ->setAttribute('class', 'my-button')
+    ->render();{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'The JavaSript Side',
+            level: 'h3',
+        } only %}
+        <p>The button opens an EE modal and you can select a file, but you need to do something with it after it is selected. In order to do that, you need to set a callback on your button.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h4',
+        } only %}
+            {% block heading %}<code>$(‘.my-button-el’).TreasuryFilePicker()</code>{% endblock %}
+        {% endembed %}
+        <p>Use the <code>TreasuryFilePicker</code> jQuery plugin to set a callback function to use for your button instance.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$('.my-button-el').TreasuryFilePicker({
+    callback: function(file) {
+        console.log(file);
+    }
+});{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        <p>The first argument is an object with all the properties of the file, plus any of those properties that don’t match EE's file object translated.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Files API: Delete File By Path',
+            level: 'h2',
+        } only %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>ee('treasury:FilesAPI')->deleteFileByPath('my-location', 'file-name.zip')</code>{% endblock %}
+        {% endembed %}
+        <p>The <code>deleteFileByPath()</code> method takes a location handle and a filename and deletes that file.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$result = ee('treasury:FilesAPI')->deleteFileByPath('my-location', 'file-name.zip');{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Return Value',
+            level: 'h4',
+        } only %}
+
+        <p>The <code>deleteFileByPath()</code> method returns a Treasury <a href="#validationResultClass">Validation Result Class</a>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Files API: Delete Files By ID',
+            level: 'h2',
+        } only %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>ee('treasury:FilesAPI')->deleteFilesById(array(2, 45))</code>{% endblock %}
+        {% endembed %}
+        <p>The <code>deleteFilesById()</code> method takes and array of Treasury file IDs to delete.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$result = ee('treasury:FilesAPI')->deleteFilesById(array(2, 45));{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Return Value',
+            level: 'h4',
+        } only %}
+        <p>The <code>deleteFilesById()</code> method returns a Treasury<a href="#validationResultClass">Validation Result Class</a>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Files API: File Exists',
+            level: 'h2',
+        } only %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>ee('treasury:FilesAPI')->fileExists('my-location', 'file-name.png')</code>{% endblock %}
+        {% endembed %}
+        <p>The <code>fileExists()</code> method takes a location handle and a filename and checks if the file exists.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+            {% block codeContent %}{% verbatim %}$filesExists = ee('treasury:FilesAPI')->fileExists('my-location', 'file-name.zip');{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Return Value',
+            level: 'h4',
+        } only %}
+        <p>The <code>fileExists()</code> method returns a boolean.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Files API: Get Files',
+            level: 'h2',
+        } only %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>ee('treasury:FilesAPI')->getFiles()</code>{% endblock %}
+        {% endembed %}
+        <p>The <code>getFiles()</code> method acts as a factory for a Treasury Collection of Treasury Files models representing Treasury files.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+            {% block codeContent %}{% verbatim %}$fileModelsCollection = ee('treasury:FilesAPI')->getFiles();{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Filtering',
+            level: 'h4',
+        } only %}
+
+        <p>By default, the <code>getFiles()</code> method will get all files in the database ordered by upload date descending. But you can control what files are retrieved by filtering.</p>
+
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block content %}
+                <p>All filters can use the the following comparisons:</p>
+                <ul>
+                    <li>==</li>
+                    <li>!=</li>
+                    <li><</li>
+                    <li>></li>
+                    <li><=</li>
+                    <li>>=</li>
+                    <li>IN</li>
+                    <li>NOT IN</li>
+                </ul>
+            {% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$filesAPI = ee('treasury:FilesAPI')
+    ->filter('id', 'IN', array(38, 39))
+    ->filter('location_id', 2)
+    ->filter('site_id', 2) // defaults to current site
+    ->filter('file_name', 'my-file.jpg')
+    ->filter('uploaded_by_member_id', 4)
+    ->filter('modified_by_member_id', 2)
+    ->filter('width', '>', 200)
+    ->filter('height', '<', 300)
+    ->search('My Search Key Words') // Searches title, mime_type, file_name, and description
+    ->limit(4)
+    ->offset(8)
+    ->order('modified_date', 'asc') // second arg optional. Defaults to upload_date desc
+    // Order by values: upload_date|modified_date|title|file_name|mime_type
+
+$file = $filesAPI->getFirst();
+$files = $filesAPI->getFiles();
+$total = $filesAPI->getCount();{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Files API: Update File',
+            level: 'h2',
+        } only %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>ee('treasury:FilesAPI')->updateFile()</code>{% endblock %}
+        {% endembed %}
+        <p>This method lets you update the title and description of a file.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+            {% block codeContent %}{% verbatim %}$result = ee('treasury:FilesAPI')->updateFile(
+    15, // Required. ID of the file to update
+    'title', // Required. File title
+    'description' // Optional. Description.
+);{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Return Value',
+            level: 'h4',
+        } only %}
+
+        <p>The <code>updateFile()</code> method returns a Treasury <a href="#validationResultClass">Validation Result Class</a>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Locations API: Get All Locations',
+            level: 'h2',
+        } only %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>ee('treasury:LocationsAPI')->getAllLocations()</code>{% endblock %}
+        {% endembed %}
+        <p>The <code>getAllLocations()</code> method returns a Treasury collection of Treasury Locations models representing Treasury Locations. An argument can be passed in to control the order and sorting of locations.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+            {% block codeContent %}{% verbatim %}$locationsCollection = ee('treasury:LocationsAPI')->getAllLocations('name:desc');{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Locations API: Get Location By Handle',
+            level: 'h2',
+        } only %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>ee('treasury:LocationsAPI')->getLocationByHandle()</code>{% endblock %}
+        {% endembed %}
+        <p>The <code>getLocationByHandle()</code> method returns a Treasury Locations model representing the Treasury Location.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+            {% block codeContent %}{% verbatim %}$locationModel = ee('treasury:LocationsAPI')->getLocationByHandle('my-location');{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Locations API: Remove Location',
+            level: 'h2',
+        } only %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>ee('treasury:LocationsAPI')->removeLocation()</code>{% endblock %}
+        {% endembed %}
+        <p>Removes a location.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+            {% block codeContent %}{% verbatim %}$locationModel = ee('treasury:LocationsAPI')->removeLocation('my-location');{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Return Value',
+            level: 'h4',
+        } only %}
+        <p>The <code>removeLocation()</code> method returns a Treasury<a href="#validationResultClass">Validation Result Class</a>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Locations API: Save Location',
+            level: 'h2',
+        } only %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>ee('treasury:LocationsAPI')->saveLocation()</code>{% endblock %}
+        {% endembed %}
+
+        <p>This method allows you to save a new location or update an existing location.</p>
+
+        <p>The following example adds a new location.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+            {% block codeContent %}{% verbatim %}$saveData = array(
+    'name' => 'My Location',
+    'handle' => 'my_location',
+    'type' => 'amazon_s3',
+    'settings' => array(
+        'access_key_id' => 'xxx',
+        'secret_access_key' => 'xxx',
+        'bucket' => 'mybucket',
+        'subfolder' => 'mysubfolder', // optional
+        'url' => 'http://s3.amazonaws.com/mybucketname',
+        'allowed_file_types' => 'images_only'
+    )
+);
+
+$result = ee('treasury:LocationsAPI')->saveLocation($saveData);{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        <p>To update an existing location, provide the original location handle as the second argument.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+            {% block codeContent %}{% verbatim %}$result = ee('treasury:LocationsAPI')->saveLocation($saveData, 'my_old_location');{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Return Value',
+            level: 'h4',
+        } only %}
+        <p>The <code>saveLocation()</code> method returns a Treasury<a href="#validationResultClass">Validation Result Class</a>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Locations API: Save Location',
+            level: 'h2',
+        } only %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>ee('treasury:UploadAPI')->addFile()</code>{% endblock %}
+        {% endembed %}
+
+        <p>The <code>addFile()</code> method will upload the provided file and add it to the Treasury file manager and database.</p>
+
+        <p>Before you can call the <code>addFile</code> method, you must set:</p>
+
+        <ul>
+            <li>locationHandle</li>
+            <li>filePath</li>
+            <li>fileName</li>
+        </ul>
+
+        <p>You can optionally set:</p>
+
+        <ul>
+            <li>title</li>
+            <li>description</li>
+        </ul>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+            {% block codeContent %}{% verbatim %}$result = ee('treasury:UploadAPI')
+    ->locationHandle('my-location')
+    ->filePath('/path/to/file/on/disk.jpg')
+    ->fileName('nameYouWantUploadedFileTohave.png')
+    ->title('Optional Title')
+    ->description('Optional Description')
+    ->addFile();{% endverbatim %}{% endblock %}{% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Return Value',
+            level: 'h4',
+        } only %}
+        <p>The <code>addFile()</code> method returns a Treasury<a href="#validationResultClass">Validation Result Class</a>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Upload API: Upload File',
+            level: 'h2',
+        } only %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>ee('treasury:UploadAPI')->uploadFile()</code>{% endblock %}
+        {% endembed %}
+
+        <p>The uploadFile() method uploads a file to the provided location, but it is not added to the Treasury File Manager or database. You are responsible for knowing about the file and keeping track of it. Basically, Treasury is acting as a conduit to get your file to it’s selected location. You can use the Locations API to get the Locations Model and get the URL to the location for future display or retrieval of the file.</p>
+
+        <p>Before you can call the <code>uploadFile</code> method, you must set:</p>
+
+        <ul>
+            <li>locationHandle</li>
+            <li>filePath</li>
+            <li>fileName</li>
+        </ul>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+            {% block codeContent %}{% verbatim %}$result = ee('treasury:UploadAPI')
+    ->locationHandle('my-location')
+    ->filePath('/path/to/file/on/disk.jpg')
+    ->fileName('nameYouWantUploadedFileTohave.png')
+    ->uploadFile();{% endverbatim %}{% endblock %}{% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Return Value',
+            level: 'h4',
+        } only %}
+        <p>The <code>uploadFile()</code> method returns a Treasury<a href="#validationResultClass">Validation Result Class</a>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Validation Result Class',
+            level: 'h2',
+        } only %}
+
+        <p>The Validation Result Class is returned by Treasury whenever applicable. It has two properties:</p>
+
+        <ul>
+            <li><code>(bool) hasErrors</code></li>
+            <li><code>(array) errors</code></li>
+        </ul>
+
+        <p>Here's an example of how Treasury uses this internally:</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+            {% block codeContent %}{% verbatim %}// Run the upload
+$result = ee('treasury:UploadAPI')
+    ->locationHandle($this->locationModel->handle)
+    ->filePath($this->saveData['filePath'])
+    ->fileName($this->saveData['fileName'])
+    ->title($this->saveData['title'])
+    ->description($this->saveData['description'])
+    ->addFile();
+
+// Check if validation has errors
+if ($result->hasErrors) {
+    // Concatenate the errors
+    $errors = '<ul><li>' . implode('</li><li>', $result->errors) . '</li></ul>';
+
+    // Set errors
+    ee('CP/Alert')->makeInline('upload_errors')
+        ->asIssue()
+        ->canClose()
+        ->withTitle(lang('upload_errors'))
+        ->addToBody($errors)
+        ->defer();
+
+    // Redirect and show error
+    ee()->functions->redirect(
+        ee('CP/URL', "addons/settings/treasury/upload/{$this->locationId}")
+    );
+}{% endverbatim %}{% endblock %}{% endembed %}
+
+    {% endapply %}
+{% endblock %}
