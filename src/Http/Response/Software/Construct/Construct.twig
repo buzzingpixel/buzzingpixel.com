@@ -1,0 +1,125 @@
+{# @var \App\Http\Response\Software\Treasury\TreasuryVariables::NAV navItems #}
+
+{% extends 'Http/_Infrastructure/_Layout.twig' %}
+
+{% block content %}
+
+    {# Nav #}
+    {% include 'Http/Components/NavBar.twig' with {
+        navItems: navItems,
+    } only %}
+
+    {# Hero #}
+    {# TODO: Image sizes here #}
+    {% embed 'Http/Components/Hero.twig' with {
+        image: {
+            src: siteUrl('/assets/img/ansel-craft-desktop-2x.jpg'),
+            alt: 'Treasury Screenshot',
+        },
+        ctas: ctas,
+    } only %}
+        {% block heading %}
+            Construct
+        {% endblock %}
+        {% block subHeading %}
+            for ExpressionEngine
+        {% endblock %}
+        {% block content %}
+            Easily create menus, pages, nested pages, manage routing, and more!
+        {% endblock %}
+    {% endembed %}
+
+    {# TODO: Image sizes here #}
+    {% embed 'Http/Components/FeatureLeftContentRightImage.twig' with {
+        image: {
+            src: siteUrl('/assets/img/ansel2-field-type-tablet-desktop-2x.png'),
+            alt: 'Ansel for Craft Field Type',
+        }
+    } only %}
+        {% block content %}
+            <div class="prose">
+                <h2 class="text-3xl font-extrabold tracking-tight text-gray-900">
+                    Flexible Menus and Pages
+                </h2>
+                <p class="mt-4 text-lg text-gray-500">
+                    For all of ExpressionEngine's flexibility and powerful content management, there has not traditionally been a good way to manage stand-alone pages or create flexible menu systems that developers and content managers alike can both use with ease. Construct solves both of these problems.
+                </p>
+                <p class="mt-4 text-lg text-gray-500">
+                    Each Construct node has the option of both routing to a template, and outputting a menu structure in template tags.
+                </p>
+                <p class="mt-4 text-lg text-gray-500">
+                    Construct can also have multiple trees to fit many different content, page, and menu scenarios. But Construct doesn't stop there.
+                </p>
+            </div>
+        {% endblock %}
+    {% endembed %}
+
+    {# TODO: Image sizes here #}
+    <div class="relative py-16 bg-gray-200 overflow-hidden">
+        <div class="relative px-4 sm:px-6 lg:px-8">
+            <div class="text-lg max-w-prose mx-auto">
+                <h1 class="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Flexible Settings
+                </h1>
+                <p class="mt-8 text-xl text-gray-500 leading-8">
+                    Construct's flexible settings allow you to use it strictly for building menus, defining what member groups have access to various trees, and more.
+                </p>
+                <p class="mt-8 text-xl text-gray-500 leading-8">
+                    And Construct's master template preferences allow developers to associate ExpressionEngine templates with specific channels so that you can be sure the template chosen will fit the entry fields.
+                </p>
+                <p class="mt-8 text-xl text-gray-500 leading-8">
+                    The template preferences also serve the purpose of giving your templates friendlier names so your users won’t be confused and so you can use ExpressionEngine's "hidden templates" feature.
+                </p>
+            </div>
+            <div class="mt-6 prose prose-indigo prose-lg text-gray-500 mx-auto">
+                <img
+                    class="w-full rounded-lg border shadow-lg"
+                    src="{{ siteUrl('/assets/img/ansel-field-settings-2x.jpg') }}"
+                    alt="Ansel for Craft Field Settings"
+                >
+            </div>
+        </div>
+    </div>
+
+    {# TODO: Image sizes here #}
+    <div class="relative py-16 overflow-hidden">
+        <div class="relative px-4 sm:px-6 lg:px-8">
+            <div class="text-lg max-w-prose mx-auto">
+                <h1 class="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Powerful Template Tags
+                </h1>
+                <p class="mt-8 text-xl text-gray-500 leading-8">
+                    Construct's template tags make no assumptions about your markup, your site structure, or what you want to display in your templates. In true ExpressionEngine style, Construct is purely BYOM (bring your own markup). You determine what your site looks like, not Construct. You write your HTML, Construct does not output any HTML of any kind.
+                </p>
+                <p class="mt-8 text-xl text-gray-500 leading-8">
+                    And the <code>{construct:children}</code> tag ensures that your nested nodes will be placed exactly where they should be.
+                </p>
+                <p class="mt-8 text-xl text-gray-500 leading-8">
+                    Construct puts the power in your hands.
+                </p>
+            </div>
+            <div class="mt-6 prose prose-indigo prose-lg text-gray-500 mx-auto">
+                <img
+                    class="w-full rounded-lg border shadow-lg"
+                    src="{{ siteUrl('/assets/img/ansel-field-settings-2x.jpg') }}"
+                    alt="Ansel for Craft Field Settings"
+                >
+            </div>
+        </div>
+    </div>
+
+    {# CTA #}
+    {% embed 'Http/Components/SimpleCtaSection.twig' with {
+        ctas: ctas,
+    } only %}
+        {% block heading %}
+            Get Started with Construct
+        {% endblock %}
+        {% block content %}
+            <p class="mt-4 text-lg leading-6 text-gray-100">
+                Get started with Construct today by purchasing a site license! Once you've purchased Construct, a license will be added to your account and you'll be able to download and use Construct right away.
+            </p>
+        {% endblock %}
+    {% endembed %}
+
+{% endblock %}

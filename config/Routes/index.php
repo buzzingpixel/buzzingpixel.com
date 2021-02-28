@@ -21,6 +21,7 @@ use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2DocIndexAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2DocTemplatingAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeSettingsAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeUseAction;
+use App\Http\Response\Software\Construct\ConstructAction;
 use App\Http\Response\Software\SoftwareAction;
 use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocDevelopersAction;
 use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocIndexAction;
@@ -83,4 +84,9 @@ return static function (App $app): void {
     $app->get(pattern: '/software/treasury/documentation/locations', callable: TreasuryV1DocLocationAction::class);
     $app->get(pattern: '/software/treasury/documentation/template-tags', callable: TreasuryV1DocTemplateTagsAction::class);
     $app->get(pattern: '/software/treasury/documentation/developers', callable: TreasuryV1DocDevelopersAction::class);
+
+    /**
+     * Construct
+     */
+    $app->get(pattern: '/software/construct', callable: ConstructAction::class);
 };
