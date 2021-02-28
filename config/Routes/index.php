@@ -22,6 +22,8 @@ use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2DocTemplatingAc
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeSettingsAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeUseAction;
 use App\Http\Response\Software\Construct\ConstructAction;
+use App\Http\Response\Software\Construct\ConstructChangelogAction;
+use App\Http\Response\Software\Construct\ConstructChangelogItemAction;
 use App\Http\Response\Software\SoftwareAction;
 use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocDevelopersAction;
 use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocIndexAction;
@@ -89,4 +91,6 @@ return static function (App $app): void {
      * Construct
      */
     $app->get(pattern: '/software/construct', callable: ConstructAction::class);
+    $app->get(pattern: '/software/construct/changelog', callable: ConstructChangelogAction::class);
+    $app->get(pattern: '/software/construct/changelog/{slug:[^\/]+}', callable: ConstructChangelogItemAction::class);
 };
