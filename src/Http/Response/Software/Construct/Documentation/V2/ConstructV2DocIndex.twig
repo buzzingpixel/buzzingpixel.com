@@ -1,0 +1,72 @@
+{% extends 'Http/_Infrastructure/_LayoutDocumentation.twig' %}
+
+{% block content %}
+    {% apply smartypants %}
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'System Requirements',
+            level: 'h2',
+        } only %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'General requirements',
+            level: 'h3',
+        } only %}
+        <ul>
+            <li>
+                ExpressionEngine 3.1.0 or greater
+                <ul>
+                    <li>For a limited time, the Construct download also comes with the legacy 1.x version which supports ExpressionEngine 2.x (2.9.0 and above)</li>
+                </ul>
+            </li>
+            <li>PHP 5.3.10 or greater (same as ExpressionEngine)</li>
+        </ul>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Control panel interface use requirements',
+            level: 'h3',
+        } only %}
+        <ul>
+            <li>Internet Explorer 9 or greater</li>
+            <li>Chrome (tested with 47.0.2526.106)</li>
+            <li>Firefox (tested with 41.0.2)</li>
+            <li>Safari (Mac) (tested with 9.0.2)</li>
+        </ul>
+
+        <hr>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Installing Or Updating',
+            level: 'h2',
+        } only %}
+        <p>Installing and updating Construct is very easy.</p>
+        <ol>
+            <li>Download the Construct zip file and unzip it</li>
+            <li>
+                Copy <code>system/user/addons/construct</code> to the same directory location in your EE instance
+                <ul>
+                    <li>If you are updating, replace the existing construct directory</li>
+                </ul>
+            </li>
+            <li>
+                Copy themes/user/construct to the same directory location in your EE instance
+                <ul>
+                    <li>If you are updating, replace the existing construct directory</li>
+                </ul>
+            </li>
+            <li>Log in to your EE control panel and navigate to the Add-on Manager</li>
+            <li>Scroll down to the "Third Party" section, locate "Construct" in the list and click "Install" or "Update"</li>
+        </ol>
+
+        <hr>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Updating from ExpressionEngine 2 to 3',
+            level: 'h2',
+        } only %}
+        <p>Construct 2 is fully compatible with ExpressionEngine 3. However the Construct 1.x branch which you may have installed on ExpressionEngine 2 is not compatible with ExpressionEngine 3. The good news is, updating ExpressionEngine will not affect your Construct trees or data in any way. The ExpressionEngine update instructions include a point where you are encouraged to put any updated add-on files in place before you run the ExpressionEngine updater. But I do not recommend this since Construct 2 is not compatible with versions of ExpressionEngine prior to 3.</p>
+
+        <p>After you have updated EE from 2 to 3, then go ahead and put the Construct files in place and run the update in the Control Panel. I do recommend you make sure to have a database backup since there are significant schema changes from Construct 1.x to 2.x. While I have tested everything as thoroughly as possible, there is always the possibility of data loss when updating schema.</p>
+
+        <p>But if you follow the update instructions above after updating ExpressionEngine 2 to 3, everything should be right as rain.</p>
+    {% endapply %}
+{% endblock %}
