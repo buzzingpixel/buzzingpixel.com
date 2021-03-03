@@ -1,0 +1,181 @@
+{% extends 'Http/_Infrastructure/_LayoutDocumentation.twig' %}
+
+{% block content %}
+    {% apply smartypants %}
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'The Basics',
+            level: 'h2',
+        } only %}
+
+        <p>When routing is enabled in the Construct Settings, there are two ways routing occurs in Construct 2.</p>
+
+        <ul>
+            <li>If the ExpressionEngine URI matches a Node full route</li>
+            <li>If the ExpressionEngine URI matches a route in Construct's routing config.</li>
+        </ul>
+
+        <p>When a node is matched, the specified template from the Node is served. When a route config is matched, what you have specified for that route will run.</p>
+
+        <hr>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Route Variables',
+            level: 'h2',
+        } only %}
+
+        <p>Construct makes certain variables available when it matches a route or a Node.</p>
+
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block content %}
+                <p>If the route is being served by the config file but does not match a node, and the values are not set by the config (where applicable), the values of these items will be set to false.</p>
+            {% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>{construct_route:node_id}</code>{% endblock %}
+        {% endembed %}
+        <p>The ID of the currently matched Node.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>{construct_route:node_tree_id}</code>{% endblock %}
+        {% endembed %}
+        <p>The ID of the Tree from the currently matched Node.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>{construct_route:node_parent_id}</code>{% endblock %}
+        {% endembed %}
+        <p>The parent ID of the currently matched Node. 0 if Node has no parent.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>{construct_route:node_level}</code>{% endblock %}
+        {% endembed %}
+        <p>The level of the currently matched Node.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>{construct_route:node_name}</code>{% endblock %}
+        {% endembed %}
+        <p>The name of the currently matched Node.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>{construct_route:node_slug}</code>{% endblock %}
+        {% endembed %}
+        <p>The slug of the currently matched node &mdash; which will be the same as the last URI segment.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>{construct_route:node_external_link}</code>{% endblock %}
+        {% endembed %}
+        <p>The external link field of the currently matched Node.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>{construct_route:node_full_route}</code>{% endblock %}
+        {% endembed %}
+        <p>The full route of the currently matched Node. Example: <code>about/executives/ceo</code>.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>{construct_route:node_entry_id}</code>{% endblock %}
+        {% endembed %}
+        <p>The entry ID of the selected entry for the currently matched Node. When using Construct to create pages, this is how you connect everything together. You can feed this tag into the <code>entry_id</code> parameter of an <code>exp:channel:entries</code> tag pair to serve the specified Node entry.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{exp:channel:entries
+    disable="categories|member_data|pagination"
+    dynamic="no"
+    entry_id="{construct_route:node_entry_id}"
+    limit="1"
+    status="open"
+}
+    <h1>{title}</h1>
+    {body}
+{/exp:channel:entries}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>{construct_route:node_output}</code>{% endblock %}
+        {% endembed %}
+        <p>Whether the currently matched Node is set to output in Menus.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>{construct_route:node_pagination}</code>{% endblock %}
+        {% endembed %}
+        <p>Whether the currently matched Node is set to paginate.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>{construct_route:node_pagination_amount}</code>{% endblock %}
+        {% endembed %}
+        <p>The pagination amount set for the currently matched Node.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>{construct_route:node_listing_channels}</code>{% endblock %}
+        {% endembed %}
+        <p>The channel(s) chosen for listing. If there is more than on channel, they will be pipe delimited.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{exp:channel:entries
+    disable="categories|member_data"
+    dynamic="no"
+    channel="{construct_route:node_listing_channels}"
+    {if construct_route:node_pagination}
+    limit="{construct_route:node_pagination_amount}"
+    {if:else}
+    limit="1"
+    {/if}
+    status="open"
+}
+    <h1>{title}</h1>
+    {body}
+{/exp:channel:entries}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        <hr>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'How the Extension Hook Works',
+            level: 'h2',
+        } only %}
+
+        <p>The Construct extension uses the <a href="https://docs.expressionengine.com/latest/development/extension-hooks/global/core.html#core_template_routeuri_string">core template route</a> hook. When you load any URI in ExpressionEngine, the core template route hook is run.</p>
+
+        <p>Construct checks to see if there is a Node with routing enabled that matches the current URI and has a template associated with it. It also checks to see if the route is a match for any config file routes.</p>
+
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block content %}
+                <p>It is recommended that you completely disable the ExpressionEngine built-in Pages module since it also has to run queries to see if the current URI is a match for the page. The routing functionality of Construct is intended to replace the first party Pages module.</p>
+            {% endblock %}
+        {% endembed %}
+
+        <hr>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Serving Templates',
+            level: 'h2',
+        } only %}
+
+        <p>Construct can serve both regular and hidden templates, but it is recommend that you use hidden templates so they can't be accessed directly &mdash; apart from a Construct route &mdash; and therefore serve duplicate end-points or run into errors because Construct Route Template Tags aren't available.</p>
+    {% endapply %}
+{% endblock %}
