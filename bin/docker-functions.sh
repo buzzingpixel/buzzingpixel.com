@@ -21,9 +21,6 @@ function docker-up() {
 }
 
 function docker-down() {
-    docker kill buzzingpixel-bg-sync-node-modules >/dev/null 2>&1;
-    docker kill buzzingpixel-bg-sync-storage >/dev/null 2>&1;
-    docker kill buzzingpixel-bg-sync-vendor >/dev/null 2>&1;
     docker-compose ${composeFiles} -p buzzingpixel down;
 
     return 0;
