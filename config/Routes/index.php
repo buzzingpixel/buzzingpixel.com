@@ -24,6 +24,7 @@ use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeUseAct
 use App\Http\Response\Software\Construct\ConstructAction;
 use App\Http\Response\Software\Construct\ConstructChangelogAction;
 use App\Http\Response\Software\Construct\ConstructChangelogItemAction;
+use App\Http\Response\Software\Construct\Documentation\V2\ConstructV2DocControlPanelAction;
 use App\Http\Response\Software\Construct\Documentation\V2\ConstructV2DocIndexAction;
 use App\Http\Response\Software\SoftwareAction;
 use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocDevelopersAction;
@@ -97,4 +98,5 @@ return static function (App $app): void {
 
     // Construct Docs
     $app->get(pattern: '/software/construct/documentation', callable: ConstructV2DocIndexAction::class);
+    $app->get(pattern: '/software/construct/documentation/control-panel', callable: ConstructV2DocControlPanelAction::class);
 };

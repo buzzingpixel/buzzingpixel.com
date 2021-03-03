@@ -1,0 +1,376 @@
+{% extends 'Http/_Infrastructure/_LayoutDocumentation.twig' %}
+
+{% block content %}
+    {% apply smartypants %}
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Settings',
+            level: 'h2',
+        } only %}
+
+        <p>Construct 2's settings have been slimmed down a little from the Construct 1 days. That is mostly due to the fact that Template Preferences have been moved to their own section of the control panel. You will now find four settings in the settings area.</p>
+
+        <figure>
+            <img
+                class="w-full"
+                src="{{ siteUrl('/assets/img/software/construct/documentation/construct-settings.png') }}"
+                srcset="{{ siteUrl('/assets/img/software/construct/documentation/construct-settings.png') }} 1x, {{ siteUrl('/assets/img/software/construct/documentation/construct-settings-2x.png') }} 2x"
+                alt="Construct Settings"
+            >
+            <figcaption>Construct Settings</figcaption>
+        </figure>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Enable Routing',
+            level: 'h3',
+        } only %}
+
+        <p>Construct serves two purposes:</p>
+
+        <ul>
+            <li>A powerful drag and drop menu creation system</li>
+            <li>Create page endpoints</li>
+        </ul>
+
+        <p>The "Enable Routing" toggle determines whether the second of those purposes is being used or not. If you would like to only use Construct to create menus, you can disable routing. This will also hide all page creation options when creating or editing nodes (items in the menus).</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Enable Menu',
+            level: 'h3',
+        } only %}
+
+        <p>This "Enable Menu" toggle determines whether Construct makes it's menu item available to the menu manager in ExpressionEngine 3.4.x +.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Menu Title',
+            level: 'h3',
+        } only %}
+
+        <p>This "Menu Title" setting sets the name of the drop down menu when you have enabled Construct's menu item in the menu manager.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'License Key',
+            level: 'h3',
+        } only %}
+
+        <p>This is where you enter the license key from your purchase of Construct. If you have not entered a license key, Construct will display a friendly reminder to do so throughout it's control panel pages.</p>
+
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block content %}
+                <p>You need to purchase one license for each public domain name you use Construct with (you do not need additional licenses for local dev and staging sites behind passwords).</p>
+            {% endblock %}
+        {% endembed %}
+
+        <hr>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Template Preferences',
+            level: 'h2',
+        } only %}
+
+        <p>Construct's Template Preferences are a way of associating a user friendly name with an ExpressionEngine template. Each Construct Template Preference is a one to one relationship with an EE template.</p>
+
+        <figure>
+            <img
+                class="w-full"
+                src="{{ siteUrl('/assets/img/software/construct/documentation/construct-template-preferences.png') }}"
+                srcset="{{ siteUrl('/assets/img/software/construct/documentation/construct-template-preferences.png') }} 1x, {{ siteUrl('/assets/img/software/construct/documentation/construct-template-preferences-2x.png') }} 2x"
+                alt="Construct Template Preferences"
+            >
+            <figcaption>Construct Template Preferences</figcaption>
+        </figure>
+
+        <p>There are two steps to enabling templates to be selected by nodes:</p>
+
+        <ol>
+            <li>Create a template preference for the EE templates you would like to have available</li>
+            <li>Later when creating Trees, chose one or more Template Preferences to make available to nodes in that Tree (more on that later)</li>
+        </ol>
+
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block content %}
+                <p>Routing must be enabled to associate Template with Nodes.</p>
+            {% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Ordering Template Preferences',
+            level: 'h3',
+        } only %}
+
+        <p>When viewing your Template Preferences, you can drag and drop the order of the templates. This affects the order they are seen in when selecting them for use on a Node. After sorting the order of your templates via drag and drop, be sure to click the save button at the bottom of the form.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Deleting Template Preferences',
+            level: 'h3',
+        } only %}
+
+        <p>You can also delete one or more Template Preferences at a time. To delete Template Preferences, select the Delete checkbox for one or more templates and click the save button at the bottom of the form.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Template Preferences Options',
+            level: 'h3',
+        } only %}
+
+        <p>Template Preferences have learned a few new tricks in Construct 2. You can now designate channels a template can list entries from in addition to specifying a channel to make entries available on a one to one basis with the template.</p>
+
+        <p>And two new toggles for specifying the template as a listing template or a listing category template are here as well.</p>
+
+        <figure>
+            <img
+                class="w-full"
+                src="{{ siteUrl('/assets/img/software/construct/documentation/construct-template-preference.png') }}"
+                srcset="{{ siteUrl('/assets/img/software/construct/documentation/construct-template-preference.png') }} 1x, {{ siteUrl('/assets/img/software/construct/documentation/construct-template-preference-2x.png') }} 2x"
+                alt="Construct Template Preference"
+            >
+            <figcaption>Construct Template Preference</figcaption>
+        </figure>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Construct Template Name',
+            level: 'h4',
+        } only %}
+
+        <p>As you would expect, this is the friendly name of your template. It is the name users see when they select the template to associate it with a Node.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'ExpressionEngine Template',
+            level: 'h4',
+        } only %}
+
+        <p>This is the EE template for this Template Preference.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Channels for this template',
+            level: 'h4',
+        } only %}
+
+        <p>Choose which channels to make entries available to this template from.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Listing channels for this template',
+            level: 'h4',
+        } only %}
+
+        <p>Choose which channels can this template list entries from.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Listing entry template',
+            level: 'h4',
+        } only %}
+
+        <p>Specify whether this template can be used for single entries (single entries from the listing channel).</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Listing category template',
+            level: 'h4',
+        } only %}
+
+        <p>Choose whether this template can be used to list category entries.</p>
+
+        <hr>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Trees',
+            level: 'h2',
+        } only %}
+
+        <p>Construct Trees are containers for nodes. You may create as many trees as you like. Each tree has settings for what member group has access to it. For instance, you may wish to have a Tree for the main navigation, secondary navigation (perhaps in the footer or something like that), and general site page that are not in any menus.</p>
+
+        <p>In short, you can use as many Trees as you like however you like.</p>
+
+        <figure>
+            <img
+                class="w-full"
+                src="{{ siteUrl('/assets/img/software/construct/documentation/construct-trees.png') }}"
+                srcset="{{ siteUrl('/assets/img/software/construct/documentation/construct-trees.png') }} 1x, {{ siteUrl('/assets/img/software/construct/documentation/construct-trees-2x.png') }} 2x"
+                alt="Construct Trees"
+            >
+            <figcaption>Construct Trees</figcaption>
+        </figure>
+
+        <p>On a new installation and/or when there are no Trees in Construct yet, if you are a Super Admin, you will be presented with the option to create a new tree from the Manage Trees section as soon as you visit construct.</p>
+
+        <p>Any Trees a member group has access to will appear in the left sidebar. If a non-Super Admin group only has access to one tree, they will not see the sidebar and will only see the tree they have access to.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Ordering Trees',
+            level: 'h3',
+        } only %}
+
+        <p>Trees appear in a specific order in the sidebar. To rearrange the order they appear in, click on "Manage Trees" in the sidebar. Just like with template preferences, you can drag and drop to sort and click save at the bottom of the form to save the order.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Deleting Trees',
+            level: 'h3',
+        } only %}
+
+        <p>As with Template Preferences, if you wish to delete a Tree and all the Nodes in that Tree, select the Delete checkbox in the right hand column and click save at the bottom of the form.</p>
+
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block content %}
+                <p>Please take note that deleting a Tree deletes all the Nodes in that Tree. <strong>DELETING A TREE AND ITS NODES IS A DESTRUCTIVE ACTION AND IS NOT RECOVERABLE WITHOUT A DATABASE BACKUP.</strong></p>
+            {% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Tree Options',
+            level: 'h3',
+        } only %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Tree Name',
+            level: 'h4',
+        } only %}
+        <p>This is the name that will appear to users in the sidebar.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Maximum nesting level',
+            level: 'h4',
+        } only %}
+        <p>This determines how many levels deep a Node may be.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Tree templates',
+            level: 'h4',
+        } only %}
+        <p>Choose what templates are available to Noes in this tree for building pages.</p>
+
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block content %}
+                <p>Routing must be enabled to associate Template with Nodes.</p>
+            {% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Tree Member Group Access',
+            level: 'h4',
+        } only %}
+        <p>Choose what member groups other than Super Admins can access this Tree.</p>
+
+        <hr>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Editing Nodes',
+            level: 'h2',
+        } only %}
+
+        <p>Nodes are menu items/pages within a tree. To add or edit Nodes for a Tree, select the Tree in the left had sidebar. From there you can either edit existing nodes by click on the pencil edit icon to the right of a node, or you can add a new node by clicking the blue Add New Node button.</p>
+
+        <p>To delete nodes, select the checkbox on the very right-most side of the node, at the bottom of the form, options will appears that will allow the deletion of the selected Node(s).</p>
+
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block content %}
+                <p>You can also use the select box at the very top right of the form to select all Nodes.</p>
+                <p>The "select all" checkbox at the top of the form selects all nodes <strong>whether they are visible or not.</strong></p>
+            {% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Nested Nodes',
+            level: 'h3',
+        } only %}
+        <p>When you visit a Tree page, you will only see the top level nodes initially. If there are any nested nodes, they are collapsed. To see these nested nodes, click the triangle next to the Node name to expand sub nodes.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'View pages/external link',
+            level: 'h3',
+        } only %}
+        <p>You can always view the resource the Node points to by clicking the link to the right of the Node's name.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Node Information',
+            level: 'h3',
+        } only %}
+        <p>Other information about the Node is available on the lower line under the name of the node such as its ID, slug, whether it has been set to show up in the menu, and whether it creates a page.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Node Options',
+            level: 'h3',
+        } only %}
+        <p>When adding or editing a Node, there are a number of options available to you.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Name',
+            level: 'h4',
+        } only %}
+        <p>Give this Node a name. Typically you would use this in the menu output (via template tags).</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Slug',
+            level: 'h4',
+        } only %}
+        <p>The slug is used to compose the URLs and full paths of the Node. If the node is on the top level, the full path and the slug will be the same. However, if you the node is nested under another node, Construct builds the path based on the slugs. For instance, if a Node with the slug "our-ceo" was nested under a Node with the slug "about", the full path of the Node would be "about/our-ceo".</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'External Link',
+            level: 'h4',
+        } only %}
+        <p>If you need the menu item of your Node to point to an external link, you can use this field (you will need to account for this with your template tags).</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Show in Menu',
+            level: 'h4',
+        } only %}
+        <p>Choose whether to show this Node in the menu output (this can be overridden with tag parameters as needed).</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Node Page Tools',
+            level: 'h3',
+        } only %}
+        <p>When Construct's Routing is enabled, Nodes will have a section in their options called "Page Tools." With these options you can create pages.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Create Page',
+            level: 'h4',
+        } only %}
+        <p>Choose whether or not this Node should create a Page (or just be a menu item).</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Page Template',
+            level: 'h4',
+        } only %}
+        <p>When you set the Create Page toggle to "Create", the "Page template" option will appear. Any Templates you have made available to the Tree will be available here.</p>
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block content %}
+                <p>You must choose a template in order for the page to be created. If you choose to Create a Page with the toggle, but do not choose a template, no page will actually be created.</p>
+            {% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Entry Listing Options',
+            level: 'h3',
+        } only %}
+        <p>Here is where some of Construct's new tricks come into play. When you select a template that has channels available for listing, the new "Entry Listing Options" section will appear.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Listing channel(s)',
+            level: 'h4',
+        } only %}
+        <p>Based on the listing channels you have made available to the template, one or more channels can be chosen here to list entries from.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Pagination',
+            level: 'h4',
+        } only %}
+        <p>Once you have chosen one or more channels, you can chose whether or not the listing should be paginated. If you choose to paginate, you can set the amount per page (Construct defaults to 10).</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Listing entry template',
+            level: 'h4',
+        } only %}
+        <p>If you have made any templates available to list single entries from the chosen listing channel(s), you can choose one of them here to display single entries from your listing channel. When you do so, entries will be available as <code>/path-to-node/entry_url_title</code> and will be displayed using the template you selected.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Listing category template',
+            level: 'h4',
+        } only %}
+        <p>If you have made any templates available to list categories from the chosen listing channel(s), you can choose one of them here to display category entries from your listing channel. Category pages will be available as <code>/path-to-node/category/cat_url_title</code>.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Simple Nodes (menu creation only)',
+            level: 'h3',
+        } only %}
+        <p>As referenced at the top of this page in the settings segment, using Construct to build menus only is a perfectly viable use of Construct as it is very powerful for doing just that. Construct only shows the user what they need to see whenever possible. So if you have disabled Construct's routing option in settings. Construct will show a very minimal Node editing screen so as to keep things very user friendly.</p>
+    {% endapply %}
+{% endblock %}
+
