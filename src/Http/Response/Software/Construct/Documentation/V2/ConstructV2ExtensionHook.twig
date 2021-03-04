@@ -1,0 +1,34 @@
+{% extends 'Http/_Infrastructure/_LayoutDocumentation.twig' %}
+
+{% block content %}
+    {% apply smartypants %}
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h2',
+        } only %}
+            {% block heading %}<code>construct_updated</code> Hook{% endblock %}
+        {% endembed %}
+
+        <p>Construct fires the <code>construct_updated</code> hook any time a node is added, updated, or deleted. If you need to run actions in your extension when one of these actions happens, register your extension hook for <code>construct_updated</code>.</p>
+
+        <p>This hook provides one argument, an array of affected nodes.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}array(
+    0 => array(
+        'node_id' => 4,
+        'node_tree_id' => 2,
+        'node_order' => 2,
+        'node_parent' => 2,
+        'node_level' => 3,
+        'node_name' => 'The Matrix Has You!'
+        'node_slug' => 'the-matrix',
+        'node_full_route' => 'about/neo/the-matrix',
+        'node_routing' => 1,
+        'node_template_id' => 29,
+        'node_entry_id' => 86,
+        'node_output' => 1
+    )
+){% endverbatim %}{% endblock %}
+        {% endembed %}
+    {% endapply %}
+{% endblock %}
