@@ -29,6 +29,7 @@ use App\Http\Response\Software\Construct\Documentation\V2\ConstructV2DocControlP
 use App\Http\Response\Software\Construct\Documentation\V2\ConstructV2DocFieldTypesAction;
 use App\Http\Response\Software\Construct\Documentation\V2\ConstructV2DocIndexAction;
 use App\Http\Response\Software\Construct\Documentation\V2\ConstructV2DocRoutingAction;
+use App\Http\Response\Software\Construct\Documentation\V2\ConstructV2DocTemplateTagsAction;
 use App\Http\Response\Software\SoftwareAction;
 use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocDevelopersAction;
 use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocIndexAction;
@@ -105,4 +106,5 @@ return static function (App $app): void {
     $app->get(pattern: '/software/construct/documentation/field-types', callable: ConstructV2DocFieldTypesAction::class);
     $app->get(pattern: '/software/construct/documentation/routing', callable: ConstructV2DocRoutingAction::class);
     $app->get(pattern: '/software/construct/documentation/config-routing', callable: ConstructV2DocConfigRoutingAction::class);
+    $app->get(pattern: '/software/construct/documentation/template-tags', callable: ConstructV2DocTemplateTagsAction::class);
 };

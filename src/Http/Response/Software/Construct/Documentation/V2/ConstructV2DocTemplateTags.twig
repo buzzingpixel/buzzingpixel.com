@@ -1,0 +1,281 @@
+{% extends 'Http/_Infrastructure/_LayoutDocumentation.twig' %}
+
+{% block content %}
+    {% apply smartypants %}
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Nodes Tag Pair',
+            level: 'h2',
+        } only %}
+
+        <p>The <code>{exp:construct:nodes}</code> tag pair is primarily how you will output menus with Construct.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{exp:construct:nodes tree_id="2"}
+    {construct:node_name}
+{/exp:construct:nodes}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Nodes Tag Pair Parameters',
+            level: 'h3',
+        } only %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}tree_id="1"
+namespace="my_namespace" {!-- default namespace is "construct" --}
+max_depth="2" {!-- Limit the depth of nesting the tag will output --}
+parent_id="{construct_route:node_id}" {!-- Get child nodes of parent --}
+node_entry_id="103" {!-- Only nodes with specified entry id --}
+direct_parent="{construct_route:node_id}"
+node_slug="{segment_2}"
+node_full_route="{segment_1}/{segment_2}"
+nested="false"
+menu_output_only="false"
+node_entry_id_not_empty="true"{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Nodes Tag Pair Variables',
+            level: 'h3',
+        } only %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{construct:node_id}
+{construct:node_tree_id}
+{construct:node_parent}
+{construct:node_level}
+{construct:node_name}
+{construct:node_slug}
+{construct:node_external_link}
+{construct:node_full_route}
+{construct:node_link}
+{construct:node_routing}
+{construct:node_pagination}
+{construct:node_pagination_amount}
+{construct:node_entry_id}
+{construct:node_listing_channels}
+{construct:node_output}
+{construct:level_index}
+{construct:level_count}
+{construct:level_total_results}
+{construct:index}
+{construct:count}
+{construct:total_results}
+{construct:has_children}
+{construct:children}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/Components/Note.twig' only %}
+            {% block content %}
+                <p>Construct does not use a trailing slash on links by default. If you need for Construct to use a trailing slash for the link, use this config item in your ExpressionEngine config file:</p>
+                <p><code>$config['construct_link_trailing_slash'] = true;</code></p>
+            {% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Count Variable Examples',
+            level: 'h3',
+        } only %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{if construct:level_count == construct:level_total_results}
+    {!-- Do awesome stuff here! --}
+{/if}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Has Children Example',
+            level: 'h3',
+        } only %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{if construct:has_children}
+    This node has children!
+{/if}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}About the <code>{construct:children}</code> tag{% endblock %}
+        {% endembed %}
+
+        <p>This variable is treated differently than other variables. Think of it as a marker, or a placeholder for where the children of the current node will be inserted (if they exist). All nodes are parsed through the same code between your tag pair. Once children are parsed, they are place where the <code>{construct:children}</code> marker/variable is at.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{exp:construct:nodes tree_id="2"}
+    {if construct:level_count == 1}
+    <ul>
+    {/if}
+        <li>
+            <a href="/{construct:node_full_route}">
+                {construct:node_name}
+            </a>
+            {construct:children}
+        </li>
+    {if construct:level_count == construct:level_total_results}
+    </ul>
+    {/if}
+{/exp:construct:nodes}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        <p>For the sake of the length of example code, let’s assume you have two nodes that would be output in this situation and the second node is a child of the first node. That output would look like this:</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}<ul>
+    <li>
+        <a href="/my/node/route">
+            My Node Name
+        </a>
+        <ul>
+            <li>
+                <a href="/my/node/route/other">
+                    My Second Node Name
+                </a>
+            </li>
+        </ul>
+    </li>
+</ul>{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        <p>That's simple, clean, and dry. It allows us to use the same markup for both levels of nodes AND it puts it in the right place because of the <code>{construct:children}</code> marker/tag, and it still leaves you completely in control.</p>
+
+        <p>But what if you want to have different markup for differing levels of nodes? Not a problem. That's where all those node level tags come in at. Just because we're doing magic with the placement of node children doesn't mean we can't still make use of ExpressionEngine's template parser as we would with any other tag pair.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{exp:construct:nodes tree_id="2"}
+    {if construct:node_level == 1}
+        {if construct:level_count == 1}
+        <ul>
+        {/if}
+            <li>
+                <a href="/{construct:node_full_route}">
+                    {construct:node_name}
+                </a>
+                {construct:children}
+            </li>
+        {if construct:level_count == construct:level_total_results}
+        </ul>
+        {/if}
+    {if:elseif construct:node_level == 2}
+        <div>
+            <a href="/{construct:node_full_route}">
+                {construct:node_name}
+            </a>
+        </div>
+    {/if}
+{/exp:construct:nodes}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}<ul>
+    <li>
+        <a href="/my/node/route">
+            My Node Name
+        </a>
+        <div>
+            <a href="/my/node/route/other">
+                My Second Node Name
+            </a>
+        </div>
+    </li>
+</ul>{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        <p>You're in charge. You can go as simple or as crazy as you want. You can use the same markup for 3 or 4 levels, then use different markup for level 1. Or whatever you want. Be creative! That's what Construct is here for!</p>
+
+        <hr>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Breadcrumbs Tag Pair',
+            level: 'h2',
+        } only %}
+
+        <p>The <code>{exp:construct:breadcrumbs}</code> tag pair is used to output a Node's hierarchy.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{exp:construct:breadcrumbs}
+    {construct:node_name}
+    {construct:node_slug}
+    {construct:node_link}
+{/exp:construct:breadcrumbs}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Breadcrumbs Tag Pair Parameters',
+            level: 'h3',
+        } only %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}tree_id="1"
+namespace="my_namespace" {!-- default namespace is "construct" --}
+node_entry_id="103" {!-- Only nodes with specified entry id --}
+node_id="45" {!-- Hard code node_id instead of starting from detected page --}
+node_full_route="{segment_1}/{segment_2}" {!-- Same as ID excepting using route --}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Breadcrumbs Tag Pair Variables',
+            level: 'h3',
+        } only %}
+
+        <p>The Breadcrumbs Tag Pair supports most of the tag variables that the <code>{exp:construct:nodes}</code> tag does with a few extras and exceptions.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Additional variable tags:',
+            level: 'h4',
+        } only %}
+
+        <ul>
+            <li><code>{construct:breadcrumb_index}</code></li>
+            <li><code>{construct:breadcrumb_count}</code></li>
+            <li><code>{construct:breadcrumb_total_results}</code></li>
+        </ul>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Unsupported variable tags:',
+            level: 'h4',
+        } only %}
+
+        <ul>
+            <li><code>{construct:level_index}</code></li>
+            <li><code>{construct:level_count}</code></li>
+            <li><code>{construct:level_total_results}</code></li>
+            <li><code>{construct:has_children}</code></li>
+            <li><code>{construct:children}</code></li>
+        </ul>
+
+        <hr>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Entry IDs Single Tag',
+            level: 'h2',
+        } only %}
+
+        <p>The <code>{exp:construct:entry_ids}</code> single tag has one purpose: to retrieve nodes and output the Channel Entry IDs associated with those nodes as a pipe-delimited string. As such, it will not retrieve any nodes that do not have an assigned entry. All available parameters work identically to their counterparts in the Nodes tag pair.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Output',
+            level: 'h3',
+        } only %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}23|56|456|543{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Breadcrumbs Tag Pair Parameters',
+            level: 'h3',
+        } only %}
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}tree_id="1"
+max_depth="2" {!-- Limit the depth of nesting the tag will output --}
+parent_id="{construct_route:node_id}" {!-- Get child nodes of parent --}
+direct_parent="{construct_route:node_id}"
+node_slug="{segment_2}"
+node_full_route="{segment_1}/{segment_2}"
+menu_output_only="false"{% endverbatim %}{% endblock %}
+        {% endembed %}
+    {% endapply %}
+{% endblock %}
