@@ -1,0 +1,360 @@
+{% extends 'Http/_Infrastructure/_LayoutDocumentation.twig' %}
+
+{% block content %}
+    {% apply smartypants %}
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Routing From Config',
+            level: 'h2',
+        } only %}
+
+        <p>Construct allows you to set up routes in your config file and set various variables, or run your own PHP functions. If the route matches a Node and you have set specific items (such as the entry ID), it will override that item for that Node and will not be available in the Control Panel to edit.</p>
+
+        <p>The config item is <code>$config['construct_routes]</code> and takes an array. Each array key is the route you wish to match.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$config['construct_routes'] = array(
+    ':before' => array(
+        'logic' => function($routing) {
+            $route->setGlobal('routing:my_var', 'my_var_value');
+        }
+    ),
+    ':home' => array(
+        'template' => 'site/_index'
+        'entryId' => 2
+    ),
+    'blog/:pagination' => array(
+        'template' => 'blog/_index',
+        'listingEntryTemplate' => 'blog/_entry'
+    )
+    'news' => array(
+        'logic' => function($routing) {
+            // do stuff here
+        }
+    )
+);{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        <hr>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Route Keys',
+            level: 'h2',
+        } only %}
+
+        <p>Use the route keys in your construct_routes array to match URI segments. Construct makes several special commonly used route keys available that run regex on your route behind the scene.</p>
+
+        <p>Each route key value should be an array.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>my/uri</code>{% endblock %}
+        {% endembed %}
+        <p>The basic principle is that you use the array keys to match the route.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>:before</code>{% endblock %}
+        {% endembed %}
+        <p>This route key runs before any other route allowing you to set defaults or other things.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>:home</code>{% endblock %}
+        {% endembed %}
+        <p>This route key matches the home page.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>:pagination</code>{% endblock %}
+        {% endembed %}
+        <p>Matches a pagination segment. So you might do something like <code>blog/:pagination</code>.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>:any</code>{% endblock %}
+        {% endembed %}
+        <p>Matches any segment.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>:all</code>{% endblock %}
+        {% endembed %}
+        <p>Matches all segments.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>:num</code>{% endblock %}
+        {% endembed %}
+        <p>Matches a numeric segment.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>:year</code>{% endblock %}
+        {% endembed %}
+        <p>Matches a four digit year.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>:month</code>{% endblock %}
+        {% endembed %}
+        <p>Matches a two digit month.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>:day</code>{% endblock %}
+        {% endembed %}
+        <p>Matches a two digit day.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Custom Regex',
+            level: 'h3',
+        } only %}
+
+        <p>Construct Routes are really just running regex against your current URI and you can include your own regex.</p>
+
+        <p>So for instance, instead of using <code>:day</code> or <code>:month</code>, you could instead do this: <code>blog/(\d{2})/(\d{2})</code>. That would be equivalent to <code>blog/:month/:day</code>. Of course in this case, that regex is built in with the special route keys in a much more readable way, but the ability to perform your own regex is there.</p>
+
+        <hr>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Setting Variables',
+            level: 'h2',
+        } only %}
+        <p>There are a number of items you can set within a route key. These items will override the Node for this route if there is one. It will also hide those items to users in the Control Panel.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>template => 'site/_my-template'</code>{% endblock %}
+        {% endembed %}
+        <p>Set the template being served.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>'entryId'=> 231</code>{% endblock %}
+        {% endembed %}
+        <p>Set the entry ID variable.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>'pagination' => 6</code>{% endblock %}
+        {% endembed %}
+        <p>Set the number of pagination items.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>'listingChannels' => 'blog|news'</code>{% endblock %}
+        {% endembed %}
+        <p>Set the listing channels.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>listingEntryTemplate' => true</code>{% endblock %}
+        {% endembed %}
+        <p>This only takes a boolean to hide the Control Panel item when editing the Node for this route. You would still need to do your own route matching for the entry and set the template there.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h3',
+        } only %}
+            {% block heading %}<code>'listingCategoryTemplate' => true</code>{% endblock %}
+        {% endembed %}
+        <p>The same applies to this item.</p>
+
+        <hr>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Routing Logic',
+            level: 'h2',
+        } only %}
+        <p>There is one additional item you can set in your route key. The key is logic and the value of that key would be a function. This function will be run if your route is matched.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$config['construct_routes'] = array(
+    'my/route/:pagination' => array(
+        'logic' => function($routing, $path, $pagination) {
+            // do stuff here
+        }
+    )
+);{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Arguments',
+            level: 'h3',
+        } only %}
+        <p>The logic function receives various arguments. The first argument will always be the Routing object that you can use to do various things.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'The Routing Object',
+            level: 'h4',
+        } only %}
+        <p>The routing object offers you a number of helpful options like set the template, or the entry ID, or check what they are already set to.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h5',
+        } only %}
+            {% block heading %}<code>$routing->get('template')</code>{% endblock %}
+        {% endembed %}
+        <p>The <code>get()</code> method let’s you check the value of any predefined Construct variables (such as the template as you see in the example above). You can get any of the settings variables in the section above.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h5',
+        } only %}
+            {% block heading %}<code>$routing->setTemplate('group/template')</code>{% endblock %}
+        {% endembed %}
+        <p>As indicated, you can set the template with this method.</p>
+        <p>You must declare <code>template => true</code> in your route key to set this item.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$config['construct_routes'] = array(
+    'my/route' => array(
+        'logic' => function($routing) {
+            $routing->setTemplate('group/template');
+        },
+        'template' => true
+    )
+);{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h5',
+        } only %}
+            {% block heading %}<code>$routing->setEntryId(389)</code>{% endblock %}
+        {% endembed %}
+        <p>Set the Construct entry id.</p>
+        <p>You must declare <code>entryId => true</code> in your route key to set this item.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$config['construct_routes'] = array(
+    'my/route' => array(
+        'logic' => function($routing) {
+            $routing->setEntryId(389);
+        },
+        'entryId' => true
+    )
+);{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h5',
+        } only %}
+            {% block heading %}<code>$routing->setPagination(18)</code>{% endblock %}
+        {% endembed %}
+        <p>Set the pagination.</p>
+        <p>You must declare <code>pagination => true</code> in your route key to set this item.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$config['construct_routes'] = array(
+    'my/route' => array(
+        'logic' => function($routing) {
+            $routing->setPagination(18);
+        },
+        'pagination' => true
+    )
+);{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h5',
+        } only %}
+            {% block heading %}<code>$routing->setlistingChannels('blog|news')</code>{% endblock %}
+        {% endembed %}
+        <p>Set the listing channels.</p>
+        <p>You must declare <code>listingChannels => true</code> in your route key to set this item.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$config['construct_routes'] = array(
+    'my/route' => array(
+        'logic' => function($routing) {
+            $$routing->setlistingChannels('blog|news');
+        },
+        'listingChannels' => true
+    )
+);{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h5',
+        } only %}
+            {% block heading %}<code>$routing->set404()</code>{% endblock %}
+        {% endembed %}
+        <p>This tell ExpressionEngine to show the 404 error page.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h5',
+        } only %}
+            {% block heading %}<code>$routing->setStop()</code>{% endblock %}
+        {% endembed %}
+        <p>This prevents any further routes in the <code>construct_routes</code> array from being evaluated.</p>
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h5',
+        } only %}
+            {% block heading %}<code>$routing->setGlobal('my_global', 'my_value')</code>{% endblock %}
+        {% endembed %}
+        <p>The <code>setGlobal()</code> method allows you to set variables which will be available in your template.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{my_global}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        {% embed 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            level: 'h5',
+        } only %}
+            {% block heading %}<code>$routing->setPair()</code>{% endblock %}
+        {% endembed %}
+        <p>The <code>setPair()</code> method takes two arguments, the first is the name of the pair you are setting, the second an array of variables for the tag pair to parse.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$routing->setPair('my_pair', array(
+    0 => array(
+        'my_var' => 'my_value'
+    ),
+    1 => array(
+        'my_var' => 'another_value'
+    )
+));{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        <p>Use the <code>route_pair</code> tag to retrieve that tag pair in your template:</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'ee'}) only %}
+{% block codeContent %}{% verbatim %}{exp:construct:route_pair name="my_pair"}
+    {my_var}
+{/exp:construct:route_pair}{% endverbatim %}{% endblock %}
+        {% endembed %}
+
+        <p>The <code>route_pair</code> tag is running ExpressionEngine’s native tag parsing methods and uses the array you set to parse the variables, so you can nest variables or do anything with the array you would do in any ExpressionEngine tag pair.</p>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Matches',
+            level: 'h4',
+        } only %}
+
+        <p>Any arguments after the <code>$routing</code> object are determined by your route. Each of the regex matches are passed into your function as arguments. For instance, a route key of <code>news/blog/:pagination</code> would have three arguments, the <code>$routing</code> object, the first match of <code>news/blog</code>, and the second match of the pagination segment.</p>
+
+        {% embed 'Http/Components/CodeBlock.twig' with ({language: 'php'}) only %}
+{% block codeContent %}{% verbatim %}$config['construct_routes'] = array(
+    'news/blog/:pagination' => array(
+        'logic' => function($routing, $val, $page) {
+            var_dump($val, $page);
+        }
+    )
+);{% endverbatim %}{% endblock %}
+        {% endembed %}
+    {% endapply %}
+{% endblock %}
