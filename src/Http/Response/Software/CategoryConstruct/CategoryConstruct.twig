@@ -1,0 +1,63 @@
+{# @var \App\Http\Response\Software\CategoryConstruct\CategoryConstructVariables::NAV navItems #}
+
+{% extends 'Http/_Infrastructure/_Layout.twig' %}
+
+{% block content %}
+
+    {# Nav #}
+    {% include 'Http/Components/NavBar.twig' with {
+        navItems: navItems,
+    } only %}
+
+    {# Hero #}
+    {% embed 'Http/Components/Hero.twig' with {
+        ctas: ctas,
+    } only %}
+        {% block heading %}
+            Category Construct
+        {% endblock %}
+        {% block subHeading %}
+            for ExpressionEngine
+        {% endblock %}
+        {% block content %}
+            Category output made easy!
+        {% endblock %}
+    {% endembed %}
+
+    {# TODO: Image sizes here #}
+    {% embed 'Http/Components/FeatureLeftContentRightImage.twig' with {
+        image: {
+            src: siteUrl('/assets/img/ansel2-field-type-tablet-desktop-2x.png'),
+            alt: 'Construct Menu Item',
+        }
+    } only %}
+        {% block content %}
+            <div class="prose">
+                <p class="mt-4 text-lg text-gray-500">
+                    Getting your categories to output in a way that makes sense, particularly with nested category structures, can be a daunting task. But not anymore, thanks to Category Construct! The sole reason for Category Construct's existence is to make your life easier when getting and listing categories!
+                </p>
+                <p class="mt-4 text-lg text-gray-500">
+                    Like Construct before it, Category Construct has powerful template tags that put you in charge. You can nest to your heart’s content, you can re-use markup, or you can have entirely different markup per-level. Category Construct makes no assumptions.
+                </p>
+                <p class="mt-4 text-lg text-gray-500">
+                    And like Construct, the <code>{construct:children}</code> tag ensures your nested child categories will go right where they are supposed to.
+                </p>
+            </div>
+        {% endblock %}
+    {% endembed %}
+
+    {# CTA #}
+    {% embed 'Http/Components/SimpleCtaSection.twig' with {
+        ctas: ctas,
+    } only %}
+        {% block heading %}
+            Get Started with Category Construct
+        {% endblock %}
+        {% block content %}
+            <p class="mt-4 text-lg leading-6 text-gray-100">
+                Get started with Category Construct today by purchasing a site license! Once you've purchased Category Construct, a license will be added to your account and you'll be able to download and use Category Construct right away.
+            </p>
+        {% endblock %}
+    {% endembed %}
+
+{% endblock %}

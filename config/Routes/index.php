@@ -21,6 +21,7 @@ use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2DocIndexAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2DocTemplatingAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeSettingsAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeUseAction;
+use App\Http\Response\Software\CategoryConstruct\CategoryConstructAction;
 use App\Http\Response\Software\Construct\ConstructAction;
 use App\Http\Response\Software\Construct\ConstructChangelogAction;
 use App\Http\Response\Software\Construct\ConstructChangelogItemAction;
@@ -110,4 +111,9 @@ return static function (App $app): void {
     $app->get(pattern: '/software/construct/documentation/template-tags', callable: ConstructV2DocTemplateTagsAction::class);
     $app->redirect('/software/construct/documentation/extension-hook', '/software/construct/documentation/extension-hooks');
     $app->get(pattern: '/software/construct/documentation/extension-hooks', callable: ConstructV2ExtensionHookAction::class);
+
+    /**
+     * Category Construct
+     */
+    $app->get(pattern: '/software/category-construct', callable: CategoryConstructAction::class);
 };
