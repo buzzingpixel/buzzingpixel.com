@@ -22,6 +22,8 @@ use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2DocTemplatingAc
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeSettingsAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeUseAction;
 use App\Http\Response\Software\CategoryConstruct\CategoryConstructAction;
+use App\Http\Response\Software\CategoryConstruct\CategoryConstructChangelogAction;
+use App\Http\Response\Software\CategoryConstruct\CategoryConstructChangelogItemAction;
 use App\Http\Response\Software\Construct\ConstructAction;
 use App\Http\Response\Software\Construct\ConstructChangelogAction;
 use App\Http\Response\Software\Construct\ConstructChangelogItemAction;
@@ -116,4 +118,6 @@ return static function (App $app): void {
      * Category Construct
      */
     $app->get(pattern: '/software/category-construct', callable: CategoryConstructAction::class);
+    $app->get(pattern: '/software/category-construct/changelog', callable: CategoryConstructChangelogAction::class);
+    $app->get(pattern: '/software/category-construct/changelog/{slug:[^\/]+}', callable: CategoryConstructChangelogItemAction::class);
 };
