@@ -1,0 +1,45 @@
+{% extends 'Http/_Infrastructure/_LayoutDocumentation.twig' %}
+
+{% block content %}
+    {% apply smartypants %}
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'System Requirements',
+            level: 'h2',
+        } only %}
+
+        <ul>
+            <li>
+                ExpressionEngine 3.0.0 or greater
+                <ul>
+                    <li>For a limited time, the Category Construct download also comes with the legacy version that supports ExpressionEngine 2.x (2.9.0)</li>
+                </ul>
+            </li>
+            <li>PHP 5.3.10 or greater (same as ExpressionEngine)</li>
+        </ul>
+
+        <hr>
+
+        {% include 'Http/DocumentationComponents/AnchorHeading.twig' with {
+            heading: 'Installing Or Updating',
+            level: 'h2',
+        } only %}
+
+        <p>Installing and updating Category Construct is very easy.</p>
+
+        <ol>
+            <li>Download the Construct zip file and unzip it</li>
+            <li>
+                Copy <code>system/user/addons/category_construct</code> to the same directory location in your EE instance
+                <ul>
+                    <li>If you are updating, replace the existing <code>category_construct</code> directory</li>
+                </ul>
+            </li>
+            <li>Log in to your EE control panel and navigate to the Add-on Manager</li>
+            <li>Scroll down to the "Third Party" section, locate "Category Construct" in the list and click "Install" or "Update"</li>
+        </ol>
+
+        <p>Category Construct is now installed or updated.</p>
+
+    {% endapply %}
+{% endblock %}

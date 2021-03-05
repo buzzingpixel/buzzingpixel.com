@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Software\Construct\Documentation;
+namespace App\Http\Response\Software\CategoryConstruct\Documentation;
 
 use LogicException;
 
-class ConstructDocVariables
+class CategoryConstructDocVariables
 {
     public const V2_BREADCRUMB_TRAIL = [
         [
@@ -14,8 +14,8 @@ class ConstructDocVariables
             'uri' => '/software',
         ],
         [
-            'content' => 'Construct',
-            'uri' => '/software/construct',
+            'content' => 'Category Construct',
+            'uri' => '/software/category-construct',
         ],
         ['content' => 'Documentation'],
     ];
@@ -45,37 +45,12 @@ class ConstructDocVariables
     public const VERSION_2_PAGES = [
         'getting-started' => [
             'content' => 'Getting Started',
-            'uri' => '/software/construct/documentation',
-            'isActive' => false,
-        ],
-        'control-panel' => [
-            'content' => 'Control Panel',
-            'uri' => '/software/construct/documentation/control-panel',
-            'isActive' => false,
-        ],
-        'field-types' => [
-            'content' => 'Field Types',
-            'uri' => '/software/construct/documentation/field-types',
-            'isActive' => false,
-        ],
-        'routing' => [
-            'content' => 'Routing',
-            'uri' => '/software/construct/documentation/routing',
-            'isActive' => false,
-        ],
-        'config-routing' => [
-            'content' => 'Config Routing',
-            'uri' => '/software/construct/documentation/config-routing',
+            'uri' => '/software/category-construct/documentation',
             'isActive' => false,
         ],
         'template-tags' => [
             'content' => 'Template Tags',
-            'uri' => '/software/construct/documentation/template-tags',
-            'isActive' => false,
-        ],
-        'extension-hooks' => [
-            'content' => 'Extension Hooks',
-            'uri' => '/software/construct/documentation/extension-hooks',
+            'uri' => '/software/category-construct/documentation/template-tags',
             'isActive' => false,
         ],
     ];

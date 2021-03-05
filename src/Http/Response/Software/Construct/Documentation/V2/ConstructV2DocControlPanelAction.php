@@ -40,9 +40,9 @@ class ConstructV2DocControlPanelAction
                     'meta' => new Meta(
                         metaTitle: 'Construct Control Panel',
                     ),
-                    'breadcrumbTrail' => ConstructDocVariables::V1_BREADCRUMB_TRAIL,
-                    'breadcrumbSingle' => ConstructDocVariables::V1_BREADCRUMB_TRAIL[count(ConstructDocVariables::V1_BREADCRUMB_TRAIL) - 2],
-                    'documentationPageLinks' => ConstructDocVariables::getVersion1Pages('control-panel'),
+                    'breadcrumbTrail' => ConstructDocVariables::V2_BREADCRUMB_TRAIL,
+                    'breadcrumbSingle' => ConstructDocVariables::V2_BREADCRUMB_TRAIL[count(ConstructDocVariables::V2_BREADCRUMB_TRAIL) - 2],
+                    'documentationPageLinks' => ConstructDocVariables::getVersion2Pages('control-panel'),
                     'heading' => 'Construct Control Panel',
                 ],
             ),

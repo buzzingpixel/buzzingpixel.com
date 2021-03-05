@@ -40,9 +40,9 @@ class ConstructV2ExtensionHookAction
                     'meta' => new Meta(
                         metaTitle: 'Construct Extension Hooks',
                     ),
-                    'breadcrumbTrail' => ConstructDocVariables::V1_BREADCRUMB_TRAIL,
-                    'breadcrumbSingle' => ConstructDocVariables::V1_BREADCRUMB_TRAIL[count(ConstructDocVariables::V1_BREADCRUMB_TRAIL) - 2],
-                    'documentationPageLinks' => ConstructDocVariables::getVersion1Pages('extension-hooks'),
+                    'breadcrumbTrail' => ConstructDocVariables::V2_BREADCRUMB_TRAIL,
+                    'breadcrumbSingle' => ConstructDocVariables::V2_BREADCRUMB_TRAIL[count(ConstructDocVariables::V2_BREADCRUMB_TRAIL) - 2],
+                    'documentationPageLinks' => ConstructDocVariables::getVersion2Pages('extension-hooks'),
                     'heading' => 'Construct Extension Hooks',
                 ],
             ),

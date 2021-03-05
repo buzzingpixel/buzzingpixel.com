@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Software\Construct\Documentation\V2;
+namespace App\Http\Response\Software\CategoryConstruct\Documentation\V2;
 
 use App\Http\Entities\Meta;
-use App\Http\Response\Software\Construct\Documentation\ConstructDocVariables;
+use App\Http\Response\Software\CategoryConstruct\Documentation\CategoryConstructDocVariables;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment as TwigEnvironment;
@@ -15,7 +15,7 @@ use Twig\Error\SyntaxError;
 
 use function count;
 
-class ConstructV2DocFieldTypesAction
+class CategoryConstructV2DocIndexAction
 {
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
@@ -35,15 +35,15 @@ class ConstructV2DocFieldTypesAction
 
         $response->getBody()->write(
             string: $this->twig->render(
-                name: '@software/Construct/Documentation/V2/ConstructV2DocFieldTypes.twig',
+                name: '@software/CategoryConstruct/Documentation/V2/CategoryConstructV2DocIndex.twig',
                 context: [
                     'meta' => new Meta(
-                        metaTitle: 'Using the Construct Field Types',
+                        metaTitle: 'Getting Started With Category Construct',
                     ),
-                    'breadcrumbTrail' => ConstructDocVariables::V2_BREADCRUMB_TRAIL,
-                    'breadcrumbSingle' => ConstructDocVariables::V2_BREADCRUMB_TRAIL[count(ConstructDocVariables::V2_BREADCRUMB_TRAIL) - 2],
-                    'documentationPageLinks' => ConstructDocVariables::getVersion2Pages('field-types'),
-                    'heading' => 'Construct Field Types',
+                    'breadcrumbTrail' => CategoryConstructDocVariables::V2_BREADCRUMB_TRAIL,
+                    'breadcrumbSingle' => CategoryConstructDocVariables::V2_BREADCRUMB_TRAIL[count(CategoryConstructDocVariables::V2_BREADCRUMB_TRAIL) - 2],
+                    'documentationPageLinks' => CategoryConstructDocVariables::getVersion2Pages('getting-started'),
+                    'heading' => 'Getting Started',
                 ],
             ),
         );

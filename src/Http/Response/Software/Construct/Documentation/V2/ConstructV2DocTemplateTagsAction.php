@@ -40,9 +40,9 @@ class ConstructV2DocTemplateTagsAction
                     'meta' => new Meta(
                         metaTitle: "Using Construct's Template Tags",
                     ),
-                    'breadcrumbTrail' => ConstructDocVariables::V1_BREADCRUMB_TRAIL,
-                    'breadcrumbSingle' => ConstructDocVariables::V1_BREADCRUMB_TRAIL[count(ConstructDocVariables::V1_BREADCRUMB_TRAIL) - 2],
-                    'documentationPageLinks' => ConstructDocVariables::getVersion1Pages('template-tags'),
+                    'breadcrumbTrail' => ConstructDocVariables::V2_BREADCRUMB_TRAIL,
+                    'breadcrumbSingle' => ConstructDocVariables::V2_BREADCRUMB_TRAIL[count(ConstructDocVariables::V2_BREADCRUMB_TRAIL) - 2],
+                    'documentationPageLinks' => ConstructDocVariables::getVersion2Pages('template-tags'),
                     'heading' => "Using Construct's Template Tags",
                 ],
             ),

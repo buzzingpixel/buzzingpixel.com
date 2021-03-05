@@ -40,9 +40,9 @@ class ConstructV2DocIndexAction
                     'meta' => new Meta(
                         metaTitle: 'Getting Started With Construct',
                     ),
-                    'breadcrumbTrail' => ConstructDocVariables::V1_BREADCRUMB_TRAIL,
-                    'breadcrumbSingle' => ConstructDocVariables::V1_BREADCRUMB_TRAIL[count(ConstructDocVariables::V1_BREADCRUMB_TRAIL) - 2],
-                    'documentationPageLinks' => ConstructDocVariables::getVersion1Pages('getting-started'),
+                    'breadcrumbTrail' => ConstructDocVariables::V2_BREADCRUMB_TRAIL,
+                    'breadcrumbSingle' => ConstructDocVariables::V2_BREADCRUMB_TRAIL[count(ConstructDocVariables::V2_BREADCRUMB_TRAIL) - 2],
+                    'documentationPageLinks' => ConstructDocVariables::getVersion2Pages('getting-started'),
                     'heading' => 'Getting Started',
                 ],
             ),
