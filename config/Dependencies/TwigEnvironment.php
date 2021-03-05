@@ -2,33 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Config\Factories;
-
 use App\Templating\TwigExtensions\TemplateExists;
 use BuzzingPixel\TwigDumper\TwigDumper;
 use Config\Twig;
 use Psr\Container\ContainerInterface;
-use Throwable;
 use Twig\Environment as TwigEnvironment;
 use Twig\Extension\DebugExtension;
+use Twig\Extension\ExtensionInterface;
 use Twig\Loader\FilesystemLoader;
 
-use function class_exists;
-use function dirname;
-use function getenv;
-
-class TwigEnvironmentFactory
-{
-    /**
-     * @throws Throwable
-     */
-    public function __invoke(ContainerInterface $di): TwigEnvironment
-    {
+return [
+    TwigEnvironment::class => static function (ContainerInterface $di): TwigEnvironment {
         $debug = (bool) getenv('DEV_MODE');
 
         $projectPath = dirname(__DIR__, 2);
 
         $loader = $di->get(FilesystemLoader::class);
+
+        assert($loader instanceof FilesystemLoader);
 
         foreach (Twig::PATHS as $nameSpace => $path) {
             $loader->addPath(
@@ -47,10 +38,18 @@ class TwigEnvironmentFactory
         );
 
         if ($debug) {
-            $twig->addExtension($di->get(DebugExtension::class));
+            $debugExt = $di->get(DebugExtension::class);
+
+            assert($debugExt instanceof DebugExtension);
+
+            $twig->addExtension($debugExt);
 
             if (class_exists(TwigDumper::class)) {
-                $twig->addExtension($di->get(TwigDumper::class));
+                $dumper = $di->get(TwigDumper::class);
+
+                assert($dumper instanceof TwigDumper);
+
+                $twig->addExtension($dumper);
             }
         }
 
@@ -59,13 +58,20 @@ class TwigEnvironmentFactory
         );
 
         foreach (Twig::EXTENSIONS as $extClassString) {
-            $twig->addExtension($di->get($extClassString));
+            /** @psalm-suppress MixedAssignment */
+            $ext = $di->get($extClassString);
+
+            assert($ext instanceof ExtensionInterface);
+
+            $twig->addExtension($ext);
         }
 
+        /** @psalm-suppress MixedAssignment */
         foreach (Twig::globals($di) as $name => $val) {
+            /** @psalm-suppress MixedArgumentTypeCoercion */
             $twig->addGlobal($name, $val);
         }
 
         return $twig;
-    }
-}
+    },
+];

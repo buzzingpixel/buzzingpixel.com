@@ -12,7 +12,6 @@
         <file name="cli"/>
         <ignoreFiles>
             <directory name="vendor"/>
-            <file name="config/Factories/TwigEnvironmentFactory.php"/>
         </ignoreFiles>
     </projectFiles>
 
