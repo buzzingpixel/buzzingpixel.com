@@ -45,7 +45,7 @@ class General extends SimpleModel
 
         if (
             ! static::$devMode ||
-            ((bool) getenv('USE_DYNAMIC_SITE_URL')) ||
+            ! (bool) getenv('USE_DYNAMIC_SITE_URL') ||
             ! isset($_SERVER['HTTP_HOST'])
         ) {
             return;

@@ -40,6 +40,7 @@
     <inspection_tool class="PhpDocSignatureInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <option name="ALLOW_MISSING_PARAMETERS" value="true" />
     </inspection_tool>
+    <inspection_tool class="PhpNoReturnAttributeCanBeAddedInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="PhpStanGlobal" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <option name="memoryLimit" value="4G" />
       <option name="level" value="8" />
@@ -51,5 +52,6 @@
       <option name="findUnusedCode" value="true" />
       <option name="findUnusedSuppress" value="true" />
     </inspection_tool>
+    <inspection_tool class="SqlNoDataSourceInspection" enabled="false" level="WARNING" enabled_by_default="false" />
   </profile>
 </component>

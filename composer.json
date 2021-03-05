@@ -12,6 +12,7 @@
     ],
     "require": {
         "php": "^8.0",
+        "ext-PDO": "^8.0",
         "buzzingpixel/twig-markdown": "^1.0",
         "buzzingpixel/twig-smartypants": "^1.0",
         "buzzingpixel/twig-switch": "^1.0",
