@@ -25,6 +25,7 @@ use App\Http\Response\Software\CategoryConstruct\CategoryConstructAction;
 use App\Http\Response\Software\CategoryConstruct\CategoryConstructChangelogAction;
 use App\Http\Response\Software\CategoryConstruct\CategoryConstructChangelogItemAction;
 use App\Http\Response\Software\CategoryConstruct\Documentation\V2\CategoryConstructV2DocIndexAction;
+use App\Http\Response\Software\CategoryConstruct\Documentation\V2\CategoryConstructV2DocTemplateTagsAction;
 use App\Http\Response\Software\Construct\ConstructAction;
 use App\Http\Response\Software\Construct\ConstructChangelogAction;
 use App\Http\Response\Software\Construct\ConstructChangelogItemAction;
@@ -124,4 +125,5 @@ return static function (App $app): void {
 
     // Category Construct Docs
     $app->get(pattern: '/software/category-construct/documentation', callable: CategoryConstructV2DocIndexAction::class);
+    $app->get(pattern: '/software/category-construct/documentation/template-tags', callable: CategoryConstructV2DocTemplateTagsAction::class);
 };
