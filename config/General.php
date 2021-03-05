@@ -20,6 +20,7 @@ use function is_string;
  * @method string siteName()
  * @method array stylesheets()
  * @method array jsFiles()
+ * @method string phinxConfigFilePath()
  */
 class General extends SimpleModel
 {
@@ -34,6 +35,8 @@ class General extends SimpleModel
         static::$publicPath = $rootPath . '/public';
 
         static::$pathToStorageDirectory = $rootPath . '/storage';
+
+        static::$phinxConfigFilePath = $rootPath . '/config/phinx.php';
 
         if (getenv('SITE_URL') !== false) {
             $siteUrl = getenv('SITE_URL');
@@ -71,4 +74,6 @@ class General extends SimpleModel
 
     /** @var string[] */
     public static array $jsFiles = ['https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js'];
+
+    public static string $phinxConfigFilePath = '';
 }

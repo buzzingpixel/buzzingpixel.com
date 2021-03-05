@@ -41,6 +41,7 @@
       <option name="ALLOW_MISSING_PARAMETERS" value="true" />
     </inspection_tool>
     <inspection_tool class="PhpNoReturnAttributeCanBeAddedInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="PhpPureAttributeCanBeAddedInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="PhpStanGlobal" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <option name="memoryLimit" value="4G" />
       <option name="level" value="8" />
