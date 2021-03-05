@@ -3,21 +3,39 @@
 
 declare(strict_types=1);
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Console\ConsoleRunner as DoctrineConsoleRunner;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application;
 
-// Run bootstrap and get di container
+/**
+ * Run bootstrap and get di container
+ *
+ * @psalm-suppress MixedAssignment
+ * @psalm-suppress MissingFile
+ */
 $bootstrap = require __DIR__ . '/config/bootstrap.php';
-/** @var ContainerInterface $container */
+/** @psalm-suppress MixedFunctionCall */
 $container = $bootstrap();
+assert($container instanceof ContainerInterface);
 
-// Create application
-/** @var Application $app */
+$entityManager = $container->get(EntityManager::class);
+assert($entityManager instanceof EntityManager);
+
+/**
+ * Create application
+ *
+ * @var Application $app
+ */
 $app = $container->get(Application::class);
 
 // We'll handle exceptions below so we can implement logging
 $app->setCatchExceptions(false);
+
+// Add Doctrine helper set to application so the ORM commands can work properly
+$helperSet = DoctrineConsoleRunner::createHelperSet($entityManager);
+$app->setHelperSet($helperSet);
 
 // Get directory iterator for iterating our path for CLI commands
 $directory = new RecursiveDirectoryIterator(__DIR__ . '/src/Cli/Commands');
@@ -69,6 +87,9 @@ foreach ($finalIterator as $files) {
         }
     }
 }
+
+// Add the Doctrine commands to the console
+DoctrineConsoleRunner::addCommands($app);
 
 // Run the application
 try {

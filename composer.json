@@ -18,6 +18,7 @@
         "buzzingpixel/twig-switch": "^1.0",
         "buzzingpixel/twig-widont": "^1.0",
         "doctrine/annotations": "^1.11",
+        "doctrine/orm": "^2.8",
         "jawira/case-converter": "^3.4",
         "league/flysystem": "^2.0",
         "mjerwin/parseachangelog": "^0.9.4",
