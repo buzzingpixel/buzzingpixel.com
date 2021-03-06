@@ -12,7 +12,7 @@ trait CreatedAt
     /**
      * @Mapping\Column(
      *     name="created_at",
-     *     type="datetime_immutable",
+     *     type="datetimetz_immutable",
      *     nullable=false
      * )
      */

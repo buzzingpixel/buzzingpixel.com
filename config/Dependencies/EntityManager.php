@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Persistence\Types\UtcDateTimeImmutableType;
+use App\Persistence\Types\UtcDateTimeType;
+use App\Persistence\Types\UtcDateTimeTzImmutableType;
+use App\Persistence\Types\UtcDateTimeTzType;
 use Config\Db;
 use Config\General;
 use Doctrine\Common\Cache\PhpFileCache;
@@ -13,7 +17,27 @@ use Ramsey\Uuid\Doctrine\UuidType;
 
 return [
     EntityManager::class => static function (ContainerInterface $di): EntityManager {
-        Type::addType('uuid', UuidType::class);
+        Type::addType(name: 'uuid', className:  UuidType::class);
+
+        Type::overrideType(
+            name: 'datetime',
+            className: UtcDateTimeType::class
+        );
+
+        Type::overrideType(
+            name: 'datetimetz',
+            className: UtcDateTimeTzType::class
+        );
+
+        Type::overrideType(
+            name: 'datetime_immutable',
+            className: UtcDateTimeImmutableType::class
+        );
+
+        Type::overrideType(
+            name: 'datetimetz_immutable',
+            className: UtcDateTimeTzImmutableType::class
+        );
 
         $dbConfig = $di->get(Db::class);
 
