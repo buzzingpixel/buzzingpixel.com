@@ -5,12 +5,16 @@ declare(strict_types=1);
 use Config\Db;
 use Config\General;
 use Doctrine\Common\Cache\PhpFileCache;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use Psr\Container\ContainerInterface;
+use Ramsey\Uuid\Doctrine\UuidType;
 
 return [
     EntityManager::class => static function (ContainerInterface $di): EntityManager {
+        Type::addType('uuid', UuidType::class);
+
         $dbConfig = $di->get(Db::class);
 
         assert($dbConfig instanceof Db);
@@ -21,10 +25,13 @@ return [
 
         return EntityManager::create(
             connection: [
-                'driver' => 'pdo_mysql',
+                'driver' => 'pdo_pgsql',
                 'user' => $dbConfig->dbUser(),
                 'password' => $dbConfig->dbPassword(),
+                'host' => $dbConfig->dbHost(),
+                'port' => $dbConfig->dbPort(),
                 'dbname' => $dbConfig->dbDatabase(),
+                'charset'  => 'utf8',
             ],
             config: Setup::createAnnotationMetadataConfiguration(
                 paths: [$generalConfig->rootPath() . '/src/Persistence'],
