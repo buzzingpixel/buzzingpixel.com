@@ -11,11 +11,11 @@ use App\Persistence\PropertyTraits\IsActive;
 use App\Persistence\PropertyTraits\IsAdmin;
 use App\Persistence\PropertyTraits\PasswordHash;
 use App\Persistence\PropertyTraits\Timezone;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="users")
+ * @Mapping\Entity
+ * @Mapping\Table(name="users")
  */
 class UserRecord
 {

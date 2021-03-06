@@ -70,7 +70,7 @@ return [
                 'charset'  => 'utf8',
             ],
             config: Setup::createAnnotationMetadataConfiguration(
-                paths: [$generalConfig->rootPath() . '/src/Persistence/Entities'],
+                paths: [$dbConfig->entitiesPath()],
                 isDevMode: $generalConfig->devMode(),
                 proxyDir: $proxyDir,
                 cache: $cache,

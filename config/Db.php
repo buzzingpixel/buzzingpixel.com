@@ -6,10 +6,12 @@ namespace Config;
 
 use Config\Abstractions\SimpleModel;
 
+use function dirname;
 use function getenv;
 use function is_string;
 
 /**
+ * @method string entitiesPath()
  * @method bool isInitialized()
  * @method string postgresPassword()
  * @method string dbHost()
@@ -22,6 +24,10 @@ class Db extends SimpleModel
 {
     public function __construct()
     {
+        $rootPath = dirname(__DIR__);
+
+        static::$entitiesPath = $rootPath . '/src/Persistence/Entities';
+
         $postgresPassword = getenv('POSTGRES_PASSWORD');
         if (is_string($postgresPassword)) {
             static::$postgresPassword = $postgresPassword;
@@ -54,6 +60,8 @@ class Db extends SimpleModel
 
         self::$isInitialized = true;
     }
+
+    public static string $entitiesPath = '';
 
     public static bool $isInitialized = false;
 

@@ -3,8 +3,16 @@
 
 declare(strict_types=1);
 
+use App\Globals;
+use Config\Db;
+use Config\General;
+use Doctrine\Migrations\Configuration\EntityManager\ExistingEntityManager;
+use Doctrine\Migrations\Configuration\Migration\PhpFile;
+use Doctrine\Migrations\DependencyFactory;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Console\ConsoleRunner as DoctrineConsoleRunner;
+use \Doctrine\Migrations\Tools\Console\ConsoleRunner as DoctrineMigrationsConsoleRunner;
+use Doctrine\ORM\Tools\Setup;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application;
@@ -19,6 +27,12 @@ $bootstrap = require __DIR__ . '/config/bootstrap.php';
 /** @psalm-suppress MixedFunctionCall */
 $container = $bootstrap();
 assert($container instanceof ContainerInterface);
+
+$generalConfig = Globals::di()->get(General::class);
+assert($generalConfig instanceof General);
+
+$dbConfig = Globals::di()->get(Db::class);
+assert($dbConfig instanceof Db);
 
 $entityManager = $container->get(EntityManager::class);
 assert($entityManager instanceof EntityManager);
@@ -90,6 +104,20 @@ foreach ($finalIterator as $files) {
 
 // Add the Doctrine commands to the console
 DoctrineConsoleRunner::addCommands($app);
+
+// Add Doctrine Migrations commands to the console
+/** @psalm-suppress InternalMethod */
+DoctrineMigrationsConsoleRunner::addCommands(
+    cli: $app,
+    dependencyFactory:  DependencyFactory::fromEntityManager(
+        configurationLoader: new PhpFile(
+            __DIR__ . '/config/doctrineMigrations.php'
+        ),
+        emLoader: new ExistingEntityManager(
+            $entityManager
+        ),
+    ),
+);
 
 // Run the application
 try {
