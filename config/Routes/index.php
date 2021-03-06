@@ -44,10 +44,18 @@ use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocTemplateTa
 use App\Http\Response\Software\Treasury\TreasuryAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogItemAction;
+use Config\Tinker;
 use Slim\App;
 
 return static function (App $app): void {
     $app->get(pattern: '/', callable: HomeAction::class);
+
+    /**
+     * Tinker
+     */
+    if ((bool) getenv('DEV_MODE')) {
+        $app->get(pattern: '/tinker', callable: Tinker::class);
+    }
 
     /**
      * Software
