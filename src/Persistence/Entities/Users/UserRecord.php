@@ -29,7 +29,7 @@ class UserRecord
     use Timezone;
     use CreatedAt;
 
-    public function hydrateFromUserEntity(UserEntity $user): void
+    public function hydrateFromEntity(UserEntity $user): void
     {
         $this->setId(Uuid::fromString($user->id()));
         $this->setIsAdmin($user->isAdmin());

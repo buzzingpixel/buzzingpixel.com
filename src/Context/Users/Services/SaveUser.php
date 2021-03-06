@@ -118,7 +118,7 @@ class SaveUser
             );
         }
 
-        $userRecord->hydrateFromUserEntity($user);
+        $userRecord->hydrateFromEntity($user);
 
         $this->entityManager->persist($userRecord);
 

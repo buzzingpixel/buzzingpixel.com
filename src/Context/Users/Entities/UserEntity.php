@@ -6,6 +6,7 @@ namespace App\Context\Users\Entities;
 
 use App\EntityValueObjects\EmailAddress;
 use App\EntityValueObjects\Id;
+use App\Persistence\Entities\Users\UserRecord;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
@@ -25,6 +26,19 @@ class UserEntity
     private bool $isActive;
     private DateTimeZone $timezone;
     private DateTimeImmutable $createdAt;
+
+    public static function fromRecord(UserRecord $record): self
+    {
+        return new self(
+            id: $record->getId()->toString(),
+            isAdmin: $record->getIsAdmin(),
+            emailAddress: $record->getEmailAddress(),
+            passwordHash: $record->getPasswordHash(),
+            isActive: $record->getIsActive(),
+            timezone: $record->getTimezone(),
+            createdAt: $record->getCreatedAt(),
+        );
+    }
 
     public function __construct(
         bool $isAdmin,
