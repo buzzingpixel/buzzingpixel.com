@@ -23,6 +23,16 @@ return [
 
         assert($generalConfig instanceof General);
 
+        $proxyDir = $generalConfig->devMode() ?
+            null :
+            $generalConfig->pathToStorageDirectory() . '/doctrine/proxy';
+
+        $cache = $generalConfig->devMode() ?
+            null :
+            new PhpFileCache(
+                directory: $generalConfig->pathToStorageDirectory() . '/doctrine/cache',
+            );
+
         return EntityManager::create(
             connection: [
                 'driver' => 'pdo_pgsql',
@@ -35,11 +45,9 @@ return [
             ],
             config: Setup::createAnnotationMetadataConfiguration(
                 paths: [$generalConfig->rootPath() . '/src/Persistence'],
-                isDevMode: (bool) getenv('DEV_MODE'),
-                proxyDir: $generalConfig->pathToStorageDirectory() . '/doctrine/proxy',
-                cache: new PhpFileCache(
-                    directory: $generalConfig->pathToStorageDirectory() . '/doctrine/cache',
-                ),
+                isDevMode: $generalConfig->devMode(),
+                proxyDir: $proxyDir,
+                cache: $cache,
                 useSimpleAnnotationReader: false,
             ),
         );

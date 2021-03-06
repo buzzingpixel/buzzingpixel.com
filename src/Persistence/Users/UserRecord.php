@@ -6,7 +6,6 @@ namespace App\Persistence\Users;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -18,8 +17,6 @@ class UserRecord
     /**
      * @ORM\Id
      * @ORM\Column(name="id", type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      */
     protected UuidInterface $id;
 
