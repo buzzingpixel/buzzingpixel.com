@@ -114,13 +114,6 @@
       <path value="$PROJECT_DIR$/vendor/jawira/case-converter" />
       <path value="$PROJECT_DIR$/vendor/erusev/parsedown" />
       <path value="$PROJECT_DIR$/vendor/mjerwin/parseachangelog" />
-      <path value="$PROJECT_DIR$/vendor/cakephp/utility" />
-      <path value="$PROJECT_DIR$/vendor/cakephp/datasource" />
-      <path value="$PROJECT_DIR$/vendor/cakephp/database" />
-      <path value="$PROJECT_DIR$/vendor/cakephp/core" />
-      <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
-      <path value="$PROJECT_DIR$/vendor/symfony/config" />
-      <path value="$PROJECT_DIR$/vendor/robmorgan/phinx" />
       <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
       <path value="$PROJECT_DIR$/vendor/doctrine/dbal" />
       <path value="$PROJECT_DIR$/vendor/doctrine/persistence" />

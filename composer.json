@@ -29,7 +29,6 @@
         "psr/cache": "^1.0",
         "ramsey/uuid": "^4.1",
         "ramsey/uuid-doctrine": "^1.6",
-        "robmorgan/phinx": "^0.12.5",
         "rollbar/rollbar": "^2.1",
         "slim/csrf": "^1.2",
         "slim/psr7": "^1.3",
