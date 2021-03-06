@@ -23,14 +23,16 @@ return [
 
         assert($generalConfig instanceof General);
 
+        $storageDir = $generalConfig->pathToStorageDirectory();
+
         $proxyDir = $generalConfig->devMode() ?
             null :
-            $generalConfig->pathToStorageDirectory() . '/doctrine/proxy';
+            $storageDir . '/doctrine/proxy';
 
         $cache = $generalConfig->devMode() ?
             null :
             new PhpFileCache(
-                directory: $generalConfig->pathToStorageDirectory() . '/doctrine/cache',
+                directory: $storageDir . '/doctrine/cache',
             );
 
         return EntityManager::create(
@@ -44,7 +46,7 @@ return [
                 'charset'  => 'utf8',
             ],
             config: Setup::createAnnotationMetadataConfiguration(
-                paths: [$generalConfig->rootPath() . '/src/Persistence'],
+                paths: [$generalConfig->rootPath() . '/src/Persistence/Entities'],
                 isDevMode: $generalConfig->devMode(),
                 proxyDir: $proxyDir,
                 cache: $cache,
