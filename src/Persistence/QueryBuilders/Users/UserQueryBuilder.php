@@ -28,4 +28,82 @@ class UserQueryBuilder extends QueryBuilder
     {
         return 'u';
     }
+
+    public function withId(
+        string $value,
+        string $comparison = '=',
+        string $concat = 'AND',
+    ): self {
+        return $this->withWhere(
+            'id',
+            $value,
+            $comparison,
+            $concat,
+        );
+    }
+
+    public function withIsAdmin(
+        bool $value,
+        string $comparison = '=',
+        string $concat = 'AND',
+    ): self {
+        return $this->withWhere(
+            'isAdmin',
+            $value,
+            $comparison,
+            $concat,
+        );
+    }
+
+    public function withEmailAddress(
+        string $value,
+        string $comparison = '=',
+        string $concat = 'AND',
+    ): self {
+        return $this->withWhere(
+            'emailAddress',
+            $value,
+            $comparison,
+            $concat,
+        );
+    }
+
+    public function withIsActive(
+        bool $value,
+        string $comparison = '=',
+        string $concat = 'AND',
+    ): self {
+        return $this->withWhere(
+            'isActive',
+            $value,
+            $comparison,
+            $concat,
+        );
+    }
+
+    public function withTimezone(
+        string $value,
+        string $comparison = '=',
+        string $concat = 'AND',
+    ): self {
+        return $this->withWhere(
+            'timezone',
+            $value,
+            $comparison,
+            $concat,
+        );
+    }
+
+    public function withCreatedAt(
+        string $value,
+        string $comparison = '=',
+        string $concat = 'AND',
+    ): self {
+        return $this->withWhere(
+            'createdAt',
+            $value,
+            $comparison,
+            $concat,
+        );
+    }
 }
