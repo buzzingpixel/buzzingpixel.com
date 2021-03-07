@@ -132,6 +132,8 @@
       <path value="$PROJECT_DIR$/vendor/laminas/laminas-eventmanager" />
       <path value="$PROJECT_DIR$/vendor/laminas/laminas-zendframework-bridge" />
       <path value="$PROJECT_DIR$/vendor/doctrine/migrations" />
+      <path value="$PROJECT_DIR$/vendor/fig/event-dispatcher-util" />
+      <path value="$PROJECT_DIR$/vendor/crell/tukio" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

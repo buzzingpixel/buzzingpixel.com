@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Context\Users\Services;
 
 use App\Context\Users\Entities\UserEntity;
+use App\Context\Users\Events\SaveUserAfterSave;
+use App\Context\Users\Events\SaveUserBeforeSave;
+use App\Context\Users\Events\SaveUserFailed;
 use App\Payload\Payload;
 use App\Persistence\Entities\Users\UserRecord;
 use Config\General;
@@ -13,6 +16,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\TransactionRequiredException;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -24,6 +28,7 @@ class SaveUser
         private EntityManager $entityManager,
         private LoggerInterface $logger,
         private General $config,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -31,19 +36,24 @@ class SaveUser
     {
         try {
             return $this->innerSave($user);
-        } catch (Throwable $e) {
+        } catch (Throwable $exception) {
             if ($this->config->devMode()) {
-                throw $e;
+                throw $exception;
             }
 
             $this->logger->emergency(
                 'An exception was caught saving a user',
-                ['exception' => $e],
+                ['exception' => $exception],
             );
+
+            $this->eventDispatcher->dispatch(new SaveUserFailed(
+                $user,
+                $exception,
+            ));
 
             return new Payload(
                 Payload::STATUS_ERROR,
-                ['message' => $e->getMessage()],
+                ['message' => $exception->getMessage()],
             );
         }
     }
@@ -118,16 +128,36 @@ class SaveUser
             );
         }
 
-        $userRecord->hydrateFromEntity($user);
+        $beforeSave = new SaveUserBeforeSave(
+            $user
+        );
+
+        $this->eventDispatcher->dispatch($beforeSave);
+
+        $userRecord->hydrateFromEntity($beforeSave->userEntity);
 
         $this->entityManager->persist($userRecord);
 
         $this->entityManager->flush($userRecord);
 
+        $payload = new Payload(
+            $payloadStatus,
+            [
+                'userEntity' => $beforeSave->userEntity,
+            ]
+        );
+
+        $afterSave = new SaveUserAfterSave(
+            $beforeSave->userEntity,
+            $payload,
+        );
+
+        $this->eventDispatcher->dispatch($afterSave);
+
         $this->logger->info(
             'The user was saved',
         );
 
-        return new Payload($payloadStatus);
+        return $afterSave->payload;
     }
 }

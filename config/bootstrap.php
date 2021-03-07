@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Globals;
+use Config\RegisterEventListeners;
 use DI\ContainerBuilder;
 use Psr\Container\ContainerInterface;
 use Whoops\Handler\PlainTextHandler;
@@ -56,6 +57,12 @@ return static function (): ContainerInterface {
     $container = $containerBuilder->build();
 
     Globals::init($container);
+
+    $registerEventListeners = $container->get(RegisterEventListeners::class);
+
+    assert($registerEventListeners instanceof RegisterEventListeners);
+
+    $registerEventListeners->register();
 
     return $container;
 };
