@@ -10,7 +10,6 @@ use Ramsey\Uuid\UuidInterface;
 trait UserId
 {
     /**
-     * @Mapping\Id
      * @Mapping\Column(
      *     name="user_id",
      *     type="uuid",

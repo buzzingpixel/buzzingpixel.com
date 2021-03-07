@@ -134,6 +134,7 @@
       <path value="$PROJECT_DIR$/vendor/doctrine/migrations" />
       <path value="$PROJECT_DIR$/vendor/fig/event-dispatcher-util" />
       <path value="$PROJECT_DIR$/vendor/crell/tukio" />
+      <path value="$PROJECT_DIR$/vendor/buzzingpixel/cookie-api" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

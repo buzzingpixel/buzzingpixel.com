@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "113caef289f4ebd1c5c7bc5090aea3e2",
+    "content-hash": "a46eba1b93e4e9c05b4b7c20ae6f362b",
     "packages": [
         {
             "name": "brick/math",
@@ -61,6 +61,64 @@
                 }
             ],
             "time": "2021-01-20T22:51:39+00:00"
+        },
+        {
+            "name": "buzzingpixel/cookie-api",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/buzzingpixel/cookie-api.git",
+                "reference": "8c294fddd82b379732a1c06db0e93afd1cae31b1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/buzzingpixel/cookie-api/zipball/8c294fddd82b379732a1c06db0e93afd1cae31b1",
+                "reference": "8c294fddd82b379732a1c06db0e93afd1cae31b1",
+                "shasum": ""
+            },
+            "require": {
+                "buzzingpixel/corbomite-di": "^1.0",
+                "ext-json": "*",
+                "ext-sodium": "*",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "codedungeon/phpunit-result-printer": "^0.26.1",
+                "phpmd/phpmd": "^2.6",
+                "phpunit/phpunit": "^7.5",
+                "roave/security-advisories": "dev-master",
+                "squizlabs/php_codesniffer": "^3.4",
+                "twig/twig": "^2.6"
+            },
+            "type": "library",
+            "extra": {
+                "diConfigFilePath": "src/diConfig.php",
+                "twigExtensions": [
+                    "buzzingpixel\\cookieapi\\CookieApiTwigExtension"
+                ]
+            },
+            "autoload": {
+                "psr-4": {
+                    "buzzingpixel\\cookieapi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "TJ Draper",
+                    "email": "tj@buzzingpixel.com",
+                    "homepage": "https://buzzingpixel.com"
+                }
+            ],
+            "description": "Cookie API",
+            "support": {
+                "issues": "https://github.com/buzzingpixel/cookie-api/issues",
+                "source": "https://github.com/buzzingpixel/cookie-api/tree/2.0.1"
+            },
+            "time": "2019-03-27T01:30:29+00:00"
         },
         {
             "name": "buzzingpixel/corbomite-config-collector",

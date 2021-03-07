@@ -124,6 +124,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/migrations" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/fig/event-dispatcher-util" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/crell/tukio" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/buzzingpixel/cookie-api" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
