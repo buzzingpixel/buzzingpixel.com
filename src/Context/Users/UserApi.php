@@ -7,6 +7,8 @@ namespace App\Context\Users;
 use App\Context\Users\Entities\UserCollection;
 use App\Context\Users\Entities\UserEntity;
 use App\Context\Users\Services\DeleteUser;
+use App\Context\Users\Services\FetchLoggedInUser;
+use App\Context\Users\Services\FetchOneUser;
 use App\Context\Users\Services\FetchUsers;
 use App\Context\Users\Services\LogUserIn;
 use App\Context\Users\Services\SaveUser;
@@ -19,9 +21,11 @@ class UserApi
     public function __construct(
         private SaveUser $saveUser,
         private FetchUsers $fetchUsers,
+        private FetchOneUser $fetchOneUser,
         private ValidateUserPassword $validateUserPassword,
         private LogUserIn $logUserIn,
         private DeleteUser $deleteUser,
+        private FetchLoggedInUser $fetchLoggedInUser,
     ) {
     }
 
@@ -40,15 +44,7 @@ class UserApi
 
     public function fetchOneUser(UserQueryBuilder $queryBuilder): ?UserEntity
     {
-        $userCollection = $this->fetchUsers(
-            $queryBuilder->withLimit(1)
-        );
-
-        if ($userCollection->count() < 1) {
-            return null;
-        }
-
-        return $userCollection->first();
+        return $this->fetchOneUser->fetch($queryBuilder);
     }
 
     /**
@@ -78,5 +74,10 @@ class UserApi
     public function deleteUser(UserEntity $user): Payload
     {
         return $this->deleteUser->delete($user);
+    }
+
+    public function fetchLoggedInUser(): ?UserEntity
+    {
+        return $this->fetchLoggedInUser->fetch();
     }
 }
