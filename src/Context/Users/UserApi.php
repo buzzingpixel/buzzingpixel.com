@@ -6,6 +6,7 @@ namespace App\Context\Users;
 
 use App\Context\Users\Entities\UserCollection;
 use App\Context\Users\Entities\UserEntity;
+use App\Context\Users\Services\DeleteUser;
 use App\Context\Users\Services\FetchUsers;
 use App\Context\Users\Services\LogUserIn;
 use App\Context\Users\Services\SaveUser;
@@ -20,6 +21,7 @@ class UserApi
         private FetchUsers $fetchUsers,
         private ValidateUserPassword $validateUserPassword,
         private LogUserIn $logUserIn,
+        private DeleteUser $deleteUser,
     ) {
     }
 
@@ -71,5 +73,10 @@ class UserApi
     public function logUserIn(UserEntity $user, string $password): Payload
     {
         return $this->logUserIn->logUserIn($user, $password);
+    }
+
+    public function deleteUser(UserEntity $user): Payload
+    {
+        return $this->deleteUser->delete($user);
     }
 }
