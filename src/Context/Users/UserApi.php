@@ -6,10 +6,12 @@ namespace App\Context\Users;
 
 use App\Context\Users\Entities\UserCollection;
 use App\Context\Users\Entities\UserEntity;
+use App\Context\Users\Entities\UserPasswordResetTokenEntity;
 use App\Context\Users\Services\DeleteUser;
 use App\Context\Users\Services\FetchLoggedInUser;
 use App\Context\Users\Services\FetchOneUser;
 use App\Context\Users\Services\FetchUsers;
+use App\Context\Users\Services\GeneratePasswordResetToken;
 use App\Context\Users\Services\LogUserIn;
 use App\Context\Users\Services\SaveUser;
 use App\Context\Users\Services\ValidateUserPassword;
@@ -26,6 +28,7 @@ class UserApi
         private LogUserIn $logUserIn,
         private DeleteUser $deleteUser,
         private FetchLoggedInUser $fetchLoggedInUser,
+        private GeneratePasswordResetToken $generatePasswordResetToken,
     ) {
     }
 
@@ -79,5 +82,10 @@ class UserApi
     public function fetchLoggedInUser(): ?UserEntity
     {
         return $this->fetchLoggedInUser->fetch();
+    }
+
+    public function generatePasswordResetToken(UserEntity $user): ?UserPasswordResetTokenEntity
+    {
+        return $this->generatePasswordResetToken->generate($user);
     }
 }
