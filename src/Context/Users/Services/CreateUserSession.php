@@ -7,8 +7,6 @@ namespace App\Context\Users\Services;
 use App\Context\Users\Entities\UserEntity;
 use App\Context\Users\Entities\UserSessionEntity;
 use App\Payload\Payload;
-use DateTimeZone;
-use Safe\DateTimeImmutable;
 
 class CreateUserSession
 {
@@ -16,15 +14,16 @@ class CreateUserSession
     {
     }
 
-    public function create(UserEntity $user): Payload
+    public function create(UserEntity $user): ?UserSessionEntity
     {
-        $currentDate = new DateTimeImmutable(
-            'now',
-            new DateTimeZone('UTC')
-        );
+        $entity = new UserSessionEntity($user->id());
 
-        return $this->saveUserSession->save(
-            new UserSessionEntity($user->id())
-        );
+        $payload = $this->saveUserSession->save($entity);
+
+        if ($payload->getStatus() === Payload::STATUS_ERROR) {
+            return null;
+        }
+
+        return $entity;
     }
 }
