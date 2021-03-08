@@ -15,6 +15,7 @@ use App\Persistence\PropertyTraits\InitialAssumeDeadAfter;
 use App\Persistence\PropertyTraits\IsFinished;
 use App\Persistence\PropertyTraits\IsRunning;
 use App\Persistence\PropertyTraits\PercentComplete;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping;
 
 /**
@@ -34,4 +35,36 @@ class QueueRecord
     use PercentComplete;
     use AddedAt;
     use FinishedAt;
+
+    /**
+     * One queue has many queue items. This is the inverse side.
+     *
+     * @var ArrayCollection<int, QueueItemRecord>
+     * @Mapping\OneToMany(
+     *     targetEntity="QueueItemRecord",
+     *     mappedBy="queue",
+     * )
+     */
+    private ArrayCollection $queueItems;
+
+    /**
+     * @return ArrayCollection<int, QueueItemRecord>
+     */
+    public function getQueueItems(): ArrayCollection
+    {
+        return $this->queueItems;
+    }
+
+    /**
+     * @param ArrayCollection<int, QueueItemRecord> $queueItems
+     */
+    public function setQueueItems(ArrayCollection $queueItems): void
+    {
+        $this->queueItems = $queueItems;
+    }
+
+    public function __construct()
+    {
+        $this->queueItems = new ArrayCollection();
+    }
 }
