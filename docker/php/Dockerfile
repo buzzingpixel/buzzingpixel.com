@@ -45,6 +45,7 @@ RUN docker-php-ext-install pdo
 RUN docker-php-ext-install pdo_pgsql
 RUN docker-php-ext-install zip
 RUN docker-php-ext-install pcntl
+RUN docker-php-ext-install intl
 
 # Add base PHP config
 COPY ./docker/php/php-custom-config.ini /usr/local/etc/php/conf.d/php-custom-config.ini

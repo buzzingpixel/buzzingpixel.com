@@ -14,6 +14,7 @@ return array_merge(
     require __DIR__ . '/Dependencies/Events.php',
     require __DIR__ . '/Dependencies/Filesystem.php',
     require __DIR__ . '/Dependencies/LoggerInterface.php',
+    require __DIR__ . '/Dependencies/MailerSend.php',
     require __DIR__ . '/Dependencies/ResponseFactoryInterface.php',
     require __DIR__ . '/Dependencies/StaticCacheMiddleware.php',
     require __DIR__ . '/Dependencies/TwigEnvironment.php',
