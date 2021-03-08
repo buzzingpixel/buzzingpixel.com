@@ -12,6 +12,7 @@
         <file name="cli"/>
         <ignoreFiles>
             <directory name="vendor"/>
+            <file name="config/Tinker.php"/>
         </ignoreFiles>
     </projectFiles>
 

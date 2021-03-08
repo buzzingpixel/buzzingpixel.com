@@ -11,6 +11,7 @@ use Ramsey\Collection\AbstractCollection;
  * @method bool add(UserEntity $element)
  * @method UserEntity first()
  * @method UserEntity last()
+ * @psalm-suppress ImplementedReturnTypeMismatch
  * @method UserCollection sort(string $propertyOrMethod, string $order = self::SORT_ASC)
  * @method UserCollection filter(callable $callback)
  * @method UserCollection where(string $propertyOrMethod, $value)

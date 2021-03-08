@@ -5,6 +5,7 @@ parameters:
     excludes_analyse:
         - %currentWorkingDirectory%/config/dumper.php
         - %currentWorkingDirectory%/config/Abstractions/SimpleModel.php
+        - %currentWorkingDirectory%/config/Tinker.php
 
 includes:
     - vendor/phpstan/phpstan-deprecation-rules/rules.neon

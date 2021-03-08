@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Context\Users\Services;
 
 use App\Context\Users\Entities\UserSessionEntity;
+use App\Persistence\Entities\Users\UserSessionRecord;
 use App\Persistence\QueryBuilders\Users\UserSessionQueryBuilder;
 use Config\General;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
 use Psr\Log\LoggerInterface;
 use Throwable;
+
+use function assert;
 
 class FetchUserSession
 {
@@ -48,9 +51,11 @@ class FetchUserSession
             ->createQuery($this->entityManager)
             ->getOneOrNullResult();
 
-        if (! $record) {
+        if ($record === null) {
             return null;
         }
+
+        assert($record instanceof UserSessionRecord);
 
         return UserSessionEntity::fromRecord($record);
     }
