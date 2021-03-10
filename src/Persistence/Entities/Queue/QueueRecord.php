@@ -49,6 +49,7 @@ class QueueRecord
      *     mappedBy="queue",
      *     cascade={"persist", "remove"},
      * )
+     * @Mapping\OrderBy({"runOrder" = "asc"})
      */
     private Collection $queueItems;
 
