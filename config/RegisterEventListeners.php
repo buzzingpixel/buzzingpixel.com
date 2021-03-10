@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Config;
 
+use App\Context\Queue\QueueRegisterEventListeners;
 use App\Context\Users\UsersRegisterEventListeners;
 use Psr\EventDispatcher\ListenerProviderInterface;
 
@@ -26,5 +27,6 @@ class RegisterEventListeners
         $provider = $this->provider;
 
         (new UsersRegisterEventListeners())->register($provider);
+        (new QueueRegisterEventListeners())->register($provider);
     }
 }

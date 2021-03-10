@@ -128,9 +128,7 @@ class SaveUser
             );
         }
 
-        $beforeSave = new SaveUserBeforeSave(
-            $user
-        );
+        $beforeSave = new SaveUserBeforeSave($user);
 
         $this->eventDispatcher->dispatch($beforeSave);
 
