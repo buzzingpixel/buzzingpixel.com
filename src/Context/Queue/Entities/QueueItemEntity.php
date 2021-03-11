@@ -58,7 +58,7 @@ class QueueItemEntity
      */
     public function __construct(
         string $className,
-        string $methodName,
+        string $methodName = '__invoke',
         array $context = [],
         ?QueueEntity $queue = null,
         bool $isFinished = false,

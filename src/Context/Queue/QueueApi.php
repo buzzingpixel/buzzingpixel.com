@@ -9,6 +9,7 @@ use App\Context\Queue\Entities\QueueItemEntity;
 use App\Context\Queue\Services\AddToQueue;
 use App\Context\Queue\Services\FetchNextQueueItem;
 use App\Context\Queue\Services\MarkAsStarted;
+use App\Context\Queue\Services\RunQueueItem;
 use App\Payload\Payload;
 
 class QueueApi
@@ -17,6 +18,7 @@ class QueueApi
         private AddToQueue $addToQueue,
         private FetchNextQueueItem $fetchNextQueueItem,
         private MarkAsStarted $markAsStarted,
+        private RunQueueItem $runQueueItem,
     ) {
     }
 
@@ -33,5 +35,10 @@ class QueueApi
     public function markAsStarted(QueueEntity $queue): QueueEntity
     {
         return $this->markAsStarted->mark($queue);
+    }
+
+    public function runItem(QueueItemEntity $queueItem): void
+    {
+        $this->runQueueItem->run($queueItem);
     }
 }
