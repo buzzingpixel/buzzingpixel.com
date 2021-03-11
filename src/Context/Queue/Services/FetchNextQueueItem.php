@@ -42,7 +42,7 @@ class FetchNextQueueItem
         }
     }
 
-    public function innerFetch(): ?QueueItemEntity
+    private function innerFetch(): ?QueueItemEntity
     {
         $record = $this->entityManager
             ->getRepository(QueueRecord::class)

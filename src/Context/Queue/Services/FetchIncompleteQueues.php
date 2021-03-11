@@ -47,7 +47,7 @@ class FetchIncompleteQueues
     /**
      * @phpstan-ignore-next-line
      */
-    public function innerFetch(): QueueCollection
+    private function innerFetch(): QueueCollection
     {
         /** @psalm-suppress MixedArgument */
         return new QueueCollection(array_map(

@@ -33,7 +33,7 @@ class MarkAsStarted
         }
     }
 
-    public function innerMark(QueueEntity $queue): QueueEntity
+    private function innerMark(QueueEntity $queue): QueueEntity
     {
         $queue = $queue->withHasStarted(true)
             ->withIsRunning(true);
