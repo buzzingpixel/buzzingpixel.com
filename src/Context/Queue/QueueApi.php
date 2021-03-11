@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Context\Queue;
 
+use App\Context\Queue\Entities\QueueCollection;
 use App\Context\Queue\Entities\QueueEntity;
 use App\Context\Queue\Entities\QueueItemEntity;
 use App\Context\Queue\Services\AddToQueue;
 use App\Context\Queue\Services\FetchNextQueueItem;
+use App\Context\Queue\Services\FetchStalledQueues;
 use App\Context\Queue\Services\MarkAsStarted;
 use App\Context\Queue\Services\MarkQueueItemStoppedDueToError;
 use App\Context\Queue\Services\QueueItemPostRun;
@@ -24,6 +26,7 @@ class QueueApi
         private RunQueueItem $runQueueItem,
         private QueueItemPostRun $queueItemPostRun,
         private MarkQueueItemStoppedDueToError $markQueueItemStoppedDueToError,
+        private FetchStalledQueues $fetchStalledQueues,
     ) {
     }
 
@@ -57,5 +60,13 @@ class QueueApi
         ?Throwable $e = null,
     ): void {
         $this->markQueueItemStoppedDueToError->mark($queue, $e);
+    }
+
+    /**
+     * @phpstan-ignore-next-line
+     */
+    public function fetchStalledQueues(): QueueCollection
+    {
+        return $this->fetchStalledQueues->fetch();
     }
 }
