@@ -8,6 +8,7 @@ use App\Context\Queue\Entities\QueueCollection;
 use App\Context\Queue\Entities\QueueEntity;
 use App\Context\Queue\Entities\QueueItemEntity;
 use App\Context\Queue\Services\AddToQueue;
+use App\Context\Queue\Services\CleanDeadQueues;
 use App\Context\Queue\Services\CleanOldQueues;
 use App\Context\Queue\Services\FetchIncompleteQueues;
 use App\Context\Queue\Services\FetchNextQueueItem;
@@ -31,6 +32,7 @@ class QueueApi
         private FetchStalledQueues $fetchStalledQueues,
         private FetchIncompleteQueues $fetchIncompleteQueues,
         private CleanOldQueues $cleanOldQueues,
+        private CleanDeadQueues $cleanDeadQueues,
     ) {
     }
 
@@ -85,5 +87,10 @@ class QueueApi
     public function cleanOldQueues(): int
     {
         return $this->cleanOldQueues->clean();
+    }
+
+    public function cleanDeadQueues(): int
+    {
+        return $this->cleanDeadQueues->clean();
     }
 }
