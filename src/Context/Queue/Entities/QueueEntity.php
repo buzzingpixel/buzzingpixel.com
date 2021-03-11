@@ -211,7 +211,7 @@ class QueueEntity
         return $this->isRunning;
     }
 
-    public function withIsRunning(bool $isRunning): self
+    public function withIsRunning(bool $isRunning = true): self
     {
         $clone = clone $this;
 
@@ -393,5 +393,20 @@ class QueueEntity
         $clone->queueItems = $queueItems;
 
         return $clone;
+    }
+
+    public function finishedItemsCount(): int
+    {
+        $finished = 0;
+
+        foreach ($this->queueItems->toArray() as $item) {
+            if (! $item->isFinished()) {
+                continue;
+            }
+
+            $finished++;
+        }
+
+        return $finished;
     }
 }

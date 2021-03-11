@@ -152,7 +152,7 @@ class QueueItemEntity
         return $this->isFinished;
     }
 
-    public function withIsFinished(bool $isFinished): self
+    public function withIsFinished(bool $isFinished = true): self
     {
         $clone = clone $this;
 
