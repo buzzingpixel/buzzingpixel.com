@@ -8,6 +8,7 @@ use App\Context\Queue\Entities\QueueCollection;
 use App\Context\Queue\Entities\QueueEntity;
 use App\Context\Queue\Entities\QueueItemEntity;
 use App\Context\Queue\Services\AddToQueue;
+use App\Context\Queue\Services\FetchIncompleteQueues;
 use App\Context\Queue\Services\FetchNextQueueItem;
 use App\Context\Queue\Services\FetchStalledQueues;
 use App\Context\Queue\Services\MarkAsStarted;
@@ -27,6 +28,7 @@ class QueueApi
         private QueueItemPostRun $queueItemPostRun,
         private MarkQueueItemStoppedDueToError $markQueueItemStoppedDueToError,
         private FetchStalledQueues $fetchStalledQueues,
+        private FetchIncompleteQueues $fetchIncompleteQueues,
     ) {
     }
 
@@ -68,5 +70,13 @@ class QueueApi
     public function fetchStalledQueues(): QueueCollection
     {
         return $this->fetchStalledQueues->fetch();
+    }
+
+    /**
+     * @phpstan-ignore-next-line
+     */
+    public function fetchIncompleteQueues(): QueueCollection
+    {
+        return $this->fetchIncompleteQueues->fetch();
     }
 }
