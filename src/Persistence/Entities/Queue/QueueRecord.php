@@ -7,6 +7,7 @@ namespace App\Persistence\Entities\Queue;
 use App\Context\Queue\Entities\QueueEntity;
 use App\Persistence\PropertyTraits\AddedAt;
 use App\Persistence\PropertyTraits\AssumeDeadAfter;
+use App\Persistence\PropertyTraits\ErrorMessage;
 use App\Persistence\PropertyTraits\FinishedAt;
 use App\Persistence\PropertyTraits\FinishedDueToError;
 use App\Persistence\PropertyTraits\Handle;
@@ -36,6 +37,7 @@ class QueueRecord
     use InitialAssumeDeadAfter;
     use IsFinished;
     use FinishedDueToError;
+    use ErrorMessage;
     use PercentComplete;
     use AddedAt;
     use FinishedAt;
@@ -88,6 +90,7 @@ class QueueRecord
         $this->setFinishedDueToError(
             $entity->finishedDueToError()
         );
+        $this->setErrorMessage($entity->errorMessage());
         $this->setPercentComplete($entity->percentComplete());
         $this->setAddedAt($entity->addedAt());
         $this->setFinishedAt($entity->finishedAt());

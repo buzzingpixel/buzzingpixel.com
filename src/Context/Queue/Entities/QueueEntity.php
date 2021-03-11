@@ -30,6 +30,7 @@ class QueueEntity
     private DateTimeImmutable $initialAssumeDeadAfter;
     private bool $isFinished;
     private bool $finishedDueToError;
+    private ?string $errorMessage;
     private float | int $percentComplete;
     private DateTimeImmutable $addedAt;
     private ?DateTimeImmutable $finishedAt;
@@ -47,6 +48,7 @@ class QueueEntity
             initialAssumeDeadAfter: $record->getInitialAssumeDeadAfter(),
             isFinished: $record->getIsFinished(),
             finishedDueToError: $record->getFinishedDueToError(),
+            errorMessage: $record->getErrorMessage(),
             percentComplete: $record->getPercentComplete(),
             addedAt: $record->getAddedAt(),
             finishedAt: $record->getFinishedAt(),
@@ -60,6 +62,7 @@ class QueueEntity
         bool $isRunning = false,
         bool $isFinished = false,
         bool $finishedDueToError = false,
+        ?string $errorMessage = null,
         float | int $percentComplete = 0,
         null | string | DateTimeInterface $assumeDeadAfter = null,
         null | string | DateTimeInterface $initialAssumeDeadAfter = null,
@@ -91,6 +94,8 @@ class QueueEntity
         $this->isFinished = $isFinished;
 
         $this->finishedDueToError = $finishedDueToError;
+
+        $this->errorMessage = $errorMessage;
 
         $this->percentComplete = $percentComplete;
 
@@ -255,7 +260,7 @@ class QueueEntity
         return $this->isFinished;
     }
 
-    public function withIsFinished(bool $isFinished): self
+    public function withIsFinished(bool $isFinished = true): self
     {
         $clone = clone $this;
 
@@ -269,11 +274,25 @@ class QueueEntity
         return $this->finishedDueToError;
     }
 
-    public function withFinishedDueToError(bool $finishedDueToError): self
+    public function withFinishedDueToError(bool $finishedDueToError = true): self
     {
         $clone = clone $this;
 
         $clone->finishedDueToError = $finishedDueToError;
+
+        return $clone;
+    }
+
+    public function errorMessage(): ?string
+    {
+        return $this->errorMessage;
+    }
+
+    public function withErrorMessage(?string $errorMessage): self
+    {
+        $clone = clone $this;
+
+        $clone->errorMessage = $errorMessage;
 
         return $clone;
     }

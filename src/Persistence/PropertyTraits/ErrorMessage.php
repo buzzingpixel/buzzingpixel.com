@@ -12,16 +12,17 @@ trait ErrorMessage
      * @Mapping\Column(
      *     name="error_message",
      *     type="text",
+     *     nullable=true
      * )
      */
-    protected string $errorMessage = '';
+    protected ?string $errorMessage = null;
 
-    public function getErrorMessage(): string
+    public function getErrorMessage(): ?string
     {
         return $this->errorMessage;
     }
 
-    public function setErrorMessage(string $errorMessage): void
+    public function setErrorMessage(?string $errorMessage): void
     {
         $this->errorMessage = $errorMessage;
     }

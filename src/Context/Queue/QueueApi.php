@@ -9,9 +9,11 @@ use App\Context\Queue\Entities\QueueItemEntity;
 use App\Context\Queue\Services\AddToQueue;
 use App\Context\Queue\Services\FetchNextQueueItem;
 use App\Context\Queue\Services\MarkAsStarted;
+use App\Context\Queue\Services\MarkQueueItemStoppedDueToError;
 use App\Context\Queue\Services\QueueItemPostRun;
 use App\Context\Queue\Services\RunQueueItem;
 use App\Payload\Payload;
+use Throwable;
 
 class QueueApi
 {
@@ -21,6 +23,7 @@ class QueueApi
         private MarkAsStarted $markAsStarted,
         private RunQueueItem $runQueueItem,
         private QueueItemPostRun $queueItemPostRun,
+        private MarkQueueItemStoppedDueToError $markQueueItemStoppedDueToError,
     ) {
     }
 
@@ -47,5 +50,12 @@ class QueueApi
     public function queueItemPostRun(QueueItemEntity $queueItem): void
     {
         $this->queueItemPostRun->postRun($queueItem);
+    }
+
+    public function markItemStoppedDueToError(
+        QueueEntity $queue,
+        ?Throwable $e = null,
+    ): void {
+        $this->markQueueItemStoppedDueToError->mark($queue, $e);
     }
 }

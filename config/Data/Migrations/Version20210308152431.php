@@ -29,6 +29,7 @@ final class Version20210308152431 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
+        $this->addSql('ALTER TABLE queue_items DROP CONSTRAINT FK_B565EE2C477B5BAE');
         $this->addSql('DROP TABLE queue_items');
     }
 }
