@@ -74,7 +74,7 @@ class QueueRecord
         $this->queueItems = new ArrayCollection();
     }
 
-    public function hydrateFromEntity(QueueEntity $entity): void
+    public function hydrateFromEntity(QueueEntity $entity): self
     {
         $this->setId(Uuid::fromString($entity->id()));
         $this->setHandle($entity->handle());
@@ -91,5 +91,7 @@ class QueueRecord
         $this->setPercentComplete($entity->percentComplete());
         $this->setAddedAt($entity->addedAt());
         $this->setFinishedAt($entity->finishedAt());
+
+        return $this;
     }
 }
