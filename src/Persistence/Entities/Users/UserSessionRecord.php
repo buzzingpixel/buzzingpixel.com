@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Persistence\Entities\Users;
 
-use App\Context\Users\Entities\UserSessionEntity;
+use App\Context\Users\Entities\UserSession;
 use App\Persistence\PropertyTraits\CreatedAt;
 use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\LastTouchedAt;
@@ -23,7 +23,7 @@ class UserSessionRecord
     use CreatedAt;
     use LastTouchedAt;
 
-    public function hydrateFromEntity(UserSessionEntity $userSession): void
+    public function hydrateFromEntity(UserSession $userSession): void
     {
         $this->setId(Uuid::fromString($userSession->id()));
         $this->setUserId(Uuid::fromString($userSession->userId()));

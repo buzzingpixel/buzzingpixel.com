@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Services;
 
-use App\Context\Users\Entities\UserSessionEntity;
+use App\Context\Users\Entities\UserSession;
 use App\Persistence\Entities\Users\UserSessionRecord;
 use App\Persistence\QueryBuilders\Users\UserSessionQueryBuilder;
 use Config\General;
@@ -24,7 +24,7 @@ class FetchUserSession
     ) {
     }
 
-    public function fetch(UserSessionQueryBuilder $queryBuilder): ?UserSessionEntity
+    public function fetch(UserSessionQueryBuilder $queryBuilder): ?UserSession
     {
         try {
             return $this->innerFetch($queryBuilder);
@@ -45,7 +45,7 @@ class FetchUserSession
     /**
      * @throws NonUniqueResultException
      */
-    private function innerFetch(UserSessionQueryBuilder $queryBuilder): ?UserSessionEntity
+    private function innerFetch(UserSessionQueryBuilder $queryBuilder): ?UserSession
     {
         $record = $queryBuilder->withLimit(1)
             ->createQuery($this->entityManager)
@@ -57,6 +57,6 @@ class FetchUserSession
 
         assert($record instanceof UserSessionRecord);
 
-        return UserSessionEntity::fromRecord($record);
+        return UserSession::fromRecord($record);
     }
 }

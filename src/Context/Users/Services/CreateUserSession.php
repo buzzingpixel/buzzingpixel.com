@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Context\Users\Services;
 
 use App\Context\Users\Entities\User;
-use App\Context\Users\Entities\UserSessionEntity;
+use App\Context\Users\Entities\UserSession;
 use App\Payload\Payload;
 
 class CreateUserSession
@@ -14,9 +14,9 @@ class CreateUserSession
     {
     }
 
-    public function create(User $user): ?UserSessionEntity
+    public function create(User $user): ?UserSession
     {
-        $entity = new UserSessionEntity($user->id());
+        $entity = new UserSession($user->id());
 
         $payload = $this->saveUserSession->save($entity);
 

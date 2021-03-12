@@ -16,7 +16,7 @@ use function is_string;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue.NullabilitySymbolRequired
 
-class UserSessionEntity
+class UserSession
 {
     private Id $id;
     private Id $userId;

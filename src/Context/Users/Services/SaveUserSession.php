@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Services;
 
-use App\Context\Users\Entities\UserSessionEntity;
+use App\Context\Users\Entities\UserSession;
 use App\Payload\Payload;
 use App\Persistence\Entities\Users\UserSessionRecord;
 use Config\General;
@@ -24,7 +24,7 @@ class SaveUserSession
     ) {
     }
 
-    public function save(UserSessionEntity $session): Payload
+    public function save(UserSession $session): Payload
     {
         try {
             return $this->innerSave($session);
@@ -50,7 +50,7 @@ class SaveUserSession
      * @throws OptimisticLockException
      * @throws TransactionRequiredException
      */
-    private function innerSave(UserSessionEntity $session): Payload
+    private function innerSave(UserSession $session): Payload
     {
         $payloadStatus = Payload::STATUS_UPDATED;
 
