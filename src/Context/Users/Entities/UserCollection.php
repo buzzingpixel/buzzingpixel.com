@@ -16,7 +16,7 @@ use Ramsey\Collection\AbstractCollection;
  * @method UserCollection filter(callable $callback)
  * @method UserCollection where(string $propertyOrMethod, $value)
  * @method UserCollection map(callable $callback)
- * @method UserCollection[] toArray()
+ * @method UserEntity[] toArray()
  * @phpstan-ignore-next-line
  */
 class UserCollection extends AbstractCollection

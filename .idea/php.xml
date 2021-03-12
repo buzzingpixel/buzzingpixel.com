@@ -151,6 +151,7 @@
       <path value="$PROJECT_DIR$/vendor/php-http/discovery" />
       <path value="$PROJECT_DIR$/vendor/tightenco/collect" />
       <path value="$PROJECT_DIR$/vendor/beberlei/assert" />
+      <path value="$PROJECT_DIR$/vendor/html2text/html2text" />
     </include_path>
   </component>
   <component name="PhpInterpreters">
