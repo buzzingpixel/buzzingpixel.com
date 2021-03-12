@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Services;
 
-use App\Context\Users\Entities\UserEntity;
+use App\Context\Users\Entities\User;
 use App\Context\Users\Events\DeleteUserAfterDelete;
 use App\Context\Users\Events\DeleteUserBeforeDelete;
 use App\Context\Users\Events\DeleteUserFailed;
@@ -29,7 +29,7 @@ class DeleteUser
     ) {
     }
 
-    public function delete(UserEntity $user): Payload
+    public function delete(User $user): Payload
     {
         try {
             return $this->innerDelete($user);
@@ -63,7 +63,7 @@ class DeleteUser
     /**
      * @throws ConnectionException
      */
-    private function innerDelete(UserEntity $user): Payload
+    private function innerDelete(User $user): Payload
     {
         $this->logger->info(
             'Deleting user by ID: ' . $user->id()
@@ -94,7 +94,7 @@ class DeleteUser
         return new Payload(Payload::STATUS_DELETED);
     }
 
-    private function deleteUserSessions(UserEntity $user): void
+    private function deleteUserSessions(User $user): void
     {
         $this->entityManager->createQueryBuilder()
             ->delete(UserSessionRecord::class, 'us')
@@ -104,7 +104,7 @@ class DeleteUser
             ->execute();
     }
 
-    private function deletePasswordResetTokens(UserEntity $user): void
+    private function deletePasswordResetTokens(User $user): void
     {
         $this->entityManager->createQueryBuilder()
             ->delete(UserPasswordResetTokenRecord::class, 't')
@@ -114,7 +114,7 @@ class DeleteUser
             ->execute();
     }
 
-    private function deleteUser(UserEntity $user): void
+    private function deleteUser(User $user): void
     {
         $this->entityManager->createQueryBuilder()
             ->delete(UserRecord::class, 'u')

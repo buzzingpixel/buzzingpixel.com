@@ -17,7 +17,7 @@ use function is_string;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue.NullabilitySymbolRequired
 
-class UserEntity
+class User
 {
     private Id $id;
     private bool $isAdmin;

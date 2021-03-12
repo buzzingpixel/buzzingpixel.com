@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Services;
 
-use App\Context\Users\Entities\UserEntity;
+use App\Context\Users\Entities\User;
 use App\Context\Users\Entities\UserPasswordResetTokenEntity;
 use App\Payload\Payload;
 
@@ -15,7 +15,7 @@ class GeneratePasswordResetToken
     ) {
     }
 
-    public function generate(UserEntity $user): ?UserPasswordResetTokenEntity
+    public function generate(User $user): ?UserPasswordResetTokenEntity
     {
         $tokenEntity = new UserPasswordResetTokenEntity(
             $user->id(),

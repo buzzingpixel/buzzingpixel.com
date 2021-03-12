@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Services;
 
-use App\Context\Users\Entities\UserEntity;
+use App\Context\Users\Entities\User;
 use App\Persistence\QueryBuilders\Users\UserQueryBuilder;
 
 class FetchOneUser
@@ -13,7 +13,7 @@ class FetchOneUser
     {
     }
 
-    public function fetch(UserQueryBuilder $queryBuilder): ?UserEntity
+    public function fetch(UserQueryBuilder $queryBuilder): ?User
     {
         $userCollection = $this->fetchUsers->fetch(
             $queryBuilder->withLimit(1)

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Context\Users;
 
+use App\Context\Users\Entities\User;
 use App\Context\Users\Entities\UserCollection;
-use App\Context\Users\Entities\UserEntity;
 use App\Context\Users\Entities\UserPasswordResetTokenEntity;
 use App\Context\Users\Services\DeleteUser;
 use App\Context\Users\Services\FetchLoggedInUser;
@@ -32,7 +32,7 @@ class UserApi
     ) {
     }
 
-    public function saveUser(UserEntity $user): Payload
+    public function saveUser(User $user): Payload
     {
         return $this->saveUser->save($user);
     }
@@ -45,7 +45,7 @@ class UserApi
         return $this->fetchUsers->fetch($queryBuilder);
     }
 
-    public function fetchOneUser(UserQueryBuilder $queryBuilder): ?UserEntity
+    public function fetchOneUser(UserQueryBuilder $queryBuilder): ?User
     {
         return $this->fetchOneUser->fetch($queryBuilder);
     }
@@ -58,10 +58,10 @@ class UserApi
      * @param bool $rehashPasswordIfNeeded Only set false if about to update password
      */
     public function validateUserPassword(
-        UserEntity $user,
+        User $user,
         string $password,
         bool $rehashPasswordIfNeeded = true,
-    ): ?UserEntity {
+    ): ?User {
         return $this->validateUserPassword->validate(
             $user,
             $password,
@@ -69,22 +69,22 @@ class UserApi
         );
     }
 
-    public function logUserIn(UserEntity $user, string $password): Payload
+    public function logUserIn(User $user, string $password): Payload
     {
         return $this->logUserIn->logUserIn($user, $password);
     }
 
-    public function deleteUser(UserEntity $user): Payload
+    public function deleteUser(User $user): Payload
     {
         return $this->deleteUser->delete($user);
     }
 
-    public function fetchLoggedInUser(): ?UserEntity
+    public function fetchLoggedInUser(): ?User
     {
         return $this->fetchLoggedInUser->fetch();
     }
 
-    public function generatePasswordResetToken(UserEntity $user): ?UserPasswordResetTokenEntity
+    public function generatePasswordResetToken(User $user): ?UserPasswordResetTokenEntity
     {
         return $this->generatePasswordResetToken->generate($user);
     }

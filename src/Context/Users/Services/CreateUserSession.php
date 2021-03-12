@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Services;
 
-use App\Context\Users\Entities\UserEntity;
+use App\Context\Users\Entities\User;
 use App\Context\Users\Entities\UserSessionEntity;
 use App\Payload\Payload;
 
@@ -14,7 +14,7 @@ class CreateUserSession
     {
     }
 
-    public function create(UserEntity $user): ?UserSessionEntity
+    public function create(User $user): ?UserSessionEntity
     {
         $entity = new UserSessionEntity($user->id());
 

@@ -8,21 +8,21 @@ use Ramsey\Collection\AbstractCollection;
 
 /**
  * @psalm-suppress MoreSpecificImplementedParamType
- * @method bool add(UserEntity $element)
- * @method UserEntity first()
- * @method UserEntity last()
+ * @method bool add(User $element)
+ * @method User first()
+ * @method User last()
  * @psalm-suppress ImplementedReturnTypeMismatch
  * @method UserCollection sort(string $propertyOrMethod, string $order = self::SORT_ASC)
  * @method UserCollection filter(callable $callback)
  * @method UserCollection where(string $propertyOrMethod, $value)
  * @method UserCollection map(callable $callback)
- * @method UserEntity[] toArray()
+ * @method User[] toArray()
  * @phpstan-ignore-next-line
  */
 class UserCollection extends AbstractCollection
 {
     public function getType(): string
     {
-        return UserEntity::class;
+        return User::class;
     }
 }

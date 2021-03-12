@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Services;
 
-use App\Context\Users\Entities\UserEntity;
+use App\Context\Users\Entities\User;
 use App\Persistence\QueryBuilders\Users\UserQueryBuilder;
 use App\Persistence\QueryBuilders\Users\UserSessionQueryBuilder;
 use buzzingpixel\cookieapi\interfaces\CookieApiInterface;
@@ -23,7 +23,7 @@ class FetchLoggedInUser
     ) {
     }
 
-    public function fetch(): ?UserEntity
+    public function fetch(): ?User
     {
         $cookie = $this->cookieApi->retrieveCookie('user_session_token');
 

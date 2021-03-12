@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Services;
 
-use App\Context\Users\Entities\UserEntity;
+use App\Context\Users\Entities\User;
 
 use function password_hash;
 use function password_needs_rehash;
@@ -26,10 +26,10 @@ class ValidateUserPassword
      * @param bool $rehashPasswordIfNeeded Only set false if about to update password
      */
     public function validate(
-        UserEntity $user,
+        User $user,
         string $password,
         bool $rehashPasswordIfNeeded = true,
-    ): ?UserEntity {
+    ): ?User {
         $hash = $user->passwordHash();
 
         if (! password_verify($password, $hash)) {

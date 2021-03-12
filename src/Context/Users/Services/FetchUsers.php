@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Services;
 
+use App\Context\Users\Entities\User;
 use App\Context\Users\Entities\UserCollection;
-use App\Context\Users\Entities\UserEntity;
 use App\Persistence\Entities\Users\UserRecord;
 use App\Persistence\QueryBuilders\Users\UserQueryBuilder;
 use Config\General;
@@ -52,7 +52,7 @@ class FetchUsers
     {
         /** @psalm-suppress MixedArgument */
         return new UserCollection(array_map(
-            static fn (UserRecord $r) => UserEntity::fromRecord(
+            static fn (UserRecord $r) => User::fromRecord(
                 $r
             ),
             $queryBuilder->createQuery(

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Services;
 
-use App\Context\Users\Entities\UserEntity;
+use App\Context\Users\Entities\User;
 use App\Payload\Payload;
 use buzzingpixel\cookieapi\CookieApi;
 use DateTimeImmutable;
@@ -21,7 +21,7 @@ class LogUserIn
     ) {
     }
 
-    public function logUserIn(UserEntity $user, string $password): Payload
+    public function logUserIn(User $user, string $password): Payload
     {
         $user = $this->validateUserPassword->validate(
             $user,

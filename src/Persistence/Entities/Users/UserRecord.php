@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Persistence\Entities\Users;
 
-use App\Context\Users\Entities\UserEntity;
+use App\Context\Users\Entities\User;
 use App\Persistence\PropertyTraits\CreatedAt;
 use App\Persistence\PropertyTraits\EmailAddress;
 use App\Persistence\PropertyTraits\Id;
@@ -29,7 +29,7 @@ class UserRecord
     use Timezone;
     use CreatedAt;
 
-    public function hydrateFromEntity(UserEntity $user): void
+    public function hydrateFromEntity(User $user): void
     {
         $this->setId(Uuid::fromString($user->id()));
         $this->setIsAdmin($user->isAdmin());

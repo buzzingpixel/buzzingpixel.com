@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Services;
 
-use App\Context\Users\Entities\UserEntity;
+use App\Context\Users\Entities\User;
 use App\Context\Users\Events\SaveUserAfterSave;
 use App\Context\Users\Events\SaveUserBeforeSave;
 use App\Context\Users\Events\SaveUserFailed;
@@ -32,7 +32,7 @@ class SaveUser
     ) {
     }
 
-    public function save(UserEntity $user): Payload
+    public function save(User $user): Payload
     {
         try {
             return $this->innerSave($user);
@@ -64,7 +64,7 @@ class SaveUser
      * @throws OptimisticLockException
      * @throws TransactionRequiredException
      */
-    private function innerSave(UserEntity $user): Payload
+    private function innerSave(User $user): Payload
     {
         $payloadStatus = Payload::STATUS_UPDATED;
 
