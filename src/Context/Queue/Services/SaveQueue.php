@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Context\Queue\Services;
 
 use App\Context\Queue\Entities\Queue;
-use App\Context\Queue\Entities\QueueItemEntity;
+use App\Context\Queue\Entities\QueueItem;
 use App\Context\Queue\Events\AddToQueueAfterAdd;
 use App\Context\Queue\Events\AddToQueueBeforeAdd;
 use App\Context\Queue\Events\AddToQueueFailed;
@@ -105,7 +105,7 @@ class SaveQueue
 
         $record->setQueueItems(new ArrayCollection(
             array_map(
-                function (QueueItemEntity $item) use ($record): QueueItemRecord {
+                function (QueueItem $item) use ($record): QueueItemRecord {
                     $itemRecord = $this->entityManager->find(
                         QueueItemRecord::class,
                         $item->id(),

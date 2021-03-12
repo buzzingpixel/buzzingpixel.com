@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Persistence\Entities\Queue;
 
-use App\Context\Queue\Entities\QueueItemEntity;
+use App\Context\Queue\Entities\QueueItem;
 use App\Persistence\PropertyTraits\ClassName;
 use App\Persistence\PropertyTraits\Context;
 use App\Persistence\PropertyTraits\FinishedAt;
@@ -86,7 +86,7 @@ class QueueItemRecord
         $this->newQueueId = $newQueueId;
     }
 
-    public function hydrateFromEntity(QueueItemEntity $entity): void
+    public function hydrateFromEntity(QueueItem $entity): void
     {
         $this->setId(Uuid::fromString($entity->id()));
         $this->setRunOrder($entity->runOrder());

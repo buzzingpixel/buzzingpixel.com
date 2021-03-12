@@ -10,20 +10,20 @@ use Ramsey\Collection\AbstractCollection;
 
 /**
  * @psalm-suppress MoreSpecificImplementedParamType
- * @method QueueItemEntity first()
- * @method QueueItemEntity last()
+ * @method QueueItem first()
+ * @method QueueItem last()
  * @psalm-suppress ImplementedReturnTypeMismatch
  * @method QueueItemCollection sort(string $propertyOrMethod, string $order = self::SORT_ASC)
  * @method QueueItemCollection filter(callable $callback)
  * @method QueueItemCollection where(string $propertyOrMethod, $value)
  * @method QueueItemCollection map(callable $callback)
- * @method QueueItemEntity[] toArray()
+ * @method QueueItem[] toArray()
  * @phpstan-ignore-next-line
  */
 class QueueItemCollection extends AbstractCollection
 {
     /**
-     * @param QueueItemEntity[] $data
+     * @param QueueItem[] $data
      */
     public function __construct(array $data = [])
     {
@@ -36,11 +36,11 @@ class QueueItemCollection extends AbstractCollection
 
     public function getType(): string
     {
-        return QueueItemEntity::class;
+        return QueueItem::class;
     }
 
     /**
-     * @param QueueItemEntity $element
+     * @param QueueItem $element
      *
      * @noinspection PhpMissingParamTypeInspection
      *

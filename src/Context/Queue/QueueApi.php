@@ -6,7 +6,7 @@ namespace App\Context\Queue;
 
 use App\Context\Queue\Entities\Queue;
 use App\Context\Queue\Entities\QueueCollection;
-use App\Context\Queue\Entities\QueueItemEntity;
+use App\Context\Queue\Entities\QueueItem;
 use App\Context\Queue\Services\AddToQueue;
 use App\Context\Queue\Services\CleanDeadQueues;
 use App\Context\Queue\Services\CleanOldQueues;
@@ -41,7 +41,7 @@ class QueueApi
         return $this->addToQueue->add($queue);
     }
 
-    public function fetchNextQueueItem(): ?QueueItemEntity
+    public function fetchNextQueueItem(): ?QueueItem
     {
         return $this->fetchNextQueueItem->fetch();
     }
@@ -51,12 +51,12 @@ class QueueApi
         return $this->markAsStarted->mark($queue);
     }
 
-    public function runItem(QueueItemEntity $queueItem): void
+    public function runItem(QueueItem $queueItem): void
     {
         $this->runQueueItem->run($queueItem);
     }
 
-    public function queueItemPostRun(QueueItemEntity $queueItem): void
+    public function queueItemPostRun(QueueItem $queueItem): void
     {
         $this->queueItemPostRun->postRun($queueItem);
     }

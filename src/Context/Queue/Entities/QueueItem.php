@@ -17,7 +17,7 @@ use function assert;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue.NullabilitySymbolRequired
 
-class QueueItemEntity
+class QueueItem
 {
     private Id $id;
     private int $runOrder;

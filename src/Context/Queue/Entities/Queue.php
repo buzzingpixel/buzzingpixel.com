@@ -355,7 +355,7 @@ class Queue
         }
 
         $clone->queueItems = new QueueItemCollection(array_map(
-            static fn (QueueItemEntity $e) => $e->withQueue(
+            static fn (QueueItem $e) => $e->withQueue(
                 $clone
             ),
             array_merge($queueItems)
@@ -364,12 +364,12 @@ class Queue
         return $clone;
     }
 
-    public function withAddedQueueItem(QueueItemEntity $newQueueItem): self
+    public function withAddedQueueItem(QueueItem $newQueueItem): self
     {
         $clone = clone $this;
 
         $clone->queueItems = new QueueItemCollection(array_map(
-            static fn (QueueItemEntity $e) => $e->withQueue(
+            static fn (QueueItem $e) => $e->withQueue(
                 $clone
             ),
             array_merge(
@@ -386,7 +386,7 @@ class Queue
         $clone = clone $this;
 
         $clone->queueItems = new QueueItemCollection(array_map(
-            static fn (QueueItemRecord $r) => QueueItemEntity::fromRecord(
+            static fn (QueueItemRecord $r) => QueueItem::fromRecord(
                 $r,
                 $clone,
             ),
@@ -404,7 +404,7 @@ class Queue
             $this->queueItems->toArray(),
         );
 
-        $queueItems->add(QueueItemEntity::fromRecord(
+        $queueItems->add(QueueItem::fromRecord(
             $record,
             $clone
         ));

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Context\Queue\Services;
 
 use App\Context\Queue\Entities\Queue;
-use App\Context\Queue\Entities\QueueItemEntity;
+use App\Context\Queue\Entities\QueueItem;
 use App\Persistence\Entities\Queue\QueueRecord;
 use Config\General;
 use Doctrine\ORM\EntityManager;
@@ -24,7 +24,7 @@ class FetchNextQueueItem
     ) {
     }
 
-    public function fetch(): ?QueueItemEntity
+    public function fetch(): ?QueueItem
     {
         try {
             return $this->innerFetch();
@@ -42,7 +42,7 @@ class FetchNextQueueItem
         }
     }
 
-    private function innerFetch(): ?QueueItemEntity
+    private function innerFetch(): ?QueueItem
     {
         $record = $this->entityManager
             ->getRepository(QueueRecord::class)
@@ -62,7 +62,7 @@ class FetchNextQueueItem
         $entity = Queue::fromRecord($record);
 
         foreach ($entity->queueItems() as $queueItem) {
-            assert($queueItem instanceof QueueItemEntity);
+            assert($queueItem instanceof QueueItem);
 
             if ($queueItem->isFinished()) {
                 continue;

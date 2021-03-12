@@ -6,7 +6,7 @@ namespace App\Context\Email\Services;
 
 use App\Context\Email\Entity\Email;
 use App\Context\Queue\Entities\Queue;
-use App\Context\Queue\Entities\QueueItemEntity;
+use App\Context\Queue\Entities\QueueItem;
 use App\Context\Queue\QueueApi;
 
 use function serialize;
@@ -23,7 +23,7 @@ class QueueEmail
             (new Queue())
                 ->withHandle('send-email')
                 ->withAddedQueueItem(
-                    newQueueItem: new QueueItemEntity(
+                    newQueueItem: new QueueItem(
                         className: SendQueueEmail::class,
                         methodName: 'send',
                         context: ['email' => serialize($email)]

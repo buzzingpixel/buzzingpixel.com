@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Context\Queue\Services;
 
+use App\Context\Queue\Entities\QueueItem;
 use App\Context\Queue\Entities\QueueItemCollection;
-use App\Context\Queue\Entities\QueueItemEntity;
 use DateTimeImmutable;
 use DateTimeZone;
 
@@ -17,7 +17,7 @@ class QueueItemPostRun
     {
     }
 
-    public function postRun(QueueItemEntity $queueItem): void
+    public function postRun(QueueItem $queueItem): void
     {
         $finishedAt = new DateTimeImmutable(
             timezone: new DateTimeZone('UTC'),

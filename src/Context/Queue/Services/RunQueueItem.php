@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Queue\Services;
 
-use App\Context\Queue\Entities\QueueItemEntity;
+use App\Context\Queue\Entities\QueueItem;
 use Psr\Container\ContainerInterface;
 
 class RunQueueItem
@@ -13,7 +13,7 @@ class RunQueueItem
     {
     }
 
-    public function run(QueueItemEntity $queueItem): void
+    public function run(QueueItem $queueItem): void
     {
         /** @psalm-suppress MixedAssignment */
         $class = $this->di->get($queueItem->className());
