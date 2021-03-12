@@ -16,7 +16,7 @@ use function is_string;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue.NullabilitySymbolRequired
 
-class UserPasswordResetTokenEntity
+class UserPasswordResetToken
 {
     private Id $id;
     private Id $userId;

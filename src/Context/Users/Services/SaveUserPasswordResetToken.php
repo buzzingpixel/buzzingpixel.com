@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Services;
 
-use App\Context\Users\Entities\UserPasswordResetTokenEntity;
+use App\Context\Users\Entities\UserPasswordResetToken;
 use App\Payload\Payload;
 use App\Persistence\Entities\Users\UserPasswordResetTokenRecord;
 use Config\General;
@@ -24,7 +24,7 @@ class SaveUserPasswordResetToken
     ) {
     }
 
-    public function save(UserPasswordResetTokenEntity $entity): Payload
+    public function save(UserPasswordResetToken $entity): Payload
     {
         try {
             return $this->innerSave($entity);
@@ -50,7 +50,7 @@ class SaveUserPasswordResetToken
      * @throws OptimisticLockException
      * @throws TransactionRequiredException
      */
-    private function innerSave(UserPasswordResetTokenEntity $entity): Payload
+    private function innerSave(UserPasswordResetToken $entity): Payload
     {
         $payloadStatus = Payload::STATUS_UPDATED;
 

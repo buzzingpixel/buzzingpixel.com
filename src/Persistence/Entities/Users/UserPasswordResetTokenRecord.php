@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Persistence\Entities\Users;
 
-use App\Context\Users\Entities\UserPasswordResetTokenEntity;
+use App\Context\Users\Entities\UserPasswordResetToken;
 use App\Persistence\PropertyTraits\CreatedAt;
 use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\UserId;
@@ -21,7 +21,7 @@ class UserPasswordResetTokenRecord
     use UserId;
     use CreatedAt;
 
-    public function hydrateFromEntity(UserPasswordResetTokenEntity $entity): void
+    public function hydrateFromEntity(UserPasswordResetToken $entity): void
     {
         $this->setId(Uuid::fromString($entity->id()));
         $this->setUserId(Uuid::fromString($entity->userId()));
