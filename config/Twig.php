@@ -24,6 +24,7 @@ class Twig
 {
     public const PATHS = [
         FilesystemLoader::MAIN_NAMESPACE => '/assets/templates',
+        'app' => '/src',
         'error' => '/src/Http/Response/Error',
         'home' => '/src/Http/Response/Home',
         'software' => '/src/Http/Response/Software',

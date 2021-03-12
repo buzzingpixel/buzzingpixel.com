@@ -17,18 +17,16 @@ class GeneratePasswordResetToken
 
     public function generate(User $user): ?UserPasswordResetToken
     {
-        $tokenEntity = new UserPasswordResetToken(
+        $token = new UserPasswordResetToken(
             $user->id(),
         );
 
-        $savePayload = $this->saveUserPasswordResetToken->save(
-            $tokenEntity,
-        );
+        $savePayload = $this->saveUserPasswordResetToken->save($token);
 
         if ($savePayload->getStatus() === Payload::STATUS_ERROR) {
             return null;
         }
 
-        return $tokenEntity;
+        return $token;
     }
 }

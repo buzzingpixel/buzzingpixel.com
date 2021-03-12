@@ -8,6 +8,7 @@
         <twig_namespace custom="true" namespace="error" namespaceType="ADD_PATH" path="src/Http/Response/Error" />
         <twig_namespace custom="true" namespace="home" namespaceType="ADD_PATH" path="src/Http/Response/Home" />
         <twig_namespace custom="true" namespace="software" namespaceType="ADD_PATH" path="src/Http/Response/Software" />
+        <twig_namespace custom="true" namespace="app" namespaceType="ADD_PATH" path="src" />
       </list>
     </option>
   </component>

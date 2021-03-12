@@ -8,16 +8,16 @@ class Email
 {
     /** @phpstan-ignore-next-line */
     public function __construct(
-        private EmailRecipient $from,
+        private string $subject,
         /** @phpstan-ignore-next-line */
         private EmailRecipientCollection $recipients,
-        private string $subject,
+        private ?EmailRecipient $from = null,
         private string $plaintext = '',
         private string $html = '',
     ) {
     }
 
-    public function from(): EmailRecipient
+    public function from(): ?EmailRecipient
     {
         return $this->from;
     }

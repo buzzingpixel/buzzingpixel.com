@@ -18,6 +18,8 @@ use function is_string;
  * @method string pathToStorageDirectory()
  * @method string siteUrl()
  * @method string siteName()
+ * @method string systemEmailSenderAddress()
+ * @method string systemEmailSenderName()
  * @method array stylesheets()
  * @method array jsFiles()
  */
@@ -65,6 +67,10 @@ class General extends SimpleModel
     public static string $siteUrl = 'https://www.buzzingpixel.com';
 
     public static string $siteName = 'BuzzingPixel';
+
+    public static string $systemEmailSenderAddress = 'info@buzzingpixel.com';
+
+    public static string $systemEmailSenderName = 'BuzzingPixel';
 
     /** @var string[] */
     public static array $stylesheets = [];

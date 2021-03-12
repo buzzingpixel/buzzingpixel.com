@@ -24,10 +24,10 @@ class SaveUserPasswordResetToken
     ) {
     }
 
-    public function save(UserPasswordResetToken $entity): Payload
+    public function save(UserPasswordResetToken $token): Payload
     {
         try {
-            return $this->innerSave($entity);
+            return $this->innerSave($token);
         } catch (Throwable $exception) {
             if ($this->config->devMode()) {
                 throw $exception;
@@ -50,17 +50,17 @@ class SaveUserPasswordResetToken
      * @throws OptimisticLockException
      * @throws TransactionRequiredException
      */
-    private function innerSave(UserPasswordResetToken $entity): Payload
+    private function innerSave(UserPasswordResetToken $token): Payload
     {
         $payloadStatus = Payload::STATUS_UPDATED;
 
         $this->logger->info(
-            'Checking for existing password reset token by ID: ' . $entity->id()
+            'Checking for existing password reset token by ID: ' . $token->id()
         );
 
         $record = $this->entityManager->find(
             UserPasswordResetTokenRecord::class,
-            $entity->id(),
+            $token->id(),
         );
 
         if ($record === null) {
@@ -78,7 +78,7 @@ class SaveUserPasswordResetToken
             );
         }
 
-        $record->hydrateFromEntity($entity);
+        $record->hydrateFromEntity($token);
 
         $this->entityManager->persist($record);
 

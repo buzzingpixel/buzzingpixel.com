@@ -7,6 +7,7 @@ namespace App\Context\Email\Adapters;
 use App\Context\Email\Entity\Email;
 use App\Context\Email\Entity\EmailRecipient;
 use App\Context\Email\Interfaces\SendMailAdapter;
+use App\Context\Email\Services\GetDefaultEmailSender;
 use App\Payload\Payload;
 use cebe\markdown\GithubMarkdown;
 use Config\General;
@@ -33,6 +34,7 @@ class MailerSendAdapter implements SendMailAdapter
         private MailerSend $mailerSend,
         private LoggerInterface $logger,
         private General $config,
+        private GetDefaultEmailSender $getDefaultEmailSender,
     ) {
     }
 
@@ -67,6 +69,12 @@ class MailerSendAdapter implements SendMailAdapter
      */
     public function innerSend(Email $email): Payload
     {
+        $from = $email->from();
+
+        if ($from === null) {
+            $from = $this->getDefaultEmailSender->get();
+        }
+
         $recipients = array_map(
             static fn (EmailRecipient $person) => new Recipient(
                 $person->emailAddress(),
@@ -94,13 +102,13 @@ class MailerSendAdapter implements SendMailAdapter
         }
 
         $emailParams = (new EmailParams())
-            ->setFrom($email->from()->emailAddress())
+            ->setFrom($from->emailAddress())
             ->setRecipients($recipients)
             ->setSubject($email->subject())
             ->setHtml($html)
             ->setText($plainText);
 
-        $fromName = $email->from()->name();
+        $fromName = $from->name();
 
         if ($fromName !== null) {
             $emailParams->setFromName($fromName);
