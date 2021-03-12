@@ -20,7 +20,7 @@ use function is_array;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue.NullabilitySymbolRequired
 
-class QueueEntity
+class Queue
 {
     private Id $id;
     private string $handle;
@@ -39,7 +39,7 @@ class QueueEntity
 
     public static function fromRecord(QueueRecord $record): self
     {
-        return (new QueueEntity(
+        return (new Queue(
             id: $record->getId()->toString(),
             handle: $record->getHandle(),
             hasStarted: $record->getHasStarted(),

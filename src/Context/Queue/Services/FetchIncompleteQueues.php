@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Context\Queue\Services;
 
+use App\Context\Queue\Entities\Queue;
 use App\Context\Queue\Entities\QueueCollection;
-use App\Context\Queue\Entities\QueueEntity;
 use App\Persistence\Entities\Queue\QueueRecord;
 use Config\General;
 use Doctrine\ORM\EntityManager;
@@ -51,7 +51,7 @@ class FetchIncompleteQueues
     {
         /** @psalm-suppress MixedArgument */
         return new QueueCollection(array_map(
-            static fn (QueueRecord $r) => QueueEntity::fromRecord(
+            static fn (QueueRecord $r) => Queue::fromRecord(
                 $r
             ),
             $this->entityManager

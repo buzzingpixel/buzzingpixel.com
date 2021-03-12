@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Context\Queue;
 
+use App\Context\Queue\Entities\Queue;
 use App\Context\Queue\Entities\QueueCollection;
-use App\Context\Queue\Entities\QueueEntity;
 use App\Context\Queue\Entities\QueueItemEntity;
 use App\Context\Queue\Services\AddToQueue;
 use App\Context\Queue\Services\CleanDeadQueues;
@@ -36,7 +36,7 @@ class QueueApi
     ) {
     }
 
-    public function addToQueue(QueueEntity $queue): Payload
+    public function addToQueue(Queue $queue): Payload
     {
         return $this->addToQueue->add($queue);
     }
@@ -46,7 +46,7 @@ class QueueApi
         return $this->fetchNextQueueItem->fetch();
     }
 
-    public function markAsStarted(QueueEntity $queue): QueueEntity
+    public function markAsStarted(Queue $queue): Queue
     {
         return $this->markAsStarted->mark($queue);
     }
@@ -62,7 +62,7 @@ class QueueApi
     }
 
     public function markItemStoppedDueToError(
-        QueueEntity $queue,
+        Queue $queue,
         ?Throwable $e = null,
     ): void {
         $this->markQueueItemStoppedDueToError->mark($queue, $e);

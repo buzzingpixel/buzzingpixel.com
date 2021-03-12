@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Queue\Services;
 
-use App\Context\Queue\Entities\QueueEntity;
+use App\Context\Queue\Entities\Queue;
 use App\Context\Queue\Entities\QueueItemEntity;
 use App\Context\Queue\Events\AddToQueueAfterAdd;
 use App\Context\Queue\Events\AddToQueueBeforeAdd;
@@ -34,7 +34,7 @@ class SaveQueue
     ) {
     }
 
-    public function save(QueueEntity $queue): Payload
+    public function save(Queue $queue): Payload
     {
         try {
             return $this->innerSave($queue);
@@ -65,7 +65,7 @@ class SaveQueue
      * @throws OptimisticLockException
      * @throws TransactionRequiredException
      */
-    private function innerSave(QueueEntity $queue): Payload
+    private function innerSave(Queue $queue): Payload
     {
         $payloadStatus = Payload::STATUS_UPDATED;
 

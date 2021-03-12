@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Queue\Services;
 
-use App\Context\Queue\Entities\QueueEntity;
+use App\Context\Queue\Entities\Queue;
 use App\Payload\Payload;
 
 class AddToQueue
@@ -13,7 +13,7 @@ class AddToQueue
     {
     }
 
-    public function add(QueueEntity $queue): Payload
+    public function add(Queue $queue): Payload
     {
         return $this->saveQueue->save($queue);
     }

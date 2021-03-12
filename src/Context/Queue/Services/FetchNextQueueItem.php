@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Queue\Services;
 
-use App\Context\Queue\Entities\QueueEntity;
+use App\Context\Queue\Entities\Queue;
 use App\Context\Queue\Entities\QueueItemEntity;
 use App\Persistence\Entities\Queue\QueueRecord;
 use Config\General;
@@ -59,7 +59,7 @@ class FetchNextQueueItem
 
         assert($record instanceof QueueRecord);
 
-        $entity = QueueEntity::fromRecord($record);
+        $entity = Queue::fromRecord($record);
 
         foreach ($entity->queueItems() as $queueItem) {
             assert($queueItem instanceof QueueItemEntity);

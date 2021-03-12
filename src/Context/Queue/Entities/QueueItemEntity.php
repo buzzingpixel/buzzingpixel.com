@@ -27,18 +27,18 @@ class QueueItemEntity
     private string $methodName;
     /** @var mixed[] */
     private array $context;
-    private ?QueueEntity $queue = null;
+    private ?Queue $queue = null;
 
     public static function fromRecord(
         QueueItemRecord $record,
-        ?QueueEntity $queue = null,
+        ?Queue $queue = null,
     ): self {
         if ($queue === null) {
             $queueRecord = $record->getQueue();
 
             assert($queueRecord instanceof QueueRecord);
 
-            $queue = QueueEntity::fromRecord($queueRecord);
+            $queue = Queue::fromRecord($queueRecord);
         }
 
         return new self(
@@ -60,7 +60,7 @@ class QueueItemEntity
         string $className,
         string $methodName = '__invoke',
         array $context = [],
-        ?QueueEntity $queue = null,
+        ?Queue $queue = null,
         bool $isFinished = false,
         int $runOrder = 0,
         null | string | DateTimeInterface $finishedAt = null,
@@ -223,12 +223,12 @@ class QueueItemEntity
         return $clone;
     }
 
-    public function queue(): ?QueueEntity
+    public function queue(): ?Queue
     {
         return $this->queue;
     }
 
-    public function withQueue(QueueEntity $queue): self
+    public function withQueue(Queue $queue): self
     {
         $clone = clone $this;
 

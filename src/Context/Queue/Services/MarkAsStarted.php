@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Queue\Services;
 
-use App\Context\Queue\Entities\QueueEntity;
+use App\Context\Queue\Entities\Queue;
 use Config\General;
 use DateTimeImmutable;
 use DateTimeZone;
@@ -20,7 +20,7 @@ class MarkAsStarted
     ) {
     }
 
-    public function mark(QueueEntity $queue): QueueEntity
+    public function mark(Queue $queue): Queue
     {
         try {
             return $this->innerMark($queue);
@@ -33,7 +33,7 @@ class MarkAsStarted
         }
     }
 
-    private function innerMark(QueueEntity $queue): QueueEntity
+    private function innerMark(Queue $queue): Queue
     {
         $queue = $queue->withHasStarted(true)
             ->withIsRunning(true);
@@ -55,7 +55,7 @@ class MarkAsStarted
             ))
             ->getResult()['queueEntity'];
 
-        assert($queue instanceof QueueEntity);
+        assert($queue instanceof Queue);
 
         return $queue;
     }

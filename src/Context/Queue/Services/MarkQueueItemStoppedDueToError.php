@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Queue\Services;
 
-use App\Context\Queue\Entities\QueueEntity;
+use App\Context\Queue\Entities\Queue;
 use DateTimeImmutable;
 use DateTimeZone;
 use Throwable;
@@ -20,7 +20,7 @@ class MarkQueueItemStoppedDueToError
     }
 
     public function mark(
-        QueueEntity $queue,
+        Queue $queue,
         ?Throwable $e = null,
     ): void {
         $finishedAt = new DateTimeImmutable(

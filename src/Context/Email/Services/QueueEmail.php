@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Context\Email\Services;
 
 use App\Context\Email\Entity\Email;
-use App\Context\Queue\Entities\QueueEntity;
+use App\Context\Queue\Entities\Queue;
 use App\Context\Queue\Entities\QueueItemEntity;
 use App\Context\Queue\QueueApi;
 
@@ -20,7 +20,7 @@ class QueueEmail
     public function queue(Email $email): void
     {
         $this->queueApi->addToQueue(
-            (new QueueEntity())
+            (new Queue())
                 ->withHandle('send-email')
                 ->withAddedQueueItem(
                     newQueueItem: new QueueItemEntity(

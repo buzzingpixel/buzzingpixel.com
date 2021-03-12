@@ -8,9 +8,9 @@ use Ramsey\Collection\AbstractCollection;
 
 /**
  * @psalm-suppress MoreSpecificImplementedParamType
- * @method bool add(QueueEntity $element)
- * @method QueueEntity first()
- * @method QueueEntity last()
+ * @method bool add(Queue $element)
+ * @method Queue first()
+ * @method Queue last()
  * @psalm-suppress ImplementedReturnTypeMismatch
  * @method QueueCollection sort(string $propertyOrMethod, string $order = self::SORT_ASC)
  * @method QueueCollection filter(callable $callback)
@@ -23,6 +23,6 @@ class QueueCollection extends AbstractCollection
 {
     public function getType(): string
     {
-        return QueueEntity::class;
+        return Queue::class;
     }
 }

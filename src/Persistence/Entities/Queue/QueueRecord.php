@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Persistence\Entities\Queue;
 
-use App\Context\Queue\Entities\QueueEntity;
+use App\Context\Queue\Entities\Queue;
 use App\Persistence\PropertyTraits\AddedAt;
 use App\Persistence\PropertyTraits\AssumeDeadAfter;
 use App\Persistence\PropertyTraits\ErrorMessage;
@@ -76,7 +76,7 @@ class QueueRecord
         $this->queueItems = new ArrayCollection();
     }
 
-    public function hydrateFromEntity(QueueEntity $entity): self
+    public function hydrateFromEntity(Queue $entity): self
     {
         $this->setId(Uuid::fromString($entity->id()));
         $this->setHandle($entity->handle());
