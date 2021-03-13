@@ -11,6 +11,7 @@ use App\Context\Users\Services\DeleteUser;
 use App\Context\Users\Services\FetchLoggedInUser;
 use App\Context\Users\Services\FetchOneUser;
 use App\Context\Users\Services\FetchTotalUserResetTokens;
+use App\Context\Users\Services\FetchUserByResetToken;
 use App\Context\Users\Services\FetchUsers;
 use App\Context\Users\Services\GeneratePasswordResetToken;
 use App\Context\Users\Services\LogUserIn;
@@ -33,6 +34,7 @@ class UserApi
         private GeneratePasswordResetToken $generatePasswordResetToken,
         private RequestPasswordResetEmail $requestPasswordResetEmail,
         private FetchTotalUserResetTokens $fetchTotalUserResetTokens,
+        private FetchUserByResetToken $fetchUserByResetToken,
     ) {
     }
 
@@ -101,5 +103,10 @@ class UserApi
     public function fetchTotalUserResetTokens(User $user): int
     {
         return $this->fetchTotalUserResetTokens->fetch($user);
+    }
+
+    public function fetchUserByResetToken(string $token): ?User
+    {
+        return $this->fetchUserByResetToken->fetch($token);
     }
 }
