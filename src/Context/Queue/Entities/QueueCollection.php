@@ -16,7 +16,7 @@ use Ramsey\Collection\AbstractCollection;
  * @method QueueCollection filter(callable $callback)
  * @method QueueCollection where(string $propertyOrMethod, $value)
  * @method QueueCollection map(callable $callback)
- * @method QueueCollection[] toArray()
+ * @method Queue[] toArray()
  * @phpstan-ignore-next-line
  */
 class QueueCollection extends AbstractCollection
