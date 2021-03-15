@@ -13,17 +13,17 @@ trait LastRunStartAt
      * @Mapping\Column(
      *     name="last_run_start_at",
      *     type="datetimetz_immutable",
-     *     nullable=false
+     *     nullable=true
      * )
      */
-    protected DateTimeImmutable $lastRunStartAt;
+    protected ?DateTimeImmutable $lastRunStartAt;
 
-    public function getLastRunStartAt(): DateTimeImmutable
+    public function getLastRunStartAt(): ?DateTimeImmutable
     {
         return $this->lastRunStartAt;
     }
 
-    public function setLastRunStartAt(DateTimeImmutable $lastRunStartAt): void
+    public function setLastRunStartAt(?DateTimeImmutable $lastRunStartAt): void
     {
         $this->lastRunStartAt = $lastRunStartAt;
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Context\Schedule\Entities;
 
 use App\EntityValueObjects\Id;
+use App\Persistence\Entities\Schedule\ScheduleTrackingRecord;
 use DateTimeImmutable;
 use LogicException;
 use Ramsey\Uuid\UuidInterface;
@@ -19,6 +20,20 @@ class ScheduleItem
     private bool $isRunning;
     private ?DateTimeImmutable $lastRunStartAt;
     private ?DateTimeImmutable $lastRunEndAt;
+
+    public static function fromConfigItemAndRecord(
+        ScheduleConfigItem $configItem,
+        ?ScheduleTrackingRecord $record = null,
+    ): self {
+        return new self(
+            className: $configItem->className(),
+            runEvery: $configItem->runEvery(),
+            isRunning: $record !== null ? $record->getIsRunning() : false,
+            lastRunStartAt: $record !== null ? $record->getLastRunStartAt() : null,
+            lastRunEndAt:  $record !== null ? $record->getLastRunEndAt() : null,
+            id: $record !== null ? $record->getId() : null,
+        );
+    }
 
     public function __construct(
         string $className,

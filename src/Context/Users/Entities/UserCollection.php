@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Entities;
 
-use Ramsey\Collection\AbstractCollection;
+use App\Collections\AbstractCollection;
 
 /**
  * @psalm-suppress MoreSpecificImplementedParamType
@@ -17,7 +17,7 @@ use Ramsey\Collection\AbstractCollection;
  * @method UserCollection where(string $propertyOrMethod, $value)
  * @method UserCollection map(callable $callback)
  * @method User[] toArray()
- * @phpstan-ignore-next-line
+ * @method User|null firstOrNull()
  */
 class UserCollection extends AbstractCollection
 {

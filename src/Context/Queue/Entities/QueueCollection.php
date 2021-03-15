@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Queue\Entities;
 
-use Ramsey\Collection\AbstractCollection;
+use App\Collections\AbstractCollection;
 
 /**
  * @psalm-suppress MoreSpecificImplementedParamType
@@ -17,7 +17,7 @@ use Ramsey\Collection\AbstractCollection;
  * @method QueueCollection where(string $propertyOrMethod, $value)
  * @method QueueCollection map(callable $callback)
  * @method Queue[] toArray()
- * @phpstan-ignore-next-line
+ * @method Queue|null firstOrNull()
  */
 class QueueCollection extends AbstractCollection
 {

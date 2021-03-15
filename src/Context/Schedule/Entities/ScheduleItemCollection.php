@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Schedule\Entities;
 
-use Ramsey\Collection\AbstractCollection;
+use App\Collections\AbstractCollection;
 
 /**
  * @psalm-suppress MoreSpecificImplementedParamType
@@ -17,7 +17,7 @@ use Ramsey\Collection\AbstractCollection;
  * @method ScheduleItemCollection where(string $propertyOrMethod, $value)
  * @method ScheduleItemCollection map(callable $callback)
  * @method ScheduleItem[] toArray()
- * @phpstan-ignore-next-line
+ * @method ScheduleItem|null firstOrNull()
  */
 class ScheduleItemCollection extends AbstractCollection
 {

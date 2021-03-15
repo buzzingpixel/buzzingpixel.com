@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Queue\Entities;
 
-use Ramsey\Collection\AbstractCollection;
+use App\Collections\AbstractCollection;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
 
@@ -18,7 +18,7 @@ use Ramsey\Collection\AbstractCollection;
  * @method QueueItemCollection where(string $propertyOrMethod, $value)
  * @method QueueItemCollection map(callable $callback)
  * @method QueueItem[] toArray()
- * @phpstan-ignore-next-line
+ * @method QueueItem|null firstOrNull()
  */
 class QueueItemCollection extends AbstractCollection
 {

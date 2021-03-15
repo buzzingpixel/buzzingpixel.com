@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Email\Entity;
 
-use Ramsey\Collection\AbstractCollection;
+use App\Collections\AbstractCollection;
 
 /**
  * @psalm-suppress MoreSpecificImplementedParamType
@@ -17,7 +17,7 @@ use Ramsey\Collection\AbstractCollection;
  * @method EmailRecipientCollection where(string $propertyOrMethod, $value)
  * @method EmailRecipientCollection map(callable $callback)
  * @method EmailRecipient[] toArray()
- * @phpstan-ignore-next-line
+ * @method EmailRecipient|null firstOrNull()
  */
 class EmailRecipientCollection extends AbstractCollection
 {
