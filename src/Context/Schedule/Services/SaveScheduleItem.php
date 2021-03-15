@@ -2,20 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Context\Users\Services;
+namespace App\Context\Schedule\Services;
 
-use App\Context\Users\Entities\UserSession;
+use App\Context\Schedule\Entities\ScheduleItem;
 use App\Payload\Payload;
-use App\Persistence\Entities\Users\UserSessionRecord;
+use App\Persistence\Entities\Schedule\ScheduleTrackingRecord;
 use Config\General;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
-use Doctrine\ORM\TransactionRequiredException;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-class SaveUserSession
+class SaveScheduleItem
 {
     public function __construct(
         private EntityManager $entityManager,
@@ -24,17 +21,17 @@ class SaveUserSession
     ) {
     }
 
-    public function save(UserSession $session): Payload
+    public function save(ScheduleItem $scheduleItem): Payload
     {
         try {
-            return $this->innerSave($session);
+            return $this->innerSave($scheduleItem);
         } catch (Throwable $exception) {
             if ($this->config->devMode()) {
                 throw $exception;
             }
 
             $this->logger->emergency(
-                'An exception was caught saving a session',
+                'An exception was caught saving a schedule item',
                 ['exception' => $exception],
             );
 
@@ -45,23 +42,19 @@ class SaveUserSession
         }
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     * @throws TransactionRequiredException
-     */
-    private function innerSave(UserSession $session): Payload
+    private function innerSave(ScheduleItem $scheduleItem): Payload
     {
         $payloadStatus = Payload::STATUS_UPDATED;
 
         $this->logger->info(
-            'Checking for existing session by ID: ' . $session->id()
+            'Checking for existing schedule item by ID: ' .
+                $scheduleItem->id()
         );
 
         // Check if this is an existing record
         $record = $this->entityManager->find(
-            UserSessionRecord::class,
-            $session->id(),
+            ScheduleTrackingRecord::class,
+            $scheduleItem->id(),
         );
 
         // If it's not, create a new user record
@@ -69,30 +62,28 @@ class SaveUserSession
             $payloadStatus = Payload::STATUS_CREATED;
 
             $this->logger->info(
-                'The session does not exist by ID. Creating new record'
+                'The schedule item does not exist by ID. ' .
+                    'Creating new record',
             );
 
-            $record = new UserSessionRecord();
+            $record = new ScheduleTrackingRecord();
         } else {
             $this->logger->info(
-                'This session was found in the database. Updating' .
-                'existing session',
+                'This schedule item was found in the database. ' .
+                'Updating existing schedule item',
             );
         }
 
-        $record->hydrateFromEntity($session);
+        $record->hydrateFromEntity($scheduleItem);
 
         $this->entityManager->persist($record);
 
-        $this->entityManager->flush($record);
+        $this->entityManager->flush();
 
         $this->logger->info(
-            'The session was saved',
+            'The schedule item was saved',
         );
 
-        return new Payload(
-            $payloadStatus,
-            ['userSessionEntity' => $session]
-        );
+        return new Payload($payloadStatus);
     }
 }
