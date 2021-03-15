@@ -27,6 +27,7 @@ class ScheduleApi
         );
     }
 
+    /** @phpstan-ignore-next-line  */
     public function fetchSchedules(): ScheduleItemCollection
     {
         return $this->fetchSchedules->fetch();

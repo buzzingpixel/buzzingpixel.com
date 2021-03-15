@@ -92,13 +92,40 @@ class ScheduleItem
         return $this->isRunning;
     }
 
+    public function withIsRunning(bool $isRunning): self
+    {
+        $clone = clone $this;
+
+        $clone->isRunning = $isRunning;
+
+        return $clone;
+    }
+
     public function lastRunStartAt(): ?DateTimeImmutable
     {
         return $this->lastRunStartAt;
     }
 
+    public function withLastRunStartAt(?DateTimeImmutable $lastRunStartAt): self
+    {
+        $clone = clone $this;
+
+        $clone->lastRunStartAt = $lastRunStartAt;
+
+        return $clone;
+    }
+
     public function lastRunEndAt(): ?DateTimeImmutable
     {
         return $this->lastRunEndAt;
+    }
+
+    public function withLastRunEndAt(?DateTimeImmutable $lastRunEndAt): self
+    {
+        $clone = clone $this;
+
+        $clone->lastRunEndAt = $lastRunEndAt;
+
+        return $clone;
     }
 }
