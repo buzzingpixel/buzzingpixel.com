@@ -7,6 +7,7 @@ namespace Config;
 use App\Context\Queue\Schedule\CleanDeadQueues;
 use App\Context\Queue\Schedule\CleanOldQueues;
 use App\Context\Schedule\Entities\ScheduleConfigItemCollection;
+use App\Context\Users\Schedule\UserResetTokenGarbageCollection;
 
 class ScheduleConfig
 {
@@ -16,6 +17,7 @@ class ScheduleConfig
         return new ScheduleConfigItemCollection([
             CleanDeadQueues::getScheduleConfig(),
             CleanOldQueues::getScheduleConfig(),
+            UserResetTokenGarbageCollection::getScheduleConfig(),
         ]);
     }
 }
