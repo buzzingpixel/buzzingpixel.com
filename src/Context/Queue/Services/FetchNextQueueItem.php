@@ -13,7 +13,6 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 use function assert;
-use function dd;
 
 class FetchNextQueueItem
 {
@@ -21,6 +20,7 @@ class FetchNextQueueItem
         private EntityManager $entityManager,
         private LoggerInterface $logger,
         private General $config,
+        private QueueItemPostRun $itemPostRun,
     ) {
     }
 
@@ -71,8 +71,10 @@ class FetchNextQueueItem
             return $queueItem;
         }
 
-        // TODO: run postRun
-        dd('TODO: Run postRun');
+        if (isset($queueItem)) {
+            /** @psalm-suppress MixedArgument */
+            $this->itemPostRun->postRun($queueItem);
+        }
 
         return null;
     }
