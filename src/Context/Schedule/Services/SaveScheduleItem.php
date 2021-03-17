@@ -70,7 +70,7 @@ class SaveScheduleItem
         } else {
             $this->logger->info(
                 'This schedule item was found in the database. ' .
-                'Updating existing schedule item',
+                    'Updating existing schedule item',
             );
         }
 

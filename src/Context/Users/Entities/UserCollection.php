@@ -18,6 +18,7 @@ use App\Collections\AbstractCollection;
  * @method UserCollection map(callable $callback)
  * @method User[] toArray()
  * @method User|null firstOrNull()
+ * @method void replaceWhereMatch(string $propertyOrMethod, User $item, bool $setLastIfNoMatch = false)
  */
 class UserCollection extends AbstractCollection
 {

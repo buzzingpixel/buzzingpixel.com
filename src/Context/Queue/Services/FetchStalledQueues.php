@@ -60,7 +60,7 @@ class FetchStalledQueues
                 ->where('q.finishedDueToError = true')
                 ->orderBy('q.addedAt', 'asc')
                 ->getQuery()
-                ->getResult()
+                ->getResult(),
         ));
     }
 }

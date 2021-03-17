@@ -18,6 +18,7 @@ use App\Collections\AbstractCollection;
  * @method QueueCollection map(callable $callback)
  * @method Queue[] toArray()
  * @method Queue|null firstOrNull()
+ * @method void replaceWhereMatch(string $propertyOrMethod, Queue $item, bool $setLastIfNoMatch = false)
  */
 class QueueCollection extends AbstractCollection
 {

@@ -6,6 +6,9 @@ namespace App\Persistence\PropertyTraits;
 
 use Doctrine\ORM\Mapping;
 
+use function serialize;
+use function unserialize;
+
 trait Value
 {
     /**
@@ -18,11 +21,11 @@ trait Value
 
     public function getValue(): string
     {
-        return $this->value;
+        return unserialize($this->value);
     }
 
-    public function setValue(string $value): void
+    public function setValue(mixed $value): void
     {
-        $this->value = $value;
+        $this->value = serialize($value);
     }
 }

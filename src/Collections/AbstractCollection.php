@@ -71,4 +71,41 @@ abstract class AbstractCollection extends RamseyAbstractCollection
 
         return $this->first();
     }
+
+    public function replaceWhereMatch(
+        string $propertyOrMethod,
+        mixed $item,
+        bool $setLastIfNoMatch = false,
+    ): void {
+        /** @psalm-suppress MixedAssignment */
+        $value = $this->extractValue(
+            $item,
+            $propertyOrMethod,
+        );
+
+        $hasMatch = false;
+
+        /** @psalm-suppress MixedAssignment */
+        foreach ($this->data as $key => $loopItem) {
+            /** @psalm-suppress MixedAssignment */
+            $loopValue = $this->extractValue(
+                $loopItem,
+                $propertyOrMethod,
+            );
+
+            if ($loopValue !== $value) {
+                continue;
+            }
+
+            $hasMatch = true;
+
+            $this->offsetSet($key, $item);
+        }
+
+        if ($hasMatch || ! $setLastIfNoMatch) {
+            return;
+        }
+
+        $this->add($item);
+    }
 }

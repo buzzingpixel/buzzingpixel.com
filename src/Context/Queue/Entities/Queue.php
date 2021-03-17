@@ -7,6 +7,7 @@ namespace App\Context\Queue\Entities;
 use App\EntityValueObjects\Id;
 use App\Persistence\Entities\Queue\QueueItemRecord;
 use App\Persistence\Entities\Queue\QueueRecord;
+use App\Utilities\DateTimeUtility;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
@@ -15,7 +16,6 @@ use Ramsey\Uuid\UuidInterface;
 
 use function array_map;
 use function array_merge;
-use function assert;
 use function is_array;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue.NullabilitySymbolRequired
@@ -105,7 +105,7 @@ class Queue
                 timezone: new DateTimeZone('UTC'),
             );
         } else {
-            $this->assumeDeadAfter = $this->createDateTimeImmutable(
+            $this->assumeDeadAfter = DateTimeUtility::createDateTimeImmutable(
                 $assumeDeadAfter,
             );
         }
@@ -113,14 +113,16 @@ class Queue
         if ($initialAssumeDeadAfter === null) {
             $this->initialAssumeDeadAfter = $this->assumeDeadAfter;
         } else {
-            $this->initialAssumeDeadAfter = $this->createDateTimeImmutable(
+            $this->initialAssumeDeadAfter = DateTimeUtility::createDateTimeImmutable(
                 $initialAssumeDeadAfter,
             );
         }
 
-        $this->addedAt = $this->createDateTimeImmutable($addedAt);
+        $this->addedAt = DateTimeUtility::createDateTimeImmutable(
+            $addedAt
+        );
 
-        $this->finishedAt = $this->createDateTimeImmutableOrNull(
+        $this->finishedAt = DateTimeUtility::createDateTimeImmutableOrNull(
             $finishedAt
         );
 
@@ -137,46 +139,6 @@ class Queue
     }
 
     private bool $isInitialized = false;
-
-    private function createDateTimeImmutableOrNull(
-        null | string | DateTimeInterface $dateTime,
-    ): ?DateTimeImmutable {
-        if ($dateTime === null) {
-            return null;
-        }
-
-        return $this->createDateTimeImmutable($dateTime);
-    }
-
-    private function createDateTimeImmutable(
-        null | string | DateTimeInterface $dateTime,
-    ): DateTimeImmutable {
-        if ($dateTime === null) {
-            return new DateTimeImmutable(
-                timezone: new DateTimeZone('UTC'),
-            );
-        }
-
-        if ($dateTime instanceof DateTimeInterface) {
-            $class = DateTimeImmutable::createFromFormat(
-                DateTimeInterface::ATOM,
-                $dateTime->format(DateTimeInterface::ATOM),
-            );
-        } else {
-            $class = DateTimeImmutable::createFromFormat(
-                DateTimeInterface::ATOM,
-                $dateTime,
-            );
-        }
-
-        assert($class instanceof DateTimeImmutable);
-
-        $class = $class->setTimezone(
-            new DateTimeZone('UTC')
-        );
-
-        return $class;
-    }
 
     public function id(): string
     {

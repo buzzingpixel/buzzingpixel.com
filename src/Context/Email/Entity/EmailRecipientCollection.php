@@ -18,6 +18,7 @@ use App\Collections\AbstractCollection;
  * @method EmailRecipientCollection map(callable $callback)
  * @method EmailRecipient[] toArray()
  * @method EmailRecipient|null firstOrNull()
+ * @method void replaceWhereMatch(string $propertyOrMethod, EmailRecipient $item, bool $setLastIfNoMatch = false)
  */
 class EmailRecipientCollection extends AbstractCollection
 {

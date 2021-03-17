@@ -18,6 +18,7 @@ use App\Collections\AbstractCollection;
  * @method ScheduleTrackingRecordCollection map(callable $callback)
  * @method ScheduleTrackingRecord[] toArray()
  * @method ScheduleTrackingRecord|null firstOrNull()
+ * @method void replaceWhereMatch(string $propertyOrMethod, ScheduleTrackingRecord $item, bool $setLastIfNoMatch = false)
  */
 class ScheduleTrackingRecordCollection extends AbstractCollection
 {
