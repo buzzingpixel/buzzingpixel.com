@@ -44,7 +44,12 @@ class RunQueueCommand extends Command
         }
 
         try {
+            /**
+             * @psalm-suppress PossiblyNullReference
+             * @phpstan-ignore-next-line
+             */
             $msg = 'Running ' . $item->queue()->handle() .
+                /** @phpstan-ignore-next-line  */
                 ' (' . $item->queue()->id() . ') step ' .
                 (string) $item->runOrder() . ' (' .
                 $item->id() . ')...';
@@ -53,6 +58,10 @@ class RunQueueCommand extends Command
 
             $output->writeln('<fg=yellow>' . $msg . '</>');
 
+            /**
+             * @psalm-suppress PossiblyNullArgument
+             * @phpstan-ignore-next-line
+             */
             $this->queueApi->markAsStarted($item->queue());
 
             $this->queueApi->runItem($item);
@@ -67,7 +76,12 @@ class RunQueueCommand extends Command
 
             return 0;
         } catch (Throwable $exception) {
+            /**
+             * @psalm-suppress PossiblyNullReference
+             * @phpstan-ignore-next-line
+             */
             $msg = 'An exception was thrown running ' . $item->queue()->handle() .
+                /** @phpstan-ignore-next-line  */
                 ' (' . $item->queue()->id() . ') step ' .
                 (string) $item->runOrder() . ' (' .
                 $item->id() . ')...';
@@ -79,7 +93,11 @@ class RunQueueCommand extends Command
 
             $output->writeln('<fg=red>' . $msg . '</>');
 
+            /**
+             * @psalm-suppress PossiblyNullArgument
+             */
             $this->queueApi->markItemStoppedDueToError(
+                /** @phpstan-ignore-next-line  */
                 $item->queue(),
                 $exception
             );

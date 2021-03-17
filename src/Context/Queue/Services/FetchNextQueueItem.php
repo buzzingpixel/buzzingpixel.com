@@ -73,5 +73,7 @@ class FetchNextQueueItem
 
         // TODO: run postRun
         dd('TODO: Run postRun');
+
+        return null;
     }
 }

@@ -13,6 +13,7 @@ use App\Context\DatabaseCache\Services\SaveItem;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 
+use function array_values;
 use function count;
 use function in_array;
 
@@ -90,8 +91,15 @@ class CacheItemPool implements CacheItemPoolInterface
             return $collection;
         }
 
-        $queryCollection = $this->populateItemsByKeys($toQueryKeys);
+        /**
+         * @psalm-suppress MixedArgumentTypeCoercion
+         * @psalm-suppress MixedArgument
+         */
+        $queryCollection = $this->populateItemsByKeys(
+            array_values($toQueryKeys),
+        );
 
+        /** @psalm-suppress MixedArgumentTypeCoercion */
         $queryCollection->map(
             static fn (DatabaseCacheItem $c) => $collection->add($c),
         );

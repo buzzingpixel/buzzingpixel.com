@@ -113,6 +113,7 @@ class DatabaseCacheItem implements CacheItemInterface
         return $this->value !== null;
     }
 
+    /** @psalm-suppress MoreSpecificReturnType */
     public function set(mixed $value): static
     {
         /**

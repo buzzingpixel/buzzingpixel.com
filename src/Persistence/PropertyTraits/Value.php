@@ -19,7 +19,7 @@ trait Value
      */
     protected string $value = '';
 
-    public function getValue(): string
+    public function getValue(): mixed
     {
         return unserialize($this->value);
     }
