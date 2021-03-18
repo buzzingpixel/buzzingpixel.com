@@ -6,7 +6,6 @@ namespace App\Context\Users\Services;
 
 use App\Context\Users\Entities\User;
 
-use function password_hash;
 use function password_needs_rehash;
 use function password_verify;
 
@@ -44,13 +43,7 @@ class ValidateUserPassword
             return $user;
         }
 
-        $user = $user->withPasswordHash(
-            /** @phpstan-ignore-next-line */
-            (string) password_hash(
-                $password,
-                PASSWORD_DEFAULT
-            ),
-        );
+        $user = $user->withPassword($password);
 
         $this->saveUser->save($user);
 

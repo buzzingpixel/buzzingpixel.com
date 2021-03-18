@@ -12,10 +12,6 @@ use Exception;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-use function password_hash;
-
-use const PASSWORD_DEFAULT;
-
 class ResetPasswordByToken
 {
     public function __construct(
@@ -58,13 +54,7 @@ class ResetPasswordByToken
             return new Payload(Payload::STATUS_NOT_VALID);
         }
 
-        $user = $user->withPasswordHash(
-            /** @phpstan-ignore-next-line */
-            (string) password_hash(
-                $newPassword,
-                PASSWORD_DEFAULT
-            ),
-        );
+        $user = $user->withPassword($newPassword);
 
         $savePayload = $this->saveUser->save($user);
 

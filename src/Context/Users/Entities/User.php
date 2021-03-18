@@ -14,6 +14,9 @@ use LogicException;
 
 use function assert;
 use function is_string;
+use function password_hash;
+
+use const PASSWORD_DEFAULT;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue.NullabilitySymbolRequired
 
@@ -41,11 +44,11 @@ class User
     }
 
     public function __construct(
-        bool $isAdmin,
         string $emailAddress,
-        string $passwordHash,
-        bool $isActive,
-        string | DateTimeZone $timezone,
+        string $passwordHash = '',
+        bool $isAdmin = false,
+        bool $isActive = true,
+        null | string | DateTimeZone $timezone = null,
         null | string | DateTimeInterface $createdAt = null,
         ?string $id = null,
     ) {
@@ -71,7 +74,9 @@ class User
 
         $this->isActive = $isActive;
 
-        if ($timezone instanceof DateTimeZone) {
+        if ($timezone === null) {
+            $this->timezone = new DateTimeZone('US/Central');
+        } elseif ($timezone instanceof DateTimeZone) {
             $this->timezone = $timezone;
         } else {
             $this->timezone = new DateTimeZone($timezone);
@@ -151,6 +156,15 @@ class User
         $clone->passwordHash = $passwordHash;
 
         return $clone;
+    }
+
+    public function withPassword(string $password): self
+    {
+        /** @phpstan-ignore-next-line */
+        return $this->withPasswordHash((string) password_hash(
+            $password,
+            PASSWORD_DEFAULT
+        ));
     }
 
     public function isActive(): bool
