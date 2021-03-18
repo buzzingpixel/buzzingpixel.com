@@ -20,4 +20,5 @@ return array_merge(
     require __DIR__ . '/Dependencies/ResponseFactoryInterface.php',
     require __DIR__ . '/Dependencies/StaticCacheMiddleware.php',
     require __DIR__ . '/Dependencies/TwigEnvironment.php',
+    require __DIR__ . '/Dependencies/Users.php',
 );
