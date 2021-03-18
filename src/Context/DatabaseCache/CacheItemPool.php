@@ -14,6 +14,7 @@ use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 
 use function array_values;
+use function array_walk;
 use function count;
 use function in_array;
 
@@ -130,6 +131,10 @@ class CacheItemPool implements CacheItemPoolInterface
 
     public function deleteItem(string $key): bool
     {
+        if ($key === '') {
+            throw new InvalidArgumentException();
+        }
+
         $this->deleteItems([$key]);
 
         return true;
@@ -140,6 +145,16 @@ class CacheItemPool implements CacheItemPoolInterface
      */
     public function deleteItems(array $keys): bool
     {
+        array_walk(
+            $keys,
+            static function (string $key): void {
+                if ($key === '') {
+                    throw new InvalidArgumentException();
+                }
+            }
+        );
+
+        /** @psalm-suppress MixedArgumentTypeCoercion */
         $this->deleteItemsByKeys->delete($keys);
 
         return true;
