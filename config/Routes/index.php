@@ -46,7 +46,7 @@ use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocTemplateTa
 use App\Http\Response\Software\Treasury\TreasuryAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogItemAction;
-use App\Http\RouteMiddleware\RequireLogInAction;
+use App\Http\RouteMiddleware\LogIn\RequireLogInAction;
 use Config\NoOp;
 use Config\Tinker;
 use Slim\App;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\RouteMiddleware;
+namespace App\Http\RouteMiddleware\LogIn;
 
 use App\Context\Users\Entities\LoggedInUser;
 use App\Http\Entities\Meta;

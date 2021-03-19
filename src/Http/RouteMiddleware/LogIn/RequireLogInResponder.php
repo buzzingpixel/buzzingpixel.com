@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\RouteMiddleware;
+namespace App\Http\RouteMiddleware\LogIn;
 
 use App\Http\Entities\Meta;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -32,7 +32,7 @@ class RequireLogInResponder
         $response = $this->responseFactory->createResponse();
 
         $response->getBody()->write($this->twig->render(
-            '@app/Http/RouteMiddleware/RequireLogIn.twig',
+            '@app/Http/RouteMiddleware/LogIn/RequireLogIn.twig',
             [
                 'meta' => $meta,
                 'redirectTo' => $redirectTo,
