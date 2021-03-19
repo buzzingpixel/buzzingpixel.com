@@ -36,6 +36,7 @@ module.exports = {
                 'lighter-red': '#ee908f',
                 'light-red': '#ca5153',
                 red: '#870f12',
+                'dark-red': '#540a0c',
             },
             fontFamily: {},
             typography: (theme) => ({

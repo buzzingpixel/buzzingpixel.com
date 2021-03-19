@@ -44,8 +44,11 @@ use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocTemplateTa
 use App\Http\Response\Software\Treasury\TreasuryAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogItemAction;
+use App\Http\RouteMiddleware\RequireLogInAction;
+use Config\NoOp;
 use Config\Tinker;
 use Slim\App;
+use Slim\Routing\RouteCollectorProxy;
 
 return static function (App $app): void {
     $app->get(pattern: '/', callable: HomeAction::class);
@@ -56,6 +59,32 @@ return static function (App $app): void {
     if ((bool) getenv('DEV_MODE')) {
         $app->get(pattern: '/tinker', callable: Tinker::class);
     }
+
+    /**
+     * Account
+     */
+    $app->group(pattern: '/account', callable: function (RouteCollectorProxy $r): void {
+        // $this so PHPCS will be happy and not convert to static function.
+        /**
+         * @phpstan-ignore-next-line
+         * @psalm-suppress InvalidScope
+         * @psalm-suppress MixedMethodCall
+         */
+        $this->get(NoOp::class);
+
+        $r->get(pattern: '', callable: function (): void {
+            // $this so PHPCS will be happy and not convert to static function.
+            /**
+             * @phpstan-ignore-next-line
+             * @psalm-suppress InvalidScope
+             * @psalm-suppress MixedMethodCall
+             */
+            $this->get(NoOp::class);
+
+            // TODO: Account Page
+            dd('TODO: account page');
+        });
+    })->add(RequireLogInAction::class);
 
     /**
      * Software
