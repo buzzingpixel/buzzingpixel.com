@@ -9,6 +9,7 @@ use App\Http\Response\LogIn\PostLogInAction;
 use App\Http\Response\LogIn\PostLogOutAction;
 use App\Http\Response\Register\PostRegisterAction;
 use App\Http\Response\Register\RegisterAction;
+use App\Http\Response\ResetPwWithToken\ResetPwWithTokenAction;
 use App\Http\Response\Software\AnselCraft\AnselCraftAction;
 use App\Http\Response\Software\AnselCraft\AnselCraftChangelogAction;
 use App\Http\Response\Software\AnselCraft\AnselCraftChangelogItemAction;
@@ -72,6 +73,7 @@ return static function (App $app): void {
     $app->post(pattern: '/account/register', callable: PostRegisterAction::class);
     $app->get(pattern: '/account/iforgot', callable: IForgotAction::class);
     $app->post(pattern: '/account/iforgot', callable: PostIForgotAction::class);
+    $app->get(pattern: '/reset-pw-with-token/{token}', callable: ResetPwWithTokenAction::class);
 
     /**
      * Account
