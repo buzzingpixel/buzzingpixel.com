@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\EntityValueObjects;
 
-use LogicException;
+use App\Context\Users\Exceptions\InvalidEmailAddress;
 
 use function filter_var;
 
@@ -12,6 +12,9 @@ use const FILTER_VALIDATE_EMAIL;
 
 class EmailAddress
 {
+    /**
+     * @throws InvalidEmailAddress
+     */
     public function __construct(private string $emailAddress)
     {
         if (
@@ -23,9 +26,7 @@ class EmailAddress
             return;
         }
 
-        throw new LogicException(
-            '$emailAddress string must be a valid email address'
-        );
+        throw new InvalidEmailAddress();
     }
 
     public function toString(): string
@@ -33,6 +34,9 @@ class EmailAddress
         return $this->emailAddress;
     }
 
+    /**
+     * @throws InvalidEmailAddress
+     */
     public static function fromString(string $emailAddress): self
     {
         return new self($emailAddress);

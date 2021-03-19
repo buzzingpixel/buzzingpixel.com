@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Entities;
 
+use App\Context\Users\Exceptions\InvalidEmailAddress;
+use App\Context\Users\Exceptions\InvalidPassword;
 use App\EntityValueObjects\EmailAddress;
 use App\EntityValueObjects\Id;
 use App\Persistence\Entities\Users\UserRecord;
@@ -14,7 +16,9 @@ use LogicException;
 
 use function assert;
 use function is_string;
+use function mb_strlen;
 use function password_hash;
+use function preg_match;
 
 use const PASSWORD_DEFAULT;
 
@@ -43,6 +47,10 @@ class User
         );
     }
 
+    /**
+     * @throws InvalidEmailAddress
+     * @throws InvalidPassword
+     */
     public function __construct(
         string $emailAddress,
         string $passwordHash = '',
@@ -51,6 +59,7 @@ class User
         null | string | DateTimeZone $timezone = null,
         null | string | DateTimeInterface $createdAt = null,
         ?string $id = null,
+        string $plainTextPassword = '',
     ) {
         if ($this->isInitialized) {
             throw new LogicException(
@@ -70,7 +79,17 @@ class User
             $emailAddress
         );
 
-        $this->passwordHash = $passwordHash;
+        if ($plainTextPassword !== '') {
+            $this->validatePassword($plainTextPassword);
+
+            /** @phpstan-ignore-next-line */
+            $this->passwordHash = (string) password_hash(
+                $plainTextPassword,
+                PASSWORD_DEFAULT,
+            );
+        } elseif ($passwordHash !== '') {
+            $this->passwordHash = $passwordHash;
+        }
 
         $this->isActive = $isActive;
 
@@ -105,6 +124,29 @@ class User
         $this->createdAt = $createdAtClass;
 
         $this->isInitialized = true;
+    }
+
+    /**
+     * @throws InvalidPassword
+     */
+    private function validatePassword(string $password): void
+    {
+        $uppercase    = preg_match('@[A-Z]@', $password);
+        $lowercase    = preg_match('@[a-z]@', $password);
+        $number       = preg_match('@[0-9]@', $password);
+        $specialChars = preg_match('@[^\w]@', $password);
+
+        if (
+            $uppercase > 0 &&
+            $lowercase > 0 &&
+            $number > 0 &&
+            $specialChars > 0 &&
+            mb_strlen($password) > 7
+        ) {
+            return;
+        }
+
+        throw new InvalidPassword();
     }
 
     private bool $isInitialized = false;
@@ -158,12 +200,17 @@ class User
         return $clone;
     }
 
+    /**
+     * @throws InvalidPassword
+     */
     public function withPassword(string $password): self
     {
+        $this->validatePassword($password);
+
         /** @phpstan-ignore-next-line */
         return $this->withPasswordHash((string) password_hash(
             $password,
-            PASSWORD_DEFAULT
+            PASSWORD_DEFAULT,
         ));
     }
 

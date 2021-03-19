@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\LogIn;
+namespace App\Http\Response\Register;
 
 use App\Payload\Payload;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Flash\Messages as FlashMessages;
 
-class PostLogInResponder
+class PostRegisterResponder
 {
     private FlashMessages $flashMessages;
     private ResponseFactoryInterface $responseFactory;
@@ -26,12 +26,20 @@ class PostLogInResponder
         Payload $payload,
         string $redirectTo
     ): ResponseInterface {
-        if ($payload->getStatus() !== Payload::STATUS_SUCCESSFUL) {
+        if ($payload->getStatus() !== Payload::STATUS_CREATED) {
             $this->flashMessages->addMessage(
                 'FormMessage',
                 [
                     'status' => $payload->getStatus(),
                     'result' => $payload->getResult(),
+                ]
+            );
+        } else {
+            $this->flashMessages->addMessage(
+                'FormMessage',
+                [
+                    'status' => Payload::STATUS_SUCCESSFUL,
+                    'result' => ['message' => 'Your account has been created, you can now log in'],
                 ]
             );
         }

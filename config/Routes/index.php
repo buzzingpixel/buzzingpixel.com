@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Response\Home\HomeAction;
 use App\Http\Response\LogIn\PostLogInAction;
 use App\Http\Response\LogIn\PostLogOutAction;
+use App\Http\Response\Register\PostRegisterAction;
 use App\Http\Response\Register\RegisterAction;
 use App\Http\Response\Software\AnselCraft\AnselCraftAction;
 use App\Http\Response\Software\AnselCraft\AnselCraftChangelogAction;
@@ -66,6 +67,7 @@ return static function (App $app): void {
     $app->post(pattern: '/account/log-in', callable: PostLogInAction::class);
     $app->any(pattern: '/account/log-out', callable: PostLogOutAction::class);
     $app->get(pattern: '/account/register', callable: RegisterAction::class);
+    $app->post(pattern: '/account/register', callable: PostRegisterAction::class);
 
     /**
      * Account

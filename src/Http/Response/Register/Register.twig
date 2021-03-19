@@ -1,6 +1,6 @@
 {% extends 'Http/_Infrastructure/_Layout.twig' %}
 
-{% set message = flash('RegisterFormMessage') %}
+{% set message = flash('FormMessage') %}
 {% if message[0] is defined %}
     {% set message = message[0] %}
 {% endif %}
@@ -54,7 +54,20 @@
                                 id="password"
                                 name="password"
                                 type="password"
-                                autocomplete="current-password"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-whiskey focus:border-whiskey sm:text-sm"
+                                required
+                            >
+                        </div>
+                    </div>
+                    <div>
+                        <label for="password_verify" class="block text-sm font-medium text-gray-700">
+                            Verify Password
+                        </label>
+                        <div class="mt-1">
+                            <input
+                                id="password_verify"
+                                name="password_verify"
+                                type="password"
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-whiskey focus:border-whiskey sm:text-sm"
                                 required
                             >
