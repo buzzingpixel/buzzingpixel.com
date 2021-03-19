@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Register;
+namespace App\Http\Response\ResetPwWithToken;
 
 use App\Payload\Payload;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Flash\Messages as FlashMessages;
 
-class PostRegisterResponder
+class PostResetPwWithTokenResponder
 {
     private FlashMessages $flashMessages;
     private ResponseFactoryInterface $responseFactory;
@@ -26,7 +26,7 @@ class PostRegisterResponder
         Payload $payload,
         string $redirectTo
     ): ResponseInterface {
-        if ($payload->getStatus() !== Payload::STATUS_CREATED) {
+        if ($payload->getStatus() !== Payload::STATUS_UPDATED) {
             $this->flashMessages->addMessage(
                 'FormMessage',
                 [
@@ -40,8 +40,8 @@ class PostRegisterResponder
                 [
                     'status' => Payload::STATUS_SUCCESSFUL,
                     'result' => [
-                        'message' => 'Your account has been created. ' .
-                            'You can now log in',
+                        'message' => 'Your password was updated successfully.' .
+                            ' You can now log in with your new password.',
                     ],
                 ]
             );
