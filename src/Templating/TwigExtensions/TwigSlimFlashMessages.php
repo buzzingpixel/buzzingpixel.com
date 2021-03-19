@@ -8,6 +8,10 @@ use Slim\Flash\Messages;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
+use function session_status;
+
+use const PHP_SESSION_ACTIVE;
+
 class TwigSlimFlashMessages extends AbstractExtension
 {
     protected Messages $flash;
@@ -15,6 +19,11 @@ class TwigSlimFlashMessages extends AbstractExtension
     public function __construct(Messages $flash)
     {
         $this->flash = $flash;
+    }
+
+    public static function shouldAddExtension(): bool
+    {
+        return session_status() === PHP_SESSION_ACTIVE;
     }
 
     /**

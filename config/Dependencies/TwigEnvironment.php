@@ -58,6 +58,17 @@ return [
         );
 
         foreach (Twig::EXTENSIONS as $extClassString) {
+            /** @psalm-suppress UndefinedMethod */
+            if (
+                method_exists(
+                    $extClassString,
+                    'shouldAddExtension'
+                ) &&
+                ! $extClassString::shouldAddExtension()
+            ) {
+                continue;
+            }
+
             /** @psalm-suppress MixedAssignment */
             $ext = $di->get($extClassString);
 
