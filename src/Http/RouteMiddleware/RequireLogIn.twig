@@ -1,5 +1,10 @@
 {% extends 'Http/_Infrastructure/_Layout.twig' %}
 
+{% set message = flash('LoginFormMessage') %}
+{% if message[0] is defined %}
+    {% set message = message[0] %}
+{% endif %}
+
 {% block content %}
     <div class="min-h-screen-minus-header-and-footer bg-gray-50 flex flex-col justify-center py-6 sm:px-6 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
@@ -8,13 +13,14 @@
             </h2>
         </div>
         <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            {# <div class="mb-4">
-                {% include 'Http/Components/Alert.twig' with {
-                    headline: 'Error',
-                    content: 'Invalid email or password.',
-                    type: 'error',
-                } only %}
-            </div> #}
+            {% if message['status'] is defined %}
+                <div class="mb-4">
+                    {% include 'Http/Components/Alert.twig' with {
+                        content: message.result.message|default(''),
+                        type: 'error',
+                    } only %}
+                </div>
+            {% endif %}
             <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                 <form
                     class="space-y-6"

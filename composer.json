@@ -41,6 +41,7 @@
         "ramsey/uuid-doctrine": "^1.6",
         "rollbar/rollbar": "^2.1",
         "slim/csrf": "^1.2",
+        "slim/flash": "^0.4.0",
         "slim/psr7": "^1.3",
         "slim/slim": "^4.7",
         "symfony/console": "^5.2",

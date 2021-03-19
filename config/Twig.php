@@ -11,6 +11,7 @@ use App\Templating\TwigExtensions\CaseConverter;
 use App\Templating\TwigExtensions\PhpFunctions;
 use App\Templating\TwigExtensions\ReadJson;
 use App\Templating\TwigExtensions\SiteUrl;
+use App\Templating\TwigExtensions\TwigSlimFlashMessages;
 use BuzzingPixel\TwigMarkdown\MarkdownTwigExtension;
 use buzzingpixel\twigsmartypants\SmartypantsTwigExtension;
 use buzzingpixel\twigswitch\SwitchTwigExtension;
@@ -39,6 +40,7 @@ class Twig
         SiteUrl::class,
         SmartypantsTwigExtension::class,
         SwitchTwigExtension::class,
+        TwigSlimFlashMessages::class,
         WidontTwigExtension::class,
     ];
 

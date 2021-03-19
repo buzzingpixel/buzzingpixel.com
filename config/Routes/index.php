@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Response\Home\HomeAction;
+use App\Http\Response\LogIn\PostLogInAction;
 use App\Http\Response\Software\AnselCraft\AnselCraftAction;
 use App\Http\Response\Software\AnselCraft\AnselCraftChangelogAction;
 use App\Http\Response\Software\AnselCraft\AnselCraftChangelogItemAction;
@@ -59,6 +60,8 @@ return static function (App $app): void {
     if ((bool) getenv('DEV_MODE')) {
         $app->get(pattern: '/tinker', callable: Tinker::class);
     }
+
+    $app->post(pattern: '/account/log-in', callable: PostLogInAction::class);
 
     /**
      * Account

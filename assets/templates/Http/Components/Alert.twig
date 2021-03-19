@@ -31,7 +31,7 @@
                 {% case 'caution' %}
                     {% include 'Http/_Infrastructure/Svg/SolidExclamation.twig' with {classes: 'h-5 w-5 text-yellow-400'} only %}
                 {% case 'error' %}
-                    {% include 'Http/_Infrastructure/Svg/SolidXCircle.twig' with {classes: 'h-5 w-5 text-red-400'} only %}
+                    {% include 'Http/_Infrastructure/Svg/SolidXCircle.twig' with {classes: 'h-5 w-5 text-red'} only %}
                 {% default %}
                     {% include 'Http/_Infrastructure/Svg/SolidInformationCircle.twig' with {classes: 'h-5 w-5 text-blue-400'} only %}
             {% endswitch %}
@@ -44,7 +44,7 @@
             {% endif %}
             {% if content %}
                 <div class="{% if headline %}mt-2 {% endif %}text-sm {{ contentClass }}">
-                    <p>{{ content|widont|smartypants }}</p>
+                    <p>{{ content|smartypants|widont }}</p>
                 </div>
             {% endif %}
         </div>
