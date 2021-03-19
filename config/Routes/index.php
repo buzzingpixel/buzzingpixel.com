@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Http\Response\Home\HomeAction;
+use App\Http\Response\IForgot\IForgotAction;
+use App\Http\Response\IForgot\PostIForgotAction;
 use App\Http\Response\LogIn\PostLogInAction;
 use App\Http\Response\LogIn\PostLogOutAction;
 use App\Http\Response\Register\PostRegisterAction;
@@ -68,6 +70,8 @@ return static function (App $app): void {
     $app->any(pattern: '/account/log-out', callable: PostLogOutAction::class);
     $app->get(pattern: '/account/register', callable: RegisterAction::class);
     $app->post(pattern: '/account/register', callable: PostRegisterAction::class);
+    $app->get(pattern: '/account/iforgot', callable: IForgotAction::class);
+    $app->post(pattern: '/account/iforgot', callable: PostIForgotAction::class);
 
     /**
      * Account
