@@ -1,16 +1,31 @@
 /* eslint-disable no-new */
 
+/**
+ * Imports
+ */
+
+// Setup
 import Events from './Events.js';
-import SetGlobalData from './SetUp/SetGlobalData.js';
 import LoadAxios from './SetUp/LoadAxios.js';
+import SetGlobalData from './SetUp/SetGlobalData.js';
+
+// Components
+import MainNav from './Components/MainNav.js';
 import PrismCodeHighlighting from './Components/PrismCodeHighlighting.js';
+
+/**
+ * Run
+ */
 
 // Setup
 Events();
-SetGlobalData();
 LoadAxios();
+SetGlobalData();
 
 // Components
+
+// Main nav
+window.Methods.MainNav = MainNav;
 
 // Load prism code highlighting
 if (document.querySelector('code')

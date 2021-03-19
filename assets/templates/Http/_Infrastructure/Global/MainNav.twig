@@ -13,12 +13,36 @@
     },
 ] %}
 
+{% set accountMenu = [
+    {
+        href: siteUrl('/account/licenses'),
+        content: 'Licenses',
+    },
+    {
+        href: siteUrl('/account/purchases'),
+        content: 'Purchases',
+    },
+    {
+        href: siteUrl('/account/profile'),
+        content: 'Profile',
+    },
+    {
+        href: siteUrl('/account/log-out'),
+        content: 'Log Out',
+    },
+] %}
+
 <div
     class="bg-aqua-island border-t-6 border-pumpkin-skin"
     xmlns:x-transition="http://www.w3.org/1999/xhtml"
+    data-name="MainMenu"
+    x-init="RunWhenReady('MainNav', data)"
     x-data="{
         data: {
-            mobileMenuIsActive: false
+            mobileMenuIsActive: false,
+            userIsLoggedIn: false,
+            userEmailAddress: '',
+            accountMenuIsActive: false,
         }
     }"
 >
@@ -39,7 +63,7 @@
                         <div class="-mr-2 flex items-center md:hidden">
                             <button
                                 type="button"
-                                class="bg-gray-50 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                                class="bg-gray-50 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2"
                                 id="main-menu"
                                 aria-haspopup="true"
                                 @click="data.mobileMenuIsActive = true"
@@ -60,15 +84,98 @@
                         </a>
                     {% endfor %}
                 </div>
-                <div class="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
-                    <span class="inline-flex rounded-md shadow">
-                        <a
-                            href="{{ siteUrl('/account') }}"
-                            class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-jade bg-white hover:bg-gray-100 hover:text-deep-sea"
-                        >
-                            Log in
-                        </a>
-                    </span>
+                <div
+                    class="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0"
+                    data-name="AccountMenu"
+                >
+                    <div
+                        :class="{'hidden': data.userIsLoggedIn}"
+                    >
+                        <span class="inline-flex rounded-md shadow">
+                            <a
+                                href="{{ siteUrl('/account') }}"
+                                class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-jade bg-white hover:bg-gray-100 hover:text-deep-sea"
+                            >
+                                Log in
+                            </a>
+                        </span>
+                    </div>
+                    <div
+                        class="relative z-50 hidden"
+                        :class="{'hidden': !data.userIsLoggedIn}"
+                    >
+                        <div class="relative inline-block text-left">
+                            <div>
+                                <button
+                                    type="button"
+                                    class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100"
+                                    id="options-menu"
+                                    aria-expanded="true"
+                                    aria-haspopup="true"
+                                    @click="data.accountMenuIsActive = !data.accountMenuIsActive"
+                                >
+                                    Account
+                                    {% include('Http/_Infrastructure/Svg/SolidChevronDown.twig') with {
+                                        classes: '-mr-1 ml-2 h-5 w-5',
+                                    } %}
+                                </button>
+                            </div>
+                            <div
+                                class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white divide-y divide-gray-100 focus:outline-none"
+                                role="menu"
+                                aria-orientation="vertical"
+                                aria-labelledby="options-menu"
+                                x-show="data.accountMenuIsActive"
+                                x-transition:enter="duration-100 ease-out"
+                                x-transition:enter-start="opacity-0 scale-95"
+                                x-transition:enter-end="opacity-100 scale-100"
+                                x-transition:leave="duration-100 ease-in"
+                                x-transition:leave-start="opacity-100 scale-100"
+                                x-transition:leave-end="opacity-0 scale-95"
+                                style="display: none;"
+                            >
+                                <div class="px-4 py-3" role="none">
+                                    <p
+                                        class="text-sm"
+                                        role="none"
+                                    >
+                                        Logged in as
+                                    </p>
+                                    <p
+                                        class="text-sm font-medium text-gray-900 truncate"
+                                        role="none"
+                                        x-text="data.userEmailAddress"
+                                    ></p>
+                                </div>
+                                <div class="py-1" role="none">
+                                    {% for item in accountMenu %}
+                                        {% if not loop.last %}
+                                            <a
+                                                href="{{ item.href }}"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                                role="menuitem"
+                                            >
+                                                {{ item.content|smartypants }}
+                                            </a>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% for item in GeneralConfig.accountMenu %}
+                                    {% if loop.last %}
+                                        <div class="py-1" role="none">
+                                            <a
+                                                href="{{ item.href }}"
+                                                class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                                role="menuitem"
+                                            >
+                                                {{ item.content|smartypants }}
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </nav>
         </div>
@@ -98,7 +205,7 @@
                     <div class="-mr-2">
                         <button
                             type="button"
-                            class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                            class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset"
                             @click="data.mobileMenuIsActive = false"
                         >
                             <span class="sr-only">Close main menu</span>
@@ -118,7 +225,10 @@
                             </a>
                         {% endfor %}
                     </div>
-                    <div role="none">
+                    <div
+                        role="none"
+                        :class="{'hidden': data.userIsLoggedIn}"
+                    >
                         <a
                             href="{{ siteUrl('/account') }}"
                             class="block w-full px-5 py-3 text-center font-medium text-jade bg-gray-100 hover:bg-gray-200 hover:text-deep-sea"
@@ -126,6 +236,29 @@
                         >
                             Log in
                         </a>
+                    </div>
+                    <div
+                        role="none"
+                        class="hidden"
+                        :class="{'hidden': !data.userIsLoggedIn}"
+                    >
+                        <span class="block w-full px-5 py-3 text-center">
+                            <span class="text-gray-400">Logged in as:</span>
+                            <br>
+                            <span
+                                class="font-medium text-gray-600"
+                                x-text="data.userEmailAddress"
+                            ></span>
+                        </span>
+                        {% for item in GeneralConfig.accountMenu %}
+                            <a
+                                href="{{ item.href }}"
+                                class="{% if not loop.first %}border-t {% endif %}block w-full px-5 py-3 text-center font-medium text-jade bg-gray-100 hover:bg-gray-200 hover:text-deep-sea"
+                                role="menuitem"
+                            >
+                                {{ item.content|smartypants }}
+                            </a>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

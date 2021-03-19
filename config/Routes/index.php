@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Response\Ajax\User\GetUserPayloadAction;
 use App\Http\Response\Home\HomeAction;
 use App\Http\Response\IForgot\IForgotAction;
 use App\Http\Response\IForgot\PostIForgotAction;
@@ -67,6 +68,8 @@ return static function (App $app): void {
     if ((bool) getenv('DEV_MODE')) {
         $app->get(pattern: '/tinker', callable: Tinker::class);
     }
+
+    $app->get(pattern: '/ajax/user/payload', callable: GetUserPayloadAction::class);
 
     $app->post(pattern: '/account/log-in', callable: PostLogInAction::class);
     $app->any(pattern: '/account/log-out', callable: PostLogOutAction::class);
