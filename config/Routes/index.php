@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Http\Response\Account\AccountIndexAction;
+use App\Http\Response\Account\Licenses\AccountLicensesAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
 use App\Http\Response\Home\HomeAction;
 use App\Http\Response\IForgot\IForgotAction;
@@ -92,18 +94,8 @@ return static function (App $app): void {
          */
         $this->get(NoOp::class);
 
-        $r->get(pattern: '', callable: function (): void {
-            // $this so PHPCS will be happy and not convert to static function.
-            /**
-             * @phpstan-ignore-next-line
-             * @psalm-suppress InvalidScope
-             * @psalm-suppress MixedMethodCall
-             */
-            $this->get(NoOp::class);
-
-            // TODO: Account Page
-            dd('TODO: account page');
-        });
+        $r->get(pattern: '', callable: AccountIndexAction::class);
+        $r->get(pattern: '/licenses', callable: AccountLicensesAction::class);
     })->add(RequireLogInAction::class);
 
     /**

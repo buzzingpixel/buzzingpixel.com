@@ -22,7 +22,7 @@ use function is_string;
  * @method string systemEmailSenderName()
  * @method array stylesheets()
  * @method array jsFiles()
- * @method array<array-key, string[]> accountMenu
+ * @method array accountMenu()
  */
 class General extends SimpleModel
 {
@@ -79,23 +79,27 @@ class General extends SimpleModel
     /** @var string[] */
     public static array $jsFiles = ['https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js'];
 
-    /** @var array<array-key, string[]>  */
+    /** @var array<array-key, array<array-key, string|false>>  */
     public static array $accountMenu = [
-        [
+        'licenses' => [
             'href' => '/account/licenses',
             'content' => 'Licenses',
+            'isActive' => false,
         ],
-        [
+        'purchases' => [
             'href' => '/account/purchases',
             'content' => 'Purchases',
+            'isActive' => false,
         ],
-        [
+        'profile' => [
             'href' => '/account/profile',
             'content' => 'Profile',
+            'isActive' => false,
         ],
-        [
+        'log-out' => [
             'href' => '/account/log-out',
             'content' => 'Log Out',
+            'isActive' => false,
         ],
     ];
 }
