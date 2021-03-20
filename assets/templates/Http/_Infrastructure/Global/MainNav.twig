@@ -13,25 +13,6 @@
     },
 ] %}
 
-{% set accountMenu = [
-    {
-        href: siteUrl('/account/licenses'),
-        content: 'Licenses',
-    },
-    {
-        href: siteUrl('/account/purchases'),
-        content: 'Purchases',
-    },
-    {
-        href: siteUrl('/account/profile'),
-        content: 'Profile',
-    },
-    {
-        href: siteUrl('/account/log-out'),
-        content: 'Log Out',
-    },
-] %}
-
 <div
     class="bg-aqua-island border-t-6 border-pumpkin-skin"
     xmlns:x-transition="http://www.w3.org/1999/xhtml"
@@ -148,8 +129,8 @@
                                     ></p>
                                 </div>
                                 <div class="py-1" role="none">
-                                    {% for item in accountMenu %}
-                                        {% if not loop.last %}
+                                    {% for key, item in GeneralConfig.accountMenu %}
+                                        {% if key != 'log-out' %}
                                             <a
                                                 href="{{ item.href }}"
                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
@@ -160,19 +141,15 @@
                                         {% endif %}
                                     {% endfor %}
                                 </div>
-                                {% for item in GeneralConfig.accountMenu %}
-                                    {% if loop.last %}
-                                        <div class="py-1" role="none">
-                                            <a
-                                                href="{{ item.href }}"
-                                                class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                                role="menuitem"
-                                            >
-                                                {{ item.content|smartypants }}
-                                            </a>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
+                                    <div class="py-1" role="none">
+                                        <a
+                                            href="{{ GeneralConfig.accountMenu['log-out'].href }}"
+                                            class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                            role="menuitem"
+                                        >
+                                            {{ GeneralConfig.accountMenu['log-out'].content|smartypants }}
+                                        </a>
+                                    </div>
                             </div>
                         </div>
                     </div>

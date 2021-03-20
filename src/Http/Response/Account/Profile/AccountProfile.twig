@@ -1,0 +1,197 @@
+{% extends '@app/Http/Response/Account/_AccountLayout.twig' %}
+
+{% block accountContent %}
+    <div class="flex-1 relative focus:outline-none" tabindex="0">
+        <div class="py-6">
+            <div class="px-4 sm:px-6 md:px-0 mb-4">
+                <h1 class="text-2xl font-semibold text-gray-900">
+                    {{ headline|smartypants }}
+                </h1>
+            </div>
+            <div class="px-4 sm:px-6 md:px-0">
+                {# Content #}
+                <div class="bg-white shadow sm:rounded-md p-4">
+                    <form>
+                        <div class="pb-5">
+                            <div class="flex justify-end">
+                                <button
+                                    type="submit"
+                                    class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-meteor hover:bg-pumpkin-skin focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pumpkin-skin"
+                                >
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                        <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
+                            <div class="pt-8 space-y-6 sm:pt-10 sm:space-y-5">
+                                <div>
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                        Support Profile
+                                    </h3>
+                                    {#<p class="mt-1 max-w-2xl text-sm text-gray-500">
+                                        Use a permanent address where you can receive mail.
+                                    </p>#}
+                                </div>
+                                <div class="space-y-6 sm:space-y-5">
+                                    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                                        <label for="display_name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                            Display Name
+                                        </label>
+                                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                            <input
+                                                type="text"
+                                                name="display_name"
+                                                id="display_name"
+                                                class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-8 space-y-6 sm:pt-10 sm:space-y-5">
+                                <div>
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900 mt-6">
+                                        Contact Details
+                                    </h3>
+                                    {#<p class="mt-1 max-w-2xl text-sm text-gray-500">
+                                        Use a permanent address where you can receive mail.
+                                    </p>#}
+                                </div>
+                                <div class="space-y-6 sm:space-y-5">
+                                    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                                        <label for="billing_name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                            Billing Name
+                                        </label>
+                                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                            <input
+                                                type="text"
+                                                name="billing_name"
+                                                id="billing_name"
+                                                class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-y-6 sm:space-y-5">
+                                    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                                        <label for="billing_name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                            Billing Company <small class="text-gray-400 font-normal">(if applicable)</small>
+                                        </label>
+                                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                            <input
+                                                type="text"
+                                                name="billing_name"
+                                                id="billing_name"
+                                                class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-y-6 sm:space-y-5">
+                                    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                                        <label for="billing_phone" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                            Billing Phone
+                                        </label>
+                                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                            <input
+                                                type="text"
+                                                name="billing_phone"
+                                                id="billing_phone"
+                                                class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-8 space-y-6 sm:pt-10 sm:space-y-5">
+                                <div>
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900 mt-6">
+                                        Address
+                                    </h3>
+                                    {#<p class="mt-1 max-w-2xl text-sm text-gray-500">
+                                        Use a permanent address where you can receive mail.
+                                    </p>#}
+                                </div>
+                                <div class="space-y-6 sm:space-y-5">
+                                    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                                        <label for="billing_country" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                            Country / Region
+                                        </label>
+                                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                            <select
+                                                id="billing_country"
+                                                name="billing_country"
+                                                class="max-w-lg block focus:ring-meteor focus:border-meteor w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                            >
+                                                <option>United States</option>
+                                                <option>Canada</option>
+                                                <option>Mexico</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-y-6 sm:space-y-5">
+                                    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                                        <label for="billing_address" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                            Billing Address
+                                        </label>
+                                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                            <input
+                                                type="text"
+                                                name="billing_address"
+                                                id="billing_address"
+                                                class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-y-6 sm:space-y-5">
+                                    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                                        <label for="billing_address_2" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                            Billing Address Continued
+                                        </label>
+                                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                            <input
+                                                type="text"
+                                                name="billing_address_2"
+                                                id="billing_address_2"
+                                                class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-y-6 sm:space-y-5">
+                                    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                                        <label for="billing_city" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                            Billing City
+                                        </label>
+                                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                            <input
+                                                type="text"
+                                                name="billing_city"
+                                                id="billing_city"
+                                                class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                                {# TODO: auto switch billing state province based on whether US is selected #}
+                            </div>
+                        </div>
+                        <div class="pt-5">
+                            <div class="flex justify-end">
+                                <button
+                                    type="submit"
+                                    class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-meteor hover:bg-pumpkin-skin focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pumpkin-skin"
+                                >
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {# /EndContent #}
+            </div>
+        </div>
+    </div>
+{% endblock %}

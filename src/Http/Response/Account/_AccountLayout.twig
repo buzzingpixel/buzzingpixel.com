@@ -4,26 +4,28 @@
 {% extends 'Http/_Infrastructure/_Layout.twig' %}
 
 {% block content %}
-    <div class="min-h-screen-minus-header-and-footer bg-white overflow-hidden flex">
+    <div class="min-h-screen-minus-header-and-footer bg-gray-50 overflow-hidden flex">
         <div class="hidden md:flex md:flex-shrink-0">
             <div class="w-64 flex flex-col">
                 <div class="border-r border-gray-200 pt-5 pb-4 flex flex-col flex-grow overflow-y-auto">
                     <div class="flex-grow flex flex-col">
-                        <nav class="flex-1 bg-white px-2 space-y-1">
-                            {% for item in accountMenu %}
-                                <a
-                                    href="{{ item.href }}"
-                                    class="{% if item.isActive %}bg-rich-gold text-gray-100{% else %}text-gray-600 hover:bg-gold-sand hover:text-gray-900{% endif%} group rounded-md py-2 px-2 flex items-center text-sm font-medium"
-                                >
-                                    {{ item.content|smartypants }}
-                                </a>
+                        <nav class="flex-1 bg-gray-50 px-2 space-y-1">
+                            {% for key, item in accountMenu %}
+                                {% if key != 'log-out' %}
+                                    <a
+                                        href="{{ item.href }}"
+                                        class="{% if item.isActive %}bg-rich-gold text-gray-100{% else %}text-gray-600 hover:bg-gold-sand hover:text-gray-900{% endif%} group rounded-md py-2 px-2 flex items-center text-sm font-medium"
+                                    >
+                                        {{ item.content|smartypants }}
+                                    </a>
+                                {% endif %}
                             {% endfor %}
                         </nav>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="flex-1 max-w-4xl mx-auto w-0 flex flex-col md:px-8 xl:px-0">
+        <div class="flex-1 max-w-7xl mx-auto w-0 flex flex-col md:px-8">
             {% block accountContent %}
                 <div class="p-10">
                     <div class="border-4 border-dashed border-blue-200 rounded-lg h-96"></div>
