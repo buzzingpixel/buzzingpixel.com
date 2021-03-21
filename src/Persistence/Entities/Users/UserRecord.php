@@ -18,6 +18,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * @Mapping\Entity
  * @Mapping\Table(name="users")
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class UserRecord
 {
@@ -29,6 +30,31 @@ class UserRecord
     use Timezone;
     use CreatedAt;
 
+    /**
+     * One user has one support profile
+     *
+     * @Mapping\OneToOne(
+     *     targetEntity="UserSupportProfileRecord",
+     *     cascade={"persist", "remove"},
+     * )
+     * @Mapping\JoinColumn(
+     *     name="support_profile_id",
+     *     referencedColumnName="id",
+     * )
+     */
+    private UserSupportProfileRecord $supportProfile;
+
+    public function getSupportProfile(): UserSupportProfileRecord
+    {
+        return $this->supportProfile;
+    }
+
+    public function setSupportProfile(
+        UserSupportProfileRecord $supportProfile,
+    ): void {
+        $this->supportProfile = $supportProfile;
+    }
+
     public function hydrateFromEntity(User $user): void
     {
         $this->setId(Uuid::fromString($user->id()));
@@ -38,5 +64,10 @@ class UserRecord
         $this->setIsActive($user->isActive());
         $this->setTimezone($user->timezone()->getName());
         $this->setCreatedAt($user->createdAt());
+    }
+
+    public function __construct()
+    {
+        $this->supportProfile = new UserSupportProfileRecord();
     }
 }
