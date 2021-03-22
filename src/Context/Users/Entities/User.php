@@ -33,7 +33,12 @@ class User
     private bool $isActive;
     private DateTimeZone $timezone;
     private DateTimeImmutable $createdAt;
+    private UserSupportProfile $supportProfile;
 
+    /**
+     * @throws InvalidEmailAddress
+     * @throws InvalidPassword
+     */
     public static function fromRecord(UserRecord $record): self
     {
         return new self(
@@ -44,6 +49,9 @@ class User
             isActive: $record->getIsActive(),
             timezone: $record->getTimezone(),
             createdAt: $record->getCreatedAt(),
+            supportProfile: UserSupportProfile::fromRecord(
+                $record->getSupportProfile()
+            ),
         );
     }
 
@@ -60,6 +68,7 @@ class User
         null | string | DateTimeInterface $createdAt = null,
         ?string $id = null,
         string $plainTextPassword = '',
+        ?UserSupportProfile $supportProfile = null,
     ) {
         if ($this->isInitialized) {
             throw new LogicException(
@@ -123,8 +132,16 @@ class User
 
         $this->createdAt = $createdAtClass;
 
+        if ($supportProfile !== null) {
+            $this->supportProfile = $supportProfile;
+        } else {
+            $this->supportProfile = new UserSupportProfile();
+        }
+
         $this->isInitialized = true;
     }
+
+    private bool $isInitialized = false;
 
     /**
      * @throws InvalidPassword
@@ -148,8 +165,6 @@ class User
 
         throw new InvalidPassword();
     }
-
-    private bool $isInitialized = false;
 
     public function id(): string
     {
@@ -274,6 +289,20 @@ class User
         );
 
         $clone->createdAt = $createdAtClass;
+
+        return $clone;
+    }
+
+    public function supportProfile(): UserSupportProfile
+    {
+        return $this->supportProfile;
+    }
+
+    public function withSupportProfile(UserSupportProfile $supportProfile): self
+    {
+        $clone = clone $this;
+
+        $clone->supportProfile = $supportProfile;
 
         return $clone;
     }

@@ -12,11 +12,13 @@ use App\Persistence\PropertyTraits\IsActive;
 use App\Persistence\PropertyTraits\IsAdmin;
 use App\Persistence\PropertyTraits\PasswordHash;
 use App\Persistence\PropertyTraits\Timezone;
+use App\Persistence\UuidFactoryWithOrderedTimeCodec;
 use Doctrine\ORM\Mapping;
 use Ramsey\Uuid\Uuid;
 
 /**
  * @Mapping\Entity
+ * @Mapping\HasLifecycleCallbacks
  * @Mapping\Table(name="users")
  * @psalm-suppress PropertyNotSetInConstructor
  */
@@ -64,10 +66,33 @@ class UserRecord
         $this->setIsActive($user->isActive());
         $this->setTimezone($user->timezone()->getName());
         $this->setCreatedAt($user->createdAt());
+
+        $this->supportProfile->setDisplayName(
+            $user->supportProfile()->displayName()
+        );
     }
 
     public function __construct()
     {
-        $this->supportProfile = new UserSupportProfileRecord();
+        $this->postLoadEnsureSupportProfile();
+    }
+
+    /**
+     * @Mapping\PostLoad
+     */
+    public function postLoadEnsureSupportProfile(): void
+    {
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (isset($this->supportProfile)) {
+            return;
+        }
+
+        $supportProfile = new UserSupportProfileRecord();
+
+        $supportProfile->setId(
+            (new UuidFactoryWithOrderedTimeCodec())->uuid1(),
+        );
+
+        $this->supportProfile = $supportProfile;
     }
 }

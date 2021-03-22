@@ -136,7 +136,9 @@ class SaveUser
 
         $this->entityManager->persist($userRecord);
 
-        $this->entityManager->flush($userRecord);
+        $this->entityManager->persist($userRecord->getSupportProfile());
+
+        $this->entityManager->flush();
 
         $payload = new Payload(
             $payloadStatus,
