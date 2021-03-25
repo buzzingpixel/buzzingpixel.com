@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Context\DatabaseCache\Entities;
 
-use App\EntityValueObjects\Id;
+use App\EntityPropertyTraits\Id;
+use App\EntityValueObjects\Id as IdValue;
 use App\Persistence\Entities\Cache\CachePoolItemRecord;
 use App\Utilities\DateTimeUtility;
 use DateInterval;
@@ -23,7 +24,8 @@ use function time;
 
 class DatabaseCacheItem implements CacheItemInterface
 {
-    private Id $id;
+    use Id;
+
     private string $key;
     private mixed $value;
     private ?DateTimeImmutable $expiresAt;
@@ -51,11 +53,11 @@ class DatabaseCacheItem implements CacheItemInterface
         }
 
         if ($id === null) {
-            $this->id = Id::create();
+            $this->id = IdValue::create();
         } elseif ($id instanceof UuidInterface) {
-            $this->id = Id::fromString($id->toString());
+            $this->id = IdValue::fromString($id->toString());
         } else {
-            $this->id = Id::fromString($id);
+            $this->id = IdValue::fromString($id);
         }
 
         $this->key = $key;
@@ -70,24 +72,6 @@ class DatabaseCacheItem implements CacheItemInterface
     }
 
     private bool $isInitialized = false;
-
-    public function id(): string
-    {
-        return $this->id->toString();
-    }
-
-    public function withId(string | UuidInterface $id): self
-    {
-        $clone = clone $this;
-
-        if ($id instanceof UuidInterface) {
-            $clone->id = Id::fromString($id->toString());
-        } else {
-            $clone->id = Id::fromString($id);
-        }
-
-        return $clone;
-    }
 
     public function getKey(): string
     {

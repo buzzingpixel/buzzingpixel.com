@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 namespace App\Context\Schedule\Entities;
 
-use App\EntityValueObjects\Id;
+use App\EntityPropertyTraits\ClassName;
+use App\EntityPropertyTraits\Id;
+use App\EntityPropertyTraits\IsRunning;
+use App\EntityPropertyTraits\LastRunEndAt;
+use App\EntityPropertyTraits\LastRunStartAt;
+use App\EntityPropertyTraits\RunEvery;
+use App\EntityValueObjects\Id as IdValue;
 use App\Persistence\Entities\Schedule\ScheduleTrackingRecord;
 use DateTimeImmutable;
 use LogicException;
@@ -14,12 +20,12 @@ use Ramsey\Uuid\UuidInterface;
 
 class ScheduleItem
 {
-    private Id $id;
-    private string $className;
-    private float | int | string $runEvery;
-    private bool $isRunning;
-    private ?DateTimeImmutable $lastRunStartAt;
-    private ?DateTimeImmutable $lastRunEndAt;
+    use Id;
+    use ClassName;
+    use RunEvery;
+    use IsRunning;
+    use LastRunStartAt;
+    use LastRunEndAt;
 
     public static function fromConfigItemAndRecord(
         ScheduleConfigItem $configItem,
@@ -50,11 +56,11 @@ class ScheduleItem
         }
 
         if ($id === null) {
-            $this->id = Id::create();
+            $this->id = IdValue::create();
         } elseif ($id instanceof UuidInterface) {
-            $this->id = Id::fromString($id->toString());
+            $this->id = IdValue::fromString($id->toString());
         } else {
-            $this->id = Id::fromString($id);
+            $this->id = IdValue::fromString($id);
         }
 
         $this->className = $className;
@@ -71,61 +77,4 @@ class ScheduleItem
     }
 
     private bool $isInitialized = false;
-
-    public function id(): string
-    {
-        return $this->id->toString();
-    }
-
-    public function className(): string
-    {
-        return $this->className;
-    }
-
-    public function runEvery(): float | int | string
-    {
-        return $this->runEvery;
-    }
-
-    public function isRunning(): bool
-    {
-        return $this->isRunning;
-    }
-
-    public function withIsRunning(bool $isRunning): self
-    {
-        $clone = clone $this;
-
-        $clone->isRunning = $isRunning;
-
-        return $clone;
-    }
-
-    public function lastRunStartAt(): ?DateTimeImmutable
-    {
-        return $this->lastRunStartAt;
-    }
-
-    public function withLastRunStartAt(?DateTimeImmutable $lastRunStartAt): self
-    {
-        $clone = clone $this;
-
-        $clone->lastRunStartAt = $lastRunStartAt;
-
-        return $clone;
-    }
-
-    public function lastRunEndAt(): ?DateTimeImmutable
-    {
-        return $this->lastRunEndAt;
-    }
-
-    public function withLastRunEndAt(?DateTimeImmutable $lastRunEndAt): self
-    {
-        $clone = clone $this;
-
-        $clone->lastRunEndAt = $lastRunEndAt;
-
-        return $clone;
-    }
 }

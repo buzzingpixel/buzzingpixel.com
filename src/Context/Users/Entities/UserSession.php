@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Entities;
 
-use App\EntityValueObjects\Id;
+use App\EntityPropertyTraits\CreatedAt;
+use App\EntityPropertyTraits\Id;
+use App\EntityPropertyTraits\LastTouchedAt;
+use App\EntityPropertyTraits\UserId;
+use App\EntityValueObjects\Id as IdValue;
 use App\Persistence\Entities\Users\UserSessionRecord;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -18,10 +22,10 @@ use function is_string;
 
 class UserSession
 {
-    private Id $id;
-    private Id $userId;
-    private DateTimeImmutable $createdAt;
-    private DateTimeImmutable $lastTouchedAt;
+    use Id;
+    use UserId;
+    use CreatedAt;
+    use LastTouchedAt;
 
     public static function fromRecord(UserSessionRecord $record): self
     {
@@ -46,12 +50,12 @@ class UserSession
         }
 
         if ($id === null) {
-            $this->id = Id::create();
+            $this->id = IdValue::create();
         } else {
-            $this->id = Id::fromString($id);
+            $this->id = IdValue::fromString($id);
         }
 
-        $this->userId = Id::fromString($userId);
+        $this->userId = IdValue::fromString($userId);
 
         if ($createdAt instanceof DateTimeInterface) {
             $createdAtClass = DateTimeImmutable::createFromFormat(
@@ -78,7 +82,9 @@ class UserSession
         if ($lastTouchedAt instanceof DateTimeInterface) {
             $lastTouchedAtClass = DateTimeImmutable::createFromFormat(
                 DateTimeInterface::ATOM,
-                $lastTouchedAt->format(DateTimeInterface::ATOM),
+                $lastTouchedAt->format(
+                    DateTimeInterface::ATOM
+                ),
             );
         } elseif (is_string($lastTouchedAt)) {
             $lastTouchedAtClass = DateTimeImmutable::createFromFormat(
@@ -101,87 +107,4 @@ class UserSession
     }
 
     private bool $isInitialized = false;
-
-    public function id(): string
-    {
-        return $this->id->toString();
-    }
-
-    public function userId(): string
-    {
-        return $this->userId->toString();
-    }
-
-    public function withUserId(string $userId): self
-    {
-        $clone = clone $this;
-
-        $clone->userId = Id::fromString($userId);
-
-        return $clone;
-    }
-
-    public function createdAt(): DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function withCreatedAt(string | DateTimeInterface $createdAt): self
-    {
-        $clone = clone $this;
-
-        if ($createdAt instanceof DateTimeInterface) {
-            $createdAtClass = DateTimeImmutable::createFromFormat(
-                DateTimeInterface::ATOM,
-                $createdAt->format(DateTimeInterface::ATOM),
-            );
-        } else {
-            $createdAtClass = DateTimeImmutable::createFromFormat(
-                DateTimeInterface::ATOM,
-                $createdAt,
-            );
-        }
-
-        assert($createdAtClass instanceof DateTimeImmutable);
-
-        $createdAtClass = $createdAtClass->setTimezone(
-            new DateTimeZone('UTC')
-        );
-
-        $clone->createdAt = $createdAtClass;
-
-        return $clone;
-    }
-
-    public function lastTouchedAt(): DateTimeImmutable
-    {
-        return $this->lastTouchedAt;
-    }
-
-    public function withLastTouchedAt(string | DateTimeInterface $lastTouchedAt): self
-    {
-        $clone = clone $this;
-
-        if ($lastTouchedAt instanceof DateTimeInterface) {
-            $lastTouchedAtClass = DateTimeImmutable::createFromFormat(
-                DateTimeInterface::ATOM,
-                $lastTouchedAt->format(DateTimeInterface::ATOM),
-            );
-        } else {
-            $lastTouchedAtClass = DateTimeImmutable::createFromFormat(
-                DateTimeInterface::ATOM,
-                $lastTouchedAt,
-            );
-        }
-
-        assert($lastTouchedAtClass instanceof DateTimeImmutable);
-
-        $lastTouchedAtClass = $lastTouchedAtClass->setTimezone(
-            new DateTimeZone('UTC')
-        );
-
-        $clone->lastTouchedAt = $lastTouchedAtClass;
-
-        return $clone;
-    }
 }

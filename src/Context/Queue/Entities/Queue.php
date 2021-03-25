@@ -4,7 +4,19 @@ declare(strict_types=1);
 
 namespace App\Context\Queue\Entities;
 
-use App\EntityValueObjects\Id;
+use App\EntityPropertyTraits\AddedAt;
+use App\EntityPropertyTraits\AssumeDeadAfter;
+use App\EntityPropertyTraits\ErrorMessage;
+use App\EntityPropertyTraits\FinishedAt;
+use App\EntityPropertyTraits\FinishedDueToError;
+use App\EntityPropertyTraits\Handle;
+use App\EntityPropertyTraits\HasStarted;
+use App\EntityPropertyTraits\Id;
+use App\EntityPropertyTraits\InitialAssumeDeadAfter;
+use App\EntityPropertyTraits\IsFinished;
+use App\EntityPropertyTraits\IsRunning;
+use App\EntityPropertyTraits\PercentComplete;
+use App\EntityValueObjects\Id as IdValue;
 use App\Persistence\Entities\Queue\QueueItemRecord;
 use App\Persistence\Entities\Queue\QueueRecord;
 use App\Utilities\DateTimeUtility;
@@ -22,18 +34,19 @@ use function is_array;
 
 class Queue
 {
-    private Id $id;
-    private string $handle;
-    private bool $hasStarted;
-    private bool $isRunning;
-    private DateTimeImmutable $assumeDeadAfter;
-    private DateTimeImmutable $initialAssumeDeadAfter;
-    private bool $isFinished;
-    private bool $finishedDueToError;
-    private ?string $errorMessage;
-    private float | int $percentComplete;
-    private DateTimeImmutable $addedAt;
-    private ?DateTimeImmutable $finishedAt;
+    use Id;
+    use Handle;
+    use HasStarted;
+    use IsRunning;
+    use AssumeDeadAfter;
+    use InitialAssumeDeadAfter;
+    use IsFinished;
+    use FinishedDueToError;
+    use ErrorMessage;
+    use PercentComplete;
+    use AddedAt;
+    use FinishedAt;
+
     /** @phpstan-ignore-next-line  */
     private QueueItemCollection $queueItems;
 
@@ -78,11 +91,11 @@ class Queue
         }
 
         if ($id === null) {
-            $this->id = Id::create();
+            $this->id = IdValue::create();
         } elseif ($id instanceof UuidInterface) {
-            $this->id = Id::fromString($id->toString());
+            $this->id = IdValue::fromString($id->toString());
         } else {
-            $this->id = Id::fromString($id);
+            $this->id = IdValue::fromString($id);
         }
 
         $this->handle = $handle;
@@ -119,11 +132,11 @@ class Queue
         }
 
         $this->addedAt = DateTimeUtility::createDateTimeImmutable(
-            $addedAt
+            $addedAt,
         );
 
         $this->finishedAt = DateTimeUtility::createDateTimeImmutableOrNull(
-            $finishedAt
+            $finishedAt,
         );
 
         if ($queueItems === null) {
@@ -139,167 +152,6 @@ class Queue
     }
 
     private bool $isInitialized = false;
-
-    public function id(): string
-    {
-        return $this->id->toString();
-    }
-
-    public function handle(): string
-    {
-        return $this->handle;
-    }
-
-    public function withHandle(string $handle): self
-    {
-        $clone = clone $this;
-
-        $clone->handle = $handle;
-
-        return $clone;
-    }
-
-    public function hasStarted(): bool
-    {
-        return $this->hasStarted;
-    }
-
-    public function withHasStarted(bool $hasStarted): self
-    {
-        $clone = clone $this;
-
-        $clone->hasStarted = $hasStarted;
-
-        return $clone;
-    }
-
-    public function isRunning(): bool
-    {
-        return $this->isRunning;
-    }
-
-    public function withIsRunning(bool $isRunning = true): self
-    {
-        $clone = clone $this;
-
-        $clone->isRunning = $isRunning;
-
-        return $clone;
-    }
-
-    public function assumeDeadAfter(): DateTimeImmutable
-    {
-        return $this->assumeDeadAfter;
-    }
-
-    public function withAssumeDeadAfter(
-        DateTimeImmutable $assumeDeadAfter,
-    ): self {
-        $clone = clone $this;
-
-        $clone->assumeDeadAfter = $assumeDeadAfter;
-
-        return $clone;
-    }
-
-    public function initialAssumeDeadAfter(): DateTimeImmutable
-    {
-        return $this->initialAssumeDeadAfter;
-    }
-
-    public function withInitialAssumeDeadAfter(
-        DateTimeImmutable $initialAssumeDeadAfter,
-    ): self {
-        $clone = clone $this;
-
-        $clone->initialAssumeDeadAfter = $initialAssumeDeadAfter;
-
-        return $clone;
-    }
-
-    public function isFinished(): bool
-    {
-        return $this->isFinished;
-    }
-
-    public function withIsFinished(bool $isFinished = true): self
-    {
-        $clone = clone $this;
-
-        $clone->isFinished = $isFinished;
-
-        return $clone;
-    }
-
-    public function finishedDueToError(): bool
-    {
-        return $this->finishedDueToError;
-    }
-
-    public function withFinishedDueToError(bool $finishedDueToError = true): self
-    {
-        $clone = clone $this;
-
-        $clone->finishedDueToError = $finishedDueToError;
-
-        return $clone;
-    }
-
-    public function errorMessage(): ?string
-    {
-        return $this->errorMessage;
-    }
-
-    public function withErrorMessage(?string $errorMessage): self
-    {
-        $clone = clone $this;
-
-        $clone->errorMessage = $errorMessage;
-
-        return $clone;
-    }
-
-    public function percentComplete(): float | int
-    {
-        return $this->percentComplete;
-    }
-
-    public function withPercentComplete(float | int $percentComplete): self
-    {
-        $clone = clone $this;
-
-        $clone->percentComplete = $percentComplete;
-
-        return $clone;
-    }
-
-    public function addedAt(): DateTimeImmutable
-    {
-        return $this->addedAt;
-    }
-
-    public function withAddedAt(DateTimeImmutable $addedAt): self
-    {
-        $clone = clone $this;
-
-        $clone->addedAt = $addedAt;
-
-        return $clone;
-    }
-
-    public function finishedAt(): ?DateTimeImmutable
-    {
-        return $this->finishedAt;
-    }
-
-    public function withFinishedAt(?DateTimeImmutable $finishedAt): self
-    {
-        $clone = clone $this;
-
-        $clone->finishedAt = $finishedAt;
-
-        return $clone;
-    }
 
     /** @phpstan-ignore-next-line  */
     public function queueItems(): QueueItemCollection

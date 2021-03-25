@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Entities;
 
-use App\EntityValueObjects\Id;
+use App\EntityPropertyTraits\CreatedAt;
+use App\EntityPropertyTraits\Id;
+use App\EntityPropertyTraits\UserId;
+use App\EntityValueObjects\Id as IdValue;
 use App\Persistence\Entities\Users\UserPasswordResetTokenRecord;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -18,9 +21,9 @@ use function is_string;
 
 class UserPasswordResetToken
 {
-    private Id $id;
-    private Id $userId;
-    private DateTimeImmutable $createdAt;
+    use Id;
+    use UserId;
+    use CreatedAt;
 
     public static function fromRecord(UserPasswordResetTokenRecord $record): self
     {
@@ -43,12 +46,12 @@ class UserPasswordResetToken
         }
 
         if ($id === null) {
-            $this->id = Id::create();
+            $this->id = IdValue::create();
         } else {
-            $this->id = Id::fromString($id);
+            $this->id = IdValue::fromString($id);
         }
 
-        $this->userId = Id::fromString($userId);
+        $this->userId = IdValue::fromString($userId);
 
         if ($createdAt instanceof DateTimeInterface) {
             $createdAtClass = DateTimeImmutable::createFromFormat(
@@ -76,55 +79,4 @@ class UserPasswordResetToken
     }
 
     private bool $isInitialized = false;
-
-    public function id(): string
-    {
-        return $this->id->toString();
-    }
-
-    public function userId(): string
-    {
-        return $this->userId->toString();
-    }
-
-    public function withUserId(string $userId): self
-    {
-        $clone = clone $this;
-
-        $clone->userId = Id::fromString($userId);
-
-        return $clone;
-    }
-
-    public function createdAt(): DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function withCreatedAt(string | DateTimeInterface $createdAt): self
-    {
-        $clone = clone $this;
-
-        if ($createdAt instanceof DateTimeInterface) {
-            $createdAtClass = DateTimeImmutable::createFromFormat(
-                DateTimeInterface::ATOM,
-                $createdAt->format(DateTimeInterface::ATOM),
-            );
-        } else {
-            $createdAtClass = DateTimeImmutable::createFromFormat(
-                DateTimeInterface::ATOM,
-                $createdAt,
-            );
-        }
-
-        assert($createdAtClass instanceof DateTimeImmutable);
-
-        $createdAtClass = $createdAtClass->setTimezone(
-            new DateTimeZone('UTC')
-        );
-
-        $clone->createdAt = $createdAtClass;
-
-        return $clone;
-    }
 }

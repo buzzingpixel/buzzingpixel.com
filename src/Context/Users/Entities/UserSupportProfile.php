@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Entities;
 
-use App\EntityValueObjects\Id;
+use App\EntityPropertyTraits\DisplayName;
+use App\EntityPropertyTraits\Id;
+use App\EntityValueObjects\Id as IdValue;
 use App\Persistence\Entities\Users\UserSupportProfileRecord;
 use LogicException;
 use Ramsey\Uuid\UuidInterface;
@@ -13,8 +15,8 @@ use Ramsey\Uuid\UuidInterface;
 
 class UserSupportProfile
 {
-    private Id $id;
-    private string $displayName;
+    use Id;
+    use DisplayName;
 
     public static function fromRecord(UserSupportProfileRecord $record): self
     {
@@ -35,11 +37,11 @@ class UserSupportProfile
         }
 
         if ($id === null) {
-            $this->id = Id::create();
+            $this->id = IdValue::create();
         } elseif ($id instanceof UuidInterface) {
-            $this->id = Id::fromString($id->toString());
+            $this->id = IdValue::fromString($id->toString());
         } else {
-            $this->id = Id::fromString($id);
+            $this->id = IdValue::fromString($id);
         }
 
         $this->displayName = $displayName;
@@ -48,23 +50,4 @@ class UserSupportProfile
     }
 
     private bool $isInitialized = false;
-
-    public function id(): string
-    {
-        return $this->id->toString();
-    }
-
-    public function displayName(): string
-    {
-        return $this->displayName;
-    }
-
-    public function withDisplayName(string $displayName): self
-    {
-        $clone = clone $this;
-
-        $clone->displayName = $displayName;
-
-        return $clone;
-    }
 }
