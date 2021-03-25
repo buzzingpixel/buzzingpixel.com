@@ -21,7 +21,7 @@ services:
     networks:
       default:
         aliases:
-          - tnvequipment-php
+          - buzzingpixel-php
 
   db:
     env_file: .env
