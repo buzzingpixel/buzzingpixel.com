@@ -138,6 +138,8 @@ class SaveUser
 
         $this->entityManager->persist($userRecord->getSupportProfile());
 
+        $this->entityManager->persist($userRecord->getBillingProfile());
+
         $this->entityManager->flush();
 
         $payload = new Payload(

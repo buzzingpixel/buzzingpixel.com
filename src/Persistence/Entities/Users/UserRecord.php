@@ -57,6 +57,31 @@ class UserRecord
         $this->supportProfile = $supportProfile;
     }
 
+    /**
+     * One user has one support profile
+     *
+     * @Mapping\OneToOne(
+     *     targetEntity="UserBillingProfileRecord",
+     *     cascade={"persist", "remove"},
+     * )
+     * @Mapping\JoinColumn(
+     *     name="billing_profile_id",
+     *     referencedColumnName="id",
+     * )
+     */
+    private UserBillingProfileRecord $billingProfile;
+
+    public function getBillingProfile(): UserBillingProfileRecord
+    {
+        return $this->billingProfile;
+    }
+
+    public function setBillingProfile(
+        UserBillingProfileRecord $billingProfile
+    ): void {
+        $this->billingProfile = $billingProfile;
+    }
+
     public function hydrateFromEntity(User $user): void
     {
         $this->setId(Uuid::fromString($user->id()));
@@ -67,14 +92,19 @@ class UserRecord
         $this->setTimezone($user->timezone()->getName());
         $this->setCreatedAt($user->createdAt());
 
-        $this->supportProfile->setDisplayName(
-            $user->supportProfile()->displayName()
+        $this->supportProfile->hydrateFromEntity(
+            $user->supportProfile()
+        );
+
+        $this->billingProfile->hydrateFromEntity(
+            $user->billingProfile(),
         );
     }
 
     public function __construct()
     {
         $this->postLoadEnsureSupportProfile();
+        $this->postLoadEnsureBillingProfile();
     }
 
     /**
@@ -87,12 +117,27 @@ class UserRecord
             return;
         }
 
-        $supportProfile = new UserSupportProfileRecord();
+        $profile = new UserSupportProfileRecord();
 
-        $supportProfile->setId(
-            (new UuidFactoryWithOrderedTimeCodec())->uuid1(),
-        );
+        $profile->setId((new UuidFactoryWithOrderedTimeCodec())->uuid1());
 
-        $this->supportProfile = $supportProfile;
+        $this->supportProfile = $profile;
+    }
+
+    /**
+     * @Mapping\PostLoad
+     */
+    public function postLoadEnsureBillingProfile(): void
+    {
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        if (isset($this->billingProfile)) {
+            return;
+        }
+
+        $profile = new UserBillingProfileRecord();
+
+        $profile->setId((new UuidFactoryWithOrderedTimeCodec())->uuid1());
+
+        $this->billingProfile = $profile;
     }
 }
