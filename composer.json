@@ -19,6 +19,7 @@
         "buzzingpixel/twig-smartypants": "^1.0",
         "buzzingpixel/twig-switch": "^1.0",
         "buzzingpixel/twig-widont": "^1.0",
+        "cdtweb/us-states-list": "^1.0",
         "cebe/markdown": "^1.2",
         "crell/tukio": "^1.2",
         "doctrine/annotations": "^1.11",

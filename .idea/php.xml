@@ -154,6 +154,7 @@
       <path value="$PROJECT_DIR$/vendor/html2text/html2text" />
       <path value="$PROJECT_DIR$/vendor/slim/flash" />
       <path value="$PROJECT_DIR$/vendor/league/iso3166" />
+      <path value="$PROJECT_DIR$/vendor/cdtweb/us-states-list" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

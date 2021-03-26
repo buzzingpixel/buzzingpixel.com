@@ -13,6 +13,7 @@ use App\Templating\TwigExtensions\PhpFunctions;
 use App\Templating\TwigExtensions\ReadJson;
 use App\Templating\TwigExtensions\SiteUrl;
 use App\Templating\TwigExtensions\TwigSlimFlashMessages;
+use App\Templating\TwigExtensions\UsStates;
 use BuzzingPixel\TwigMarkdown\MarkdownTwigExtension;
 use buzzingpixel\twigsmartypants\SmartypantsTwigExtension;
 use buzzingpixel\twigswitch\SwitchTwigExtension;
@@ -43,6 +44,7 @@ class Twig
         SmartypantsTwigExtension::class,
         SwitchTwigExtension::class,
         TwigSlimFlashMessages::class,
+        UsStates::class,
         WidontTwigExtension::class,
     ];
 

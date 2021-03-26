@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a7e6587dd991e9aab018a64194300bf8",
+    "content-hash": "06f2cfaa81ec9d29264651c274f7b604",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -491,6 +491,55 @@
                 "source": "https://github.com/buzzingpixel/twig-widont/tree/master"
             },
             "time": "2020-05-02T20:23:47+00:00"
+        },
+        {
+            "name": "cdtweb/us-states-list",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cdtweb/us-states-list.git",
+                "reference": "06d3c8664561e6f87edad68587e375494f6acdb4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cdtweb/us-states-list/zipball/06d3c8664561e6f87edad68587e375494f6acdb4",
+                "reference": "06d3c8664561e6f87edad68587e375494f6acdb4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.1",
+                "squizlabs/php_codesniffer": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Cdtweb\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Clint Tyler",
+                    "email": "ctyler@cdtwebsolutions.com"
+                }
+            ],
+            "description": "A library that provides a list of US states and territories.",
+            "homepage": "https://github.com/cdtweb/us-states-list",
+            "keywords": [
+                "states",
+                "us"
+            ],
+            "support": {
+                "issues": "https://github.com/cdtweb/us-states-list/issues",
+                "source": "https://github.com/cdtweb/us-states-list/tree/master"
+            },
+            "time": "2017-11-08T22:48:27+00:00"
         },
         {
             "name": "cebe/markdown",
