@@ -27,6 +27,7 @@
         "html2text/html2text": "^4.3",
         "jawira/case-converter": "^3.4",
         "league/flysystem": "^2.0",
+        "league/iso3166": "^3.0",
         "mailersend/mailersend": "^0.2.0",
         "mjerwin/parseachangelog": "^0.9.4",
         "monolog/monolog": "^2.2",

@@ -143,6 +143,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/beberlei/assert" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/html2text/html2text" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/slim/flash" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/league/iso3166" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
