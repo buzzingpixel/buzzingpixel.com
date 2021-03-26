@@ -42,6 +42,11 @@ class QueueRecord
     use AddedAt;
     use FinishedAt;
 
+    public function __construct()
+    {
+        $this->queueItems = new ArrayCollection();
+    }
+
     /**
      * One queue has many queue items. This is the inverse side.
      *
@@ -69,11 +74,6 @@ class QueueRecord
     public function setQueueItems(Collection $queueItems): void
     {
         $this->queueItems = $queueItems;
-    }
-
-    public function __construct()
-    {
-        $this->queueItems = new ArrayCollection();
     }
 
     public function hydrateFromEntity(Queue $entity): self
