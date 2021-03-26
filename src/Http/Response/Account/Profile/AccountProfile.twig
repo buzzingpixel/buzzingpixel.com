@@ -1,7 +1,11 @@
 {% extends '@app/Http/Response/Account/_AccountLayout.twig' %}
 
 {% block accountContent %}
-    <div class="flex-1 relative focus:outline-none" tabindex="0">
+    <div
+        class="flex-1 relative focus:outline-none"
+        tabindex="0"
+        xmlns:x-bind="http://www.w3.org/1999/xhtml"
+    >
         <div class="py-6">
             <div class="px-4 sm:px-6 md:px-0 mb-4">
                 <h1 class="text-2xl font-semibold text-gray-900">
@@ -11,7 +15,14 @@
             <div class="px-4 sm:px-6 md:px-0">
                 {# Content #}
                 <div class="bg-white shadow sm:rounded-md p-4">
-                    <form>
+                    <form
+                        data-name="AccountProfileForm"
+                        x-data="{
+                            data: {
+                                countryRegion: '',
+                            }
+                        }"
+                    >
                         <div class="pb-5">
                             <div class="flex justify-end">
                                 <button
@@ -118,15 +129,24 @@
                                             Country / Region
                                         </label>
                                         <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                            <select
-                                                id="billing_country"
-                                                name="billing_country"
-                                                class="max-w-lg block focus:ring-meteor focus:border-meteor w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-                                            >
-                                                <option>United States</option>
-                                                <option>Canada</option>
-                                                <option>Mexico</option>
-                                            </select>
+                                            {% set usa = ISO3166Alpha2('US') %}
+                                            <div class="max-w-lg sm:max-w-xs">
+                                                <select
+                                                    id="billing_country"
+                                                    name="billing_country"
+                                                    class="max-w-lg block focus:ring-meteor focus:border-meteor w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                                    @change="data.countryRegion = $event.currentTarget.value"
+                                                    ref="select"
+                                                >
+                                                    <option value="">Select Billing Country&hellip;</option>
+                                                    <option value="{{ usa['alpha3'] }}">{{ usa['name'] }}</option>
+                                                    {% for country in ISO3166All() %}
+                                                        {% if country['alpha3'] != usa['alpha3'] %}
+                                                            <option value="{{ country['alpha3'] }}">{{ country['name'] }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -175,7 +195,65 @@
                                         </div>
                                     </div>
                                 </div>
-                                {# TODO: auto switch billing state province based on whether US is selected #}
+                                <div class="space-y-6 sm:space-y-5">
+                                    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                                        <label
+                                            for="billing_state_province" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                                            x-text="data.countryRegion === 'USA' ? 'Billing State' : 'Billing State/Province'"
+                                        >
+                                            Billing State/Province
+                                        </label>
+                                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                            <div
+                                                class="max-w-lg sm:max-w-xs"
+                                                x-show="data.countryRegion !== 'USA'"
+                                            >
+                                                <input
+                                                    type="text"
+                                                    name=""
+                                                    id=""
+                                                    class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                                    x-bind:name="data.countryRegion === 'USA' ? '' : 'billing_state_province'"
+                                                    x-bind:id="data.countryRegion === 'USA' ? '' : 'billing_state_province'"
+                                                >
+                                            </div>
+                                            <div
+                                                class="max-w-lg sm:max-w-xs"
+                                                x-show="data.countryRegion === 'USA'"
+                                                style="display: none;"
+                                            >
+                                                <select
+                                                    id="billing_state_province"
+                                                    name="billing_state_province"
+                                                    class="max-w-lg block focus:ring-meteor focus:border-meteor w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                                    x-bind:name="data.countryRegion === 'USA' ? 'billing_state_province' : ''"
+                                                    x-bind:id="data.countryRegion === 'USA' ? 'billing_state_province' : ''"
+                                                    ref="select"
+                                                >
+                                                    <option value="">Select Billing State&hellip;</option>
+                                                    {% for stateAbbr, state in UsStatesAll() %}
+                                                        <option value="{{ stateAbbr }}">{{ state }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-y-6 sm:space-y-5">
+                                    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                                        <label for="billing_postal_code" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                            Billing Postal Code
+                                        </label>
+                                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                            <input
+                                                type="text"
+                                                name="billing_postal_code"
+                                                id="billing_postal_code"
+                                                class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="pt-5">
