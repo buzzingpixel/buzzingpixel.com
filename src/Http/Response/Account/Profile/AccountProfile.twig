@@ -1,6 +1,21 @@
+{# @var \App\Context\Users\Entities\User user #}
+
 {% extends '@app/Http/Response/Account/_AccountLayout.twig' %}
 
+{% set message = flash('FormMessage') %}
+{% if message[0] is defined %}
+    {% set message = message[0] %}
+{% endif %}
+
 {% block accountContent %}
+    {% if message['status'] is defined %}
+        <div class="pt-6 px-4 sm:px-6 md:px-0">
+            {% include 'Http/Components/Alert.twig' with {
+                content: message.result.message|default(''),
+                type: message['status'] == 'SUCCESSFUL' ? 'success' : 'error',
+            } only %}
+        </div>
+    {% endif %}
     <div
         class="flex-1 relative focus:outline-none"
         tabindex="0"
@@ -16,10 +31,13 @@
                 {# Content #}
                 <div class="bg-white shadow sm:rounded-md p-4">
                     <form
+                        action="/account/profile"
+                        method="POST"
+                        accept-charset="UTF-8"
                         data-name="AccountProfileForm"
                         x-data="{
                             data: {
-                                countryRegion: '',
+                                countryRegion: '{{ user.billingProfile.billingCountryRegion }}',
                             }
                         }"
                     >
@@ -54,6 +72,7 @@
                                                 name="display_name"
                                                 id="display_name"
                                                 class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                                value="{{ user.supportProfile.displayName }}"
                                             >
                                         </div>
                                     </div>
@@ -62,7 +81,7 @@
                             <div class="pt-8 space-y-6 sm:pt-10 sm:space-y-5">
                                 <div>
                                     <h3 class="text-lg leading-6 font-medium text-gray-900 mt-6">
-                                        Contact Details
+                                        Billing Contact Details
                                     </h3>
                                     {#<p class="mt-1 max-w-2xl text-sm text-gray-500">
                                         Use a permanent address where you can receive mail.
@@ -79,21 +98,23 @@
                                                 name="billing_name"
                                                 id="billing_name"
                                                 class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                                value="{{ user.billingProfile.billingName }}"
                                             >
                                         </div>
                                     </div>
                                 </div>
                                 <div class="space-y-6 sm:space-y-5">
                                     <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                                        <label for="billing_name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                        <label for="billing_company" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                                             Billing Company <small class="text-gray-400 font-normal">(if applicable)</small>
                                         </label>
                                         <div class="mt-1 sm:mt-0 sm:col-span-2">
                                             <input
                                                 type="text"
-                                                name="billing_name"
-                                                id="billing_name"
+                                                name="billing_company"
+                                                id="billing_company"
                                                 class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                                value="{{ user.billingProfile.billingCompany }}"
                                             >
                                         </div>
                                     </div>
@@ -109,6 +130,7 @@
                                                 name="billing_phone"
                                                 id="billing_phone"
                                                 class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                                value="{{ user.billingProfile.billingPhone }}"
                                             >
                                         </div>
                                     </div>
@@ -117,7 +139,7 @@
                             <div class="pt-8 space-y-6 sm:pt-10 sm:space-y-5">
                                 <div>
                                     <h3 class="text-lg leading-6 font-medium text-gray-900 mt-6">
-                                        Address
+                                        Billing Address
                                     </h3>
                                     {#<p class="mt-1 max-w-2xl text-sm text-gray-500">
                                         Use a permanent address where you can receive mail.
@@ -125,24 +147,38 @@
                                 </div>
                                 <div class="space-y-6 sm:space-y-5">
                                     <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                                        <label for="billing_country" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                                            Country / Region
+                                        <label for="billing_country_region" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                            Billing Country / Region
                                         </label>
                                         <div class="mt-1 sm:mt-0 sm:col-span-2">
                                             {% set usa = ISO3166Alpha2('US') %}
                                             <div class="max-w-lg sm:max-w-xs">
                                                 <select
-                                                    id="billing_country"
-                                                    name="billing_country"
+                                                    id="billing_country_region"
+                                                    name="billing_country_region"
                                                     class="max-w-lg block focus:ring-meteor focus:border-meteor w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                                                     @change="data.countryRegion = $event.currentTarget.value"
                                                     ref="select"
                                                 >
                                                     <option value="">Select Billing Country&hellip;</option>
-                                                    <option value="{{ usa['alpha3'] }}">{{ usa['name'] }}</option>
+                                                    <option
+                                                        value="{{ usa['alpha3'] }}"
+                                                        {% if user.billingProfile.billingCountryRegion == usa['alpha3'] %}
+                                                        selected
+                                                        {% endif %}
+                                                    >
+                                                        {{ usa['name'] }}
+                                                    </option>
                                                     {% for country in ISO3166All() %}
                                                         {% if country['alpha3'] != usa['alpha3'] %}
-                                                            <option value="{{ country['alpha3'] }}">{{ country['name'] }}</option>
+                                                            <option
+                                                                value="{{ country['alpha3'] }}"
+                                                                {% if user.billingProfile.billingCountryRegion == country['alpha3'] %}
+                                                                selected
+                                                                {% endif %}
+                                                            >
+                                                                {{ country['name'] }}
+                                                            </option>
                                                         {% endif %}
                                                     {% endfor %}
                                                 </select>
@@ -161,21 +197,23 @@
                                                 name="billing_address"
                                                 id="billing_address"
                                                 class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                                value="{{ user.billingProfile.billingAddress }}"
                                             >
                                         </div>
                                     </div>
                                 </div>
                                 <div class="space-y-6 sm:space-y-5">
                                     <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                                        <label for="billing_address_2" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                        <label for="billing_address_continued" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                                             Billing Address Continued
                                         </label>
                                         <div class="mt-1 sm:mt-0 sm:col-span-2">
                                             <input
                                                 type="text"
-                                                name="billing_address_2"
-                                                id="billing_address_2"
+                                                name="billing_address_continued"
+                                                id="billing_address_continued"
                                                 class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                                value="{{ user.billingProfile.billingAddress }}"
                                             >
                                         </div>
                                     </div>
@@ -191,6 +229,7 @@
                                                 name="billing_city"
                                                 id="billing_city"
                                                 class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                                value="{{ user.billingProfile.billingCity }}"
                                             >
                                         </div>
                                     </div>
@@ -207,12 +246,18 @@
                                             <div
                                                 class="max-w-lg sm:max-w-xs"
                                                 x-show="data.countryRegion !== 'USA'"
+                                                {% if user.billingProfile.billingCountryRegion != 'USA' %}
+                                                style="display: none;"
+                                                {% endif %}
                                             >
                                                 <input
                                                     type="text"
                                                     name=""
                                                     id=""
                                                     class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                                    {% if user.billingProfile.billingCountryRegion != 'USA' %}
+                                                    value="{{ user.billingProfile.billingStateProvince }}"
+                                                    {% endif %}
                                                     x-bind:name="data.countryRegion === 'USA' ? '' : 'billing_state_province'"
                                                     x-bind:id="data.countryRegion === 'USA' ? '' : 'billing_state_province'"
                                                 >
@@ -220,7 +265,9 @@
                                             <div
                                                 class="max-w-lg sm:max-w-xs"
                                                 x-show="data.countryRegion === 'USA'"
+                                                {% if user.billingProfile.billingCountryRegion == 'USA' %}
                                                 style="display: none;"
+                                                {% endif %}
                                             >
                                                 <select
                                                     id="billing_state_province"
@@ -232,7 +279,14 @@
                                                 >
                                                     <option value="">Select Billing State&hellip;</option>
                                                     {% for stateAbbr, state in UsStatesAll() %}
-                                                        <option value="{{ stateAbbr }}">{{ state }}</option>
+                                                        <option
+                                                            value="{{ stateAbbr }}"
+                                                            {% if user.billingProfile.billingStateProvince == stateAbbr %}
+                                                            selected
+                                                            {% endif %}
+                                                        >
+                                                            {{ state }}
+                                                        </option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
@@ -250,6 +304,7 @@
                                                 name="billing_postal_code"
                                                 id="billing_postal_code"
                                                 class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                                                value="{{ user.billingProfile.billingPostalCode }}"
                                             >
                                         </div>
                                     </div>

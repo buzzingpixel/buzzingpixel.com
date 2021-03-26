@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Response\Account\Profile;
 
+use App\Context\Users\Entities\LoggedInUser;
 use App\Http\Entities\Meta;
 use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -16,6 +17,7 @@ class AccountProfileAction
         private ResponseFactoryInterface $responseFactory,
         private TwigEnvironment $twig,
         private General $config,
+        private LoggedInUser $loggedInUser,
     ) {
     }
 
@@ -37,6 +39,7 @@ class AccountProfileAction
                     ),
                     'accountMenu' => $accountMenu,
                     'headline' => 'Profile',
+                    'user' => $this->loggedInUser->user(),
                 ],
             ),
         );

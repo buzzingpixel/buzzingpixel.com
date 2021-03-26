@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Response\Account\AccountIndexAction;
 use App\Http\Response\Account\Licenses\AccountLicensesAction;
 use App\Http\Response\Account\Profile\AccountProfileAction;
+use App\Http\Response\Account\Profile\PostAccountProfileAction;
 use App\Http\Response\Account\Purchases\AccountPurchasesAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
 use App\Http\Response\Home\HomeAction;
@@ -100,6 +101,7 @@ return static function (App $app): void {
         $r->get(pattern: '/licenses', callable: AccountLicensesAction::class);
         $r->get(pattern: '/purchases', callable: AccountPurchasesAction::class);
         $r->get(pattern: '/profile', callable: AccountProfileAction::class);
+        $r->post(pattern: '/profile', callable: PostAccountProfileAction::class);
     })->add(RequireLogInAction::class);
 
     /**
