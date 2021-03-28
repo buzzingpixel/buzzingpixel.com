@@ -9,8 +9,8 @@ services:
     volumes:
       - .:/opt/project:delegated
       - ./docker/web/nginx.conf:/etc/nginx/conf.d/nginx.conf:delegated
-      - ./docker/web/buzzingpixel.localtest.me.cert:/etc/letsencrypt/live/www.buzzingpixel.com/fullchain.pem:delegated
-      - ./docker/web/buzzingpixel.localtest.me.key:/etc/letsencrypt/live/www.buzzingpixel.com/privkey.pem:delegated
+      - ./docker/web/certs/buzzingpixel.localtest.me.cert:/etc/letsencrypt/live/www.buzzingpixel.com/fullchain.pem:delegated
+      - ./docker/web/certs/buzzingpixel.localtest.me.key:/etc/letsencrypt/live/www.buzzingpixel.com/privkey.pem:delegated
     networks:
       default:
         aliases:

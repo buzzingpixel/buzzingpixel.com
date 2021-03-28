@@ -35,6 +35,10 @@ export default () => {
         injectChanges: false,
         notify: false,
         proxy: 'https://buzzingpixel.localtest.me:14691/',
+        https: {
+            key: `${appDir}/docker/web/certs/localhost.key`,
+            cert: `${appDir}/docker/web/certs/localhost.cert`
+        },
         reloadDelay: 100,
         reloadDebounce: 100,
         reloadThrottle: 1000,
