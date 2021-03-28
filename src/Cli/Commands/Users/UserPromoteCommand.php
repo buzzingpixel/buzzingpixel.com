@@ -73,7 +73,7 @@ class UserPromoteCommand extends Command
     protected function success(OutputInterface $output): int
     {
         $output->writeln(
-            '<fg=green>User was demoted from admin</>'
+            '<fg=green>User was promoted to admin</>'
         );
 
         return 0;

@@ -9,6 +9,7 @@ use App\Http\Response\Account\Licenses\AccountLicensesAction;
 use App\Http\Response\Account\Profile\AccountProfileAction;
 use App\Http\Response\Account\Profile\PostAccountProfileAction;
 use App\Http\Response\Account\Purchases\AccountPurchasesAction;
+use App\Http\Response\Admin\AdminIndexAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
 use App\Http\Response\Home\HomeAction;
 use App\Http\Response\IForgot\IForgotAction;
@@ -60,6 +61,7 @@ use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocTemplateTa
 use App\Http\Response\Software\Treasury\TreasuryAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogItemAction;
+use App\Http\RouteMiddleware\Admin\RequireAdminAction;
 use App\Http\RouteMiddleware\LogIn\RequireLogInAction;
 use Config\NoOp;
 use Config\Tinker;
@@ -86,6 +88,22 @@ return static function (App $app): void {
     $app->post(pattern: '/account/iforgot', callable: PostIForgotAction::class);
     $app->get(pattern: '/reset-pw-with-token/{token}', callable: ResetPwWithTokenAction::class);
     $app->post(pattern: '/reset-pw-with-token/{token}', callable: PostResetPwWithTokenAction::class);
+
+    /**
+     * Admin
+     */
+    $app->group(pattern: '/admin', callable: function (RouteCollectorProxy $r): void {
+        // $this so PHPCS will be happy and not convert to static function.
+        /**
+         * @phpstan-ignore-next-line
+         * @psalm-suppress InvalidScope
+         * @psalm-suppress MixedMethodCall
+         */
+        $this->get(NoOp::class);
+
+        $r->get(pattern: '', callable: AdminIndexAction::class);
+    })->add(RequireAdminAction::class)
+    ->add(RequireLogInAction::class);
 
     /**
      * Account

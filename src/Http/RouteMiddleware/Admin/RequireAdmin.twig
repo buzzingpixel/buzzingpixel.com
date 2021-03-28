@@ -1,0 +1,15 @@
+{% extends 'Http/_Infrastructure/_Layout.twig' %}
+
+{% block content %}
+    <div class="min-h-screen-minus-header-and-footer bg-gray-50 flex flex-col justify-center py-6 sm:px-6 lg:px-8">
+        <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
+            <div class="mb-4">
+                {% include 'Http/Components/Alert.twig' with {
+                    headline: 'Unauthorized Access',
+                    content: 'Unfortunately, you do not have access to the Admin area of BuzzingPixel.com.',
+                    type: 'error',
+                } only %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
