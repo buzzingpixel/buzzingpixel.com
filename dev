@@ -3,6 +3,10 @@
 COMPOSE_DOCKER_CLI_BUILD=1
 DOCKER_BUILDKIT=1
 
+#########################
+# Handy Color Variables #
+#########################
+
 # Reset
 Reset="\033[0m"; # Text Reset
 
@@ -26,19 +30,32 @@ BPurple="\033[1;35m"; # Purple
 BCyan="\033[1;36m"; # Cyan
 BWhite="\033[1;37m"; # White
 
+##############################
+# /END Handy Color Variables #
+##############################
+
+# Arguments
 cmd=${1};
 allArgs=${@};
 allArgsExceptFirst=${@:2};
 secondArg=${2};
 
+# Variables
 composeFiles="-f docker-compose.yml -f docker-compose.dev.yml";
 nodeDockerImage="node:15.8.0";
 
-for f in bin/*; do
+# Make sure .env exists
+if [[ ! -f ".env" ]]; then
+    cp /opt/project/.env.example /opt/project/.env;
+fi
+
+# Source all of our executable files — these should contain functions that can be run
+for f in $(find bin -name '*.sh'); do
     chmod +x ${f};
     source ${f};
 done
 
+# If no command/function name to run was provided, list out the functions available
 if [[ -z "${cmd}" ]]; then
     printf "${Green}The following commands are available:\n${Yellow}";
 
@@ -52,4 +69,5 @@ if [[ -z "${cmd}" ]]; then
     exit 0;
 fi
 
+# Run the specified function (${cmd}) and pass it any arguments specified (${allArgsExceptFirst})
 ${cmd} ${allArgsExceptFirst};
