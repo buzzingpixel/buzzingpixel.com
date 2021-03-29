@@ -14,7 +14,7 @@ trait UpgradePrice
      *     type="float",
      * )
      */
-    protected float | int $upgradePrice = 0.0;
+    protected float | int $upgradePrice = 0;
 
     public function getUpgradePrice(): float | int
     {

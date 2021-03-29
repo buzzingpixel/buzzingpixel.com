@@ -16,12 +16,12 @@ trait Name
      */
     protected string $name = '';
 
-    public function getClassName(): string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setClassName(string $name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }

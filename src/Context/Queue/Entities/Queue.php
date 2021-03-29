@@ -220,7 +220,7 @@ class Queue
 
         $queueItems->add(QueueItem::fromRecord(
             $record,
-            $clone
+            $clone,
         ));
 
         $clone->queueItems = $queueItems;

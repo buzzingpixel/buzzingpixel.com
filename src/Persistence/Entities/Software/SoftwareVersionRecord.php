@@ -89,7 +89,10 @@ class SoftwareVersionRecord
             return;
         }
 
-        /** @psalm-suppress RedundantPropertyInitializationCheck */
+        /**
+         * @psalm-suppress RedundantCondition
+         * @psalm-suppress RedundantPropertyInitializationCheck
+         */
         if (
             isset($this->software) &&
             $this->getNewSoftwareId() === $this->software->getId()->toString()
