@@ -16,7 +16,7 @@ class FetchOneUser
     public function fetch(UserQueryBuilder $queryBuilder): ?User
     {
         $userCollection = $this->fetchUsers->fetch(
-            $queryBuilder->withLimit(1)
+            $queryBuilder->withLimit(1),
         );
 
         if ($userCollection->count() < 1) {

@@ -59,7 +59,7 @@ class SoftwareRecord
      *     mappedBy="software",
      *     cascade={"persist", "remove"},
      * )
-     * @Mapping\OrderBy({"released_on" = "desc"})
+     * @Mapping\OrderBy({"releasedOn" = "desc"})
      */
     private Collection $versions;
 

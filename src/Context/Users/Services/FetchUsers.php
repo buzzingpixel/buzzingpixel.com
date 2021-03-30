@@ -24,9 +24,7 @@ class FetchUsers
     ) {
     }
 
-    /**
-     * @phpstan-ignore-next-line
-     */
+    /** @phpstan-ignore-next-line */
     public function fetch(UserQueryBuilder $queryBuilder): UserCollection
     {
         try {
@@ -45,9 +43,7 @@ class FetchUsers
         }
     }
 
-    /**
-     * @phpstan-ignore-next-line
-     */
+    /** @phpstan-ignore-next-line */
     private function innerFetch(UserQueryBuilder $queryBuilder): UserCollection
     {
         /** @psalm-suppress MixedArgument */
