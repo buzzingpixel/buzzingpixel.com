@@ -122,7 +122,7 @@ class SaveQueue
                     return $itemRecord;
                 },
                 $queue->queueItems()->toArray(),
-            )
+            ),
         ));
 
         $this->entityManager->persist($record);
@@ -131,7 +131,7 @@ class SaveQueue
 
         $payload = new Payload(
             $payloadStatus,
-            ['queueEntity' => $queue]
+            ['queueEntity' => $queue],
         );
 
         $afterAdd = new AddToQueueAfterAdd(
@@ -141,9 +141,7 @@ class SaveQueue
 
         $this->eventDispatcher->dispatch($afterAdd);
 
-        $this->logger->info(
-            'The queue was saved',
-        );
+        $this->logger->info('The queue was saved');
 
         return $afterAdd->payload;
     }

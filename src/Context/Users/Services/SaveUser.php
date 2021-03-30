@@ -132,7 +132,7 @@ class SaveUser
 
         $this->eventDispatcher->dispatch($beforeSave);
 
-        $userRecord->hydrateFromEntity($beforeSave->userEntity);
+        $userRecord->hydrateFromEntity($beforeSave->user);
 
         $this->entityManager->persist($userRecord);
 
@@ -145,12 +145,12 @@ class SaveUser
         $payload = new Payload(
             $payloadStatus,
             [
-                'userEntity' => $beforeSave->userEntity,
+                'userEntity' => $beforeSave->user,
             ]
         );
 
         $afterSave = new SaveUserAfterSave(
-            $beforeSave->userEntity,
+            $beforeSave->user,
             $payload,
         );
 

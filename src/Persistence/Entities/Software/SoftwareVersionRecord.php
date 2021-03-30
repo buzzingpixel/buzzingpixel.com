@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Persistence\Entities\Software;
 
+use App\Context\Software\Entities\SoftwareVersion;
 use App\Persistence\PropertyTraits\DownloadFile;
 use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\MajorVersion;
@@ -13,6 +14,7 @@ use App\Persistence\PropertyTraits\Version;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Mapping;
 use LogicException;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @Mapping\Entity
@@ -78,6 +80,18 @@ class SoftwareVersionRecord
     public function setNewSoftwareId(string $newSoftwareId): void
     {
         $this->newSoftwareId = $newSoftwareId;
+    }
+
+    public function hydrateFromEntity(SoftwareVersion $entity): self
+    {
+        $this->setId(Uuid::fromString($entity->id()));
+        $this->setMajorVersion($entity->majorVersion());
+        $this->setVersion($entity->version());
+        $this->setDownloadFile($entity->downloadFile());
+        $this->setUpgradePrice($entity->upgradePrice());
+        $this->setReleasedOn($entity->releasedOn());
+
+        return $this;
     }
 
     /**

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Context\Users\Events;
+namespace App\Context\Software\Events;
 
-use App\Context\Users\Entities\User;
+use App\Context\Software\Entities\Software;
 use App\Events\StoppableEvent;
 use App\Payload\Payload;
 
-class SaveUserAfterSave extends StoppableEvent
+class SaveSoftwareAfterSave extends StoppableEvent
 {
     public function __construct(
-        public User $userEntity,
+        public Software $software,
         public Payload $payload,
     ) {
     }

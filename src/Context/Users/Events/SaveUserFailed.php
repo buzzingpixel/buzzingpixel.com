@@ -11,7 +11,7 @@ use Throwable;
 class SaveUserFailed extends StoppableEvent
 {
     public function __construct(
-        public User $userEntity,
+        public User $user,
         public Throwable $exception,
     ) {
     }

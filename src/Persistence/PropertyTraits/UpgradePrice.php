@@ -21,7 +21,7 @@ trait UpgradePrice
         return $this->upgradePrice;
     }
 
-    public function setPrice(float | int $upgradePrice): void
+    public function setUpgradePrice(float | int $upgradePrice): void
     {
         $this->upgradePrice = $upgradePrice;
     }

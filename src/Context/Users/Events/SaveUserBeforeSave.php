@@ -9,7 +9,7 @@ use App\Events\StoppableEvent;
 
 class SaveUserBeforeSave extends StoppableEvent
 {
-    public function __construct(public User $userEntity)
+    public function __construct(public User $user)
     {
     }
 }

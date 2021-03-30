@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Persistence\Entities\Software;
 
+use App\Context\Software\Entities\Software;
 use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\IsForSale;
 use App\Persistence\PropertyTraits\IsSubscription;
@@ -14,6 +15,7 @@ use App\Persistence\PropertyTraits\Slug;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @Mapping\Entity
@@ -29,6 +31,19 @@ class SoftwareRecord
     use Price;
     use RenewalPrice;
     use IsSubscription;
+
+    public function hydrateFromEntity(Software $entity): self
+    {
+        $this->setId(Uuid::fromString($entity->id()));
+        $this->setSlug($entity->slug());
+        $this->setName($entity->name());
+        $this->setIsForSale($entity->isForSale());
+        $this->setPrice($entity->price());
+        $this->setRenewalPrice($entity->renewalPrice());
+        $this->setIsSubscription($entity->isSubscription());
+
+        return $this;
+    }
 
     public function __construct()
     {
