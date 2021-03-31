@@ -19,16 +19,14 @@ function docker-up() {
     # Local, reusable function to make certs
     function localMkCert() {
         # Only run if our cert or key is missing
-        if [ ! -f docker/web/certs/${1}.cert -o ! -f docker/web/certs/${1}.key ]; then
-            printf "${Cyan}Generating new local cert for ${1} with mkcert...${Reset}\n";
+        printf "${Cyan}Generating new local cert for ${1} with mkcert...${Reset}\n";
 
-            mkcert \
-                -cert-file docker/web/certs/${1}.cert \
-                -key-file docker/web/certs/${1}.key \
-                ${1};
+        mkcert \
+            -cert-file docker/web/certs/${1}.cert \
+            -key-file docker/web/certs/${1}.key \
+            ${1};
 
-            printf "${Green}${1} cert created${Reset}\n";
-        fi
+        printf "${Green}${1} cert created${Reset}\n";
     }
 
     # Ensure certificates exist with or reusable local function
