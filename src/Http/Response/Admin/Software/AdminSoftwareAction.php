@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Account\Licenses;
+namespace App\Http\Response\Admin\Software;
 
+use App\Context\Software\SoftwareApi;
 use App\Http\Entities\Meta;
+use App\Persistence\QueryBuilders\Software\SoftwareQueryBuilder;
 use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -13,12 +15,13 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class AccountLicensesAction
+class AdminSoftwareAction
 {
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
         private TwigEnvironment $twig,
         private General $config,
+        private SoftwareApi $softwareApi,
     ) {
     }
 
@@ -31,19 +34,23 @@ class AccountLicensesAction
     {
         $response = $this->responseFactory->createResponse();
 
-        $accountMenu = $this->config->accountMenu();
+        $adminMenu = $this->config->adminMenu();
 
         /** @psalm-suppress MixedArrayAssignment */
-        $accountMenu['licenses']['isActive'] = true;
+        $adminMenu['software']['isActive'] = true;
 
         $response->getBody()->write($this->twig->render(
-            '@app/Http/Response/Account/Licenses/AccountLicenses.twig',
+            '@app/Http/Response/Admin/Software/AdminSoftware.twig',
             [
                 'meta' => new Meta(
-                    metaTitle: 'Licenses',
+                    metaTitle: 'Software | Admin',
                 ),
-                'accountMenu' => $accountMenu,
-                'headline' => 'Licenses',
+                'accountMenu' => $adminMenu,
+                'headline' => 'Software',
+                'softwareCollection' => $this->softwareApi->fetchSoftware(
+                    (new SoftwareQueryBuilder())
+                        ->withOrderBy('name')
+                ),
             ],
         ));
 

@@ -10,6 +10,7 @@ use App\Http\Response\Account\Profile\AccountProfileAction;
 use App\Http\Response\Account\Profile\PostAccountProfileAction;
 use App\Http\Response\Account\Purchases\AccountPurchasesAction;
 use App\Http\Response\Admin\AdminIndexAction;
+use App\Http\Response\Admin\Software\AdminSoftwareAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
 use App\Http\Response\Home\HomeAction;
 use App\Http\Response\IForgot\IForgotAction;
@@ -102,6 +103,7 @@ return static function (App $app): void {
         $this->get(NoOp::class);
 
         $r->get(pattern: '', callable: AdminIndexAction::class);
+        $r->get(pattern: '/software', callable: AdminSoftwareAction::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 

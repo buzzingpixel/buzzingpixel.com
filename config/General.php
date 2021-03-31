@@ -23,6 +23,7 @@ use function is_string;
  * @method array stylesheets()
  * @method array jsFiles()
  * @method array accountMenu()
+ * @method array adminMenu()
  */
 class General extends SimpleModel
 {
@@ -104,6 +105,15 @@ class General extends SimpleModel
         'log-out' => [
             'href' => '/account/log-out',
             'content' => 'Log Out',
+            'isActive' => false,
+        ],
+    ];
+
+    /** @var array<array-key, array<array-key, string|false>>  */
+    public static array $adminMenu = [
+        'software' => [
+            'href' => '/admin/software',
+            'content' => 'Software',
             'isActive' => false,
         ],
     ];
