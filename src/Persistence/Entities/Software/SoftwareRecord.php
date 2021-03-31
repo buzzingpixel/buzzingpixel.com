@@ -38,8 +38,8 @@ class SoftwareRecord
         $this->setSlug($entity->slug());
         $this->setName($entity->name());
         $this->setIsForSale($entity->isForSale());
-        $this->setPrice($entity->price());
-        $this->setRenewalPrice($entity->renewalPrice());
+        $this->setPrice($entity->priceAsInt());
+        $this->setRenewalPrice($entity->renewalPriceAsInt());
         $this->setIsSubscription($entity->isSubscription());
 
         return $this;

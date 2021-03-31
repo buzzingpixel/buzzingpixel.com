@@ -155,6 +155,7 @@
       <path value="$PROJECT_DIR$/vendor/slim/flash" />
       <path value="$PROJECT_DIR$/vendor/league/iso3166" />
       <path value="$PROJECT_DIR$/vendor/cdtweb/us-states-list" />
+      <path value="$PROJECT_DIR$/vendor/moneyphp/money" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

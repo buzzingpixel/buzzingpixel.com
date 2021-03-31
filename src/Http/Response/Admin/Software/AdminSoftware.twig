@@ -47,10 +47,10 @@
                                                     <div class="hidden md:block">
                                                         <div>
                                                             <p class="text-sm text-gray-900">
-                                                                Price: ${{ software.price|number_format(2) }}
+                                                                Price: {{ software.priceFormatted }}
                                                             </p>
                                                             <p class="mt-2 flex items-center text-sm text-gray-500">
-                                                                Renewal Price: ${{ software.renewalPrice|number_format(2) }}
+                                                                Renewal Price: {{ software.renewalPriceFormatted }}
                                                             </p>
                                                         </div>
                                                     </div>

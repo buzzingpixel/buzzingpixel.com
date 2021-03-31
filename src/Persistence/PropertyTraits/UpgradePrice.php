@@ -11,17 +11,17 @@ trait UpgradePrice
     /**
      * @Mapping\Column(
      *     name="upgrade_price",
-     *     type="float",
+     *     type="integer",
      * )
      */
-    protected float | int $upgradePrice = 0;
+    protected int $upgradePrice = 0;
 
-    public function getUpgradePrice(): float | int
+    public function getUpgradePrice(): int
     {
         return $this->upgradePrice;
     }
 
-    public function setUpgradePrice(float | int $upgradePrice): void
+    public function setUpgradePrice(int $upgradePrice): void
     {
         $this->upgradePrice = $upgradePrice;
     }

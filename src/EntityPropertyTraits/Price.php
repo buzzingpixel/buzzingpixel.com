@@ -4,23 +4,44 @@ declare(strict_types=1);
 
 namespace App\EntityPropertyTraits;
 
+use App\Utilities\MoneyFormatter;
+use Money\Currency;
+use Money\Money;
+
 trait Price
 {
-    private float | int $price;
+    private Money $price;
 
-    public function price(): float | int
+    public function price(): Money
     {
         return $this->price;
+    }
+
+    public function priceAsInt(): int
+    {
+        return (int) $this->price->getAmount();
+    }
+
+    public function priceFormatted(): string
+    {
+        return MoneyFormatter::format($this->price);
     }
 
     /**
      * @return $this
      */
-    public function withPrice(float | int $price): self
+    public function withPrice(int | Money $price): self
     {
         $clone = clone $this;
 
-        $clone->price = $price;
+        if ($price instanceof Money) {
+            $clone->price = $price;
+        } else {
+            $clone->price = new Money(
+                $price,
+                new Currency('USD')
+            );
+        }
 
         return $clone;
     }

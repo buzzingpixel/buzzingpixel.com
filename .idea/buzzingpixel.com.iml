@@ -145,6 +145,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/slim/flash" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/league/iso3166" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/cdtweb/us-states-list" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/moneyphp/money" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

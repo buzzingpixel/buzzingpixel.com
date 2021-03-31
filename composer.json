@@ -13,6 +13,7 @@
     "require": {
         "php": "^8.0",
         "ext-PDO": "^8.0",
+        "ext-intl": "*",
         "beberlei/assert": "3.3.0",
         "buzzingpixel/cookie-api": "^2.0",
         "buzzingpixel/twig-markdown": "^1.0",
@@ -31,6 +32,7 @@
         "league/iso3166": "^3.0",
         "mailersend/mailersend": "^0.2.0",
         "mjerwin/parseachangelog": "^0.9.4",
+        "moneyphp/money": "^3.3",
         "monolog/monolog": "^2.2",
         "mrclay/jsmin-php": "^2.4",
         "mrclay/minify": "^2.3",

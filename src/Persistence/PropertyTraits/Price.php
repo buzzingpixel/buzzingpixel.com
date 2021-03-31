@@ -11,17 +11,17 @@ trait Price
     /**
      * @Mapping\Column(
      *     name="price",
-     *     type="float",
+     *     type="integer",
      * )
      */
-    protected float | int $price = 0.0;
+    protected int $price = 0;
 
-    public function getPrice(): float | int
+    public function getPrice(): int
     {
         return $this->price;
     }
 
-    public function setPrice(float | int $price): void
+    public function setPrice(int $price): void
     {
         $this->price = $price;
     }

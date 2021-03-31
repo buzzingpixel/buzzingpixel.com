@@ -15,6 +15,8 @@ use App\EntityValueObjects\Id as IdValue;
 use App\Persistence\Entities\Software\SoftwareRecord;
 use App\Persistence\Entities\Software\SoftwareVersionRecord;
 use LogicException;
+use Money\Currency;
+use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 
 use function array_map;
@@ -54,8 +56,8 @@ class Software
         string $slug,
         string $name,
         bool $isForSale = false,
-        float | int $price = 0,
-        float | int $renewalPrice = 0,
+        int | Money $price = 0,
+        int | Money $renewalPrice = 0,
         bool $isSubscription = false,
         null | array | SoftwareVersionCollection $versions = null,
         null | string | UuidInterface $id = null,
@@ -80,9 +82,23 @@ class Software
 
         $this->isForSale = $isForSale;
 
-        $this->price = $price;
+        if ($price instanceof Money) {
+            $this->price = $price;
+        } else {
+            $this->price = new Money(
+                $price,
+                new Currency('USD')
+            );
+        }
 
-        $this->renewalPrice = $renewalPrice;
+        if ($renewalPrice instanceof Money) {
+            $this->renewalPrice = $renewalPrice;
+        } else {
+            $this->renewalPrice = new Money(
+                $renewalPrice,
+                new Currency('USD')
+            );
+        }
 
         $this->isSubscription = $isSubscription;
 

@@ -17,6 +17,8 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 use LogicException;
+use Money\Currency;
+use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 
 use function assert;
@@ -62,7 +64,7 @@ class SoftwareVersion
         string $majorVersion,
         string $version,
         string $downloadFile = '',
-        float | int $upgradePrice = 0,
+        int | Money $upgradePrice = 0,
         null | string | DateTimeInterface $releasedOn = null,
         ?Software $software = null,
         null | string | UuidInterface $id = null,
@@ -87,7 +89,14 @@ class SoftwareVersion
 
         $this->downloadFile = $downloadFile;
 
-        $this->upgradePrice = $upgradePrice;
+        if ($upgradePrice instanceof Money) {
+            $this->upgradePrice = $upgradePrice;
+        } else {
+            $this->upgradePrice = new Money(
+                $upgradePrice,
+                new Currency('USD')
+            );
+        }
 
         if ($releasedOn instanceof DateTimeInterface) {
             $releasedOnClass = DateTimeImmutable::createFromFormat(

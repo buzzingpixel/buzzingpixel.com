@@ -11,17 +11,17 @@ trait RenewalPrice
     /**
      * @Mapping\Column(
      *     name="renewal_price",
-     *     type="float",
+     *     type="integer",
      * )
      */
-    protected float | int $renewalPrice = 0.0;
+    protected int $renewalPrice = 0;
 
-    public function getRenewalPrice(): float | int
+    public function getRenewalPrice(): int
     {
         return $this->renewalPrice;
     }
 
-    public function setRenewalPrice(float | int $renewalPrice): void
+    public function setRenewalPrice(int $renewalPrice): void
     {
         $this->renewalPrice = $renewalPrice;
     }

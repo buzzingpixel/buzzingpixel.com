@@ -88,7 +88,7 @@ class SoftwareVersionRecord
         $this->setMajorVersion($entity->majorVersion());
         $this->setVersion($entity->version());
         $this->setDownloadFile($entity->downloadFile());
-        $this->setUpgradePrice($entity->upgradePrice());
+        $this->setUpgradePrice($entity->upgradePriceAsInt());
         $this->setReleasedOn($entity->releasedOn());
 
         return $this;
