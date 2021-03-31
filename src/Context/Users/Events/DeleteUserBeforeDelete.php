@@ -9,7 +9,7 @@ use App\Events\StoppableEvent;
 
 class DeleteUserBeforeDelete extends StoppableEvent
 {
-    public function __construct(public User $userEntity)
+    public function __construct(public User $user)
     {
     }
 }

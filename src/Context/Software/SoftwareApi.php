@@ -8,6 +8,8 @@ use App\Context\Software\Entities\Software;
 use App\Context\Software\Entities\SoftwareCollection;
 use App\Context\Software\Entities\SoftwareVersion;
 use App\Context\Software\Entities\SoftwareVersionCollection;
+use App\Context\Software\Services\DeleteSoftware;
+use App\Context\Software\Services\DeleteSoftwareVersion;
 use App\Context\Software\Services\FetchOneSoftware;
 use App\Context\Software\Services\FetchOneSoftwareVersion;
 use App\Context\Software\Services\FetchSoftware;
@@ -25,6 +27,8 @@ class SoftwareApi
         private FetchOneSoftware $fetchOneSoftware,
         private FetchSoftwareVersions $fetchSoftwareVersions,
         private FetchOneSoftwareVersion $fetchOneSoftwareVersion,
+        private DeleteSoftware $deleteSoftware,
+        private DeleteSoftwareVersion $deleteSoftwareVersion,
     ) {
     }
 
@@ -58,6 +62,19 @@ class SoftwareApi
     ): ?SoftwareVersion {
         return $this->fetchOneSoftwareVersion->fetch(
             $queryBuilder
+        );
+    }
+
+    public function deleteSoftware(Software $software): Payload
+    {
+        return $this->deleteSoftware->delete($software);
+    }
+
+    public function deleteSoftwareVersion(
+        SoftwareVersion $softwareVersion
+    ): Payload {
+        return $this->deleteSoftwareVersion->delete(
+            $softwareVersion
         );
     }
 }

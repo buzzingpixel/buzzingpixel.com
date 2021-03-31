@@ -8,7 +8,7 @@ use App\Context\Software\Entities\Software;
 use App\Events\StoppableEvent;
 use Throwable;
 
-class SaveSoftwareFailed extends StoppableEvent
+class DeleteSoftwareFailed extends StoppableEvent
 {
     public function __construct(
         public Software $software,

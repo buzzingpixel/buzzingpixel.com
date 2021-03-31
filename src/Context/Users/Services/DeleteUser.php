@@ -87,9 +87,7 @@ class DeleteUser
             $user
         ));
 
-        $this->logger->info(
-            'The user was deleted',
-        );
+        $this->logger->info('The user was deleted');
 
         return new Payload(Payload::STATUS_DELETED);
     }
