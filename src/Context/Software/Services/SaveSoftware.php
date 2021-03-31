@@ -12,6 +12,7 @@ use App\Context\Software\Events\SaveSoftwareFailed;
 use App\Payload\Payload;
 use App\Persistence\Entities\Software\SoftwareRecord;
 use App\Persistence\Entities\Software\SoftwareVersionRecord;
+use App\Persistence\QueryBuilders\Software\SoftwareQueryBuilder;
 use Config\General;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
@@ -23,6 +24,7 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 use function array_map;
+use function assert;
 
 class SaveSoftware
 {
@@ -79,19 +81,54 @@ class SaveSoftware
             $software->id(),
         );
 
-        // If it's not, create a new queue record
+        $duplicate = null;
+
+        // If it's not, make sure this software's slug is unique
         if ($record === null) {
+            $this->logger->info(
+                'The software does not exist by ID. Checking for ' .
+                    'duplicate slug ' . $software->slug(),
+            );
+
+            $duplicate = (new SoftwareQueryBuilder())
+                ->withSlug($software->slug())
+                ->createQuery($this->entityManager)
+                ->getOneOrNullResult();
+
             $payloadStatus = Payload::STATUS_CREATED;
 
             $this->logger->info(
-                'Creating new softwar record',
+                'Creating new software record',
             );
 
             $record = new SoftwareRecord();
         } else {
+            $duplicate = (new SoftwareQueryBuilder())
+                ->withSlug($software->slug())
+                ->withId($software->id(), '!=')
+                ->createQuery($this->entityManager)
+                ->getOneOrNullResult();
+
             $this->logger->info(
                 'This software record was found in the database. ' .
                 'Updating existing software',
+            );
+        }
+
+        assert(
+            $duplicate === null ||
+            $duplicate instanceof SoftwareRecord
+        );
+
+        if ($duplicate !== null) {
+            $this->logger->warning(
+                'The slug already exists in the system:' .
+                $software->slug(),
+            );
+
+            return new Payload(
+                Payload::STATUS_NOT_VALID,
+                ['message' => 'Slug exists'],
             );
         }
 

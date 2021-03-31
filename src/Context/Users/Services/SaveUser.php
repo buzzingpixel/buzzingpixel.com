@@ -83,7 +83,7 @@ class SaveUser
         if ($userRecord === null) {
             $this->logger->info(
                 'The user does not exist by ID. Checking for ' .
-                'duplicate email address ' . $user->emailAddress()
+                    'duplicate email address ' . $user->emailAddress(),
             );
 
             $dql = implode('', [
