@@ -2,38 +2,49 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Admin\Software\Create;
+namespace App\Http\Response\Admin\Software\View;
 
-use App\Context\Software\Entities\Software;
+use App\Context\Software\SoftwareApi;
 use App\Http\Entities\Meta;
+use App\Persistence\QueryBuilders\Software\SoftwareQueryBuilder;
 use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Flash\Messages;
+use Psr\Http\Message\ServerRequestInterface;
+use Slim\Exception\HttpNotFoundException;
 use Twig\Environment as TwigEnvironment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class AdminSoftwareCreateAction
+class SoftwareViewAction
 {
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
         private TwigEnvironment $twig,
         private General $config,
-        protected Messages $flash,
+        private SoftwareApi $softwareApi,
     ) {
     }
 
     /**
+     * @throws HttpNotFoundException
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function __invoke(): ResponseInterface
+    public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
-        /** @var mixed[] $postData */
-        $postData = $this->flash->getMessage('FormMessage')[0]['post_data'] ?? [];
+        $slug = (string) $request->getAttribute('slug');
+
+        $software = $this->softwareApi->fetchOneSoftware(
+            (new SoftwareQueryBuilder())
+                ->withSlug($slug),
+        );
+
+        if ($software === null) {
+            throw new HttpNotFoundException($request);
+        }
 
         $response = $this->responseFactory->createResponse();
 
@@ -43,13 +54,12 @@ class AdminSoftwareCreateAction
         $adminMenu['software']['isActive'] = true;
 
         $response->getBody()->write($this->twig->render(
-            '@app/Http/Response/Admin/Software/AdminSoftwareCreateEdit.twig',
+            '@app/Http/Response/Admin/Software/View/SoftwareView.twig',
             [
                 'meta' => new Meta(
-                    metaTitle: 'Create Software | Admin',
+                    metaTitle: $software->name() . ' | Software | Admin',
                 ),
                 'accountMenu' => $adminMenu,
-                'headline' => 'Create Software',
                 'breadcrumbSingle' => [
                     'content' => 'Software',
                     'uri' => '/admin/software',
@@ -63,16 +73,9 @@ class AdminSoftwareCreateAction
                         'content' => 'Software',
                         'uri' => '/admin/software',
                     ],
-                    ['content' => 'Create'],
+                    ['content' => 'View'],
                 ],
-                'software' => new Software(
-                    slug: (string) ($postData['slug'] ?? ''),
-                    name: (string) ($postData['name'] ?? ''),
-                    isForSale: (bool) ($postData['is_for_sale'] ?? '0'),
-                    price: (int) ((float) ($postData['price'] ?? '0') * 100),
-                    renewalPrice: (int) ((float) ($postData['renewal_price'] ?? '0') * 100),
-                    isSubscription: (bool) ($postData['is_subscription'] ?? '0'),
-                ),
+                'software' => $software,
             ],
         ));
 

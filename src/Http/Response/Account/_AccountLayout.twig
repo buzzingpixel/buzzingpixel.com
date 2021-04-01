@@ -4,6 +4,11 @@
 {% set breadcrumbTrail = breadcrumbTrail ?? [] %}
 {% set breadcrumbSingle = breadcrumbSingle ?? {} %}
 
+{% set message = flash('FormMessage') %}
+{% if message[0] is defined %}
+    {% set message = message[0] %}
+{% endif %}
+
 {% extends 'Http/_Infrastructure/_Layout.twig' %}
 
 {% block content %}
@@ -35,6 +40,14 @@
                 useMaxWidth: false,
             } only %}
             <div class="max-w-7xl mx-auto w-full md:px-8">
+                {% if message['status'] is defined %}
+                    <div class="pt-6 px-4 sm:px-6 md:px-0">
+                        {% include 'Http/Components/Alert.twig' with {
+                            content: message.result.message|default(''),
+                            type: message['status'] == 'SUCCESSFUL' ? 'success' : 'error',
+                        } only %}
+                    </div>
+                {% endif %}
                 {% block accountContent %}
                     <div class="p-10">
                         <div class="border-4 border-dashed border-blue-200 rounded-lg h-96"></div>
