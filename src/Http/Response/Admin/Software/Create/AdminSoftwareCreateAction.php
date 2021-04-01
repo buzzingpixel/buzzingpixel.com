@@ -9,6 +9,7 @@ use App\Http\Entities\Meta;
 use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Flash\Messages;
 use Twig\Environment as TwigEnvironment;
 
 class AdminSoftwareCreateAction
@@ -17,11 +18,14 @@ class AdminSoftwareCreateAction
         private ResponseFactoryInterface $responseFactory,
         private TwigEnvironment $twig,
         private General $config,
+        protected Messages $flash,
     ) {
     }
 
     public function __invoke(): ResponseInterface
     {
+        $postData = $this->flash->getMessage('FormMessage')[0]['post_data'] ?? [];
+
         $response = $this->responseFactory->createResponse();
 
         $adminMenu = $this->config->adminMenu();
@@ -52,7 +56,14 @@ class AdminSoftwareCreateAction
                     ],
                     ['content' => 'Create'],
                 ],
-                'software' => new Software(),
+                'software' => new Software(
+                    slug: (string) ($postData['slug'] ?? ''),
+                    name: (string) ($postData['name'] ?? ''),
+                    isForSale: (bool) ($postData['is_for_sale'] ?? '0'),
+                    price: (int) ((float) ($postData['price'] ?? '0') * 100),
+                    renewalPrice: (int) ((float) ($postData['renewal_price'] ?? '0') * 100),
+                    isSubscription: (bool) ($postData['is_subscription'] ?? '0'),
+                ),
             ],
         ));
 

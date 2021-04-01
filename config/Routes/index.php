@@ -12,6 +12,7 @@ use App\Http\Response\Account\Purchases\AccountPurchasesAction;
 use App\Http\Response\Admin\AdminIndexAction;
 use App\Http\Response\Admin\Software\AdminSoftwareAction;
 use App\Http\Response\Admin\Software\Create\AdminSoftwareCreateAction;
+use App\Http\Response\Admin\Software\Create\PostAdminSoftwareCreateAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
 use App\Http\Response\Home\HomeAction;
 use App\Http\Response\IForgot\IForgotAction;
@@ -106,6 +107,7 @@ return static function (App $app): void {
         $r->get(pattern: '', callable: AdminIndexAction::class);
         $r->get(pattern: '/software', callable: AdminSoftwareAction::class);
         $r->get(pattern: '/software/create', callable: AdminSoftwareCreateAction::class);
+        $r->post(pattern: '/software/create', callable: PostAdminSoftwareCreateAction::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 

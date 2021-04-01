@@ -14,11 +14,8 @@ use const PHP_SESSION_ACTIVE;
 
 class TwigSlimFlashMessages extends AbstractExtension
 {
-    protected Messages $flash;
-
-    public function __construct(Messages $flash)
+    public function __construct(protected Messages $flash)
     {
-        $this->flash = $flash;
     }
 
     public static function shouldAddExtension(): bool
