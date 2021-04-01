@@ -63,8 +63,8 @@ class AdminSoftwareEditAction
                 'actionButtonContent' => 'Submit Edits',
                 'headline' => 'Edit ' . $software->name(),
                 'breadcrumbSingle' => [
-                    'content' => 'Software',
-                    'uri' => '/admin/software',
+                    'content' => $software->name(),
+                    'uri' => '/admin/software/' . $software->slug(),
                 ],
                 'breadcrumbTrail' => [
                     [
@@ -74,6 +74,10 @@ class AdminSoftwareEditAction
                     [
                         'content' => 'Software',
                         'uri' => '/admin/software',
+                    ],
+                    [
+                        'content' => $software->name(),
+                        'uri' => '/admin/software/' . $software->slug(),
                     ],
                     ['content' => 'Edit'],
                 ],

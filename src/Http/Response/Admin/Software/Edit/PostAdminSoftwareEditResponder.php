@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Admin\Software\Create;
+namespace App\Http\Response\Admin\Software\Edit;
 
 use App\Payload\Payload;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Flash\Messages as FlashMessages;
 
-class PostAdminSoftwareCreateResponder
+class PostAdminSoftwareEditResponder
 {
     private FlashMessages $flashMessages;
     private ResponseFactoryInterface $responseFactory;
@@ -30,7 +30,7 @@ class PostAdminSoftwareCreateResponder
         string $redirectTo,
         array $postData,
     ): ResponseInterface {
-        if ($payload->getStatus() !== Payload::STATUS_CREATED) {
+        if ($payload->getStatus() !== Payload::STATUS_UPDATED) {
             $this->flashMessages->addMessage(
                 'FormMessage',
                 [
@@ -44,7 +44,7 @@ class PostAdminSoftwareCreateResponder
                 'FormMessage',
                 [
                     'status' => Payload::STATUS_SUCCESSFUL,
-                    'result' => ['message' => 'Software created!'],
+                    'result' => ['message' => 'Software saved!'],
                 ]
             );
         }
