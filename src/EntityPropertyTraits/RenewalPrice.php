@@ -8,6 +8,8 @@ use App\Utilities\MoneyFormatter;
 use Money\Currency;
 use Money\Money;
 
+use function ltrim;
+
 trait RenewalPrice
 {
     private Money $renewalPrice;
@@ -25,6 +27,11 @@ trait RenewalPrice
     public function renewalPriceFormatted(): string
     {
         return MoneyFormatter::format($this->renewalPrice);
+    }
+
+    public function renewalPriceFormattedNoSymbol(): string
+    {
+        return ltrim($this->renewalPriceFormatted(), '$');
     }
 
     /**

@@ -1,6 +1,9 @@
 {# @var \Config\General GeneralConfig #}
 {# @var array accountMenu #}
 
+{% set breadcrumbTrail = breadcrumbTrail ?? [] %}
+{% set breadcrumbSingle = breadcrumbSingle ?? {} %}
+
 {% extends 'Http/_Infrastructure/_Layout.twig' %}
 
 {% block content %}
@@ -25,12 +28,19 @@
                 </div>
             </div>
         </div>
-        <div class="flex-1 max-w-7xl mx-auto w-0 flex flex-col md:px-8">
-            {% block accountContent %}
-                <div class="p-10">
-                    <div class="border-4 border-dashed border-blue-200 rounded-lg h-96"></div>
-                </div>
-            {% endblock %}
+        <div class="flex-1 flex flex-col">
+            {% include 'Http/_Infrastructure/Breadcrumbs.twig' with {
+                breadcrumbTrail: breadcrumbTrail,
+                breadcrumbSingle: breadcrumbSingle,
+                useMaxWidth: false,
+            } only %}
+            <div class="max-w-7xl mx-auto w-full md:px-8">
+                {% block accountContent %}
+                    <div class="p-10">
+                        <div class="border-4 border-dashed border-blue-200 rounded-lg h-96"></div>
+                    </div>
+                {% endblock %}
+            </div>
         </div>
     </div>
 {% endblock %}

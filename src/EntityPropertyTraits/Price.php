@@ -8,6 +8,8 @@ use App\Utilities\MoneyFormatter;
 use Money\Currency;
 use Money\Money;
 
+use function ltrim;
+
 trait Price
 {
     private Money $price;
@@ -25,6 +27,11 @@ trait Price
     public function priceFormatted(): string
     {
         return MoneyFormatter::format($this->price);
+    }
+
+    public function priceFormattedNoSymbol(): string
+    {
+        return ltrim($this->priceFormatted(), '$');
     }
 
     /**

@@ -53,8 +53,8 @@ class Software
 
     /** @phpstan-ignore-next-line  */
     public function __construct(
-        string $slug,
-        string $name,
+        string $slug = '',
+        string $name = '',
         bool $isForSale = false,
         int | Money $price = 0,
         int | Money $renewalPrice = 0,
