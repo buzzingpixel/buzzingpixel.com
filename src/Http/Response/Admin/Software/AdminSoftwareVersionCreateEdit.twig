@@ -1,0 +1,135 @@
+{# @var string headline #}
+{# @var \App\Context\Software\Entities\SoftwareVersion softwareVersion #}
+{# @var \App\Context\Users\Entities\LoggedInUser LoggedInUser #}
+
+{% extends '@app/Http/Response/Account/_AccountLayout.twig' %}
+
+{% set formAction = formAction ?? '' %}
+{% set actionButtonContent = actionButtonContent ?? 'Add' %}
+
+{% block accountContent %}
+    <div
+        class="flex-1 relative focus:outline-none"
+        tabindex="0"
+        xmlns:x-bind="http://www.w3.org/1999/xhtml"
+    >
+        <div class="py-6">
+            <div class="px-4 sm:px-6 md:px-0 mb-4">
+                <h1 class="text-2xl font-semibold text-gray-900">
+                    {{ headline|smartypants }}
+                </h1>
+            </div>
+            <div class="px-4 sm:px-6 md:px-0">
+                {# Content #}
+                <div class="bg-white shadow sm:rounded-md p-4">
+                    <form
+                        action="{{ formAction }}"
+                        method="POST"
+                        accept-charset="UTF-8"
+                    >
+                        <div>
+                            <div class="flex justify-end">
+                                <button
+                                    type="submit"
+                                    class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-meteor hover:bg-pumpkin-skin focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pumpkin-skin"
+                                >
+                                    {{ actionButtonContent }}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
+                            <div class="pt-4 space-y-6 sm:pt-10 sm:space-y-5">
+                                <div class="space-y-6 sm:space-y-5">
+                                    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+                                        <label for="major_version" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                            Major Version
+                                        </label>
+                                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                            <input
+                                                type="text"
+                                                name="major_version"
+                                                id="major_version"
+                                                class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:text-sm border-gray-300 rounded-md"
+                                                value="{{ softwareVersion.majorVersion }}"
+                                            >
+                                        </div>
+                                    </div>
+                                    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                                        <label for="version" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                            Version
+                                        </label>
+                                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                            <input
+                                                type="text"
+                                                name="version"
+                                                id="version"
+                                                class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:text-sm border-gray-300 rounded-md"
+                                                value="{{ softwareVersion.version }}"
+                                            >
+                                        </div>
+                                    </div>
+                                    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                                        <label for="version" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                            Download File
+                                        </label>
+                                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                            <div class="max-w-lg">
+                                                {% include 'Http/_Infrastructure/Forms/Inputs/FileUpload.twig' with {
+                                                    name: 'test',
+                                                } only %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                                        <label for="upgrade_price" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                            Upgrade Price
+                                        </label>
+                                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                            <div class="max-w-lg flex rounded-md shadow-sm">
+                                                <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                                                    $
+                                                </span>
+                                                <input
+                                                    type="text"
+                                                    name="upgrade_price"
+                                                    id="upgrade_price"
+                                                    class="flex-1 block w-full focus:ring-meteor focus:border-meteor min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                                    value="{{ softwareVersion.upgradePriceFormattedNoSymbol }}"
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                                        <label for="released_on" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                            Released On
+                                        </label>
+                                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                            <input
+                                                type="datetime-local"
+                                                name="released_on"
+                                                id="released_on"
+                                                class="max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:text-sm border-gray-300 rounded-md"
+                                                value="{{ softwareVersion.releasedOn.setTimezone(LoggedInUser.user.timezone).format('Y-m-d g:i A') }}"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-5">
+                            <div class="flex justify-end">
+                                <button
+                                    type="submit"
+                                    class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-meteor hover:bg-pumpkin-skin focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pumpkin-skin"
+                                >
+                                    {{ actionButtonContent }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {# /EndContent #}
+            </div>
+        </div>
+    </div>
+{% endblock %}
