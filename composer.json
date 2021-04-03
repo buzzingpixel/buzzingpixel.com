@@ -22,6 +22,7 @@
         "buzzingpixel/twig-widont": "^1.0",
         "cdtweb/us-states-list": "^1.0",
         "cebe/markdown": "^1.2",
+        "cocur/slugify": "^4.0",
         "crell/tukio": "^1.2",
         "doctrine/annotations": "^1.11",
         "doctrine/migrations": "^3.1",
