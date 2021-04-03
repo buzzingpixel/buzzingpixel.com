@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Config;
 
+use App\Context\Users\Entities\LoggedInUser;
+use App\Context\Users\Services\FetchLoggedInUser;
 use App\Globals;
 use App\Http\Utilities\Segments\ExtractUriSegments;
 use App\Templating\TwigExtensions\BreakToSpace;
@@ -57,11 +59,18 @@ class Twig
 
         assert($extractUriSegments instanceof ExtractUriSegments);
 
+        $fetchLoggedInUser = $di->get(FetchLoggedInUser::class);
+
+        assert($fetchLoggedInUser instanceof FetchLoggedInUser);
+
         return [
             'GeneralConfig' => $di->get(General::class),
             'Request' => Globals::request(),
             'UriSegments' => $extractUriSegments(
                 Globals::request()->getUri()
+            ),
+            'LoggedInUser' => new LoggedInUser(
+                $fetchLoggedInUser->fetch(),
             ),
         ];
     }
