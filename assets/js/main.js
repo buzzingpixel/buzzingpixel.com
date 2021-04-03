@@ -7,6 +7,7 @@
 // Setup
 import Events from './Events.js';
 import FileUploadField from './Components/FileUploadField.js';
+import Flatpickr from './Components/Flatpickr.js';
 import LoadAxios from './SetUp/LoadAxios.js';
 import SetGlobalData from './SetUp/SetGlobalData.js';
 
@@ -42,4 +43,12 @@ if (document.querySelector('code')
 const selectEls = document.querySelectorAll('[ref="select"]');
 if (selectEls.length > 0) {
     new Selects(selectEls);
+}
+
+// Flatpickr
+const flatpickrEls = document.querySelectorAll(
+    'input[type="date"], input[type="datetime-local"]',
+);
+if (flatpickrEls.length > 0) {
+    new Flatpickr(flatpickrEls);
 }
