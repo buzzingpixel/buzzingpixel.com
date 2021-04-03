@@ -5,7 +5,7 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="19">
+          <list size="20">
             <item index="0" class="java.lang.String" itemvalue="x-show" />
             <item index="1" class="java.lang.String" itemvalue="x-data" />
             <item index="2" class="java.lang.String" itemvalue="@click" />
@@ -25,6 +25,7 @@
             <item index="16" class="java.lang.String" itemvalue="ref" />
             <item index="17" class="java.lang.String" itemvalue=":aria-pressed" />
             <item index="18" class="java.lang.String" itemvalue="x-bind:value" />
+            <item index="19" class="java.lang.String" itemvalue="x-model" />
           </list>
         </value>
       </option>

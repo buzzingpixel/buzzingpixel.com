@@ -1,0 +1,149 @@
+{# Required values #}
+{# @var string name #}
+
+{# @var string value #}
+{% set value = value ?? '' %}
+{# @var string description #}
+{% set description = description ?? '' %}
+
+{# TODO: Figure this out #}
+{% set postBackValue = PostMessage['result']['inputValues'][name] ?? null %}
+{% set postBackMessages = PostMessage['result']['inputMessages'][name] ?? [] %}
+
+{% set dataMessage = value %}
+{% if postBackValue['file_name'] is defined and postBackValue['file_name'] and postBackValue['file_name'] != '' %}
+    {% set dataMessage = postBackValue['file_name'] %}
+{% endif %}
+
+<div
+    x-init="RunWhenReady('FileUploadField', {
+        data: data,
+        el: $el
+    })"
+    x-data="{
+        data: {
+            mode: 'incompatible',
+            message: '{{ dataMessage }}',
+            messageType: 'success',
+            uploadInProgress: false,
+            filePath: '{{ postBackValue['file_path'] ?? '' }}',
+            fileName: '{{ postBackValue['file_name'] ?? '' }}',
+        },
+    }"
+>
+    {#
+        TODO: Set an authentication token hidden input for unauthenticated users
+         if we ever need file uploads for unathenticated users
+    #}
+
+    <input
+        type="hidden"
+        name="{{ name }}[file_path]"
+        x-model="data.filePath"
+    >
+    <input
+        type="hidden"
+        name="{{ name }}[file_name]"
+        x-model="data.fileName"
+    >
+
+    {# Message #}
+    <div
+        class="mb-2 text-deep-sea"
+        x-text="data.message"
+        :class="{
+            'text-red': data.messageType === 'error',
+            'text-deep-sea': data.messageType !== 'error'
+        }"
+    >
+    </div>
+
+    <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md relative">
+        {# Incompatible browser overlay #}
+        <div
+            class="absolute inset-0 bg-gray-300 bg-opacity-75 z-10 rounded-md"
+            style="display: none;"
+            x-show="data.mode === 'incompatible'"
+        >
+            <span
+                class="font-bold p-2 block absolute w-full text-center"
+                style="top: 50%; left: 50%; transform: translate(-50%, -50%);"
+            >
+                Your browser does not support file uploads
+            </span>
+        </div>
+
+        {# Drag in progress overlay #}
+        <div
+            class="absolute inset-0 bg-gray-300 bg-opacity-75 z-10 rounded-md"
+            style="display: none;"
+            x-show="data.mode === 'dragInProgress'"
+        >
+        </div>
+
+        {# Upload in progress overlay #}
+        <div
+            class="absolute inset-0 bg-gray-300 bg-opacity-75 z-10 rounded-md"
+            style="display: none;"
+            x-show="data.uploadInProgress"
+        >
+            <div
+                class="font-bold p-2 block absolute w-full text-center"
+                style="top: 50%; left: 50%; transform: translate(-50%, -50%);"
+            >
+                <div class="lds-dual-ring"></div>
+            </div>
+        </div>
+
+        <div class="space-y-1 text-center">
+            <svg
+                class="mx-auto h-12 w-12 text-gray-400"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 48 48"
+                aria-hidden="true"
+            >
+                <path
+                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+            </svg>
+            <div class="flex text-sm text-gray-600">
+                <label
+                    class="relative cursor-pointer rounded-md font-medium text-deep-sea hover:text-aqua-deep focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-deep-sea"
+                >
+                    <span>Upload a file</span>
+                    <input
+                        name="manual_file_select_input"
+                        type="file"
+                        class="sr-only"
+                    >
+                </label>
+                <p class="pl-1">or drag and drop</p>
+            </div>
+            {% if description %}
+                <p class="mt-1 text-sm text-gray-600">
+                    {{ description|smartypants|widont }}
+                </p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mt-2">
+        <div class="h-1 w-full rounded-sm">
+            <div
+                class="h-1 bg-gray-100 w-full rounded-sm"
+                style="display: none"
+                x-show="data.uploadInProgress"
+            >
+                <div
+                    class="h-1 bg-deep-sea w-full rounded-sm transition-all duration-75"
+                    style="width: 0"
+                    ref="progressBar"
+                ></div>
+            </div>
+        </div>
+    </div>
+</div>

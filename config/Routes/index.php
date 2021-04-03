@@ -16,6 +16,7 @@ use App\Http\Response\Admin\Software\Create\PostAdminSoftwareCreateAction;
 use App\Http\Response\Admin\Software\Edit\AdminSoftwareEditAction;
 use App\Http\Response\Admin\Software\Edit\PostAdminSoftwareEditAction;
 use App\Http\Response\Admin\Software\View\SoftwareViewAction;
+use App\Http\Response\Ajax\FileUpload\FileUploadAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
 use App\Http\Response\Home\HomeAction;
 use App\Http\Response\IForgot\IForgotAction;
@@ -85,6 +86,7 @@ return static function (App $app): void {
     }
 
     $app->get(pattern: '/ajax/user/payload', callable: GetUserPayloadAction::class);
+    $app->post(pattern: '/ajax/file-upload', callable: FileUploadAction::class);
 
     $app->post(pattern: '/account/log-in', callable: PostLogInAction::class);
     $app->any(pattern: '/account/log-out', callable: PostLogOutAction::class);

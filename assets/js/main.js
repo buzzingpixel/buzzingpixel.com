@@ -6,6 +6,7 @@
 
 // Setup
 import Events from './Events.js';
+import FileUploadField from './Components/FileUploadField.js';
 import LoadAxios from './SetUp/LoadAxios.js';
 import SetGlobalData from './SetUp/SetGlobalData.js';
 
@@ -13,6 +14,8 @@ import SetGlobalData from './SetUp/SetGlobalData.js';
 import MainNav from './Components/MainNav.js';
 import PrismCodeHighlighting from './Components/PrismCodeHighlighting.js';
 import Selects from './Components/Selects.js';
+
+window.Methods.FileUploadField = FileUploadField;
 
 /**
  * Run
