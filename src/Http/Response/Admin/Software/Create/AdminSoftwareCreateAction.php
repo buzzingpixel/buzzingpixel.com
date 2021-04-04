@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Response\Admin\Software\Create;
 
-use App\Context\Software\Entities\Software;
 use App\Http\Entities\Meta;
+use App\Http\Response\Admin\Software\SoftwareConfig;
 use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -43,7 +43,7 @@ class AdminSoftwareCreateAction
         $adminMenu['software']['isActive'] = true;
 
         $response->getBody()->write($this->twig->render(
-            '@app/Http/Response/Admin/Software/AdminSoftwareCreateEdit.twig',
+            '@app/Http/Response/Admin/AdminForm.twig',
             [
                 'meta' => new Meta(
                     metaTitle: 'Create Software | Admin',
@@ -65,14 +65,14 @@ class AdminSoftwareCreateAction
                     ],
                     ['content' => 'Create'],
                 ],
-                'software' => new Software(
-                    slug: (string) ($postData['slug'] ?? ''),
-                    name: (string) ($postData['name'] ?? ''),
-                    isForSale: (bool) ($postData['is_for_sale'] ?? '0'),
-                    price: (int) ((float) ($postData['price'] ?? '0') * 100),
-                    renewalPrice: (int) ((float) ($postData['renewal_price'] ?? '0') * 100),
-                    isSubscription: (bool) ($postData['is_subscription'] ?? '0'),
-                ),
+                'formConfig' => [
+                    'submitContent' => 'Create',
+                    'cancelAction' => '/admin/software',
+                    'formAction' => '/admin/software/create',
+                    'inputs' => SoftwareConfig::getCreateEditFormConfigInputs(
+                        $postData,
+                    ),
+                ],
             ],
         ));
 

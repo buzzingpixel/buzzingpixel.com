@@ -12,6 +12,10 @@ use function assert;
 
 class DateTimeUtility
 {
+    public const FLATPICKR_DATETIME_FORMAT = 'Y-m-d';
+
+    public const FLATPICKR_DATETIME_LOCAL_FORMAT = 'Y-m-d g:i A';
+
     public static function createDateTimeImmutableOrNull(
         null | string | DateTimeInterface $dateTime,
     ): ?DateTimeImmutable {

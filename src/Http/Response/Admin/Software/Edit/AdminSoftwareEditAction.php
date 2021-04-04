@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Response\Admin\Software\Edit;
 
-use App\Context\Software\Entities\Software;
 use App\Context\Software\SoftwareApi;
 use App\Http\Entities\Meta;
+use App\Http\Response\Admin\Software\SoftwareConfig;
 use App\Persistence\QueryBuilders\Software\SoftwareQueryBuilder;
 use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -15,8 +15,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpNotFoundException;
 use Slim\Flash\Messages;
 use Twig\Environment as TwigEnvironment;
-
-use function count;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class AdminSoftwareEditAction
 {
@@ -29,6 +30,12 @@ class AdminSoftwareEditAction
     ) {
     }
 
+    /**
+     * @throws HttpNotFoundException
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
         $slug = (string) $request->getAttribute('slug');
@@ -53,14 +60,12 @@ class AdminSoftwareEditAction
         $adminMenu['software']['isActive'] = true;
 
         $response->getBody()->write($this->twig->render(
-            '@app/Http/Response/Admin/Software/AdminSoftwareCreateEdit.twig',
+            '@app/Http/Response/Admin/AdminForm.twig',
             [
                 'meta' => new Meta(
                     metaTitle: 'Edit ' . $software->name() . ' | Admin',
                 ),
                 'accountMenu' => $adminMenu,
-                'formAction' => '/admin/software/' . $software->slug() . '/edit',
-                'actionButtonContent' => 'Submit Edits',
                 'headline' => 'Edit ' . $software->name(),
                 'breadcrumbSingle' => [
                     'content' => $software->name(),
@@ -81,14 +86,15 @@ class AdminSoftwareEditAction
                     ],
                     ['content' => 'Edit'],
                 ],
-                'software' => count($postData) > 0 ?  new Software(
-                    slug : (string) ($postData['slug'] ?? ''),
-                    name: (string) ($postData['name'] ?? ''),
-                    isForSale: (bool) ($postData['is_for_sale'] ?? '0'),
-                    price: (int) ((float) ($postData['price'] ?? '0') * 100),
-                    renewalPrice: (int) ((float) ($postData['renewal_price'] ?? '0') * 100),
-                    isSubscription: (bool) ($postData['is_subscription'] ?? '0'),
-                ) : $software,
+                'formConfig' => [
+                    'submitContent' => 'Submit Edits',
+                    'cancelAction' => '/admin/software/' . $software->slug(),
+                    'formAction' => '/admin/software/' . $software->slug() . '/edit',
+                    'inputs' => SoftwareConfig::getCreateEditFormConfigInputs(
+                        $postData,
+                        $software,
+                    ),
+                ],
             ],
         ));
 

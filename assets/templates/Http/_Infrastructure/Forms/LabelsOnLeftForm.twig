@@ -1,0 +1,67 @@
+{% set method = method ?? 'POST' %}
+{% set submitContent = submitContent ?? 'Submit' %}
+{% set cancelAction = cancelAction ?? null %}
+{% set formAction = formAction ?? null %}
+{% set inputs = inputs ?? [] %}
+
+{% set buttons %}
+    <div class="flex justify-end">
+        {% if cancelAction %}
+            <span class="ml-3  inline-flex rounded-md shadow-sm">
+                <a href="{{ cancelAction }}" type="button" class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
+                    Cancel
+                </a>
+            </span>
+        {% endif %}
+        <span class="ml-3 inline-flex rounded-md shadow-sm">
+            <button
+                type="submit"
+                class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-meteor hover:bg-pumpkin-skin focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pumpkin-skin"
+            >
+                {{ submitContent|smartypants }}
+            </button>
+        </span>
+    </div>
+{% endset %}
+
+<div class="bg-white shadow sm:rounded-md p-4">
+    <form
+        {% if formAction %}
+        action="{{ formAction }}"
+        {% endif %}
+        method="{{ method }}"
+        accept-charset="UTF-8"
+        enctype="multipart/form-data"
+    >
+        <div>
+            {{ buttons }}
+        </div>
+        <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
+            <div class="pt-4 space-y-6 sm:pt-10 sm:space-y-5">
+                <div class="space-y-6 sm:space-y-5">
+                    {% for input in inputs %}
+                        {% set inputTemplate = input.template ?? 'Input' %}
+                        {% set name = name ?? '' %}
+                        {% set id = id ?? name %}
+                        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5{% if not loop.first %} sm:border-t sm:border-gray-200{% endif %}">
+                            <label
+                                for="{{ id }}"
+                                class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                            >
+                                {{ input.label|smartypants }}
+                            </label>
+                            <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                <div class="max-w-lg">
+                                    {% include 'Http/_Infrastructure/Forms/Inputs/' ~ inputTemplate ~ '.twig' with input only %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="pt-10">
+            {{ buttons }}
+        </div>
+    </form>
+</div>
