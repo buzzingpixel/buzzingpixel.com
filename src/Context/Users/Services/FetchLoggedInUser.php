@@ -9,6 +9,8 @@ use App\Persistence\QueryBuilders\Users\UserQueryBuilder;
 use App\Persistence\QueryBuilders\Users\UserSessionQueryBuilder;
 use buzzingpixel\cookieapi\interfaces\CookieApiInterface;
 use DateTimeZone;
+use Ramsey\Uuid\Exception\InvalidUuidStringException;
+use Ramsey\Uuid\Uuid;
 use Safe\DateTimeImmutable;
 
 use function time;
@@ -31,9 +33,15 @@ class FetchLoggedInUser
             return null;
         }
 
+        try {
+            $id = Uuid::fromString($cookie->value());
+        } catch (InvalidUuidStringException) {
+            return null;
+        }
+
         $session = $this->fetchUserSession->fetch(
             (new UserSessionQueryBuilder())
-                ->withId($cookie->value())
+                ->withId($id->toString())
         );
 
         if ($session === null) {
