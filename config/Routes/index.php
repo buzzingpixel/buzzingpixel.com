@@ -14,6 +14,7 @@ use App\Http\Response\Admin\Software\AdminSoftwareAction;
 use App\Http\Response\Admin\Software\Create\AdminSoftwareCreateAction;
 use App\Http\Response\Admin\Software\Create\PostAdminSoftwareCreateAction;
 use App\Http\Response\Admin\Software\CreateVersion\AdminCreateSoftwareVersionAction;
+use App\Http\Response\Admin\Software\CreateVersion\PostAdminCreateSoftwareVersionAction;
 use App\Http\Response\Admin\Software\Edit\AdminSoftwareEditAction;
 use App\Http\Response\Admin\Software\Edit\PostAdminSoftwareEditAction;
 use App\Http\Response\Admin\Software\View\SoftwareViewAction;
@@ -118,6 +119,7 @@ return static function (App $app): void {
         $r->get(pattern: '/software/{slug}/edit', callable: AdminSoftwareEditAction::class);
         $r->post(pattern: '/software/{slug}/edit', callable: PostAdminSoftwareEditAction::class);
         $r->get(pattern: '/software/{softwareSlug}/add-version', callable: AdminCreateSoftwareVersionAction::class);
+        $r->post(pattern: '/software/{softwareSlug}/add-version', callable: PostAdminCreateSoftwareVersionAction::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 

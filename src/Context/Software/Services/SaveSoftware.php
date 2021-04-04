@@ -110,6 +110,7 @@ class SaveSoftware
                     'duplicate slug ' . $software->slug(),
             );
 
+            /** @psalm-suppress MixedAssignment */
             $duplicate = (new SoftwareQueryBuilder())
                 ->withSlug($software->slug())
                 ->createQuery($this->entityManager)
@@ -123,6 +124,7 @@ class SaveSoftware
 
             $record = new SoftwareRecord();
         } else {
+            /** @psalm-suppress MixedAssignment */
             $duplicate = (new SoftwareQueryBuilder())
                 ->withSlug($software->slug())
                 ->withId($software->id(), '!=')

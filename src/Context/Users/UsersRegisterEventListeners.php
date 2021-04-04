@@ -8,7 +8,7 @@ use Psr\EventDispatcher\ListenerProviderInterface;
 
 class UsersRegisterEventListeners
 {
-    public function register(ListenerProviderInterface $provider): void
+    public static function register(ListenerProviderInterface $provider): void
     {
     }
 }

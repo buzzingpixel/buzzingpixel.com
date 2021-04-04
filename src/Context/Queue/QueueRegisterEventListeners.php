@@ -8,7 +8,7 @@ use Psr\EventDispatcher\ListenerProviderInterface;
 
 class QueueRegisterEventListeners
 {
-    public function register(ListenerProviderInterface $provider): void
+    public static function register(ListenerProviderInterface $provider): void
     {
     }
 }

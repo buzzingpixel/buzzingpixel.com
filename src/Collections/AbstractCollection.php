@@ -7,6 +7,7 @@ namespace App\Collections;
 use Ramsey\Collection\AbstractCollection as RamseyAbstractCollection;
 use Ramsey\Collection\Exception\ValueExtractionException;
 
+use function array_walk;
 use function get_class;
 use function is_object;
 use function method_exists;
@@ -107,5 +108,15 @@ abstract class AbstractCollection extends RamseyAbstractCollection
         }
 
         $this->add($item);
+    }
+
+    public function walk(callable $callback): void
+    {
+        $items = $this->data;
+
+        array_walk(
+            $items,
+            $callback,
+        );
     }
 }

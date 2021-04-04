@@ -6,13 +6,13 @@
 {# @var string description #}
 {% set description = description ?? '' %}
 
-{# TODO: Figure this out #}
-{% set postBackValue = PostMessage['result']['inputValues'][name] ?? null %}
-{% set postBackMessages = PostMessage['result']['inputMessages'][name] ?? [] %}
-
 {% set dataMessage = value %}
-{% if postBackValue['file_name'] is defined and postBackValue['file_name'] and postBackValue['file_name'] != '' %}
-    {% set dataMessage = postBackValue['file_name'] %}
+{% set filePath = '' %}
+{% set fileName = '' %}
+{% if dataMessage is iterable %}
+    {% set filePath = dataMessage['file_path'] ?? '' %}
+    {% set fileName = dataMessage['file_name'] ?? '' %}
+    {% set dataMessage = fileName %}
 {% endif %}
 
 <div
@@ -26,8 +26,8 @@
             message: '{{ dataMessage }}',
             messageType: 'success',
             uploadInProgress: false,
-            filePath: '{{ postBackValue['file_path'] ?? '' }}',
-            fileName: '{{ postBackValue['file_name'] ?? '' }}',
+            filePath: '{{ filePath }}',
+            fileName: '{{ fileName }}',
         },
     }"
 >

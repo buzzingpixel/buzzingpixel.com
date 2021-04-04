@@ -7,6 +7,7 @@ namespace App\Context\Software\Entities;
 use App\EntityPropertyTraits\DownloadFile;
 use App\EntityPropertyTraits\Id;
 use App\EntityPropertyTraits\MajorVersion;
+use App\EntityPropertyTraits\NewFileLocation;
 use App\EntityPropertyTraits\ReleasedOn;
 use App\EntityPropertyTraits\UpgradePrice;
 use App\EntityPropertyTraits\Version;
@@ -32,6 +33,7 @@ class SoftwareVersion
     use MajorVersion;
     use Version;
     use DownloadFile;
+    use NewFileLocation;
     use UpgradePrice;
     use ReleasedOn;
 
@@ -64,6 +66,7 @@ class SoftwareVersion
         string $majorVersion,
         string $version,
         string $downloadFile = '',
+        string $newFileLocation = '',
         int | Money $upgradePrice = 0,
         null | string | DateTimeInterface $releasedOn = null,
         ?Software $software = null,
@@ -88,6 +91,8 @@ class SoftwareVersion
         $this->version = $version;
 
         $this->downloadFile = $downloadFile;
+
+        $this->newFileLocation = $newFileLocation;
 
         if ($upgradePrice instanceof Money) {
             $this->upgradePrice = $upgradePrice;

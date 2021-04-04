@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Config;
 
 use App\Context\Queue\QueueRegisterEventListeners;
+use App\Context\Software\SoftwareRegisterEventListeners;
 use App\Context\Users\UsersRegisterEventListeners;
-use Psr\EventDispatcher\ListenerProviderInterface;
+use Crell\Tukio\OrderedListenerProvider;
 
 class RegisterEventListeners
 {
-    public function __construct(private ListenerProviderInterface $provider)
+    public function __construct(private OrderedListenerProvider $provider)
     {
     }
 
@@ -18,15 +19,10 @@ class RegisterEventListeners
     {
         // Method names in subscriber classes must start with `on`. The event
         // will be derived from reflection to see what event it's subscribing to
-        // $this->provider->addSubscriber(Test::class, Test::class);
-        // public function onBeforeValidate(SaveUserBeforeValidate $beforeValidate) : void
-        // {
-        //     dd($beforeValidate);
-        // }
 
         $provider = $this->provider;
-
-        (new UsersRegisterEventListeners())->register($provider);
-        (new QueueRegisterEventListeners())->register($provider);
+        SoftwareRegisterEventListeners::register($provider);
+        UsersRegisterEventListeners::register($provider);
+        QueueRegisterEventListeners::register($provider);
     }
 }

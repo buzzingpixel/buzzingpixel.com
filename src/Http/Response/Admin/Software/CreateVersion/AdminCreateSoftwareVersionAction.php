@@ -108,7 +108,7 @@ class AdminCreateSoftwareVersionAction
                             'template' => 'FileUpload',
                             'label' => 'Download File',
                             'name' => 'download_file',
-                            'value' => (string) ($postData['download_file'] ?? ''),
+                            'value' => $postData['download_file'] ?? '',
                         ],
                         [
                             'template' => 'Price',
