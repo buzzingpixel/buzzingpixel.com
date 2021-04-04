@@ -25,6 +25,7 @@ use Throwable;
 
 use function array_map;
 use function assert;
+use function implode;
 
 class SaveSoftware
 {
@@ -69,7 +70,26 @@ class SaveSoftware
      */
     private function innerSave(Software $software): Payload
     {
+        $messages = [];
+
         $payloadStatus = Payload::STATUS_UPDATED;
+
+        if ($software->slug() === '') {
+            $payloadStatus = Payload::STATUS_NOT_VALID;
+            $messages[]    = 'Slug must not be blank.';
+        }
+
+        if ($software->name() === '') {
+            $payloadStatus = Payload::STATUS_NOT_VALID;
+            $messages[]    = 'Name must not be blank.';
+        }
+
+        if ($payloadStatus !== Payload::STATUS_UPDATED) {
+            return new Payload(
+                $payloadStatus,
+                ['message' => implode(' ', $messages)],
+            );
+        }
 
         $this->logger->info(
             'Checking for existing software by ID: ' . $software->id()
