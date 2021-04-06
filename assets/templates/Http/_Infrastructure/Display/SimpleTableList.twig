@@ -1,0 +1,47 @@
+{% set actionLinks = actionLinks ?? [] %}
+{% set items = items ?? [] %}
+
+{% if actionLinks|length > 0 %}
+    <div class="{% if items|length > 0 %}mb-2{% endif %}">
+        {% for link in actionLinks %}
+            <a
+                href="{{ link.href }}"
+                class="font-medium text-jade hover:text-deep-sea"
+            >
+                {{ link.content|smartypants }}
+            </a>
+            {% if not loop.last %}
+                &bull;
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}
+{% if items|length > 0 %}
+    <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+        {% for item in items %}
+            {% set links = item.links ?? [] %}
+            <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                <div class="w-0 flex-1 flex items-center">
+                    <span class="ml-2 flex-1 w-0 truncate">
+                        {{ item.content|smartypants }}
+                    </span>
+                </div>
+                {% if links|length > 0 %}
+                    <div class="ml-4 flex-shrink-0">
+                        {% for link in links %}
+                            <a
+                                href="{{ link.href }}"
+                                class="font-medium text-jade hover:text-deep-sea"
+                            >
+                                {{ link.content|smartypants }}
+                            </a>
+                            {% if not loop.last %}
+                                &bull;
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

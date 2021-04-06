@@ -7,6 +7,7 @@ namespace App\Collections;
 use Ramsey\Collection\AbstractCollection as RamseyAbstractCollection;
 use Ramsey\Collection\Exception\ValueExtractionException;
 
+use function array_map;
 use function array_walk;
 use function get_class;
 use function is_object;
@@ -117,6 +118,17 @@ abstract class AbstractCollection extends RamseyAbstractCollection
         array_walk(
             $items,
             $callback,
+        );
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function mapToArray(callable $callable): array
+    {
+        return array_map(
+            $callable,
+            $this->toArray(),
         );
     }
 }

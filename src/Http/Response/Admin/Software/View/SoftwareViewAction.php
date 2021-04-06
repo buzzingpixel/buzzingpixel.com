@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Response\Admin\Software\View;
 
+use App\Context\Software\Entities\SoftwareVersion;
 use App\Context\Software\SoftwareApi;
 use App\Http\Entities\Meta;
 use App\Persistence\QueryBuilders\Software\SoftwareQueryBuilder;
@@ -54,7 +55,7 @@ class SoftwareViewAction
         $adminMenu['software']['isActive'] = true;
 
         $response->getBody()->write($this->twig->render(
-            '@app/Http/Response/Admin/Software/View/SoftwareView.twig',
+            '@app/Http/Response/Admin/AdminKeyValuePage.twig',
             [
                 'meta' => new Meta(
                     metaTitle: $software->name() . ' | Software | Admin',
@@ -75,7 +76,75 @@ class SoftwareViewAction
                     ],
                     ['content' => 'View'],
                 ],
-                'software' => $software,
+                'keyValueCard' => [
+                    'actionButtons' => [
+                        [
+                            'colorType' => 'danger',
+                            'href' => '/admin/software/' . $software->slug() . '/delete',
+                            'content' => 'Delete',
+                        ],
+                        [
+                            'href' => '/admin/software/' . $software->slug() . '/edit',
+                            'content' => 'Edit',
+                        ],
+                    ],
+                    'headline' => $software->name(),
+                    'subHeadline' => $software->slug(),
+                    'items' => [
+                        [
+                            'key' => 'Slug',
+                            'value' => $software->slug(),
+                        ],
+                        [
+                            'key' => 'Name',
+                            'value' => $software->name(),
+                        ],
+                        [
+                            'key' => 'Is For Sale?',
+                            'value' => $software->isForSale() ? 'Yes' : 'No',
+                        ],
+                        [
+                            'key' => 'Price',
+                            'value' => $software->priceFormatted(),
+                        ],
+                        [
+                            'key' => 'Renewal Price',
+                            'value' => $software->renewalPriceFormatted(),
+                        ],
+                        [
+                            'key' => 'Is Subscription?',
+                            'value' => $software->isSubscription() ? 'Yes' : 'No',
+                        ],
+                        [
+                            'template' => 'Http/_Infrastructure/Display/SimpleTableList.twig',
+                            'key' => 'Versions',
+                            'value' => [
+                                'actionLinks' => [
+                                    [
+                                        'href' => '/admin/software/' . $software->slug() . '/add-version',
+                                        'content' => 'Add Version',
+                                    ],
+                                ],
+                                'items' => $software->versions()->mapToArray(
+                                    static function (SoftwareVersion $version) use (
+                                        $software,
+                                    ): array {
+                                        return [
+                                            'content' => $version->version(),
+                                            'links' => [
+                                                [
+                                                    'href' => '/admin/software/' . $software->slug() . '/version/' . $version->version(),
+                                                    'content' => 'View',
+                                                ],
+                                            ],
+                                        ];
+                                    }
+                                ),
+                            ],
+                        ],
+                    ],
+                ],
+                // 'software' => $software,
             ],
         ));
 
