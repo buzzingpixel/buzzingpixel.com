@@ -18,6 +18,7 @@ use App\Http\Response\Admin\Software\CreateVersion\PostAdminCreateSoftwareVersio
 use App\Http\Response\Admin\Software\Edit\AdminSoftwareEditAction;
 use App\Http\Response\Admin\Software\Edit\PostAdminSoftwareEditAction;
 use App\Http\Response\Admin\Software\EditVersion\AdminEditVersionAction;
+use App\Http\Response\Admin\Software\EditVersion\PostAdminEditVersionAction;
 use App\Http\Response\Admin\Software\View\SoftwareViewAction;
 use App\Http\Response\Admin\Software\ViewVersion\SoftwareViewVersionAction;
 use App\Http\Response\Ajax\FileUpload\FileUploadAction;
@@ -124,6 +125,7 @@ return static function (App $app): void {
         $r->post(pattern: '/software/{softwareSlug}/add-version', callable: PostAdminCreateSoftwareVersionAction::class);
         $r->get(pattern: '/software/{softwareSlug}/version/{versionSlug}', callable: SoftwareViewVersionAction::class);
         $r->get(pattern: '/software/{softwareSlug}/version/{versionSlug}/edit', callable: AdminEditVersionAction::class);
+        $r->post(pattern: '/software/{softwareSlug}/version/{versionSlug}/edit', callable: PostAdminEditVersionAction::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 

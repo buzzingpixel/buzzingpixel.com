@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Admin\Software\CreateVersion;
+namespace App\Http\Response\Admin\Software\EditVersion;
 
 use App\Context\Software\Entities\SoftwareVersion;
 use App\Context\Software\SoftwareApi;
@@ -18,12 +18,12 @@ use Slim\Exception\HttpNotFoundException;
 use function assert;
 use function is_array;
 
-class PostAdminCreateSoftwareVersionAction
+class PostAdminEditVersionAction
 {
     public function __construct(
         private SoftwareApi $softwareApi,
         private LoggedInUser $loggedInUser,
-        private PostAdminCreateSoftwareVersionResponder $responder,
+        private PostAdminEditVersionResponder $responder,
     ) {
     }
 
@@ -43,11 +43,22 @@ class PostAdminCreateSoftwareVersionAction
             throw new HttpNotFoundException($request);
         }
 
+        $versionSlug = (string) $request->getAttribute('versionSlug');
+
+        /** @psalm-suppress MixedArgumentTypeCoercion */
+        $version = $software->versions()->filter(
+            static fn (SoftwareVersion $v) => $v->version() === $versionSlug
+        )->firstOrNull();
+
+        if ($version === null) {
+            throw new HttpNotFoundException($request);
+        }
+
         $postData = $request->getParsedBody();
 
         assert(is_array($postData));
 
-        $redirect = $software->adminAddVersionLink();
+        $redirect = $version->adminEditLink();
 
         $releasedOn = DateTimeImmutable::createFromFormat(
             DateTimeUtility::FLATPICKR_DATETIME_LOCAL_FORMAT,
@@ -72,18 +83,26 @@ class PostAdminCreateSoftwareVersionAction
          */
         assert($releasedOn instanceof DateTimeImmutable);
 
-        $payload = $this->softwareApi->saveSoftware(
-            $software->withAddedVersion(new SoftwareVersion(
-                majorVersion: (string) ($postData['major_version'] ?? ''),
-                version: (string) ($postData['version'] ?? ''),
-                newFileLocation: (string) ($postData['download_file']['file_path'] ?? ''),
-                upgradePrice: (int) ((float) ($postData['upgrade_price'] ?? '0') * 100),
-                releasedOn: $releasedOn,
-            ))
+        $software->versions()->replaceWhereMatch(
+            'id',
+            $version
+                ->withMajorVersion(
+                    (string) ($postData['major_version'] ?? ''),
+                )
+                ->withVersion((string) ($postData['version'] ?? ''))
+                ->withNewFileLocation(
+                    (string) ($postData['download_file']['file_path'] ?? ''),
+                )
+                ->withUpgradePrice(
+                    (int) ((float) ($postData['upgrade_price'] ?? '0') * 100),
+                )
+                ->withReleasedOn($releasedOn),
         );
 
+        $payload = $this->softwareApi->saveSoftware($software);
+
         if ($payload->getStatus() === Payload::STATUS_UPDATED) {
-            $redirect = $software->adminBaseLink();
+            $redirect = $version->adminBaseLink();
         }
 
         return $this->responder->respond(
