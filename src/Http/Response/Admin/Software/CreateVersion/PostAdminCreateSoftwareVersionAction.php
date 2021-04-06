@@ -45,7 +45,7 @@ class PostAdminCreateSoftwareVersionAction
 
         assert(is_array($postData));
 
-        $redirect = '/admin/software/' . $softwareSlug . '/add-version';
+        $redirect = $software->adminAddVersionLink();
 
         $releasedOn = DateTimeImmutable::createFromFormat(
             DateTimeUtility::FLATPICKR_DATETIME_LOCAL_FORMAT,
@@ -80,7 +80,7 @@ class PostAdminCreateSoftwareVersionAction
         );
 
         if ($payload->getStatus() === Payload::STATUS_UPDATED) {
-            $redirect = '/admin/software/' . $softwareSlug;
+            $redirect = $software->adminBaseLink();
         }
 
         return $this->responder->respond(

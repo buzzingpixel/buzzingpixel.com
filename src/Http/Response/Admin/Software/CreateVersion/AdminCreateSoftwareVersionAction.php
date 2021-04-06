@@ -85,14 +85,14 @@ class AdminCreateSoftwareVersionAction
                     ],
                     [
                         'content' => $software->name(),
-                        'uri' => '/admin/software/' . $software->slug(),
+                        'uri' => $software->adminBaseLink(),
                     ],
                     ['content' => 'Add Version'],
                 ],
                 'formConfig' => [
                     'submitContent' => 'Add',
-                    'cancelAction' => '/admin/software/' . $software->slug(),
-                    'formAction' => '/admin/software/' . $software->slug() . '/add-version',
+                    'cancelAction' => $software->adminBaseLink(),
+                    'formAction' => $software->adminAddVersionLink(),
                     'inputs' => [
                         [
                             'label' => 'Major Version',

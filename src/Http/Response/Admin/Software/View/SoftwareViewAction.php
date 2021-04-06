@@ -80,11 +80,11 @@ class SoftwareViewAction
                     'actionButtons' => [
                         [
                             'colorType' => 'danger',
-                            'href' => '/admin/software/' . $software->slug() . '/delete',
+                            'href' => $software->adminDeleteLink(),
                             'content' => 'Delete',
                         ],
                         [
-                            'href' => '/admin/software/' . $software->slug() . '/edit',
+                            'href' => $software->adminEditLink(),
                             'content' => 'Edit',
                         ],
                     ],
@@ -121,19 +121,17 @@ class SoftwareViewAction
                             'value' => [
                                 'actionLinks' => [
                                     [
-                                        'href' => '/admin/software/' . $software->slug() . '/add-version',
+                                        'href' => $software->adminAddVersionLink(),
                                         'content' => 'Add Version',
                                     ],
                                 ],
                                 'items' => $software->versions()->mapToArray(
-                                    static function (SoftwareVersion $version) use (
-                                        $software,
-                                    ): array {
+                                    static function (SoftwareVersion $version): array {
                                         return [
                                             'content' => $version->version(),
                                             'links' => [
                                                 [
-                                                    'href' => '/admin/software/' . $software->slug() . '/version/' . $version->version(),
+                                                    'href' => $version->adminBaseLink(),
                                                     'content' => 'View',
                                                 ],
                                             ],

@@ -28,7 +28,7 @@
                             {% for software in softwareCollection.toArray %}
                                 <li>
                                     <a
-                                        href="/admin/software/{{ software.slug }}"
+                                        href="{{ software.adminBaseLink }}"
                                         class="block hover:bg-gray-50"
                                     >
                                         <div class="flex items-center px-4 py-4 sm:px-6">

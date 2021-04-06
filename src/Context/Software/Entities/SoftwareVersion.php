@@ -23,6 +23,7 @@ use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 
 use function assert;
+use function implode;
 use function is_string;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue.NullabilitySymbolRequired
@@ -144,5 +145,54 @@ class SoftwareVersion
         $clone->software = $software;
 
         return $clone;
+    }
+
+    public function name(): string
+    {
+        $software = $this->software();
+
+        assert($software instanceof Software);
+
+        return $software->name() . ' ' . $this->version();
+    }
+
+    public function adminBaseLink(): string
+    {
+        $software = $this->software();
+
+        assert($software instanceof Software);
+
+        return '/' . implode(
+            '/',
+            [
+                'admin',
+                'software',
+                $software->slug(),
+                'version',
+                $this->version(),
+            ],
+        );
+    }
+
+    public function adminDeleteLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->adminBaseLink(),
+                'delete',
+            ]
+        );
+    }
+
+    public function adminEditLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->adminBaseLink(),
+                'edit',
+            ]
+        );
     }
 }

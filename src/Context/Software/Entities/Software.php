@@ -21,6 +21,7 @@ use Ramsey\Uuid\UuidInterface;
 
 use function array_map;
 use function array_merge;
+use function implode;
 use function is_array;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue.NullabilitySymbolRequired
@@ -191,5 +192,50 @@ class Software
         $clone->versions = $versions;
 
         return $clone;
+    }
+
+    public function adminBaseLink(): string
+    {
+        return '/' . implode(
+            '/',
+            [
+                'admin',
+                'software',
+                $this->slug(),
+            ],
+        );
+    }
+
+    public function adminDeleteLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->adminBaseLink(),
+                'delete',
+            ]
+        );
+    }
+
+    public function adminEditLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->adminBaseLink(),
+                'edit',
+            ]
+        );
+    }
+
+    public function adminAddVersionLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->adminBaseLink(),
+                'add-version',
+            ]
+        );
     }
 }

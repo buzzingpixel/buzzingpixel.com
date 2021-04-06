@@ -69,7 +69,7 @@ class AdminSoftwareEditAction
                 'headline' => 'Edit ' . $software->name(),
                 'breadcrumbSingle' => [
                     'content' => $software->name(),
-                    'uri' => '/admin/software/' . $software->slug(),
+                    'uri' => $software->adminBaseLink(),
                 ],
                 'breadcrumbTrail' => [
                     [
@@ -82,14 +82,14 @@ class AdminSoftwareEditAction
                     ],
                     [
                         'content' => $software->name(),
-                        'uri' => '/admin/software/' . $software->slug(),
+                        'uri' => $software->adminBaseLink(),
                     ],
                     ['content' => 'Edit'],
                 ],
                 'formConfig' => [
                     'submitContent' => 'Submit Edits',
-                    'cancelAction' => '/admin/software/' . $software->slug(),
-                    'formAction' => '/admin/software/' . $software->slug() . '/edit',
+                    'cancelAction' => $software->adminBaseLink(),
+                    'formAction' => $software->adminEditLink(),
                     'inputs' => SoftwareConfig::getCreateEditFormConfigInputs(
                         $postData,
                         $software,
