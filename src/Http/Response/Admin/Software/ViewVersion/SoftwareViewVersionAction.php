@@ -16,6 +16,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpNotFoundException;
 use Twig\Environment as TwigEnvironment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class SoftwareViewVersionAction
 {
@@ -28,6 +31,12 @@ class SoftwareViewVersionAction
     ) {
     }
 
+    /**
+     * @throws HttpNotFoundException
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
         $softwareSlug = (string) $request->getAttribute('softwareSlug');
@@ -43,6 +52,7 @@ class SoftwareViewVersionAction
 
         $versionSlug = (string) $request->getAttribute('versionSlug');
 
+        /** @psalm-suppress MixedArgumentTypeCoercion */
         $version = $software->versions()->filter(
             static fn (SoftwareVersion $v) => $v->version() === $versionSlug
         )->firstOrNull();
@@ -66,7 +76,7 @@ class SoftwareViewVersionAction
             '@app/Http/Response/Admin/AdminKeyValuePage.twig',
             [
                 'meta' => new Meta(
-                    metaTitle: $version->version() . ' | ' . $software->name() . ' | Software | Admin',
+                    metaTitle: $version->name() . ' | Software | Admin',
                 ),
                 'accountMenu' => $adminMenu,
                 'breadcrumbSingle' => [

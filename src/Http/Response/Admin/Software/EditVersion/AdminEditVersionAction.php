@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Admin\Software\CreateVersion;
+namespace App\Http\Response\Admin\Software\EditVersion;
 
+use App\Context\Software\Entities\SoftwareVersion;
 use App\Context\Software\SoftwareApi;
 use App\Context\Users\Entities\LoggedInUser;
 use App\Http\Entities\Meta;
@@ -20,7 +21,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class AdminCreateSoftwareVersionAction
+class AdminEditVersionAction
 {
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
@@ -51,6 +52,17 @@ class AdminCreateSoftwareVersionAction
             throw new HttpNotFoundException($request);
         }
 
+        $versionSlug = (string) $request->getAttribute('versionSlug');
+
+        /** @psalm-suppress MixedArgumentTypeCoercion */
+        $version = $software->versions()->filter(
+            static fn (SoftwareVersion $v) => $v->version() === $versionSlug
+        )->firstOrNull();
+
+        if ($version === null) {
+            throw new HttpNotFoundException($request);
+        }
+
         /** @var mixed[] $postData */
         $postData = $this->flash->getMessage('FormMessage')[0]['post_data'] ?? [];
 
@@ -65,13 +77,13 @@ class AdminCreateSoftwareVersionAction
             '@app/Http/Response/Admin/AdminForm.twig',
             [
                 'meta' => new Meta(
-                    metaTitle: 'Add Software Version | ' . $software->name() . ' | Admin',
+                    metaTitle: 'Edit ' . $version->name() . ' | Software | Admin',
                 ),
+                'headline' => 'Edit ' . $version->name(),
                 'accountMenu' => $adminMenu,
-                'headline' => 'Add Software Version to ' . $software->name(),
                 'breadcrumbSingle' => [
-                    'content' => $software->name(),
-                    'uri' => '/admin/software/' . $software->slug(),
+                    'content' => $version->name(),
+                    'uri' => $version->adminBaseLink(),
                 ],
                 'breadcrumbTrail' => [
                     [
@@ -86,15 +98,20 @@ class AdminCreateSoftwareVersionAction
                         'content' => $software->name(),
                         'uri' => $software->adminBaseLink(),
                     ],
-                    ['content' => 'Add Version'],
+                    [
+                        'content' => $version->name(),
+                        'uri' => $version->adminBaseLink(),
+                    ],
+                    ['content' => 'Edit Version'],
                 ],
                 'formConfig' => [
-                    'submitContent' => 'Add',
-                    'cancelAction' => $software->adminBaseLink(),
-                    'formAction' => $software->adminAddVersionLink(),
+                    'submitContent' => 'Submit Edits',
+                    'cancelAction' => $version->adminBaseLink(),
+                    'formAction' => $version->adminEditLink(),
                     'inputs' => SoftwareConfig::getCreateEditVersionFormConfigInputs(
                         $this->loggedInUser->user(),
                         $postData,
+                        $version,
                     ),
                 ],
             ],

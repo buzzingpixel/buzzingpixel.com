@@ -64,8 +64,8 @@ class SoftwareVersion
     }
 
     public function __construct(
-        string $majorVersion,
-        string $version,
+        string $majorVersion = '',
+        string $version = '',
         string $downloadFile = '',
         string $newFileLocation = '',
         int | Money $upgradePrice = 0,
