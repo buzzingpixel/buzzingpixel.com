@@ -22,6 +22,7 @@ use DateTimeZone;
 use LogicException;
 
 use function assert;
+use function implode;
 use function is_string;
 use function password_hash;
 
@@ -186,5 +187,39 @@ class User
         $clone->billingProfile = $billingProfile;
 
         return $clone;
+    }
+
+    public function adminBaseLink(): string
+    {
+        return '/' . implode(
+            '/',
+            [
+                'admin',
+                'users',
+                $this->emailAddress(),
+            ],
+        );
+    }
+
+    public function adminDeleteLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->adminBaseLink(),
+                'delete',
+            ]
+        );
+    }
+
+    public function adminEditLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->adminBaseLink(),
+                'edit',
+            ]
+        );
     }
 }

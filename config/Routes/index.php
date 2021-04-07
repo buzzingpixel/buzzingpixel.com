@@ -23,6 +23,7 @@ use App\Http\Response\Admin\Software\EditVersion\AdminEditVersionAction;
 use App\Http\Response\Admin\Software\EditVersion\PostAdminEditVersionAction;
 use App\Http\Response\Admin\Software\View\SoftwareViewAction;
 use App\Http\Response\Admin\Software\ViewVersion\SoftwareViewVersionAction;
+use App\Http\Response\Admin\Users\UsersAction;
 use App\Http\Response\Ajax\FileUpload\FileUploadAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
 use App\Http\Response\Home\HomeAction;
@@ -117,6 +118,8 @@ return static function (App $app): void {
         $this->get(NoOp::class);
 
         $r->get(pattern: '', callable: AdminIndexAction::class);
+
+        /** Software */
         $r->get(pattern: '/software', callable: AdminSoftwareAction::class);
         $r->get(pattern: '/software/create', callable: AdminSoftwareCreateAction::class);
         $r->post(pattern: '/software/create', callable: PostAdminSoftwareCreateAction::class);
@@ -130,6 +133,9 @@ return static function (App $app): void {
         $r->get(pattern: '/software/{softwareSlug}/version/{versionSlug}/edit', callable: AdminEditVersionAction::class);
         $r->post(pattern: '/software/{softwareSlug}/version/{versionSlug}/edit', callable: PostAdminEditVersionAction::class);
         $r->any(pattern: '/software/{softwareSlug}/version/{versionSlug}/delete', callable: DeleteVersionAction::class);
+
+        /** Users */
+        $r->get(pattern: '/users', callable: UsersAction::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 

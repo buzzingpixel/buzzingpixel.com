@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Admin\Software;
+namespace App\Http\Response\Admin\Users;
 
-use App\Context\Software\Entities\Software;
-use App\Context\Software\SoftwareApi;
+use App\Context\Users\Entities\User;
+use App\Context\Users\UserApi;
 use App\Http\Entities\Meta;
-use App\Persistence\QueryBuilders\Software\SoftwareQueryBuilder;
+use App\Persistence\QueryBuilders\Users\UserQueryBuilder;
 use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -16,13 +16,13 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class AdminSoftwareAction
+class UsersAction
 {
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
         private TwigEnvironment $twig,
         private General $config,
-        private SoftwareApi $softwareApi,
+        private UserApi $userApi,
     ) {
     }
 
@@ -38,35 +38,35 @@ class AdminSoftwareAction
         $adminMenu = $this->config->adminMenu();
 
         /** @psalm-suppress MixedArrayAssignment */
-        $adminMenu['software']['isActive'] = true;
+        $adminMenu['users']['isActive'] = true;
 
         $response->getBody()->write($this->twig->render(
             '@app/Http/Response/Admin/AdminStackedListTwoColumn.twig',
             [
                 'meta' => new Meta(
-                    metaTitle: 'Software | Admin',
+                    metaTitle: 'Users | Admin',
                 ),
                 'accountMenu' => $adminMenu,
                 'stackedListTwoColumnConfig' => [
                     'actionButtons' => [
                         [
-                            'href' => '/admin/software/create',
-                            'content' => 'New Software',
+                            'href' => '/admin/users/create',
+                            'content' => 'New User',
                         ],
                     ],
-                    'headline' => 'Software',
-                    'noResultsContent' => 'There is no software yet.',
-                    'items' => $this->softwareApi->fetchSoftware(
-                        (new SoftwareQueryBuilder())
-                            ->withOrderBy('name')
+                    'headline' => 'Users',
+                    'noResultsContent' => 'There are no users yet.',
+                    'items' => $this->userApi->fetchUsers(
+                        (new UserQueryBuilder())
+                            ->withOrderBy('createdAt', 'desc')
                     )->mapToArray(
-                        static function (Software $software): array {
+                        static function (User $user): array {
                             return [
-                                'href' => $software->adminBaseLink(),
-                                'column1Headline' => $software->name(),
-                                'column1SubHeadline' => $software->slug(),
-                                'column2Headline' => 'Price: ' . $software->priceFormatted(),
-                                'column2SubHeadline' => 'Renewal Price: ' . $software->renewalPriceFormatted(),
+                                'href' => $user->adminBaseLink(),
+                                'column1Headline' => $user->emailAddress(),
+                                'column1SubHeadline' => 'Display Name: ' . $user->supportProfile()->displayName(),
+                                'column2Headline' => 'Billing Name:',
+                                'column2SubHeadline' => $user->billingProfile()->billingName(),
                             ];
                         }
                     ),

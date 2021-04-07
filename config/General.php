@@ -116,5 +116,20 @@ class General extends SimpleModel
             'content' => 'Software',
             'isActive' => false,
         ],
+        'users' => [
+            'href' => '/admin/users',
+            'content' => 'Users',
+            'isActive' => false,
+        ],
+        'queue' => [
+            'href' => '/admin/queue',
+            'content' => 'Queue',
+            'isActive' => false,
+        ],
+        'analytics' => [
+            'href' => '/admin/analytics',
+            'content' => 'Analytics',
+            'isActive' => false,
+        ],
     ];
 }
