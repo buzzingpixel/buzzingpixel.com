@@ -8,20 +8,7 @@
         {% if actionButtons|length > 0 %}
             <div class="float-right">
                 {% for button in actionButtons %}
-                    {% set colorType = button.colorType ?? null %}
-                    {% switch colorType %}
-                        {% case 'danger' %}
-                            {% set colorClasses = 'text-white bg-light-red hover:bg-red focus:ring-light-red' %}
-                        {% default %}
-                            {% set colorClasses = 'text-white bg-meteor hover:bg-pumpkin-skin focus:ring-whiskey' %}
-                    {% endswitch %}
-                    <a
-                        href="{{ button.href }}"
-                        type="button"
-                        class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 {{ colorClasses }}"
-                    >
-                        {{ button.content|smartypants }}
-                    </a>
+                    {% include 'Http/_Infrastructure/Buttons/ActionButton.twig' with button only %}
                 {% endfor %}
             </div>
         {% endif %}

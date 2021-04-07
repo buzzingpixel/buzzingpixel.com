@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Response\Admin\Software;
 
+use App\Context\Software\Entities\Software;
 use App\Context\Software\SoftwareApi;
 use App\Http\Entities\Meta;
 use App\Persistence\QueryBuilders\Software\SoftwareQueryBuilder;
@@ -46,11 +47,29 @@ class AdminSoftwareAction
                     metaTitle: 'Software | Admin',
                 ),
                 'accountMenu' => $adminMenu,
-                'headline' => 'Software',
-                'softwareCollection' => $this->softwareApi->fetchSoftware(
-                    (new SoftwareQueryBuilder())
-                        ->withOrderBy('name')
-                ),
+                'stackedListTwoColumnConfig' => [
+                    'actionButtons' => [
+                        [
+                            'href' => '/admin/software/create',
+                            'content' => 'New',
+                        ],
+                    ],
+                    'headline' => 'Software',
+                    'items' => $this->softwareApi->fetchSoftware(
+                        (new SoftwareQueryBuilder())
+                            ->withOrderBy('name')
+                    )->mapToArray(
+                        static function (Software $software): array {
+                            return [
+                                'href' => $software->adminBaseLink(),
+                                'column1Headline' => $software->name(),
+                                'column1SubHeadline' => $software->slug(),
+                                'column2Headline' => 'Price: ' . $software->priceFormatted(),
+                                'column2SubHeadline' => 'Renewal Price: ' . $software->renewalPriceFormatted(),
+                            ];
+                        }
+                    ),
+                ],
             ],
         ));
 

@@ -1,0 +1,93 @@
+{% set actionButtons = actionButtons ?? [] %}
+{% set headline = headline ?? block('headline') ?? '' %}
+{% set items = items ?? [] %}
+{% set noResultsContent = noResultsContent ?? block('noResultsContent') ?? 'There are no items yet.' %}
+
+<div class="flex-1 relative focus:outline-none" tabindex="0">
+    <div class="py-6">
+        <div class="px-4 sm:px-6 md:px-0 mb-6">
+            <div class="float-right">
+                {% for button in actionButtons %}
+                    {% include 'Http/_Infrastructure/Buttons/ActionButton.twig' with button only %}
+                {% endfor %}
+            </div>
+            <h1 class="text-2xl font-semibold text-gray-900">
+                {{ headline|smartypants }}
+            </h1>
+        </div>
+        <div class="px-4 sm:px-6 md:px-0">
+            {# Content #}
+            <div class="bg-white shadow sm:rounded-md">
+                {% if items|length > 0 %}
+                    <ul class="divide-y divide-gray-200">
+                        {% for item in items %}
+                            <li>
+                                {% if item.href is defined %}
+                                <a
+                                    href="{{ item.href }}"
+                                    class="block hover:bg-gray-50"
+                                >
+                                {% else %}
+                                <span class="block">
+                                {% endif %}
+                                    <div class="flex items-center px-4 py-4 sm:px-6">
+                                        <div class="min-w-0 flex-1 flex items-center">
+                                            <div class="min-w-0 flex-1 pr-4 md:grid md:grid-cols-2 md:gap-4">
+                                                <div>
+                                                    {% if item.column1Headline is defined %}
+                                                        <p class="text-sm font-medium text-deep-sea truncate">
+                                                            {{ item.column1Headline|smartypants }}
+                                                        </p>
+                                                    {% endif %}
+                                                    {% if item.column1SubHeadline is defined %}
+                                                        <p class="mt-2 flex items-center text-sm text-gray-500">
+                                                            <span class="truncate">
+                                                                {{ item.column1SubHeadline|smartypants }}
+                                                            </span>
+                                                        </p>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="hidden md:block">
+                                                    <div>
+                                                        {% if item.column2Headline is defined %}
+                                                            <p class="text-sm text-gray-900">
+                                                                {{ item.column2Headline|smartypants }}
+                                                            </p>
+                                                        {% endif %}
+                                                        {% if item.column2SubHeadline is defined %}
+                                                            <p class="mt-2 flex items-center text-sm text-gray-500">
+                                                                {{ item.column2SubHeadline|smartypants }}
+                                                            </p>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            {% if item.href is defined %}
+                                                {% include 'Http/_Infrastructure/Svg/SolidChevronRight.twig' with {
+                                                    classes: 'h-5 w-5 text-gray-400',
+                                                } only %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% if item.href is not defined %}
+                                </span>
+                                {% else %}
+                                </a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="block hover:bg-gray-50">
+                        <div class="px-4 py-4 sm:px-6 text-center">
+                            {{ noResultsContent|smartypants }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            {# /EndContent #}
+        </div>
+    </div>
+</div>
