@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv sh
+set -e
+
+INSTALL_PHP_DEV_DEPS="${INSTALL_PHP_DEV_DEPS:-0}"
+
+if [ "$INSTALL_PHP_DEV_DEPS" = "1" ]
+then
+    composer install --no-ansi
+fi

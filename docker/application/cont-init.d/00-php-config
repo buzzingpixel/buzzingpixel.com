@@ -1,0 +1,12 @@
+#!/usr/bin/with-contenv sh
+set -e
+
+ENABLE_PHP_DEV_CONFIG="${ENABLE_PHP_DEV_CONFIG:-0}"
+
+if [ "$ENABLE_PHP_DEV_CONFIG" = "1" ]
+then
+    echo "Using dev-optimized PHP configuration"
+    mv /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
+else
+    echo "Using standard PHP configuration for production"
+fi

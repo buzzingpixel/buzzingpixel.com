@@ -26,6 +26,7 @@ use App\Http\Response\Admin\Software\ViewVersion\SoftwareViewVersionAction;
 use App\Http\Response\Admin\Users\UsersAction;
 use App\Http\Response\Ajax\FileUpload\FileUploadAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
+use App\Http\Response\HealthCheck\HealthCheckAction;
 use App\Http\Response\Home\HomeAction;
 use App\Http\Response\IForgot\IForgotAction;
 use App\Http\Response\IForgot\PostIForgotAction;
@@ -85,6 +86,8 @@ use Slim\Routing\RouteCollectorProxy;
 
 return static function (App $app): void {
     $app->get(pattern: '/', callable: HomeAction::class);
+
+    $app->get(pattern: '/healthcheck/8HYhJLtmQA', callable: HealthCheckAction::class);
 
     /**
      * Tinker

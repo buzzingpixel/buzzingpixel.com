@@ -1,0 +1,16 @@
+#!/usr/bin/with-contenv bash
+set -e
+
+ENABLE_XDEBUG="${ENABLE_XDEBUG:-0}"
+
+#
+# Enable Xdebug right before running the PHP process to avoid unnecessary
+# slowness during startup
+#
+
+if [ "$ENABLE_XDEBUG" = "1" ]
+then
+    mv ${PHP_INI_DIR}/disabled/xdebug.ini ${PHP_INI_DIR}/conf.d/
+fi
+
+exec php-fpm -F

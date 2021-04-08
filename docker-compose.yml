@@ -1,47 +1,33 @@
 version: '3.7'
 
 services:
-  web:
-    env_file: .env
-    container_name: buzzingpixel-web
+  app:
+    env_file:
+      - .env
+      - .env.local
+    container_name: buzzingpixel-app
+    image: registry.digitalocean.com/buzzingpixel/buzzingpixel.com-app
+    environment:
+      HOSTNAME: buzzingpixel-app
     ports:
-      - 14690:14690
-      - 14691:14691
-    environment:
-      HOSTNAME: buzzingpixel-web
-
-  php:
-    env_file: .env
-    container_name: buzzingpixel-php
-    environment:
-      HOSTNAME: buzzingpixel-php
-      COMPOSER_HOME: /composer-home-volume
-    volumes:
-      - composer-home-volume:/composer-home-volume
-    networks:
-      default:
-        aliases:
-          - buzzingpixel-php
+      - 14689:80
 
   db:
-    env_file: .env
+    env_file:
+      - .env
+      - .env.local
     container_name: buzzingpixel-db
+    image: postgres:13.2
     environment:
       HOSTNAME: buzzingpixel-db
     volumes:
       - db-volume:/var/lib/postgresql/data
     ports:
-      - 14692:5432
+      - 14693:5432
     networks:
       default:
         aliases:
           - buzzingpixel-db
 
 volumes:
-  composer-home-volume:
   db-volume:
-
-networks:
-  default:
-    external:
-      name: proxy

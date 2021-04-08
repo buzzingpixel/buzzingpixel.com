@@ -1,38 +1,62 @@
 version: '3.7'
 
 services:
-  web:
-    build:
-      target: dev
-      context: ./
-      dockerfile: ./docker/web/Dockerfile
+  traefik:
+    container_name: buzzingpixel-traefik
+    image: traefik:2.4.8
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.https-redirect.redirectscheme.permanent=true
+    ports:
+      - target: 80
+        published: 14690
+        mode: host
+      - target: 443
+        published: 14691
+        mode: host
+      - target: 8080
+        published: 14692
+        mode: host
+    command:
+      - --api.insecure=true
+      - --providers.docker
+      - --providers.docker.exposedbydefault=false
+      - --providers.file.filename=traefik_dynamic_conf.yml
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --accesslog
+      - --log
     volumes:
-      - .:/opt/project:delegated
-      - ./docker/web/nginx.conf:/etc/nginx/conf.d/nginx.conf:delegated
-      - ./docker/web/certs/buzzingpixel.localtest.me.cert:/etc/letsencrypt/live/www.buzzingpixel.com/fullchain.pem:delegated
-      - ./docker/web/certs/buzzingpixel.localtest.me.key:/etc/letsencrypt/live/www.buzzingpixel.com/privkey.pem:delegated
-    networks:
-      default:
-        aliases:
-          - buzzingpixel.localtest.me
-          - buzzingpixel.ngrok.io
+      - ./docker/application/certs:/certs
+      - ./docker-traefik-dev-conf.yml:/traefik_dynamic_conf.yml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 
-  php:
-    build:
-      target: dev
-      context: ./
-      dockerfile: ./docker/php/Dockerfile
+  app:
     volumes:
       - .:/opt/project:delegated
-      - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    labels:
+      - traefik.enable=true
+      # Non-SSL Local
+      - traefik.http.routers.app-local.entrypoints=web
+      - traefik.http.routers.app-local.rule=Host(`buzzingpixel.localtest.me`)
+      - traefik.http.routers.app-local.middlewares=https-redirect
+
+      # Non-SSL Ngrok
+      - traefik.http.routers.app-ngrok.entrypoints=web
+      - traefik.http.routers.app-ngrok.rule=Host(`buzzingpixel.ngrok.io`)
+      - traefik.http.routers.app-ngrok.middlewares=https-redirect
+
+      # SSL Local
+      - traefik.http.routers.app-secure-local.entrypoints=websecure
+      - traefik.http.routers.app-secure-local.tls=true
+      - traefik.http.routers.app-secure-local.rule=Host(`buzzingpixel.localtest.me`)
+
+      # SSL Ngrok
+      - traefik.http.routers.app-secure-ngrok.entrypoints=websecure
+      - traefik.http.routers.app-secure-ngrok.tls=true
+      - traefik.http.routers.app-secure-ngrok.rule=Host(`buzzingpixel.ngrok.io`)
 
   db:
-    build:
-      context: ./
-      dockerfile: ./docker/db/Dockerfile
     volumes:
       - .:/opt/project:delegated
-
-volumes:
-  storage-volume:
-  vendor-volume:

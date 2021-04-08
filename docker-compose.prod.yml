@@ -2,7 +2,9 @@ version: '3.7'
 
 services:
   utility:
-    env_file: .env
+    env_file:
+      - .env
+      - .env.local
     image: ubuntu:18.04
     restart: always
     container_name: buzzingpixel-utility
@@ -12,21 +14,7 @@ services:
       - storage-volume:/storage-volume
     command: bash -c "chmod +x /opt/project/docker/utility/prod.sh && /opt/project/docker/utility/prod.sh"
 
-  web:
-    image: registry.digitalocean.com/buzzingpixel/buzzingpixel-com-web:prod
-    restart: always
-    volumes:
-      - nginx-master_certbot-conf-volume:/etc/letsencrypt
-      - log-volume:/var/log
-      - storage-volume:/opt/project/storage
-    networks:
-      default:
-        aliases:
-          - buzzingpixel.com
-          - www.buzzingpixel.com
-
-  php:
-    image: registry.digitalocean.com/buzzingpixel/buzzingpixel-com-php:prod
+  app:
     restart: always
     volumes:
       - log-volume:/var/log
@@ -40,6 +28,4 @@ services:
 volumes:
   log-volume:
   storage-volume:
-  nginx-master_certbot-conf-volume:
-    external: true
 
