@@ -169,7 +169,10 @@ class UserConfig
         $hasPostData = count($postData) > 0;
 
         if ($user === null) {
-            $user = new User(emailAddress: 'tk@tk.tk');
+            $user = new User(
+                emailAddress: 'tk@tk.tk',
+                isActive: true,
+            );
         }
 
         return array_merge(
@@ -212,7 +215,7 @@ class UserConfig
                     'name' => 'is_active',
                     'value' => $hasPostData ?
                         (bool) ($postData['is_active'] ?? '0') :
-                        $user->isAdmin(),
+                        $user->isActive(),
                 ],
             ],
             self::getProfileFormConfigInputs(

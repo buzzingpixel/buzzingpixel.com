@@ -10,10 +10,8 @@ use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Flash\Messages;
+use Throwable;
 use Twig\Environment as TwigEnvironment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 use function json_encode;
 
@@ -28,9 +26,7 @@ class CreateUserAction
     }
 
     /**
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
+     * @throws Throwable
      */
     public function __invoke(): ResponseInterface
     {

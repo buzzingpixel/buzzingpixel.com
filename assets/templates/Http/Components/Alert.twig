@@ -1,5 +1,6 @@
 {% set headline = headline ?? block('headline') ?? null %}
 {% set content = content ?? block('content') ?? null %}
+{% set contentList = contentList ?? [] %}
 {# types: info|success|caution|error #}
 {% set type = type ?? block('type') ?? null %}
 
@@ -42,9 +43,24 @@
                     {{ headline|smartypants }}
                 </h3>
             {% endif %}
-            {% if content %}
+            {% if content or contentList|length > 0 %}
                 <div class="{% if headline %}mt-2 {% endif %}text-sm {{ contentClass }}">
-                    <p>{{ content|smartypants|widont }}</p>
+                    {% if content %}
+                        <p>{{ content|smartypants|widont }}</p>
+                    {% endif %}
+                    {% if contentList|length > 0 %}
+                        <ul class="{% if content %}mt-2 {% endif %}list-disc list-inside">
+                            {% for item in contentList %}
+                                {% if item is iterable %}
+                                    {% for subItem in item %}
+                                        <li>{{ subItem|smartypants }}</li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li>{{ item|smartypants }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                 </div>
             {% endif %}
         </div>
