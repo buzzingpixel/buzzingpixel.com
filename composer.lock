@@ -4,8 +4,65 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b4039b206f76fa8c629371aa9f09e6e",
+    "content-hash": "1bca3380e23cc31e674712b2fca1d360",
     "packages": [
+        {
+            "name": "awurth/slim-validation",
+            "version": "dev-allow-php-8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/buzzingpixel/SlimValidation.git",
+                "reference": "97b80ba4cf4cec1c27a5d6d3f0cbbed644958832"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/buzzingpixel/SlimValidation/zipball/97b80ba4cf4cec1c27a5d6d3f0cbbed644958832",
+                "reference": "97b80ba4cf4cec1c27a5d6d3f0cbbed644958832",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0|^8.0",
+                "psr/http-message": "^1.0",
+                "respect/validation": "^1.1"
+            },
+            "suggest": {
+                "slim/twig-view": "Needed to be able to use the Twig Extension with Slim",
+                "twig/twig": "Needed to be able to use the Twig Extension"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Awurth\\SlimValidation\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Awurth\\SlimValidation\\Tests\\": "tests"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexis Wurth",
+                    "email": "awurth.dev@gmail.com",
+                    "homepage": "https://github.com/awurth"
+                }
+            ],
+            "description": "A validator for the Slim PHP Micro-Framework",
+            "homepage": "https://github.com/awurth/SlimValidation",
+            "keywords": [
+                "respect",
+                "slim",
+                "validation",
+                "validator"
+            ],
+            "support": {
+                "source": "https://github.com/buzzingpixel/SlimValidation/tree/allow-php-8"
+            },
+            "time": "2021-04-09T13:48:37+00:00"
+        },
         {
             "name": "beberlei/assert",
             "version": "v3.3.0",
@@ -4942,6 +4999,73 @@
             "time": "2020-01-27T05:09:17+00:00"
         },
         {
+            "name": "respect/validation",
+            "version": "1.1.31",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Respect/Validation.git",
+                "reference": "45d109fc830644fecc1145200d6351ce4f2769d0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Respect/Validation/zipball/45d109fc830644fecc1145200d6351ce4f2769d0",
+                "reference": "45d109fc830644fecc1145200d6351ce4f2769d0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4",
+                "symfony/polyfill-mbstring": "^1.2"
+            },
+            "require-dev": {
+                "egulias/email-validator": "~1.2 || ~2.1",
+                "mikey179/vfsstream": "^1.5",
+                "phpunit/phpunit": "~4.0 || ~5.0",
+                "symfony/validator": "~2.6.9",
+                "zendframework/zend-validator": "~2.3"
+            },
+            "suggest": {
+                "egulias/email-validator": "Strict (RFC compliant) email validation",
+                "ext-bcmath": "Arbitrary Precision Mathematics",
+                "ext-mbstring": "Multibyte String Functions",
+                "friendsofphp/php-cs-fixer": "Fix PSR2 and other coding style issues",
+                "symfony/validator": "Use Symfony validator through Respect\\Validation",
+                "zendframework/zend-validator": "Use Zend Framework validator through Respect\\Validation"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Respect\\Validation\\": "library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Respect/Validation Contributors",
+                    "homepage": "https://github.com/Respect/Validation/graphs/contributors"
+                }
+            ],
+            "description": "The most awesome validation engine ever created for PHP",
+            "homepage": "http://respect.github.io/Validation/",
+            "keywords": [
+                "respect",
+                "validation",
+                "validator"
+            ],
+            "support": {
+                "issues": "https://github.com/Respect/Validation/issues",
+                "source": "https://github.com/Respect/Validation/tree/1.1.31"
+            },
+            "time": "2019-05-28T06:10:06+00:00"
+        },
+        {
             "name": "rollbar/rollbar",
             "version": "v2.1.0",
             "source": {
@@ -8885,7 +9009,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "awurth/slim-validation": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

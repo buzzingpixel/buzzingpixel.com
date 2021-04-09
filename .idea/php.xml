@@ -157,6 +157,8 @@
       <path value="$PROJECT_DIR$/vendor/cdtweb/us-states-list" />
       <path value="$PROJECT_DIR$/vendor/moneyphp/money" />
       <path value="$PROJECT_DIR$/vendor/cocur/slugify" />
+      <path value="$PROJECT_DIR$/vendor/awurth/slim-validation" />
+      <path value="$PROJECT_DIR$/vendor/respect/validation" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

@@ -147,6 +147,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/cdtweb/us-states-list" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/moneyphp/money" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/cocur/slugify" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/awurth/slim-validation" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/respect/validation" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -10,10 +10,17 @@
             "homepage": "https://buzzingpixel.com"
         }
     ],
+    "repodsitories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/buzzingpixel/SlimValidation.git"
+        }
+    ],
     "require": {
         "php": "^8.0",
         "ext-PDO": "^8.0",
         "ext-intl": "*",
+        "awurth/slim-validation": "dev-allow-php-8",
         "beberlei/assert": "3.3.0",
         "buzzingpixel/cookie-api": "^2.0",
         "buzzingpixel/twig-markdown": "^1.0",
