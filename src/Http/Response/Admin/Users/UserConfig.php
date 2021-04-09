@@ -10,6 +10,7 @@ use App\Utilities\States;
 use App\Utilities\TimeZoneList;
 use Exception;
 
+use function array_merge;
 use function count;
 
 class UserConfig
@@ -21,7 +22,7 @@ class UserConfig
      *
      * @throws Exception
      */
-    public static function getCreateEditUserFormConfigInputs(
+    public static function getProfileFormConfigInputs(
         array $postData,
         ?User $user = null,
     ): array {
@@ -32,46 +33,6 @@ class UserConfig
         }
 
         return [
-            [
-                'type' => 'heading',
-                'heading' => 'Account Details',
-                // 'subHeading' => 'Set stuff about your account.',
-            ],
-            [
-                'template' => 'Toggle',
-                'label' => 'Is Admin?',
-                'name' => 'is_admin',
-                'value' => $hasPostData ?
-                    (bool) ($postData['is_admin'] ?? '0') :
-                    $user->isAdmin(),
-            ],
-            [
-                'label' => 'Email Address',
-                'name' => 'email_address',
-                'value' => $hasPostData ?
-                    (string) ($postData['email_address'] ?? '') :
-                    ($user->emailAddress() !== 'tk@tk.tk' ?
-                        $user->emailAddress() :
-                        ''),
-            ],
-            [
-                'type' => 'password',
-                'label' => 'Password',
-                'name' => 'password',
-            ],
-            [
-                'type' => 'password',
-                'label' => 'Confirm Password',
-                'name' => 'password_verify',
-            ],
-            [
-                'template' => 'Toggle',
-                'label' => 'Is Active?',
-                'name' => 'is_active',
-                'value' => $hasPostData ?
-                    (bool) ($postData['is_active'] ?? '0') :
-                    $user->isAdmin(),
-            ],
             [
                 'template' => 'Select',
                 'label' => 'Time Zone',
@@ -192,5 +153,72 @@ class UserConfig
                     $user->billingProfile()->billingPostalCode(),
             ],
         ];
+    }
+
+    /**
+     * @param mixed[] $postData
+     *
+     * @return mixed[]
+     *
+     * @throws Exception
+     */
+    public static function getCreateEditUserFormConfigInputs(
+        array $postData,
+        ?User $user = null,
+    ): array {
+        $hasPostData = count($postData) > 0;
+
+        if ($user === null) {
+            $user = new User(emailAddress: 'tk@tk.tk');
+        }
+
+        return array_merge(
+            [
+                [
+                    'type' => 'heading',
+                    'heading' => 'Account Details',
+                    // 'subHeading' => 'Set stuff about your account.',
+                ],
+                [
+                    'template' => 'Toggle',
+                    'label' => 'Is Admin?',
+                    'name' => 'is_admin',
+                    'value' => $hasPostData ?
+                        (bool) ($postData['is_admin'] ?? '0') :
+                        $user->isAdmin(),
+                ],
+                [
+                    'label' => 'Email Address',
+                    'name' => 'email_address',
+                    'value' => $hasPostData ?
+                        (string) ($postData['email_address'] ?? '') :
+                        ($user->emailAddress() !== 'tk@tk.tk' ?
+                            $user->emailAddress() :
+                            ''),
+                ],
+                [
+                    'type' => 'password',
+                    'label' => 'Password',
+                    'name' => 'password',
+                ],
+                [
+                    'type' => 'password',
+                    'label' => 'Confirm Password',
+                    'name' => 'password_verify',
+                ],
+                [
+                    'template' => 'Toggle',
+                    'label' => 'Is Active?',
+                    'name' => 'is_active',
+                    'value' => $hasPostData ?
+                        (bool) ($postData['is_active'] ?? '0') :
+                        $user->isAdmin(),
+                ],
+            ],
+            self::getProfileFormConfigInputs(
+                $postData,
+                $user,
+            ),
+        );
     }
 }

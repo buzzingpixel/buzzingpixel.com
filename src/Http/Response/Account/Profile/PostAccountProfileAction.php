@@ -6,8 +6,10 @@ namespace App\Http\Response\Account\Profile;
 
 use App\Context\Users\Entities\LoggedInUser;
 use App\Context\Users\UserApi;
+use DateTimeZone;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Throwable;
 
 use function assert;
 use function is_array;
@@ -28,6 +30,15 @@ class PostAccountProfileAction
         assert(is_array($postData));
 
         $user = $this->loggedInUser->user();
+
+        try {
+            $timeZoneString = (string) ($postData['time_zone'] ?? '');
+
+            $user = $user->withTimezone(
+                new DateTimeZone($timeZoneString)
+            );
+        } catch (Throwable) {
+        }
 
         $user = $user->withSupportProfile(
             $user->supportProfile()->withDisplayName(

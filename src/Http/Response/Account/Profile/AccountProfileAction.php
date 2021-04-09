@@ -6,10 +6,14 @@ namespace App\Http\Response\Account\Profile;
 
 use App\Context\Users\Entities\LoggedInUser;
 use App\Http\Entities\Meta;
+use App\Http\Response\Admin\Users\UserConfig;
 use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
+use Throwable;
 use Twig\Environment as TwigEnvironment;
+
+use function json_encode;
 
 class AccountProfileAction
 {
@@ -21,6 +25,9 @@ class AccountProfileAction
     ) {
     }
 
+    /**
+     * @throws Throwable
+     */
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse();
@@ -39,7 +46,19 @@ class AccountProfileAction
                     ),
                     'accountMenu' => $accountMenu,
                     'headline' => 'Profile',
-                    'user' => $this->loggedInUser->user(),
+                    'formConfig' => [
+                        'submitContent' => 'Update Profile',
+                        'formAction' => '/account/profile',
+                        'formAttrs' => [
+                            'x-data' => json_encode([
+                                'data' => ['countryRegion' => $this->loggedInUser->user()->billingProfile()->billingCountryRegion()],
+                            ]),
+                        ],
+                        'inputs' => UserConfig::getProfileFormConfigInputs(
+                            [],
+                            $this->loggedInUser->user(),
+                        ),
+                    ],
                 ],
             ),
         );
