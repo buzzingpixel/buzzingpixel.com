@@ -3,6 +3,7 @@
 {% set cancelAction = cancelAction ?? null %}
 {% set formAction = formAction ?? null %}
 {% set inputs = inputs ?? [] %}
+{% set formAttrs = formAttrs ?? [] %}
 
 {% set buttons %}
     <div class="flex justify-end">
@@ -32,6 +33,9 @@
         method="{{ method }}"
         accept-charset="UTF-8"
         enctype="multipart/form-data"
+        {% for attr,data in formAttrs %}
+        {{ attr }}='{{ data|raw }}'
+        {% endfor %}
     >
         <div>
             {{ buttons }}
@@ -40,22 +44,42 @@
             <div class="pt-4 space-y-6 sm:pt-10 sm:space-y-5">
                 <div class="space-y-6 sm:space-y-5">
                     {% for input in inputs %}
-                        {% set inputTemplate = input.template ?? 'Input' %}
-                        {% set name = name ?? '' %}
-                        {% set id = id ?? name %}
-                        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5{% if not loop.first %} sm:border-t sm:border-gray-200{% endif %}">
-                            <label
-                                for="{{ id }}"
-                                class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-                            >
-                                {{ input.label|smartypants }}
-                            </label>
-                            <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                <div class="max-w-lg">
-                                    {% include 'Http/_Infrastructure/Forms/Inputs/' ~ inputTemplate ~ '.twig' with input only %}
+                        {% set type = input.type ?? 'default' %}
+                        {% switch type %}
+                            {% case 'heading' %}
+                                <div class="{% if not loop.first %}pt-4 space-y-6 sm:pt-10 sm:space-y-5{% endif %}">
+                                    {% if input.heading is defined and input.heading %}
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900 mt-6">
+                                            {{ input.heading|smartypants }}
+                                        </h3>
+                                    {% endif %}
+                                    {% if input.subHeading is defined and input.subHeading %}
+                                        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                                            {{ input.subHeading|smartypants }}
+                                        </p>
+                                    {% endif %}
                                 </div>
-                            </div>
-                        </div>
+                            {% default %}
+                                {% set inputTemplate = input.template ?? 'Input' %}
+                                {% set name = name ?? '' %}
+                                {% set id = id ?? name %}
+                                <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5{% if not loop.first %} sm:border-t sm:border-gray-200{% endif %}">
+                                    <label
+                                        for="{{ id }}"
+                                        class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                                    >
+                                        {{ input.label|smartypants }}
+                                        {% if input.labelSmall is defined and input.labelSmall %}
+                                            <small class="text-gray-400 font-normal">{{ input.labelSmall|smartypants }}</small>
+                                        {% endif %}
+                                    </label>
+                                    <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                        <div class="max-w-lg">
+                                            {% include 'Http/_Infrastructure/Forms/Inputs/' ~ inputTemplate ~ '.twig' with input only %}
+                                        </div>
+                                    </div>
+                                </div>
+                        {% endswitch %}
                     {% endfor %}
                 </div>
             </div>

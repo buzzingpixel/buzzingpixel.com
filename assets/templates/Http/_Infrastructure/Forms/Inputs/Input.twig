@@ -2,6 +2,7 @@
 {% set name = name ?? '' %}
 {% set id = id ?? name %}
 {% set value = value ?? '' %}
+{% set attrs = attrs ?? [] %}
 
 <input
     type="{{ type }}"
@@ -9,4 +10,7 @@
     id="{{ id }}"
     class="block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:text-sm border-gray-300 rounded-md"
     value="{{ value }}"
+    {% for attrKey, attrVal in attrs %}
+    {{ attrKey }}="{{ attrVal }}"
+    {% endfor %}
 >

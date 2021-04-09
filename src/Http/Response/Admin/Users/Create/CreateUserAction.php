@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Admin\Software\Create;
+namespace App\Http\Response\Admin\Users\Create;
 
 use App\Http\Entities\Meta;
-use App\Http\Response\Admin\Software\SoftwareConfig;
+use App\Http\Response\Admin\Users\UserConfig;
 use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -15,7 +15,9 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class AdminSoftwareCreateAction
+use function json_encode;
+
+class CreateUserAction
 {
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
@@ -40,19 +42,19 @@ class AdminSoftwareCreateAction
         $adminMenu = $this->config->adminMenu();
 
         /** @psalm-suppress MixedArrayAssignment */
-        $adminMenu['software']['isActive'] = true;
+        $adminMenu['users']['isActive'] = true;
 
         $response->getBody()->write($this->twig->render(
             '@app/Http/Response/Admin/AdminForm.twig',
             [
                 'meta' => new Meta(
-                    metaTitle: 'Create Software | Admin',
+                    metaTitle: 'Create User | Admin',
                 ),
                 'accountMenu' => $adminMenu,
-                'headline' => 'Create Software',
+                'headline' => 'Create User',
                 'breadcrumbSingle' => [
-                    'content' => 'Software',
-                    'uri' => '/admin/software',
+                    'content' => 'Users',
+                    'uri' => '/admin/users',
                 ],
                 'breadcrumbTrail' => [
                     [
@@ -60,16 +62,21 @@ class AdminSoftwareCreateAction
                         'uri' => '/admin',
                     ],
                     [
-                        'content' => 'Software',
-                        'uri' => '/admin/software',
+                        'content' => 'Users',
+                        'uri' => '/admin/users',
                     ],
                     ['content' => 'Create'],
                 ],
                 'formConfig' => [
-                    'submitContent' => 'Create Software',
-                    'cancelAction' => '/admin/software',
-                    'formAction' => '/admin/software/create',
-                    'inputs' => SoftwareConfig::getCreateEditFormConfigInputs(
+                    'submitContent' => 'Create User',
+                    'cancelAction' => '/admin/users',
+                    'formAction' => '/admin/users/create',
+                    'formAttrs' => [
+                        'x-data' => json_encode([
+                            'data' => ['countryRegion' => ''],
+                        ]),
+                    ],
+                    'inputs' => UserConfig::getCreateEditUserFormConfigInputs(
                         $postData,
                     ),
                 ],

@@ -1,0 +1,11 @@
+{% for input in inputs %}
+    {% set wrapperAttrs = input.wrapperAttrs ?? [] %}
+    {% set inputTemplate = input.template ?? 'Input' %}
+    <div
+        {% for attrKey, attrVal in wrapperAttrs %}
+        {{ attrKey }}="{{ attrVal }}"
+        {% endfor %}
+    >
+        {% include 'Http/_Infrastructure/Forms/Inputs/' ~ inputTemplate ~ '.twig' with input only %}
+    </div>
+{% endfor %}

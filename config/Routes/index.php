@@ -23,6 +23,7 @@ use App\Http\Response\Admin\Software\EditVersion\AdminEditVersionAction;
 use App\Http\Response\Admin\Software\EditVersion\PostAdminEditVersionAction;
 use App\Http\Response\Admin\Software\View\SoftwareViewAction;
 use App\Http\Response\Admin\Software\ViewVersion\SoftwareViewVersionAction;
+use App\Http\Response\Admin\Users\Create\CreateUserAction;
 use App\Http\Response\Admin\Users\UsersAction;
 use App\Http\Response\Ajax\FileUpload\FileUploadAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
@@ -139,6 +140,7 @@ return static function (App $app): void {
 
         /** Users */
         $r->get(pattern: '/users', callable: UsersAction::class);
+        $r->get(pattern: '/users/create', callable: CreateUserAction::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 

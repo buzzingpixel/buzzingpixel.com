@@ -1,0 +1,29 @@
+{% set multiple = multiple ?? false %}
+{% set name = name ?? '' %}
+{% set id = id ?? name %}
+{% set value = value ?? '' %}
+{% set attrs = attrs ?? [] %}
+{% set option = options ?? [] %}
+
+<div class="relative">
+    <select
+        id="{{ id }}"
+        name="{{ name }}"
+        class="block focus:ring-meteor focus:border-meteor w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+        {% for attrKey, attrVal in attrs %}
+        {{ attrKey }}="{{ attrVal }}"
+        {% endfor %}
+        ref="select"
+    >
+        {% for option in options %}
+            <option
+                value="{{ option.value }}"
+                {% if option.value == value %}
+                selected
+                {% endif %}
+            >
+                {{ (option.label ?? option.value)|raw }}
+            </option>
+        {% endfor %}
+    </select>
+</div>

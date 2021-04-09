@@ -21,7 +21,7 @@ class Selects {
                     removeItemButton: true,
                     shouldSort: false,
                     classNames: {
-                        containerInner: 'inline-block align-top p-2 border overflow-hidden max-w-lg block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:max-w-xs sm:text-sm border-gray-300 rounded-md',
+                        containerInner: 'inline-block align-top p-2 border overflow-hidden block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:text-sm border-gray-300 rounded-md',
                     },
                 });
             });

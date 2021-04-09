@@ -2,6 +2,7 @@
 {% set name = name ?? '' %}
 {% set id = id ?? name %}
 {% set value = value ?? '' %}
+{% set attrs = attrs ?? [] %}
 
 <div class="flex rounded-md shadow-sm">
     <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
@@ -13,5 +14,8 @@
         id="{{ id }}"
         class="flex-1 block w-full focus:ring-meteor focus:border-meteor min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300"
         value="{{ value }}"
+        {% for attrKey, attrVal in attrs %}
+        {{ attrKey }}="{{ attrVal }}"
+        {% endfor %}
     >
 </div>
