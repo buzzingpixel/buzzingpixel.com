@@ -26,6 +26,7 @@ use App\Http\Response\Admin\Software\ViewVersion\SoftwareViewVersionAction;
 use App\Http\Response\Admin\Users\Create\CreateUserAction;
 use App\Http\Response\Admin\Users\Create\PostCreateUserAction;
 use App\Http\Response\Admin\Users\UsersAction;
+use App\Http\Response\Admin\Users\View\ViewUserAction;
 use App\Http\Response\Ajax\FileUpload\FileUploadAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
 use App\Http\Response\HealthCheck\HealthCheckAction;
@@ -143,6 +144,7 @@ return static function (App $app): void {
         $r->get(pattern: '/users', callable: UsersAction::class);
         $r->get(pattern: '/users/create', callable: CreateUserAction::class);
         $r->post(pattern: '/users/create', callable: PostCreateUserAction::class);
+        $r->get(pattern: '/users/{emailAddress}', callable: ViewUserAction::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 

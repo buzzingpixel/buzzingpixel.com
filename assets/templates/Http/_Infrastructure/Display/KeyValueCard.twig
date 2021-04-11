@@ -19,23 +19,33 @@
             <p class="mt-1 max-w-2xl text-sm text-gray-500">
                 {{ subHeadline|smartypants }}
             </p>
+        {% elseif actionButtons|length > 0 %}
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">&nbsp;</p>
         {% endif %}
     </div>
     <div class="border-t border-gray-200">
         <dl>
             {% for item in items %}
-                <div class="{% if loop.index is odd %}bg-gray-50{% else%}bg-white{% endif %} px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        {{ item.key|smartypants }}
-                    </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {% if item.template is defined %}
-                            {% include item.template with item.value only %}
-                        {% else %}
-                            {{ item.value|smartypants }}
-                        {% endif %}
-                    </dd>
-                </div>
+                {% set type = item.type ?? null %}
+                {% switch type %}
+                    {% case 'heading' %}
+                        <div class="{% if loop.index is odd %}bg-gray-50{% else%}bg-white{% endif %} px-4 py-5 sm:px-6 font-semibold">
+                            {{ item.heading|smartypants }}
+                        </div>
+                    {% default %}
+                        <div class="{% if loop.index is odd %}bg-gray-50{% else%}bg-white{% endif %} px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">
+                                {{ item.key|smartypants }}
+                            </dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                {% if item.template is defined %}
+                                    {% include item.template with item.value only %}
+                                {% else %}
+                                    {{ item.value|smartypants }}
+                                {% endif %}
+                            </dd>
+                        </div>
+                {% endswitch %}
             {% endfor %}
         </dl>
     </div>

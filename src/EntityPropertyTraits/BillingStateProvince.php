@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\EntityPropertyTraits;
 
+use Cdtweb\UsStatesList;
+
 trait BillingStateProvince
 {
     private string $billingStateProvince;
@@ -11,6 +13,12 @@ trait BillingStateProvince
     public function billingStateProvince(): string
     {
         return $this->billingStateProvince;
+    }
+
+    public function billingStateProvinceName(): string
+    {
+        return UsStatesList::all()[$this->billingStateProvince()] ??
+            $this->billingStateProvince();
     }
 
     /**

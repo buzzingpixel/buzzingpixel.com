@@ -142,7 +142,6 @@ class SoftwareViewAction
                         ],
                     ],
                 ],
-                // 'software' => $software,
             ],
         ));
 
