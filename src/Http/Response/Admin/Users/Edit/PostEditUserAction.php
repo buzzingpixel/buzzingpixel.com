@@ -2,26 +2,27 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Admin\Users\Create;
+namespace App\Http\Response\Admin\Users\Edit;
 
 use App\Context\Users\Entities\User;
-use App\Context\Users\Entities\UserBillingProfile;
-use App\Context\Users\Entities\UserSupportProfile;
 use App\Context\Users\Exceptions\InvalidEmailAddress;
 use App\Context\Users\Exceptions\InvalidPassword;
 use App\Context\Users\UserApi;
 use App\Factories\ValidationFactory;
+use App\Http\Response\Admin\Users\Create\PostCreateUserResponder;
 use App\Payload\Payload;
+use App\Persistence\QueryBuilders\Users\UserQueryBuilder;
 use DateTimeZone;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Respect\Validation\Validator as V;
+use Slim\Exception\HttpNotFoundException;
 use Throwable;
 
 use function assert;
 use function is_array;
 
-class PostCreateUserAction
+class PostEditUserAction
 {
     public function __construct(
         private UserApi $userApi,
@@ -31,12 +32,24 @@ class PostCreateUserAction
     }
 
     /**
-     * @throws InvalidPassword
+     * @throws HttpNotFoundException
      * @throws InvalidEmailAddress
+     * @throws InvalidPassword
      */
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
-        $redirect = '/admin/users/create';
+        $emailAddress = (string) $request->getAttribute('emailAddress');
+
+        $user = $this->userApi->fetchOneUser(
+            (new UserQueryBuilder())
+                ->withEmailAddress($emailAddress),
+        );
+
+        if ($user === null) {
+            throw new HttpNotFoundException($request);
+        }
+
+        $redirect = '/admin/users/' . $user->emailAddress() . '/edit';
 
         $postData = $request->getParsedBody();
 
@@ -71,9 +84,8 @@ class PostCreateUserAction
                     V::email(),
                 )->setTemplate('Email address must be valid'),
                 'password' => V::allOf(
-                    V::notEmpty()->setTemplate('Password must not be empty'),
                     V::callback(
-                        /** @param mixed $input */
+                    /** @param mixed $input */
                         static function ($input) use ($data): bool {
                             return $input === $data['password_verify'];
                         }
@@ -95,7 +107,7 @@ class PostCreateUserAction
                     )->setTemplate((new InvalidPassword())->getMessage())
                 ),
                 'time_zone' => V::callback(
-                    /** @param mixed $input */
+                /** @param mixed $input */
                     static function ($input): bool {
                         try {
                             new DateTimeZone($input);
@@ -125,34 +137,47 @@ class PostCreateUserAction
             );
         }
 
-        $user = new User(
-            isAdmin: $data['is_admin'],
-            emailAddress: $data['email_address'],
-            plainTextPassword: $data['password'],
-            isActive: $data['is_active'],
-            timezone: $data['time_zone'],
-        );
+        if ($data['password'] !== '') {
+            $user = $user->withPassword($data['password']);
+        }
 
-        $user = $user->withSupportProfile(new UserSupportProfile(
-            displayName: $data['display_name'],
-        ));
-
-        $user = $user->withBillingProfile(new UserBillingProfile(
-            billingName: $data['billing_name'],
-            billingCompany: $data['billing_company'],
-            billingPhone: $data['billing_phone'],
-            billingCountryRegion: $data['billing_country_region'],
-            billingAddress: $data['billing_address'],
-            billingAddressContinued: $data['billing_address_continued'],
-            billingCity: $data['billing_city'],
-            billingStateProvince: $data['billing_state_province'],
-            billingPostalCode: $data['billing_postal_code'],
-        ));
+        $user = $user->withIsAdmin($data['is_admin'])
+            ->withEmailAddress($data['email_address'])
+            ->withIsActive($data['is_active'])
+            ->withTimezone($data['time_zone'])
+            ->withSupportProfile(
+                $user->supportProfile()
+                    ->withDisplayName($data['display_name']),
+            )
+            ->withBillingProfile(
+                $user->billingProfile()
+                    ->withBillingName($data['billing_name'])
+                    ->withBillingCompany(
+                        $data['billing_company']
+                    )
+                    ->withBillingPhone($data['billing_phone'])
+                    ->withBillingCountryRegion(
+                        $data['billing_country_region']
+                    )
+                    ->withBillingAddress(
+                        $data['billing_address']
+                    )
+                    ->withBillingAddressContinued(
+                        $data['billing_address_continued']
+                    )
+                    ->withBillingCity($data['billing_city'])
+                    ->withBillingStateProvince(
+                        $data['billing_state_province']
+                    )
+                    ->withBillingPostalCode(
+                        $data['billing_postal_code']
+                    ),
+            );
 
         $payload = $this->userApi->saveUser($user);
 
-        if ($payload->getStatus() === Payload::STATUS_CREATED) {
-            $redirect = '/admin/users';
+        if ($payload->getStatus() === Payload::STATUS_UPDATED) {
+            $redirect = '/admin/users/' . $user->emailAddress();
         }
 
         return $this->responder->respond(

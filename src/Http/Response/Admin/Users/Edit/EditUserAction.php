@@ -63,7 +63,7 @@ class EditUserAction
                     metaTitle: 'Edit User ' . $user->emailAddress() . ' | Admin',
                 ),
                 'accountMenu' => $adminMenu,
-                'headline' => 'Edit User' . $user->emailAddress(),
+                'headline' => 'Edit User ' . $user->emailAddress(),
                 'breadcrumbSingle' => [
                     'content' => 'View',
                     'uri' => '/admin/users/' . $user->emailAddress(),
