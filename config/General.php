@@ -121,6 +121,11 @@ class General extends SimpleModel
             'content' => 'Users',
             'isActive' => false,
         ],
+        'orders' => [
+            'href' => '/admin/orders',
+            'content' => 'Orders',
+            'isActive' => false,
+        ],
         'queue' => [
             'href' => '/admin/queue',
             'content' => 'Queue',
