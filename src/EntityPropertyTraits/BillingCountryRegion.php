@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\EntityPropertyTraits;
 
 use League\ISO3166\ISO3166 as ISO3166Source;
+use Throwable;
 
 trait BillingCountryRegion
 {
@@ -34,8 +35,12 @@ trait BillingCountryRegion
 
     public function billingCountryRegionName(): string
     {
-        return (new ISO3166Source())
-            ->alpha3($this->billingCountryRegion())['name'];
+        try {
+            return (new ISO3166Source())
+                ->alpha3($this->billingCountryRegion())['name'];
+        } catch (Throwable) {
+            return '';
+        }
     }
 
     /**
