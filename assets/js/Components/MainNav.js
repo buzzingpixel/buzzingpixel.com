@@ -11,6 +11,7 @@ const run = (data) => {
         .then((obj) => {
             data.userIsLoggedIn = obj.data.userIsLoggedIn;
             data.userEmailAddress = obj.data.userEmailAddress;
+            data.userIsAdmin = obj.data.userIsAdmin;
         });
 };
 

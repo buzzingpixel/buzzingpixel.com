@@ -22,6 +22,7 @@
         data: {
             mobileMenuIsActive: false,
             userIsLoggedIn: false,
+            userIsAdmin: false,
             userEmailAddress: '',
             accountMenuIsActive: false,
         }
@@ -140,6 +141,14 @@
                                             </a>
                                         {% endif %}
                                     {% endfor %}
+                                    <a
+                                        href="/admin"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 hidden"
+                                        role="menuitem"
+                                        :class="{'hidden': !data.userIsAdmin}"
+                                    >
+                                        Admin
+                                    </a>
                                 </div>
                                     <div class="py-1" role="none">
                                         <a

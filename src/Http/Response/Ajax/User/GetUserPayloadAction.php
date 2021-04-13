@@ -32,6 +32,7 @@ class GetUserPayloadAction
                 'userEmailAddress' => $this->loggedInUser->hasUser() ?
                     $this->loggedInUser->user()->emailAddress() :
                     '',
+                'userIsAdmin' => $this->loggedInUser->user()->isAdmin(),
             ],
         ));
 
