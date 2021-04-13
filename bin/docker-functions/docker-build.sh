@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+function docker-build-help() {
+    printf "(Build the Docker images for this project)";
+}
+
 function docker-build() {
     # Ensure local env files exist
     # docker-ensure-local-env-files;

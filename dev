@@ -44,9 +44,9 @@ secondArg=${2};
 composeFiles="-f docker-compose.yml -f docker-compose.dev.yml";
 nodeDockerImage="node:15.8.0";
 
-# Make sure .env exists
-if [[ ! -f ".env" ]]; then
-    cp /opt/project/.env.example /opt/project/.env;
+# Ensure .env.local exists
+if [[ ! -f ".env.local" ]]; then
+    touch .env.local;
 fi
 
 # Source all of our executable files — these should contain functions that can be run
@@ -56,16 +56,8 @@ for f in $(find bin -name '*.sh'); do
 done
 
 # If no command/function name to run was provided, list out the functions available
-if [[ -z "${cmd}" ]]; then
-    printf "${Green}The following commands are available:\n${Yellow}";
-
-    IFS=$'\n'
-    for f in $(declare -F); do
-       printf "  ./dev ${f:11}\n";
-    done
-
-    printf "${Reset}";
-
+if [[ -z "${cmd}" || ${secondArg} == "help" ]]; then
+    source bin/.help;
     exit 0;
 fi
 

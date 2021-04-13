@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+function docker-up-help() {
+    printf "(Brings Docker environment online)";
+}
+
 function docker-up() {
     # Make sure requirements are met
     if [ ! $(command -v mkcert) ]; then

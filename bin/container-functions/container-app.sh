@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+function container-app-help() {
+    printf "[some_command] (Execute command in \`app\` container. Empty argument starts a bash session)";
+}
+
 function container-app() {
     printf "${Yellow}You're working inside the 'app' container of this project.${Reset}\n";
 
