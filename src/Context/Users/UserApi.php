@@ -11,6 +11,7 @@ use App\Context\Users\Services\DeleteUser;
 use App\Context\Users\Services\FetchLoggedInUser;
 use App\Context\Users\Services\FetchOneUser;
 use App\Context\Users\Services\FetchTotalUserResetTokens;
+use App\Context\Users\Services\FetchTotalUsers;
 use App\Context\Users\Services\FetchUserByResetToken;
 use App\Context\Users\Services\FetchUsers;
 use App\Context\Users\Services\GeneratePasswordResetToken;
@@ -27,6 +28,7 @@ class UserApi
 {
     public function __construct(
         private SaveUser $saveUser,
+        private FetchTotalUsers $fetchTotalUsers,
         private FetchUsers $fetchUsers,
         private FetchOneUser $fetchOneUser,
         private ValidateUserPassword $validateUserPassword,
@@ -45,6 +47,11 @@ class UserApi
     public function saveUser(User $user): Payload
     {
         return $this->saveUser->save($user);
+    }
+
+    public function fetchTotalUsers(): int
+    {
+        return $this->fetchTotalUsers->fetch();
     }
 
     /**
