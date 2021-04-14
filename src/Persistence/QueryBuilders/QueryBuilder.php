@@ -11,9 +11,32 @@ use function implode;
 
 abstract class QueryBuilder implements IQueryBuilder
 {
+    /** @var SearchField[] */
+    private array $search = [];
+
+    /**
+     * @return $this
+     */
+    public function withSearchField(
+        string $property,
+        string $value,
+    ): self {
+        $clone = clone $this;
+
+        $clone->search[] = new SearchField(
+            $property,
+            $value,
+        );
+
+        return $clone;
+    }
+
     /** @var WhereClause[] */
     private array $whereClauses = [];
 
+    /**
+     * @return $this
+     */
     public function withWhere(
         string $property,
         mixed $value,
@@ -35,6 +58,9 @@ abstract class QueryBuilder implements IQueryBuilder
     /** @var OrderBy[] */
     private array $orderBySet = [];
 
+    /**
+     * @return $this
+     */
     public function withOrderBy(string $column, string $direction = 'ASC'): self
     {
         $clone = clone $this;
@@ -49,6 +75,9 @@ abstract class QueryBuilder implements IQueryBuilder
 
     private ?int $limit = null;
 
+    /**
+     * @return $this
+     */
     public function withLimit(?int $limit): self
     {
         $clone = clone $this;
@@ -60,6 +89,9 @@ abstract class QueryBuilder implements IQueryBuilder
 
     private ?int $offset = null;
 
+    /**
+     * @return $this
+     */
     public function withOffset(?int $offset): self
     {
         $clone = clone $this;
@@ -69,13 +101,14 @@ abstract class QueryBuilder implements IQueryBuilder
         return $clone;
     }
 
-    public function createQuery(EntityManager $entityManager): Query
-    {
+    public function createQueryBuilder(
+        EntityManager $entityManager
+    ): \Doctrine\ORM\QueryBuilder {
         $paramNum = 1;
 
         $a = $this->getRecordAlias();
 
-        $query = $entityManager
+        $queryBuilder = $entityManager
             ->getRepository($this->getRecordClass())
             ->createQueryBuilder($a);
 
@@ -89,27 +122,52 @@ abstract class QueryBuilder implements IQueryBuilder
             ]);
 
             if ($clause->concat() === 'AND') {
-                $query->andWhere($predicates);
+                $queryBuilder->andWhere($predicates);
             } else {
-                $query->orWhere($predicates);
+                $queryBuilder->orWhere($predicates);
             }
 
-            $query->setParameter($paramKey, $clause->value());
+            $queryBuilder->setParameter(
+                $paramKey,
+                $clause->value()
+            );
 
             $paramNum++;
         }
 
+        foreach ($this->search as $searchField) {
+            $paramKey = $searchField->property() . $paramNum;
+
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->like(
+                    $a . '.' . $searchField->property(),
+                    ':' . $paramKey,
+                ),
+            );
+
+            $queryBuilder->setParameter(
+                $paramKey,
+                '%' . $searchField->value() . '%',
+            );
+        }
+
         foreach ($this->orderBySet as $orderBy) {
-            $query->addOrderBy(
+            $queryBuilder->addOrderBy(
                 $a . '.' . $orderBy->column(),
                 $orderBy->direction()
             );
         }
 
-        $query->setMaxResults($this->limit);
+        $queryBuilder->setMaxResults($this->limit);
 
-        $query->setFirstResult($this->offset);
+        $queryBuilder->setFirstResult($this->offset);
 
-        return $query->getQuery();
+        return $queryBuilder;
+    }
+
+    public function createQuery(EntityManager $entityManager): Query
+    {
+        return $this->createQueryBuilder($entityManager)
+            ->getQuery();
     }
 }

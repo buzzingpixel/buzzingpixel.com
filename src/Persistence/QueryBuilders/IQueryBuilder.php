@@ -16,6 +16,17 @@ interface IQueryBuilder
 
     public function getRecordAlias(): string;
 
+    /**
+     * @return $this
+     */
+    public function withSearchField(
+        string $property,
+        string $value,
+    ): self;
+
+    /**
+     * @return $this
+     */
     public function withWhere(
         string $property,
         string $value,
@@ -23,10 +34,19 @@ interface IQueryBuilder
         string $concat = 'AND',
     ): self;
 
+    /**
+     * @return $this
+     */
     public function withOrderBy(string $column, string $direction = 'ASC'): self;
 
+    /**
+     * @return $this
+     */
     public function withLimit(?int $limit): self;
 
+    /**
+     * @return $this
+     */
     public function withOffset(?int $offset): self;
 
     public function createQuery(EntityManager $entityManager): Query;

@@ -55,12 +55,21 @@ class UsersAction
         /** @psalm-suppress MixedArrayAssignment */
         $adminMenu['users']['isActive'] = true;
 
-        $users = $this->userApi->fetchUsers(
-            (new UserQueryBuilder())
-                ->withOrderBy('emailAddress', 'asc')
-                ->withOffset(($pageNum * self::LIMIT) - self::LIMIT)
-                ->withLimit(self::LIMIT),
-        );
+        $search = ($queryParams['search'] ?? '');
+
+        $queryBuilder = (new UserQueryBuilder())
+            ->withOrderBy('emailAddress', 'asc')
+            ->withOffset(($pageNum * self::LIMIT) - self::LIMIT)
+            ->withLimit(self::LIMIT);
+
+        if ($search !== '') {
+            $queryBuilder = $queryBuilder->withSearchField(
+                'emailAddress',
+                $search,
+            );
+        }
+
+        $users = $this->userApi->fetchUsers($queryBuilder);
 
         $pagination = (new Pagination())
             ->withQueryStringBased(true)
@@ -68,7 +77,9 @@ class UsersAction
             ->withQueryStringFromArray($queryParams)
             ->withCurrentPage($pageNum)
             ->withPerPage(self::LIMIT)
-            ->withTotalResults($this->userApi->fetchTotalUsers());
+            ->withTotalResults($this->userApi->fetchTotalUsers(
+                $queryBuilder
+            ));
 
         if ($pageNum > 1 && $users->count() < 1) {
             throw new HttpNotFoundException($request);
@@ -82,6 +93,9 @@ class UsersAction
                 ),
                 'accountMenu' => $adminMenu,
                 'stackedListTwoColumnConfig' => [
+                    'searchAction' => '/admin/users',
+                    'searchPlaceholder' => 'Search by email address',
+                    'searchValue' => $search,
                     'pagination' => $pagination,
                     'actionButtons' => [
                         [

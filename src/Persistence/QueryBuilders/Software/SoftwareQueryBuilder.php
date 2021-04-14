@@ -7,13 +7,6 @@ namespace App\Persistence\QueryBuilders\Software;
 use App\Persistence\Entities\Software\SoftwareRecord;
 use App\Persistence\QueryBuilders\QueryBuilder;
 
-/**
- * @psalm-suppress MoreSpecificImplementedParamType
- * @method SoftwareQueryBuilder withWhere(string $property, mixed $value, string $comparison = '=', string $concat = 'AND')
- * @method SoftwareQueryBuilder withOrderBy(string $column, string $direction = 'ASC')
- * @method SoftwareQueryBuilder withLimit(?int $limit)
- * @method SoftwareQueryBuilder withOffset(?int $offset)
- */
 class SoftwareQueryBuilder extends QueryBuilder
 {
     /**
@@ -29,6 +22,9 @@ class SoftwareQueryBuilder extends QueryBuilder
         return 's';
     }
 
+    /**
+     * @return $this
+     */
     public function withId(
         string $value,
         string $comparison = '=',
@@ -42,6 +38,9 @@ class SoftwareQueryBuilder extends QueryBuilder
         );
     }
 
+    /**
+     * @return $this
+     */
     public function withSlug(
         string $value,
         string $comparison = '=',
@@ -55,6 +54,9 @@ class SoftwareQueryBuilder extends QueryBuilder
         );
     }
 
+    /**
+     * @return $this
+     */
     public function withName(
         string $value,
         string $comparison = '=',
@@ -68,6 +70,9 @@ class SoftwareQueryBuilder extends QueryBuilder
         );
     }
 
+    /**
+     * @return $this
+     */
     public function withIsForSale(
         bool $value,
         string $comparison = '=',
@@ -81,6 +86,9 @@ class SoftwareQueryBuilder extends QueryBuilder
         );
     }
 
+    /**
+     * @return $this
+     */
     public function withPrice(
         int | float $value,
         string $comparison = '=',
@@ -94,6 +102,9 @@ class SoftwareQueryBuilder extends QueryBuilder
         );
     }
 
+    /**
+     * @return $this
+     */
     public function withRenewalPrice(
         int | float $value,
         string $comparison = '=',
@@ -107,6 +118,9 @@ class SoftwareQueryBuilder extends QueryBuilder
         );
     }
 
+    /**
+     * @return $this
+     */
     public function withIsSubscription(
         bool $value,
         string $comparison = '=',

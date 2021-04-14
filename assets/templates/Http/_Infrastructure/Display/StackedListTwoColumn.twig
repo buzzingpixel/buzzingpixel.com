@@ -6,6 +6,40 @@
 {# @var \App\Http\Entities\Pagination pagination #}
 {% set pagination = pagination ?? null %}
 
+{% set searchAction = searchAction ?? '' %}
+{% set searchPlaceholder = searchPlaceholder ?? 'Search' %}
+{% set searchValue = searchValue ?? '' %}
+
+{% if searchAction %}
+    <div class="relative z-10 flex-shrink-0 h-16 bg-gray-50 border-b border-gray-200 flex">
+        <div class="flex-1 flex justify-between px-4 md:px-0">
+            <div class="flex-1 flex">
+                <form
+                    class="w-full flex md:ml-0"
+                    action="{{ searchAction }}"
+                    method="GET"
+                >
+                    <label for="search_field" class="sr-only">Search</label>
+                    <div class="relative w-full text-gray-400 focus-within:text-gray-600">
+                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center">
+                            {% include 'Http/_Infrastructure/Svg/SolidSearch.twig' with {
+                                classes: 'h-5 w-5',
+                            } only %}
+                        </div>
+                        <input
+                            id="search_field"
+                            class="block h-full w-full border-transparent py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent sm:text-sm bg-gray-50"
+                            placeholder="{{ searchPlaceholder }}"
+                            type="search"
+                            name="search"
+                            value="{{ searchValue }}"
+                        >
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}
 <div class="flex-1 relative focus:outline-none" tabindex="0">
     <div class="py-6">
         <div class="px-4 sm:px-6 md:px-0 mb-6">

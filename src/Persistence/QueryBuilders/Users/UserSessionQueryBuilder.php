@@ -7,13 +7,6 @@ namespace App\Persistence\QueryBuilders\Users;
 use App\Persistence\Entities\Users\UserSessionRecord;
 use App\Persistence\QueryBuilders\QueryBuilder;
 
-/**
- * @psalm-suppress MoreSpecificImplementedParamType
- * @method UserSessionQueryBuilder withWhere(string $property, mixed $value, string $comparison = '=', string $concat = 'AND')
- * @method UserSessionQueryBuilder withOrderBy(string $column, string $direction = 'ASC')
- * @method UserSessionQueryBuilder withLimit(?int $limit)
- * @method UserSessionQueryBuilder withOffset(?int $offset)
- */
 class UserSessionQueryBuilder extends QueryBuilder
 {
     /**
@@ -29,6 +22,9 @@ class UserSessionQueryBuilder extends QueryBuilder
         return 'us';
     }
 
+    /**
+     * @return $this
+     */
     public function withId(
         string $value,
         string $comparison = '=',
@@ -42,6 +38,9 @@ class UserSessionQueryBuilder extends QueryBuilder
         );
     }
 
+    /**
+     * @return $this
+     */
     public function withUserId(
         string $value,
         string $comparison = '=',
@@ -55,6 +54,9 @@ class UserSessionQueryBuilder extends QueryBuilder
         );
     }
 
+    /**
+     * @return $this
+     */
     public function withCreatedAt(
         string $value,
         string $comparison = '=',
@@ -68,6 +70,9 @@ class UserSessionQueryBuilder extends QueryBuilder
         );
     }
 
+    /**
+     * @return $this
+     */
     public function withLastTouchedAt(
         string $value,
         string $comparison = '=',
