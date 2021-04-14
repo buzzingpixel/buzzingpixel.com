@@ -18,8 +18,8 @@ trait BillingCountryRegion
 
     public function billingCountryRegionAlpha2(): string
     {
-        return (new ISO3166Source())
-            ->alpha3($this->billingCountryRegion())['alpha2'];
+        return (string) ((new ISO3166Source())
+            ->alpha3($this->billingCountryRegion())['alpha2']);
     }
 
     public function billingCountryRegionAlpha3(): string
@@ -29,15 +29,15 @@ trait BillingCountryRegion
 
     public function billingCountryRegionNumeric(): string
     {
-        return (new ISO3166Source())
-            ->alpha3($this->billingCountryRegion())['alpha2'];
+        return (string) ((new ISO3166Source())
+            ->alpha3($this->billingCountryRegion())['alpha2']);
     }
 
     public function billingCountryRegionName(): string
     {
         try {
-            return (new ISO3166Source())
-                ->alpha3($this->billingCountryRegion())['name'];
+            return (string) ((new ISO3166Source())
+                ->alpha3($this->billingCountryRegion())['name']);
         } catch (Throwable) {
             return '';
         }

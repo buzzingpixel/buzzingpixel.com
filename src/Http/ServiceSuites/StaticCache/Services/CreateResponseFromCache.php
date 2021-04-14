@@ -32,7 +32,7 @@ class CreateResponseFromCache
             location: ($this->getCachePathFromRequest)($request)
         );
 
-        $cacheItem = unserialize(data: $content);
+        $cacheItem = unserialize($content);
 
         assert(assertion: $cacheItem instanceof CacheItem);
 

@@ -17,8 +17,8 @@ trait BillingStateProvince
 
     public function billingStateProvinceName(): string
     {
-        return UsStatesList::all()[$this->billingStateProvince()] ??
-            $this->billingStateProvince();
+        return (string) (UsStatesList::all()[$this->billingStateProvince()] ??
+            $this->billingStateProvince());
     }
 
     /**
