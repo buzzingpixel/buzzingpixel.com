@@ -13,6 +13,7 @@ use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Exception\HttpNotFoundException;
 use Twig\Environment as TwigEnvironment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -31,6 +32,7 @@ class UsersAction
     }
 
     /**
+     * @throws HttpNotFoundException
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
@@ -67,6 +69,10 @@ class UsersAction
             ->withCurrentPage($pageNum)
             ->withPerPage(self::LIMIT)
             ->withTotalResults($this->userApi->fetchTotalUsers());
+
+        if ($pageNum > 1 && $users->count() < 1) {
+            throw new HttpNotFoundException($request);
+        }
 
         $response->getBody()->write($this->twig->render(
             '@app/Http/Response/Admin/AdminStackedListTwoColumn.twig',
