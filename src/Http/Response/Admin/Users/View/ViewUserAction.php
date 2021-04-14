@@ -35,8 +35,6 @@ class ViewUserAction
      */
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
-        // TODO: User Search
-        // TODO: pagination
         // TODO: Display User Orders
         // TODO: Display User Licenses
         $emailAddress = (string) $request->getAttribute('emailAddress');
