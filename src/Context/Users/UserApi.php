@@ -49,9 +49,9 @@ class UserApi
         return $this->saveUser->save($user);
     }
 
-    public function fetchTotalUsers(): int
+    public function fetchTotalUsers(?UserQueryBuilder $queryBuilder = null): int
     {
-        return $this->fetchTotalUsers->fetch();
+        return $this->fetchTotalUsers->fetch($queryBuilder);
     }
 
     /**

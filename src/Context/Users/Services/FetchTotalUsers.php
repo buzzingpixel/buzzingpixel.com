@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Context\Users\Services;
 
-use App\Persistence\Entities\Users\UserRecord;
+use App\Persistence\QueryBuilders\Users\UserQueryBuilder;
 use Config\General;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Psr\Log\LoggerInterface;
 use Throwable;
+
+use function assert;
+use function count;
+use function is_array;
 
 class FetchTotalUsers
 {
@@ -21,10 +24,10 @@ class FetchTotalUsers
     ) {
     }
 
-    public function fetch(): int
+    public function fetch(?UserQueryBuilder $queryBuilder = null): int
     {
         try {
-            return $this->innerFetch();
+            return $this->innerFetch($queryBuilder);
         } catch (Throwable $exception) {
             if ($this->config->devMode()) {
                 throw $exception;
@@ -39,17 +42,20 @@ class FetchTotalUsers
         }
     }
 
-    /**
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     */
-    private function innerFetch(): int
+    private function innerFetch(?UserQueryBuilder $queryBuilder = null): int
     {
-        return (int) $this->entityManager
-            ->getRepository(UserRecord::class)
-            ->createQueryBuilder('u')
-            ->select('count(u.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
+        if ($queryBuilder === null) {
+            $queryBuilder = new UserQueryBuilder();
+        }
+
+        $queryBuilder = $queryBuilder->withLimit(null)
+            ->withOffset(null);
+
+        $result = $queryBuilder->createQuery($this->entityManager)
+            ->getResult(AbstractQuery::HYDRATE_SCALAR);
+
+        assert(is_array($result));
+
+        return count($result);
     }
 }
