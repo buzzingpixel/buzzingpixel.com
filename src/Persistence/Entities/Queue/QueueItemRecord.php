@@ -52,9 +52,7 @@ class QueueItemRecord
      */
     public function getQueue(): ?QueueRecord
     {
-        /**
-         * @psalm-suppress RedundantPropertyInitializationCheck
-         */
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
         if (! isset($this->queue)) {
             return null;
         }
