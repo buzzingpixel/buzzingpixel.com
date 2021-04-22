@@ -29,7 +29,7 @@
             },
             {
                 "match": "assets\\/js\\/.*?\\.js$|assets\\\\js\\\\.*?\\.js$",
-                "cmd": "${workspaceRoot}/platform/node_modules/.bin/eslint --fix ${file}",
+                "cmd": "${workspaceRoot}/node_modules/.bin/eslint --fix ${file}",
             },
         ],
     },
