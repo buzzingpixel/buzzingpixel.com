@@ -35,16 +35,14 @@ class OrderItemRecord
      *     referencedColumnName="id",
      * )
      */
-    private OrderRecord $order;
+    private ?OrderRecord $order = null;
 
     public function getOrder(): ?OrderRecord
     {
-        /** @psalm-suppress RedundantPropertyInitializationCheck */
-        if (isset($this->order)) {
+        if ($this->order === null) {
             return null;
         }
 
-        /** @psalm-suppress MixedMethodCall */
         if (
             $this->newOrderId !== null &&
             $this->order->getId()->toString() !== $this->newOrderId

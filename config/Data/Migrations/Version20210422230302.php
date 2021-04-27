@@ -37,7 +37,9 @@ final class Version20210422230302 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $this->addSql('DROP TABLE order_items');
+        $this->addSql('ALTER TABLE order_items DROP CONSTRAINT FK_62809DB08D9F6D38');
+        $this->addSql('ALTER TABLE order_items DROP CONSTRAINT FK_62809DB0460F904B');
         $this->addSql('DROP TABLE orders');
+        $this->addSql('DROP TABLE order_items');
     }
 }

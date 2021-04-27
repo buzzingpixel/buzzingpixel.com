@@ -82,8 +82,6 @@ class OrderRecord
     }
 
     /**
-     * One queue has many queue items. This is the inverse side.
-     *
      * @var Collection<int, OrderItemRecord>
      * @Mapping\OneToMany(
      *     targetEntity="OrderItemRecord",
