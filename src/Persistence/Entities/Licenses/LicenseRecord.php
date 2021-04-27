@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Persistence\Entities\Licenses;
 
+use App\Persistence\Entities\Software\SoftwareRecord;
 use App\Persistence\Entities\Users\UserRecord;
 use App\Persistence\PropertyTraits\AdminNotes;
 use App\Persistence\PropertyTraits\AuthorizedDomains;
@@ -53,5 +54,26 @@ class LicenseRecord
     public function setUser(UserRecord $user): void
     {
         $this->user = $user;
+    }
+
+    /**
+     * @Mapping\OneToOne(
+     *     targetEntity="\App\Persistence\Entities\Software\SoftwareRecord"
+     * )
+     * @Mapping\JoinColumn(
+     *     name="softare_id",
+     *     referencedColumnName="id",
+     * )
+     */
+    private SoftwareRecord $software;
+
+    public function getSoftware(): SoftwareRecord
+    {
+        return $this->software;
+    }
+
+    public function setSoftware(SoftwareRecord $software): void
+    {
+        $this->software = $software;
     }
 }
