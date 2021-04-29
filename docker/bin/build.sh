@@ -41,8 +41,7 @@ printf "${Cyan}Building registry.digitalocean.com/buzzingpixel/buzzingpixel.com-
 
 docker build ../../ \
     --tag registry.digitalocean.com/buzzingpixel/buzzingpixel.com-app \
-    --file ../application/Dockerfile \
-    --platform linux/amd64
+    --file ../application/Dockerfile
 
 printf "${Green}Finished registry.digitalocean.com/buzzingpixel/buzzingpixel.com-app${Reset}\n\n";
 

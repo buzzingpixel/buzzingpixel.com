@@ -1,7 +1,10 @@
 ##################
 # frontend-builder
 ##################
-FROM node:15.8.0 AS frontend-builder
+FROM --platform=$BUILDPLATFORM node:15.8.0 AS frontend-builder
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
 
 # Set our workdir
 WORKDIR /opt/project
@@ -19,7 +22,10 @@ RUN yarn build-prod
 ###############
 # php:8.0.3-fpm
 ###############
-FROM php:8.0.3-fpm
+FROM --platform=$BUILDPLATFORM php:8.0.3-fpm
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
 
 # Set our workdir
 WORKDIR /opt/project
@@ -38,13 +44,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 #
 ARG S6_VERSION=v1.22.1.0
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-amd64.tar.gz /tmp/s6-overlay-amd64.tar.gz
-ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-amd64.tar.gz.sig /tmp/s6-overlay-amd64.tar.gz.sig
+
+COPY docker/application/build-scripts /build-scripts
+RUN chmod +x /build-scripts/download-s6-overlay-to-tmp.sh && /build-scripts/download-s6-overlay-to-tmp.sh $TARGETPLATFORM $S6_VERSION
 # Verify GPG signature - "Just Containers <just-containers@jrjrtech.com>"
 RUN curl https://keybase.io/justcontainers/key.asc | gpg --import \
-    && gpg --verify /tmp/s6-overlay-amd64.tar.gz.sig /tmp/s6-overlay-amd64.tar.gz \
+    && gpg --verify /tmp/s6-overlay.tar.gz.sig /tmp/s6-overlay.tar.gz \
     # Install
-    && tar xvfz /tmp/s6-overlay-amd64.tar.gz -C / && rm /tmp/s6-overlay-amd64.tar.gz
+    && tar xvfz /tmp/s6-overlay.tar.gz -C / && rm /tmp/s6-overlay.tar.gz
 
 #
 # Additional PHP extensions and configuration
@@ -95,8 +102,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Find at http://nginx.org/packages/mainline/debian/pool/nginx/n/nginx/
 # and http://nginx.org/packages/mainline/debian/pool/nginx/n/nginx-module-njs/
-ARG NGINX_VERSION=1.17.9
-ARG NJS_VERSION=0.3.9
+ARG NGINX_VERSION=1.19.9
+ARG NJS_VERSION=0.5.3
 ARG PKG_RELEASE=1~buster
 
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
@@ -108,7 +115,7 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 573BFD6B3D
         nginx-module-geoip=${NGINX_VERSION}-${PKG_RELEASE} \
         nginx-module-image-filter=${NGINX_VERSION}-${PKG_RELEASE} \
         nginx-module-perl=${NGINX_VERSION}-${PKG_RELEASE} \
-        nginx-module-njs=${NGINX_VERSION}.${NJS_VERSION}-${PKG_RELEASE} \
+        nginx-module-njs=${NGINX_VERSION}+${NJS_VERSION}-${PKG_RELEASE} \
         gettext-base \
     # Cleanup
     && rm -rf /var/lib/apt/lists/*
