@@ -26,13 +26,16 @@ class GetUserPayloadAction
                 'application/json'
             );
 
+        $userIsLoggedIn = $this->loggedInUser->hasUser();
+
         $response->getBody()->write((string) json_encode(
             [
-                'userIsLoggedIn' => $this->loggedInUser->hasUser(),
-                'userEmailAddress' => $this->loggedInUser->hasUser() ?
+                'userIsLoggedIn' => $userIsLoggedIn,
+                'userEmailAddress' => $userIsLoggedIn ?
                     $this->loggedInUser->user()->emailAddress() :
                     '',
-                'userIsAdmin' => $this->loggedInUser->user()->isAdmin(),
+                'userIsAdmin' => $userIsLoggedIn &&
+                    $this->loggedInUser->user()->isAdmin(),
             ],
         ));
 
