@@ -19,6 +19,7 @@ use App\Collections\AbstractCollection;
  * @method CartItem[] toArray()
  * @method CartItem|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, CartItem $item, bool $setLastIfNoMatch = false)
+ * @template-extends AbstractCollection<CartItem>
  */
 class CartItemCollection extends AbstractCollection
 {

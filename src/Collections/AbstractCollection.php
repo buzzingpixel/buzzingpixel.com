@@ -18,7 +18,10 @@ use function sprintf;
 // phpcs:disable SlevomatCodingStandard.Classes.SuperfluousAbstractClassNaming.SuperfluousPrefix
 // phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingAnyTypeHint
 
-/** @phpstan-ignore-next-line  */
+/**
+ * @template T
+ * @template-extends RamseyAbstractCollection<T>
+ */
 abstract class AbstractCollection extends RamseyAbstractCollection
 {
     /**
@@ -31,8 +34,6 @@ abstract class AbstractCollection extends RamseyAbstractCollection
      * @return mixed the value extracted from the specified property or method.
      *
      * @throws ValueExtractionException if the method or property is not defined.
-     *
-     * @noinspection PhpMissingParamTypeInspection
      */
     protected function extractValue($object, string $propertyOrMethod): mixed
     {
@@ -62,8 +63,9 @@ abstract class AbstractCollection extends RamseyAbstractCollection
     }
 
     /**
-     * @psalm-suppress MissingReturnType
-     * @phpstan-ignore-next-line
+     * @return T|null
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
      */
     public function firstOrNull()
     {
@@ -74,6 +76,9 @@ abstract class AbstractCollection extends RamseyAbstractCollection
         return $this->first();
     }
 
+    /**
+     * @param T $item
+     */
     public function replaceWhereMatch(
         string $propertyOrMethod,
         mixed $item,
@@ -87,7 +92,6 @@ abstract class AbstractCollection extends RamseyAbstractCollection
 
         $hasMatch = false;
 
-        /** @psalm-suppress MixedAssignment */
         foreach ($this->data as $key => $loopItem) {
             /** @psalm-suppress MixedAssignment */
             $loopValue = $this->extractValue(
