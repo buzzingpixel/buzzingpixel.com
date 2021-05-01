@@ -47,7 +47,7 @@ class SaveSoftware
             }
 
             $this->logger->emergency(
-                'An exception was caught saving a user',
+                'An exception was caught saving software',
                 ['exception' => $exception],
             );
 
@@ -100,8 +100,6 @@ class SaveSoftware
             SoftwareRecord::class,
             $software->id(),
         );
-
-        $duplicate = null;
 
         // If it's not, make sure this software's slug is unique
         if ($record === null) {

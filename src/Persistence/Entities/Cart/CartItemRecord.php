@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Persistence\Entities\Cart;
 
+use App\Context\Cart\Entities\CartItem;
 use App\Persistence\Entities\Software\SoftwareRecord;
 use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\Quantity;
 use App\Persistence\PropertyTraits\Slug;
 use Doctrine\ORM\Mapping;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @Mapping\Entity
@@ -19,6 +21,15 @@ class CartItemRecord
     use Id;
     use Quantity;
     use Slug;
+
+    public function hydrateFromEntity(CartItem $entity): self
+    {
+        $this->setId(Uuid::fromString($entity->id()));
+        $this->setQuantity($entity->quantity());
+        $this->setSlug($entity->slug());
+
+        return $this;
+    }
 
     /**
      * @Mapping\ManyToOne(

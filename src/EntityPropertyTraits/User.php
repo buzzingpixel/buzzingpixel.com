@@ -8,9 +8,9 @@ use App\Context\Users\Entities\User as UserEntity;
 
 trait User
 {
-    private UserEntity $user;
+    private ?UserEntity $user;
 
-    public function user(): UserEntity
+    public function user(): ?UserEntity
     {
         return $this->user;
     }
@@ -18,7 +18,7 @@ trait User
     /**
      * @return $this
      */
-    public function withUser(UserEntity $user): self
+    public function withUser(?UserEntity $user): self
     {
         $clone = clone $this;
 

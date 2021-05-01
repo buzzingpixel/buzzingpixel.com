@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Persistence\Entities\Cart;
 
+use App\Context\Cart\Entities\Cart;
 use App\Persistence\Entities\Users\UserRecord;
 use App\Persistence\PropertyTraits\CreatedAt;
 use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\LastTouchedAt;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @Mapping\Entity
@@ -21,6 +23,15 @@ class CartRecord
     use LastTouchedAt;
     use CreatedAt;
 
+    public function hydrateFromEntity(Cart $entity): self
+    {
+        $this->setId(Uuid::fromString($entity->id()));
+        $this->setLastTouchedAt($entity->lastTouchedAt());
+        $this->setCreatedAt($entity->createdAt());
+
+        return $this;
+    }
+
     /**
      * @Mapping\OneToOne(
      *     targetEntity="\App\Persistence\Entities\Users\UserRecord",
@@ -30,9 +41,9 @@ class CartRecord
      *     referencedColumnName="id",
      * )
      */
-    private UserRecord $user;
+    private ?UserRecord $user = null;
 
-    public function getUser(): UserRecord
+    public function getUser(): ?UserRecord
     {
         return $this->user;
     }
@@ -56,7 +67,7 @@ class CartRecord
     /**
      * @return Collection<int, CartItemRecord>
      */
-    public function getOrderItems(): Collection
+    public function getCartItems(): Collection
     {
         return $this->cartItems;
     }
@@ -64,7 +75,7 @@ class CartRecord
     /**
      * @param Collection<int, CartItemRecord> $cartItems
      */
-    public function setOrderItems(Collection $cartItems): void
+    public function setCartItems(Collection $cartItems): void
     {
         $this->cartItems = $cartItems;
     }

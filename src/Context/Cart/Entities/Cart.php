@@ -10,6 +10,8 @@ use App\EntityPropertyTraits\Id;
 use App\EntityPropertyTraits\LastTouchedAt;
 use App\EntityPropertyTraits\User;
 use App\EntityValueObjects\Id as IdValue;
+use App\Persistence\Entities\Cart\CartItemRecord;
+use App\Persistence\Entities\Cart\CartRecord;
 use App\Utilities\DateTimeUtility;
 use DateTimeInterface;
 use LogicException;
@@ -31,10 +33,24 @@ class Cart
     /** @phpstan-ignore-next-line  */
     private CartItemCollection $cartItems;
 
+    public static function fromRecord(CartRecord $record): self
+    {
+        /** @psalm-suppress PossiblyNullArgument */
+        return (new self(
+            id: $record->getId(),
+            lastTouchedAt: $record->getLastTouchedAt(),
+            createdAt: $record->getCreatedAt(),
+            user: $record->getUser() !== null ? UserEntity::fromRecord(
+                $record->getUser()
+            ) :
+            null,
+        ))->withItemsFromRecord($record);
+    }
+
     /** @phpstan-ignore-next-line  */
     public function __construct(
-        UserEntity $user,
-        null | array | CartItemCollection $cartItems,
+        ?UserEntity $user = null,
+        null | array | CartItemCollection $cartItems = [],
         null | string | DateTimeInterface $lastTouchedAt = null,
         null | string | DateTimeInterface $createdAt = null,
         null | string | UuidInterface $id = null,
@@ -79,7 +95,7 @@ class Cart
 
     private bool $isInitialized = false;
 
-    /** @phpstan-ignore-next-line  */
+    /** @phpstan-ignore-next-line */
     public function cartItems(): CartItemCollection
     {
         return $this->cartItems;
@@ -116,6 +132,23 @@ class Cart
                 $this->cartItems->toArray(),
                 [$newCartItem]
             ),
+        ));
+
+        return $clone;
+    }
+
+    public function withItemsFromRecord(CartRecord $record): self
+    {
+        $clone = clone $this;
+
+        $clone->cartItems = new CartItemCollection(array_map(
+            static fn (
+                CartItemRecord $r
+            ) => CartItem::fromRecord(
+                $r,
+                $clone,
+            ),
+            $record->getCartItems()->toArray(),
         ));
 
         return $clone;
