@@ -13,13 +13,18 @@ use App\EntityValueObjects\Id as IdValue;
 use App\Persistence\Entities\Cart\CartItemRecord;
 use App\Persistence\Entities\Cart\CartRecord;
 use App\Utilities\DateTimeUtility;
+use App\Utilities\MoneyFormatter;
 use DateTimeInterface;
 use LogicException;
+use Money\Currency;
+use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 
 use function array_map;
 use function array_merge;
 use function is_array;
+use function ltrim;
+use function round;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue.NullabilitySymbolRequired
 
@@ -152,5 +157,113 @@ class Cart
         ));
 
         return $clone;
+    }
+
+    public function totalItems(): int
+    {
+        return $this->cartItems()->count();
+    }
+
+    public function totalQuantity(): int
+    {
+        $quantity = 0;
+
+        foreach ($this->cartItems()->toArray() as $item) {
+            $quantity += $item->quantity();
+        }
+
+        return $quantity;
+    }
+
+    public function subTotal(): Money
+    {
+        $money = new Money(0, new Currency('USD'));
+
+        foreach ($this->cartItems()->toArray() as $item) {
+            for ($i = 0; $i < $item->quantity(); $i++) {
+                $money = $money->add($item->software()->price());
+            }
+        }
+
+        return $money;
+    }
+
+    public function subTotalAsInt(): int
+    {
+        return (int) $this->subTotal()->getAmount();
+    }
+
+    public function subTotalFormatted(): string
+    {
+        return MoneyFormatter::format($this->subTotal());
+    }
+
+    public function subTotalFormattedNoSymbol(): string
+    {
+        return ltrim($this->subTotalFormatted(), '$');
+    }
+
+    /**
+     * Calculate 7% sales tax if in the state of TN
+     */
+    public function tax(string $stateAbbr = ''): Money
+    {
+        $usd = new Currency('USD');
+
+        $user = $this->user();
+
+        if ($user === null && $stateAbbr !== 'TN') {
+            return new Money(0, $usd);
+        }
+
+        if ($stateAbbr === '' && $user !== null) {
+            $stateAbbr = $user->billingProfile()->billingStateProvince();
+        }
+
+        if ($stateAbbr !== 'TN') {
+            return new Money(0, new Currency('USD'));
+        }
+
+        return new Money(
+            (int) round(
+                ((int) $this->subTotal()->getAmount()) * 0.07
+            ),
+            $usd
+        );
+    }
+
+    public function taxAsInt(): int
+    {
+        return (int) $this->tax()->getAmount();
+    }
+
+    public function taxFormatted(): string
+    {
+        return MoneyFormatter::format($this->tax());
+    }
+
+    public function taxFormattedNoSymbol(): string
+    {
+        return ltrim($this->taxFormatted(), '$');
+    }
+
+    public function total(): Money
+    {
+        return $this->subTotal()->add($this->tax());
+    }
+
+    public function totalAsInt(): int
+    {
+        return (int) $this->total()->getAmount();
+    }
+
+    public function totalFormatted(): string
+    {
+        return MoneyFormatter::format($this->total());
+    }
+
+    public function totalFormattedNoSymbol(): string
+    {
+        return ltrim($this->totalFormatted(), '$');
     }
 }
