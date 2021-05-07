@@ -44,7 +44,7 @@ class CartQueryBuilder extends QueryBuilder
         string $concat = 'AND',
     ): self {
         return $this->withWhere(
-            'user_id',
+            'user',
             $value,
             $comparison,
             $concat,
