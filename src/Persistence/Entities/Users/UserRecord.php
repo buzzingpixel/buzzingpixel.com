@@ -82,7 +82,7 @@ class UserRecord
         $this->billingProfile = $billingProfile;
     }
 
-    public function hydrateFromEntity(User $user): void
+    public function hydrateFromEntity(User $user): self
     {
         $this->setId(Uuid::fromString($user->id()));
         $this->setIsAdmin($user->isAdmin());
@@ -99,6 +99,8 @@ class UserRecord
         $this->billingProfile->hydrateFromEntity(
             $user->billingProfile(),
         );
+
+        return $this;
     }
 
     public function __construct()
