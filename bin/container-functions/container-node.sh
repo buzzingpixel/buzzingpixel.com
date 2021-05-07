@@ -5,8 +5,18 @@ function container-node-help() {
 }
 
 function container-node() {
-    docker run -it \
-        -v ${PWD}:/app \
-        -w /app \
-        ${nodeDockerImage} bash -c "${allArgsExceptFirst}";
+    if [[ -z "${allArgsExceptFirst}" ]]; then
+        printf "${Yellow}Remember to 'exit' when you're done.${Reset}\n";
+        docker run -it \
+            -v ${PWD}:/app \
+            -w /app \
+            ${nodeDockerImage} bash;
+    else
+        docker run -it \
+            -v ${PWD}:/app \
+            -w /app \
+            ${nodeDockerImage} bash -c "${allArgsExceptFirst}";
+    fi
+
+    return 0;
 }

@@ -5,7 +5,7 @@ function docker-down-help {
 }
 
 function docker-down() {
-    docker-compose ${composeFiles} -p buzzingpixel down;
+    docker compose ${composeFiles} -p buzzingpixel down;
 
     return 0;
 }

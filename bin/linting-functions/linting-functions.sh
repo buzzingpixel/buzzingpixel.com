@@ -56,12 +56,12 @@ function psalm() {
     fi
 
     if [[ "${1}" = "fix" ]]; then
-        php -d memory_limit=4G vendor/vimeo/psalm/psalm --alter --issues=${ISSUES} --no-cache
+        php -d memory_limit=4G vendor/vimeo/psalm/psalm --alter --issues=${ISSUES} --no-cache;
 
         return 0;
     fi
 
-    php -d memory_limit=4G vendor/vimeo/psalm/psalm --no-cache
+    php -d memory_limit=4G vendor/vimeo/psalm/psalm --no-cache;
 
     return 0;
 }

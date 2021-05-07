@@ -2,6 +2,7 @@
 <project version="4">
   <component name="Symfony2PluginSettings">
     <option name="pluginEnabled" value="true" />
+    <option name="profilerCsvPath" value="" />
     <option name="twigNamespaces">
       <list>
         <twig_namespace custom="true" namespaceType="ADD_PATH" path="assets/templates" />
