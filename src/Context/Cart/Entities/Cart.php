@@ -20,8 +20,10 @@ use Money\Currency;
 use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 
+use function array_filter;
 use function array_map;
 use function array_merge;
+use function assert;
 use function is_array;
 use function ltrim;
 use function round;
@@ -129,12 +131,38 @@ class Cart
     {
         $clone = clone $this;
 
+        $newSlug = $newCartItem->slug();
+
+        $this->cartItems()->walk(
+            static function (CartItem $i) use (
+                &$newCartItem
+            ): void {
+                /**
+                 * Psalm needs the assert for... stupid reasons... who knows
+                 *
+                 * @phpstan-ignore-next-line
+                 */
+                assert($newCartItem instanceof CartItem);
+
+                if ($i->slug() !== $newCartItem->slug()) {
+                    return;
+                }
+
+                $newCartItem = $newCartItem->withQuantity(
+                    $i->quantity() + $newCartItem->quantity(),
+                );
+            }
+        );
+
         $clone->cartItems = new CartItemCollection(array_map(
             static fn (CartItem $i) => $i->withCart(
                 $clone
             ),
             array_merge(
-                $this->cartItems->toArray(),
+                array_filter(
+                    $this->cartItems->toArray(),
+                    static fn (CartItem $i) => $i->slug() !== $newSlug,
+                ),
                 [$newCartItem]
             ),
         ));
