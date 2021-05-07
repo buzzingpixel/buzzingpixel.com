@@ -13,9 +13,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UsersDevSeedsCommand extends Command
 {
-    public function __construct(
-        private UserApi $userApi,
-    ) {
+    public function __construct(private UserApi $userApi)
+    {
         parent::__construct();
     }
 
