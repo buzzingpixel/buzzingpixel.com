@@ -10,6 +10,7 @@ use App\Persistence\PropertyTraits\CreatedAt;
 use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\LastTouchedAt;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping;
 use Ramsey\Uuid\Uuid;
 
@@ -23,11 +24,24 @@ class CartRecord
     use LastTouchedAt;
     use CreatedAt;
 
-    public function hydrateFromEntity(Cart $entity): self
-    {
+    public function hydrateFromEntity(
+        Cart $entity,
+        EntityManager $entityManager,
+    ): self {
         $this->setId(Uuid::fromString($entity->id()));
         $this->setLastTouchedAt($entity->lastTouchedAt());
         $this->setCreatedAt($entity->createdAt());
+
+        $user = $entity->user();
+
+        if ($user !== null) {
+            $this->setUser($entityManager->find(
+                UserRecord::class,
+                $user->id(),
+            ));
+        } else {
+            $this->setUser();
+        }
 
         return $this;
     }
@@ -48,7 +62,7 @@ class CartRecord
         return $this->user;
     }
 
-    public function setUser(UserRecord $user): void
+    public function setUser(?UserRecord $user = null): void
     {
         $this->user = $user;
     }

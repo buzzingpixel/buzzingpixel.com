@@ -80,7 +80,10 @@ class SaveCart
             $record = new CartRecord();
         }
 
-        $record->hydrateFromEntity($cart);
+        $record->hydrateFromEntity(
+            $cart,
+            $this->entityManager
+        );
 
         $record->setCartItems(new ArrayCollection(
             array_map(
