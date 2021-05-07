@@ -24,6 +24,12 @@ class FetchCarts
     ) {
     }
 
+    /**
+     * @return CartCollection<Cart>
+     *
+     * @psalm-suppress MixedReturnTypeCoercion
+     * @psalm-suppress TooManyTemplateParams
+     */
     public function fetch(CartQueryBuilder $queryBuilder): CartCollection
     {
         try {
@@ -42,8 +48,15 @@ class FetchCarts
         }
     }
 
+    /**
+     * @return CartCollection<Cart>
+     *
+     * @psalm-suppress MixedReturnTypeCoercion
+     * @psalm-suppress TooManyTemplateParams
+     */
     public function innerFetch(CartQueryBuilder $queryBuilder): CartCollection
     {
+        /** @psalm-suppress MixedArgument */
         return new CartCollection(array_map(
             static fn (CartRecord $r) => Cart::fromRecord($r),
             $queryBuilder->createQuery(

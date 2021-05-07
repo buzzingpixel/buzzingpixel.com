@@ -73,7 +73,8 @@ class FetchCurrentUserCart
                 );
             }
 
-            $this->saveCart->save($userCart);
+            $userCart = $this->saveCart->save($userCart)
+                ->getResult()['cartEntity'];
         }
 
         if (! $this->loggedInUser->hasUser() && $cookieCart === null) {
