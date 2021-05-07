@@ -42,8 +42,8 @@ class CartItem
     }
 
     public function __construct(
-        Cart $cart,
         Software $software,
+        Cart $cart = null,
         int $quantity = 0,
         string $slug = '',
         null | string | UuidInterface $id = null,
@@ -62,13 +62,19 @@ class CartItem
             $this->id = IdValue::fromString($id);
         }
 
-        $this->cart = $cart;
+        if ($cart !== null) {
+            $this->cart = $cart;
+        }
 
         $this->software = $software;
 
         $this->quantity = $quantity;
 
-        $this->slug = $slug;
+        $this->slug = $software->slug();
+
+        if ($slug !== '') {
+            $this->slug = $slug;
+        }
 
         $this->isInitialized = true;
     }
