@@ -170,6 +170,59 @@ class Cart
         return $clone;
     }
 
+    /** @var string[] */
+    private array $removedCartItemIds = [];
+
+    /**
+     * @return string[]
+     */
+    public function removedCartItemIds(): array
+    {
+        return $this->removedCartItemIds;
+    }
+
+    public function withRemovedCartItemBySlug(string $slug): self
+    {
+        $clone = clone $this;
+
+        array_map(
+            static function (CartItem $i) use ($slug, &$clone): void {
+                /**
+                 * Psalm needs the assert for... stupid reasons... who knows
+                 *
+                 * @phpstan-ignore-next-line
+                 */
+                assert($clone instanceof Cart);
+
+                if ($i->slug() !== $slug) {
+                    return;
+                }
+
+                $clone->removedCartItemIds[] = $i->id();
+            },
+            $this->cartItems->toArray(),
+        );
+
+        /**
+         * Psalm needs the assert for... stupid reasons... who knows
+         *
+         * @phpstan-ignore-next-line
+         */
+        assert($clone instanceof Cart);
+
+        $clone->cartItems = new CartItemCollection(array_map(
+            static fn (CartItem $i) => $i->withCart(
+                $clone
+            ),
+            array_filter(
+                $this->cartItems->toArray(),
+                static fn (CartItem $i) => $i->slug() !== $slug,
+            ),
+        ));
+
+        return $clone;
+    }
+
     public function withItemsFromRecord(CartRecord $record): self
     {
         $clone = clone $this;

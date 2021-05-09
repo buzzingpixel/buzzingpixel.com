@@ -85,6 +85,18 @@ class SaveCart
             $this->entityManager
         );
 
+        foreach ($cart->removedCartItemIds() as $cartItemId) {
+            foreach ($record->getCartItems()->toArray() as $cartItemRecord) {
+                assert($cartItemRecord instanceof CartItemRecord);
+
+                if ($cartItemRecord->getId()->toString() !== $cartItemId) {
+                    continue;
+                }
+
+                $this->entityManager->remove($cartItemRecord);
+            }
+        }
+
         $record->setCartItems(new ArrayCollection(
             array_map(
                 function (CartItem $item) use (
