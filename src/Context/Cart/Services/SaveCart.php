@@ -87,6 +87,11 @@ class SaveCart
 
         foreach ($cart->removedCartItemIds() as $cartItemId) {
             foreach ($record->getCartItems()->toArray() as $cartItemRecord) {
+                /**
+                 * Psalm needs the assert for... stupid reasons... who knows
+                 *
+                 * @phpstan-ignore-next-line
+                 */
                 assert($cartItemRecord instanceof CartItemRecord);
 
                 if ($cartItemRecord->getId()->toString() !== $cartItemId) {

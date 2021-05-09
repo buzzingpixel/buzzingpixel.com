@@ -73,8 +73,18 @@ class FetchCurrentUserCart
                 );
             }
 
+            /**
+             * Psalm needs the assert for... stupid reasons... who knows
+             *
+             * @phpstan-ignore-next-line
+             */
+            assert($userCart instanceof Cart);
+
+            /** @psalm-suppress MixedAssignment */
             $userCart = $this->saveCart->save($userCart)
                 ->getResult()['cartEntity'];
+
+            assert($userCart instanceof Cart);
         }
 
         if (! $this->loggedInUser->hasUser() && $cookieCart === null) {
@@ -91,7 +101,7 @@ class FetchCurrentUserCart
             );
         }
 
-        if ($userCart !== null) {
+        if ($userCart !== null && $cookie !== null) {
             // The cookie api delete cookie function is broken. Need to fix that
             // $this->cookieApi->deleteCookie($cookie);
             $this->cookieApi->saveCookie(

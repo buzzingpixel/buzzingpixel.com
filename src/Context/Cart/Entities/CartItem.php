@@ -21,6 +21,7 @@ class CartItem
     use Quantity;
     use Slug;
 
+    /** @psalm-suppress PropertyNotSetInConstructor */
     private Cart $cart;
     private Software $software;
 
