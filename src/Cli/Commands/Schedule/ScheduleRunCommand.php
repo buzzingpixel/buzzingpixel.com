@@ -48,7 +48,6 @@ class ScheduleRunCommand extends Command
         }
 
         try {
-            /** @psalm-suppress MixedArgumentTypeCoercion */
             $schedules->map(fn (ScheduleItem $i) => $this->processItem(
                 $i
             ));
@@ -92,7 +91,7 @@ class ScheduleRunCommand extends Command
             $scheduleItem,
         );
 
-        if ($scheduleItem->isRunning() && $shouldRun) {
+        if ($scheduleItem->isRunning() && ! $shouldRun) {
             $this->output->writeln(
                 '<fg=yellow>' .
                     $scheduleItem->className() .
