@@ -11,6 +11,8 @@ use App\Persistence\Entities\Cart\CartItemRecord;
 use App\Persistence\Entities\Cart\CartRecord;
 use App\Persistence\Entities\Software\SoftwareRecord;
 use Config\General;
+use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
@@ -59,6 +61,11 @@ class SaveCart
      */
     private function innerSave(Cart $cart): Payload
     {
+        $cart = $cart->withLastTouchedAt(new DateTimeImmutable(
+            'now',
+            new DateTimeZone('UTC')
+        ));
+
         $payloadStatus = Payload::STATUS_UPDATED;
 
         $this->logger->info(

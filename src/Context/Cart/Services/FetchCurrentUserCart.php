@@ -117,6 +117,22 @@ class FetchCurrentUserCart
 
         assert($cart instanceof Cart);
 
+        $twentyFourHoursInSeconds = 86400;
+
+        $lastTouchedTimestamp = $cart->lastTouchedAt()->getTimestamp();
+
+        $lastTouchedDiff = $currentDate->getTimestamp() - $lastTouchedTimestamp;
+
+        // Update last touched at if it's been more than 24 hours since last
+        // touched at was updated
+        if ($lastTouchedDiff > $twentyFourHoursInSeconds) {
+            /** @psalm-suppress MixedAssignment */
+            $cart = $this->saveCart->save($cart)
+                ->getResult()['cartEntity'];
+
+            assert($cart instanceof Cart);
+        }
+
         return $cart;
     }
 }
