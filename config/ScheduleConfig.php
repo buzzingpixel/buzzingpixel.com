@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Config;
 
+use App\Context\Cart\Schedule\CleanOldCarts;
 use App\Context\DatabaseCache\Schedule\PruneExpiredCache;
 use App\Context\Queue\Schedule\CleanDeadQueues;
 use App\Context\Queue\Schedule\CleanOldQueues;
@@ -19,6 +20,7 @@ class ScheduleConfig
     {
         return new ScheduleConfigItemCollection([
             CleanDeadQueues::getScheduleConfig(),
+            CleanOldCarts::getScheduleConfig(),
             CleanOldQueues::getScheduleConfig(),
             CleanUploadedFilesSchedule::getScheduleConfig(),
             PruneExpiredCache::getScheduleConfig(),
