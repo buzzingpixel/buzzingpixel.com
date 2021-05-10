@@ -9,6 +9,8 @@ services:
     image: registry.digitalocean.com/buzzingpixel/buzzingpixel.com-app
     environment:
       HOSTNAME: buzzingpixel-app
+    expose:
+      - 80
     ports:
       - 14689:80
 

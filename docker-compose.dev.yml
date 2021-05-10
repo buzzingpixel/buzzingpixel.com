@@ -1,62 +1,36 @@
 version: '3.7'
 
 services:
-  traefik:
-    container_name: buzzingpixel-traefik
-    image: traefik:2.4.8
-    labels:
-      - traefik.enable=true
-      - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
-      - traefik.http.middlewares.https-redirect.redirectscheme.permanent=true
-    ports:
-      - target: 80
-        published: 14690
-        mode: host
-      - target: 443
-        published: 14691
-        mode: host
-      - target: 8080
-        published: 14692
-        mode: host
-    command:
-      - --api.insecure=true
-      - --providers.docker
-      - --providers.docker.exposedbydefault=false
-      - --providers.file.filename=traefik_dynamic_conf.yml
-      - --entrypoints.web.address=:80
-      - --entrypoints.websecure.address=:443
-      - --accesslog
-      - --log
-    volumes:
-      - ./docker/application/certs:/certs
-      - ./docker-traefik-dev-conf.yml:/traefik_dynamic_conf.yml
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-
   app:
     volumes:
       - .:/opt/project:delegated
       - vendor-volume:/opt/project/vendor:delegated
+    networks:
+      - web
+      - default
     labels:
       - traefik.enable=true
+      - traefik.docker.network=traefik-dev_default
+
       # Non-SSL Local
-      - traefik.http.routers.app-local.entrypoints=web
-      - traefik.http.routers.app-local.rule=Host(`buzzingpixel.localtest.me`)
-      - traefik.http.routers.app-local.middlewares=https-redirect
+      - traefik.http.routers.buzzingpixel-local.entrypoints=web
+      - traefik.http.routers.buzzingpixel-local.rule=Host(`buzzingpixel.localtest.me`)
+      - traefik.http.routers.buzzingpixel-local.middlewares=https-redirect
 
       # Non-SSL Ngrok
-      - traefik.http.routers.app-ngrok.entrypoints=web
-      - traefik.http.routers.app-ngrok.rule=Host(`buzzingpixel.ngrok.io`)
-      - traefik.http.routers.app-ngrok.middlewares=https-redirect
+      - traefik.http.routers.buzzingpixel-ngrok.entrypoints=web
+      - traefik.http.routers.buzzingpixel-ngrok.rule=Host(`buzzingpixel.ngrok.io`)
+      - traefik.http.routers.buzzingpixel-ngrok.middlewares=https-redirect
 
       # SSL Local
-      - traefik.http.routers.app-secure-local.entrypoints=websecure
-      - traefik.http.routers.app-secure-local.tls=true
-      - traefik.http.routers.app-secure-local.rule=Host(`buzzingpixel.localtest.me`)
+      - traefik.http.routers.buzzingpixel-secure-local.entrypoints=websecure
+      - traefik.http.routers.buzzingpixel-secure-local.tls=true
+      - traefik.http.routers.buzzingpixel-secure-local.rule=Host(`buzzingpixel.localtest.me`)
 
       # SSL Ngrok
-      - traefik.http.routers.app-secure-ngrok.entrypoints=websecure
-      - traefik.http.routers.app-secure-ngrok.tls=true
-      - traefik.http.routers.app-secure-ngrok.rule=Host(`buzzingpixel.ngrok.io`)
+      - traefik.http.routers.buzzingpixel-secure-ngrok.entrypoints=websecure
+      - traefik.http.routers.buzzingpixel-secure-ngrok.tls=true
+      - traefik.http.routers.buzzingpixel-secure-ngrok.rule=Host(`buzzingpixel.ngrok.io`)
 
   bg-sync-vendor:
     container_name: buzzingpixel-bg-sync-vendor
@@ -68,3 +42,7 @@ services:
 
 volumes:
   vendor-volume:
+
+networks:
+  web:
+    name: traefik-dev_default
