@@ -106,6 +106,7 @@ class Software
         if ($versions === null) {
             $this->versions = new SoftwareVersionCollection();
         } elseif (is_array($versions)) {
+            /** @psalm-suppress MixedArgumentTypeCoercion */
             $this->versions = new SoftwareVersionCollection($versions);
         } else {
             $this->versions = $versions;

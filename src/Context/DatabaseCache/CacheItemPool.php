@@ -162,6 +162,7 @@ class CacheItemPool implements CacheItemPoolInterface
 
     public function save(CacheItemInterface $item): bool
     {
+        /** @psalm-suppress ArgumentTypeCoercion */
         $this->runTimeCache->replaceWhereMatch(
             'getKey',
             $item,
@@ -175,12 +176,14 @@ class CacheItemPool implements CacheItemPoolInterface
 
     public function saveDeferred(CacheItemInterface $item): bool
     {
+        /** @psalm-suppress ArgumentTypeCoercion */
         $this->runTimeCache->replaceWhereMatch(
             'getKey',
             $item,
             true,
         );
 
+        /** @psalm-suppress ArgumentTypeCoercion */
         $this->deferred->replaceWhereMatch(
             'getKey',
             $item,
@@ -196,7 +199,6 @@ class CacheItemPool implements CacheItemPoolInterface
             return true;
         }
 
-        /** @psalm-suppress MixedArgumentTypeCoercion */
         $this->deferred->map(
             fn (DatabaseCacheItem $c) => $this->save($c),
         );

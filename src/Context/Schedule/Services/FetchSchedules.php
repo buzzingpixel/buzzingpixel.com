@@ -50,11 +50,11 @@ class FetchSchedules
     {
         $scheduleConfig = ScheduleConfig::getSchedule();
 
-        /** @psalm-suppress MixedArgumentTypeCoercion */
         $classNames = $scheduleConfig->map(
             static fn (ScheduleConfigItem $i) => $i->className(),
         )->toArray();
 
+        /** @psalm-suppress MixedArgumentTypeCoercion */
         $records = new ScheduleTrackingRecordCollection(
             (array) $this->entityManager
                 ->getRepository(ScheduleTrackingRecord::class)
@@ -68,19 +68,21 @@ class FetchSchedules
                 ->getResult()
         );
 
-        /** @psalm-suppress MixedArgumentTypeCoercion */
-        return new ScheduleItemCollection($scheduleConfig->map(
+        /** @var ScheduleItem[] $scheduleItems */
+        $scheduleItems = $scheduleConfig->map(
             static function (
-                ScheduleConfigItem $configItem,
+                ScheduleConfigItem $configItem
             ) use ($records): ScheduleItem {
                 return ScheduleItem::fromConfigItemAndRecord(
                     $configItem,
                     $records->where(
                         'getClassName',
-                        $configItem->className()
+                        $configItem->className(),
                     )->firstOrNull()
                 );
             }
-        )->toArray());
+        )->toArray();
+
+        return new ScheduleItemCollection($scheduleItems);
     }
 }

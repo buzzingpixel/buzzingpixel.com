@@ -20,6 +20,7 @@ use App\Collections\AbstractCollection;
  * @method QueueItem[] toArray()
  * @method QueueItem|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, QueueItem $item, bool $setLastIfNoMatch = false)
+ * @template-extends AbstractCollection<QueueItem>
  */
 class QueueItemCollection extends AbstractCollection
 {
@@ -42,11 +43,6 @@ class QueueItemCollection extends AbstractCollection
 
     /**
      * @param QueueItem $element
-     *
-     * @noinspection PhpMissingParamTypeInspection
-     *
-     * @psalm-suppress MoreSpecificImplementedParamType
-     * @phpstan-ignore-next-line
      */
     public function add($element): bool
     {

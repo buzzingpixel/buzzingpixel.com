@@ -19,6 +19,7 @@ use App\Collections\AbstractCollection;
  * @method SoftwareVersion[] toArray()
  * @method SoftwareVersion|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, SoftwareVersion $item, bool $setLastIfNoMatch = false)
+ * @template-extends AbstractCollection<SoftwareVersion>
  */
 class SoftwareVersionCollection extends AbstractCollection
 {
