@@ -32,6 +32,7 @@ use App\Http\Response\Admin\Users\UsersAction;
 use App\Http\Response\Admin\Users\View\ViewUserAction;
 use App\Http\Response\Ajax\FileUpload\FileUploadAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
+use App\Http\Response\Cart\AddToCartAction;
 use App\Http\Response\HealthCheck\HealthCheckAction;
 use App\Http\Response\Home\HomeAction;
 use App\Http\Response\IForgot\IForgotAction;
@@ -252,4 +253,7 @@ return static function (App $app): void {
     // Category Construct Docs
     $app->get(pattern: '/software/category-construct/documentation', callable: CategoryConstructV2DocIndexAction::class);
     $app->get(pattern: '/software/category-construct/documentation/template-tags', callable: CategoryConstructV2DocTemplateTagsAction::class);
+
+    // Cart
+    $app->get(pattern: '/cart/add/{softwareSlug}', callable: AddToCartAction::class);
 };
