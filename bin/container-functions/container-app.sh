@@ -9,9 +9,9 @@ function container-app() {
 
     if [[ -z "${allArgsExceptFirst}" ]]; then
         printf "${Yellow}Remember to 'exit' when you're done.${Reset}\n";
-        docker exec -it -w /opt/project buzzingpixel-app bash;
+        docker exec -it -e XDEBUG_MODE=off -w /opt/project buzzingpixel-app bash;
     else
-        docker exec -it -w /opt/project buzzingpixel-app bash -c "${allArgsExceptFirst}";
+        docker exec -it -w /opt/project buzzingpixel-app bash -c "XDEBUG_MODE=off ${allArgsExceptFirst}";
     fi
 
     return 0;
