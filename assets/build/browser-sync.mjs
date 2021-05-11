@@ -34,10 +34,10 @@ export default () => {
         ghostMode: false,
         injectChanges: false,
         notify: false,
-        proxy: 'https://buzzingpixel.localtest.me:14691/',
+        proxy: 'https://buzzingpixel.localtest.me/',
         https: {
-            key: `${appDir}/docker/application/certs/localhost.key`,
-            cert: `${appDir}/docker/application/certs/localhost.cert`
+            key: `${appDir}/../traefik-dev/certs/localhost.key`,
+            cert: `${appDir}/../traefik-dev/certs/localhost.cert`
         },
         reloadDelay: 100,
         reloadDebounce: 100,
