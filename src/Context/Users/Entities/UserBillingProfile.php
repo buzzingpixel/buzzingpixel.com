@@ -98,4 +98,15 @@ class UserBillingProfile
     }
 
     private bool $isInitialized = false;
+
+    public function isComplete(): bool
+    {
+        return $this->billingName() !== '' &&
+            $this->billingPhone() !== '' &&
+            $this->billingCountryRegion() !== '' &&
+            $this->billingAddress() !== '' &&
+            $this->billingCity() !== '' &&
+            $this->billingStateProvince() !== '' &&
+            $this->billingPostalCode() !== '';
+    }
 }
