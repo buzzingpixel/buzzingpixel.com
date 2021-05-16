@@ -135,7 +135,8 @@ class Cart
 
         $this->cartItems()->walk(
             static function (CartItem $i) use (
-                &$newCartItem
+                &$newCartItem,
+                &$clone,
             ): void {
                 /**
                  * Psalm needs the assert for... stupid reasons... who knows
@@ -144,15 +145,31 @@ class Cart
                  */
                 assert($newCartItem instanceof CartItem);
 
+                /**
+                 * Psalm needs the assert for... stupid reasons... who knows
+                 *
+                 * @phpstan-ignore-next-line
+                 */
+                assert($clone instanceof Cart);
+
                 if ($i->slug() !== $newCartItem->slug()) {
                     return;
                 }
+
+                $clone->removedCartItemIds[] = $i->id();
 
                 $newCartItem = $newCartItem->withQuantity(
                     $i->quantity() + $newCartItem->quantity(),
                 );
             }
         );
+
+        /**
+         * Psalm needs the assert for... stupid reasons... who knows
+         *
+         * @phpstan-ignore-next-line
+         */
+        assert($clone instanceof Cart);
 
         $clone->cartItems = new CartItemCollection(array_map(
             static fn (CartItem $i) => $i->withCart(
