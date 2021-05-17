@@ -110,13 +110,14 @@
                                                 </label>
                                             </dd>
                                             <div class="absolute right-2 top-1/2 transform -translate-y-1/2">
-                                                <button
+                                                <a
+                                                    href="/cart/delete/{{ item.slug }}"
                                                     type="button"
                                                     class="{% if loop.index is odd %}bg-white{% else %}bg-gray-50{% endif%} rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset"
                                                 >
-                                                    <span class="sr-only">Close main menu</span>
+                                                    <span class="sr-only">Delete Item</span>
                                                     {{ include('Http/_Infrastructure/Svg/MobileMenuCloseIcon.svg') }}
-                                                </button>
+                                                </a>
                                             </div>
                                         </div>
                                     {% endfor %}
