@@ -12,6 +12,7 @@ import LoadAxios from './SetUp/LoadAxios.js';
 import SetGlobalData from './SetUp/SetGlobalData.js';
 
 // Components
+import Cart from './Components/Cart.js';
 import MainNav from './Components/MainNav.js';
 import PrismCodeHighlighting from './Components/PrismCodeHighlighting.js';
 import Selects from './Components/Selects.js';
@@ -31,6 +32,9 @@ SetGlobalData();
 
 // Main nav
 window.Methods.MainNav = MainNav;
+
+// Cart
+window.Methods.Cart = Cart;
 
 // Load prism code highlighting
 if (document.querySelector('code')

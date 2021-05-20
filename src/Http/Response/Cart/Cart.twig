@@ -4,7 +4,26 @@
 {% extends 'Http/_Infrastructure/_Layout.twig' %}
 
 {% block content %}
-    <div class="relative lg:px-8">
+    <div
+        class="relative lg:px-8"
+        x-init="RunWhenReady('Cart', data)"
+        x-data="{
+            data: {
+                cartItems: {
+                    {% for item in cart.cartItems %}
+                        {# @var \App\Context\Cart\Entities\CartItem item #}
+                        '{{ item.slug }}': {
+                            quantity: {{ item.quantity }},
+                        },
+                    {% endfor %}
+                },
+                totalItems: {{ cart.totalItems }},
+                subTotal: '{{ cart.subTotalFormatted }}',
+                tax: '{{ cart.taxFormatted }}',
+                total: '{{ cart.totalFormatted }}',
+            },
+        }"
+    >
         <div class="max-w-2xl lg:max-w-7xl mx-auto sm:my-8">
             <div class="lg:flex lg:justify-between lg:flex-row-reverse">
                 <div class="lg:width-300px">
@@ -23,7 +42,10 @@
                                     <dt class="text-sm font-medium text-gray-500">
                                         Total Items
                                     </dt>
-                                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                    <dd
+                                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+                                        x-text="data.totalItems"
+                                    >
                                         {{ cart.totalQuantity }}
                                     </dd>
                                 </div>
@@ -31,7 +53,10 @@
                                     <dt class="text-sm font-medium text-gray-500">
                                         Subtotal
                                     </dt>
-                                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                    <dd
+                                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+                                        x-text="data.subTotal"
+                                    >
                                         {{ cart.subTotalFormatted }}
                                     </dd>
                                 </div>
@@ -39,7 +64,10 @@
                                     <dt class="text-sm font-medium text-gray-500">
                                         Tax
                                     </dt>
-                                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                    <dd
+                                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+                                        x-text="data.tax"
+                                    >
                                         {{ cart.taxFormatted }}
                                     </dd>
                                 </div>
@@ -47,7 +75,10 @@
                                     <dt class="text-sm font-medium text-gray-500">
                                         Total
                                     </dt>
-                                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                    <dd
+                                        class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+                                        x-text="data.total"
+                                    >
                                         {{ cart.totalFormatted }}
                                     </dd>
                                 </div>
@@ -98,7 +129,7 @@
                                         <div class="{% if loop.index is odd %}bg-gray-50{% else %}bg-white{% endif%} px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 relative">
                                             <dt class="text-sm font-medium text-gray-500">
                                                 <div>{{ item.software.name }}</div>
-                                                <span class="text-sm font-normal">Quantity: {{ item.quantity }}</span>
+                                                <span class="text-sm font-normal">Quantity: <span x-text="data.cartItems['{{ item.slug }}'].quantity">{{ item.quantity }}</span></span>
                                             </dt>
                                             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                                 <label>
@@ -106,6 +137,8 @@
                                                         type="number"
                                                         value="{{ item.quantity }}"
                                                         class="w-20 py-0.5 rounded-md border-gray-300"
+                                                        @change="data.cartItems['{{ item.slug }}'].quantity = $event.currentTarget.value; $dispatch('userUpdatedCart')"
+                                                        @keyup="data.cartItems['{{ item.slug }}'].quantity = $event.currentTarget.value; $dispatch('userUpdatedCart')"
                                                     >
                                                 </label>
                                             </dd>

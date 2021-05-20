@@ -30,6 +30,7 @@ use App\Http\Response\Admin\Users\Edit\EditUserAction;
 use App\Http\Response\Admin\Users\Edit\PostEditUserAction;
 use App\Http\Response\Admin\Users\UsersAction;
 use App\Http\Response\Admin\Users\View\ViewUserAction;
+use App\Http\Response\Ajax\Cart\UpdateCartAction;
 use App\Http\Response\Ajax\FileUpload\FileUploadAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
 use App\Http\Response\Cart\AddToCartAction;
@@ -260,4 +261,5 @@ return static function (App $app): void {
     $app->get(pattern: '/cart', callable: CartAction::class);
     $app->get(pattern: '/cart/add/{softwareSlug}', callable: AddToCartAction::class);
     $app->get(pattern: '/cart/delete/{softwareSlug}', callable: DeleteFromCartAction::class);
+    $app->post(pattern: '/ajax/cart/update', callable: UpdateCartAction::class);
 };
