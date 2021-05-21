@@ -72,6 +72,11 @@
                                         {% if input.labelSmall is defined and input.labelSmall %}
                                             <small class="text-gray-400 font-normal">{{ input.labelSmall|smartypants }}</small>
                                         {% endif %}
+                                        {% if input.subHeading is defined and input.subHeading %}
+                                            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                                                {{ input.subHeading|smartypants }}
+                                            </p>
+                                        {% endif %}
                                     </label>
                                     <div class="mt-1 sm:mt-0 sm:col-span-2">
                                         <div class="max-w-lg">

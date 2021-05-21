@@ -32,6 +32,8 @@ class UserConfig
             $user = new User(emailAddress: 'tk@tk.tk');
         }
 
+        $requiredForCheckout = 'required for check out';
+
         return [
             [
                 'template' => 'Select',
@@ -59,6 +61,7 @@ class UserConfig
             ],
             [
                 'label' => 'Billing Name',
+                'subHeading' => $requiredForCheckout,
                 'name' => 'billing_name',
                 'value' => $hasPostData ?
                     (string) ($postData['billing_name'] ?? '') :
@@ -74,6 +77,7 @@ class UserConfig
             ],
             [
                 'label' => 'Billing Phone',
+                'subHeading' => $requiredForCheckout,
                 'name' => 'billing_phone',
                 'value' => $hasPostData ?
                     (string) ($postData['billing_phone'] ?? '') :
@@ -87,6 +91,7 @@ class UserConfig
                 'template' => 'Select',
                 'attrs' => ['@change' => 'data.countryRegion = $event.currentTarget.value'],
                 'label' => 'Billing Country / Region',
+                'subHeading' => $requiredForCheckout,
                 'name' => 'billing_country_region',
                 'options' => Countries::countrySelectList(),
                 'value' => $hasPostData ?
@@ -95,6 +100,7 @@ class UserConfig
             ],
             [
                 'label' => 'Billing Address',
+                'subHeading' => $requiredForCheckout,
                 'name' => 'billing_address',
                 'value' => $hasPostData ?
                     (string) ($postData['billing_address'] ?? '') :
@@ -109,6 +115,7 @@ class UserConfig
             ],
             [
                 'label' => 'Billing City',
+                'subHeading' => $requiredForCheckout,
                 'name' => 'billing_city',
                 'value' => $hasPostData ?
                     (string) ($postData['billing_city'] ?? '') :
@@ -117,6 +124,7 @@ class UserConfig
             [
                 'template' => 'Combine',
                 'label' => 'Billing State/Province',
+                'subHeading' => $requiredForCheckout,
                 'id' => 'billing_state_province',
                 'inputs' => [
                     [
@@ -147,6 +155,7 @@ class UserConfig
             ],
             [
                 'label' => 'Billing Postal Code',
+                'subHeading' => $requiredForCheckout,
                 'name' => 'billing_postal_code',
                 'value' => $hasPostData ?
                     (string) ($postData['billing_postal_code'] ?? '') :
