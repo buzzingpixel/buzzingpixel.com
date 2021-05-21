@@ -25,6 +25,7 @@
             userIsAdmin: false,
             userEmailAddress: '',
             accountMenuIsActive: false,
+            cartCount: 0,
         }
     }"
 >
@@ -70,6 +71,19 @@
                     class="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0"
                     data-name="AccountMenu"
                 >
+                    <a
+                        href="{{ siteUrl('/cart') }}"
+                        class="block font-medium text-gray-700 hover:text-black pr-10 hidden"
+                        :class="{'hidden': data.cartCount < 1}"
+                    >
+                        <span class="block w-6 relative">
+                            <span
+                                class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-lightest-red text-red absolute transform top-1/2 -translate-y-2/4 right-0 translate-x-full -mr-1"
+                                x-text="data.cartCount"
+                            ></span>
+                            {% include "Http/_Infrastructure/Svg/Cart.twig" %}
+                        </span>
+                    </a>
                     <div
                         :class="{'hidden': data.userIsLoggedIn}"
                     >
@@ -210,6 +224,20 @@
                                 {{ item.content|smartypants }}
                             </a>
                         {% endfor %}
+                        <a
+                            href="{{ siteUrl('/cart') }}"
+                            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+                            role="menuitem"
+                            :class="{'hidden': data.cartCount < 1}"
+                        >
+                            <span class="block w-10 relative">
+                                <span
+                                    class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-lightest-red text-red absolute transform top-1/2 -translate-y-2/4 right-0 translate-x-full -mr-1"
+                                    x-text="data.cartCount"
+                                ></span>
+                                {% include "Http/_Infrastructure/Svg/Cart.twig" %}
+                            </span>
+                        </a>
                     </div>
                     <div
                         role="none"
