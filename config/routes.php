@@ -35,6 +35,7 @@ use App\Http\Response\Ajax\FileUpload\FileUploadAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
 use App\Http\Response\Cart\AddToCartAction;
 use App\Http\Response\Cart\CartAction;
+use App\Http\Response\Cart\CartLogIn;
 use App\Http\Response\Cart\DeleteFromCartAction;
 use App\Http\Response\HealthCheck\HealthCheckAction;
 use App\Http\Response\Home\HomeAction;
@@ -262,4 +263,5 @@ return static function (App $app): void {
     $app->get(pattern: '/cart/add/{softwareSlug}', callable: AddToCartAction::class);
     $app->get(pattern: '/cart/delete/{softwareSlug}', callable: DeleteFromCartAction::class);
     $app->post(pattern: '/ajax/cart/update', callable: UpdateCartAction::class);
+    $app->get(pattern: '/cart/log-in', callable: CartLogIn::class);
 };

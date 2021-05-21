@@ -1,3 +1,6 @@
+{% set breadcrumbTrail = breadcrumbTrail ?? null %}
+{% set breadcrumbSingle = breadcrumbSingle ?? null %}
+
 {% extends 'Http/_Infrastructure/_Layout.twig' %}
 
 {% set message = flash('FormMessage') %}
@@ -6,6 +9,13 @@
 {% endif %}
 
 {% block content %}
+    {% if breadcrumbTrail and breadcrumbSingle %}
+        {% include 'Http/_Infrastructure/Breadcrumbs.twig' with {
+            breadcrumbTrail: breadcrumbTrail,
+            breadcrumbSingle: breadcrumbSingle,
+            useMaxWidth: false,
+        } only %}
+    {% endif %}
     <div class="min-h-screen-minus-header-and-footer bg-gray-50 flex flex-col justify-center py-6 sm:px-6 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
             <h2 class="text-center text-3xl font-extrabold text-gray-900 px-4 sm:px-0">
