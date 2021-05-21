@@ -36,7 +36,7 @@ $app = AppFactory::create();
  * @psalm-suppress MixedAssignment
  * @psalm-suppress UnresolvableInclude
  */
-$routes = require $rootDir . '/config/Routes/index.php';
+$routes = require $rootDir . '/config/routes.php';
 /** @psalm-suppress MixedFunctionCall */
 $routes($app);
 
