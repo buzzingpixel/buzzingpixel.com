@@ -20,6 +20,8 @@ use function is_string;
  * @method string siteName()
  * @method string systemEmailSenderAddress()
  * @method string systemEmailSenderName()
+ * @method string stripePublishableKey()
+ * @method string stripeSecretKey()
  * @method array stylesheets()
  * @method array jsFiles()
  * @method array accountMenu()
@@ -38,6 +40,14 @@ class General extends SimpleModel
         static::$publicPath = $rootPath . '/public';
 
         static::$pathToStorageDirectory = $rootPath . '/storage';
+
+        /** @phpstan-ignore-next-line */
+        static::$stripePublishableKey = (string) getenv(
+            'STRIPE_PUBLISHABLE_KEY'
+        );
+
+        /** @phpstan-ignore-next-line */
+        static::$stripeSecretKey = (string) getenv('STRIPE_SECRET_KEY');
 
         if (getenv('SITE_URL') !== false) {
             $siteUrl = getenv('SITE_URL');
@@ -73,6 +83,10 @@ class General extends SimpleModel
     public static string $systemEmailSenderAddress = 'info@buzzingpixel.com';
 
     public static string $systemEmailSenderName = 'BuzzingPixel';
+
+    public static string $stripePublishableKey = '';
+
+    public static string $stripeSecretKey = '';
 
     /** @var string[] */
     public static array $stylesheets = [];
