@@ -195,6 +195,11 @@ class Software
         return $clone;
     }
 
+    public function priceLessSubscriptionAsInt(): int
+    {
+        return $this->priceAsInt() - $this->renewalPriceAsInt();
+    }
+
     public function adminBaseLink(): string
     {
         return '/' . implode(
