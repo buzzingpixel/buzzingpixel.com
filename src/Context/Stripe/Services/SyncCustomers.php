@@ -4,27 +4,21 @@ declare(strict_types=1);
 
 namespace App\Context\Stripe\Services;
 
-use App\Context\Stripe\Factories\StripeFactory;
 use App\Context\Stripe\Factories\SyncCustomerFactory;
 use App\Context\Users\Entities\User;
 use App\Context\Users\UserApi;
 use App\Persistence\QueryBuilders\Users\UserQueryBuilder;
 use Stripe\Customer;
-use Stripe\StripeClient;
 
-use function array_map;
 use function in_array;
 
 class SyncCustomers
 {
-    private StripeClient $stripeClient;
-
     public function __construct(
-        StripeFactory $stripeFactory,
+        private StripeFetchAllCustomers $stripeFetchAllCustomers,
         private UserApi $userApi,
         private SyncCustomerFactory $syncCustomerFactory,
     ) {
-        $this->stripeClient = $stripeFactory->createStripeClient();
     }
 
     public function sync(): void
@@ -34,17 +28,17 @@ class SyncCustomers
             new UserQueryBuilder()
         );
 
-        /** @var Customer[] $customers */
-        $customers = $this->stripeClient->customers->all()->data;
+        $customers = $this->stripeFetchAllCustomers->fetch();
 
         // Sync all customers that already exist on Stripe, save the ids of the
         // updated items
-        $updatedUsersIds = array_map(
+        $updatedUsersIds = $customers->mapToArray(
             function (Customer $customer) use ($users): ?string {
+                $metaData = $customer->metadata->toArray();
+
                 $user = $users->where(
                     'id',
-                    /** @phpstan-ignore-next-line  */
-                    $customer->metadata->id,
+                    $metaData['id'] ?? null,
                 )->firstOrNull();
 
                 if ($user === null) {
@@ -59,8 +53,7 @@ class SyncCustomers
                     ->sync();
 
                 return $user->id();
-            },
-            $customers
+            }
         );
 
         // Add new customers to Stripe
