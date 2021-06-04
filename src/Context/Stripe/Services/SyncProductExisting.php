@@ -6,36 +6,44 @@ namespace App\Context\Stripe\Services;
 
 use App\Context\Software\Entities\Software;
 use App\Context\Stripe\Contracts\SyncProduct;
+use App\Context\Stripe\Factories\StripeFactory;
 use App\Context\Stripe\Factories\SyncProductPricingFactory;
 use Stripe\Product;
 use Stripe\StripeClient;
+use Throwable;
 
 class SyncProductExisting implements SyncProduct
 {
+    private StripeClient $stripeClient;
+
     public function __construct(
+        StripeFactory $stripeFactory,
         private Product $product,
         private Software $software,
-        private StripeClient $stripeClient,
         private SyncProductPricingFactory $syncProductPricingFactory,
     ) {
+        $this->stripeClient = $stripeFactory->createStripeClient();
     }
 
     public function sync(): void
     {
-        $response = $this->stripeClient->products->update(
-            $this->product->id,
-            [
-                'name' => $this->software->name(),
-                'active' => true,
-                'metadata' => [
-                    'slug' => $this->software->slug(),
+        try {
+            $response = $this->stripeClient->products->update(
+                $this->product->id,
+                [
+                    'name' => $this->software->name(),
+                    'active' => true,
+                    'metadata' => [
+                        'slug' => $this->software->slug(),
+                    ],
                 ],
-            ],
-        );
+            );
 
-        $this->syncProductPricingFactory->createSyncProductPricing(
-            $response,
-            $this->software,
-        )->sync();
+            $this->syncProductPricingFactory->createSyncProductPricing(
+                $response,
+                $this->software,
+            )->sync();
+        } catch (Throwable) {
+        }
     }
 }

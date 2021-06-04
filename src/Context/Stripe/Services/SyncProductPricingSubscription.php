@@ -9,6 +9,7 @@ use App\Context\Stripe\Contracts\SyncProductPricing;
 use Stripe\Price;
 use Stripe\Product;
 use Stripe\StripeClient;
+use Throwable;
 
 use function array_filter;
 use function assert;
@@ -27,9 +28,12 @@ class SyncProductPricingSubscription implements SyncProductPricing
 
     public function sync(): void
     {
-        $this->syncFixedPrice();
+        try {
+            $this->syncFixedPrice();
 
-        $this->syncSubscriptionPrice();
+            $this->syncSubscriptionPrice();
+        } catch (Throwable) {
+        }
     }
 
     private function syncFixedPrice(): void

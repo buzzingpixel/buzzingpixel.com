@@ -9,7 +9,7 @@ use App\Context\Stripe\Contracts\SyncProduct;
 use App\Context\Stripe\Services\SyncProductAddNew;
 use App\Context\Stripe\Services\SyncProductArchive;
 use App\Context\Stripe\Services\SyncProductExisting;
-use LogicException;
+use App\Context\Stripe\Services\SyncProductNoOp;
 use Stripe\Product;
 
 class SyncProductFactory
@@ -29,30 +29,28 @@ class SyncProductFactory
             ($software === null || ! $software->isForSale())
         ) {
             return new SyncProductArchive(
+                stripeFactory: $this->stripeFactory,
                 product: $product,
-                stripeClient: $this->stripeFactory->createStripeClient(),
             );
         }
 
         if ($product === null && $software !== null) {
             return new SyncProductAddNew(
+                stripeFactory: $this->stripeFactory,
                 software: $software,
-                stripeClient: $this->stripeFactory->createStripeClient(),
                 syncProductPricingFactory: $this->syncProductPricingFactory,
             );
         }
 
         if ($product !== null && $software !== null) {
             return new SyncProductExisting(
+                stripeFactory: $this->stripeFactory,
                 product: $product,
                 software: $software,
-                stripeClient: $this->stripeFactory->createStripeClient(),
                 syncProductPricingFactory: $this->syncProductPricingFactory,
             );
         }
 
-        throw new LogicException(
-            'Either $product or $software must be defined'
-        );
+        return new SyncProductNoOp();
     }
 }
