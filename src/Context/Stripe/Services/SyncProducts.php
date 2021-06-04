@@ -6,25 +6,19 @@ namespace App\Context\Stripe\Services;
 
 use App\Context\Software\Entities\Software;
 use App\Context\Software\SoftwareApi;
-use App\Context\Stripe\Factories\StripeFactory;
 use App\Context\Stripe\Factories\SyncProductFactory;
 use App\Persistence\QueryBuilders\Software\SoftwareQueryBuilder;
 use Stripe\Product;
-use Stripe\StripeClient;
 
-use function array_map;
 use function in_array;
 
 class SyncProducts
 {
-    private StripeClient $stripeClient;
-
     public function __construct(
-        StripeFactory $stripeFactory,
+        private StripeFetchProducts $stripeFetchProducts,
         private SoftwareApi $softwareApi,
         private SyncProductFactory $syncProductFactory,
     ) {
-        $this->stripeClient = $stripeFactory->createStripeClient();
     }
 
     public function sync(): void
@@ -34,12 +28,11 @@ class SyncProducts
             new SoftwareQueryBuilder()
         );
 
-        /** @var Product[] $products */
-        $products = $this->stripeClient->products->all()->data;
+        $products = $this->stripeFetchProducts->fetch();
 
         // Sync all products that already exist on Stripe, save slugs of the
         // updated items
-        $updatedSoftwareSlugs = array_map(
+        $updatedSoftwareSlugs = $products->mapToArray(
             function (Product $product) use ($softwares): ?string {
                 $software = $softwares->where(
                     'slug',
@@ -59,8 +52,7 @@ class SyncProducts
                 }
 
                 return $software->slug();
-            },
-            $products,
+            }
         );
 
         // Add new software to stripe

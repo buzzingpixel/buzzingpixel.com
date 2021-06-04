@@ -8,11 +8,7 @@ use App\Context\Software\Entities\Software;
 use App\Context\Stripe\Contracts\SyncProductPricing;
 use Stripe\Price;
 use Stripe\Product;
-use Stripe\StripeClient;
 use Throwable;
-
-use function array_filter;
-use function assert;
 
 // phpcs:disable Squiz.NamingConventions.ValidVariableName.NotCamelCaps
 
@@ -21,8 +17,8 @@ class SyncProductPricingSubscription implements SyncProductPricing
     public function __construct(
         private Product $product,
         private Software $software,
-        private StripeClient $stripeClient,
         private AddProductPrice $addProductPrice,
+        private StripeFetchPrices $stripeFetchPrices,
     ) {
     }
 
@@ -40,21 +36,14 @@ class SyncProductPricingSubscription implements SyncProductPricing
     {
         $fixedInt = $this->software->priceLessSubscriptionAsInt();
 
-        $allFixedPrices = $this->stripeClient->prices->all([
+        $allFixedPrices = $this->stripeFetchPrices->fetch([
             'product' => $this->product->id,
             'type' => 'one_time',
         ]);
 
-        /** @psalm-suppress ArgumentTypeCoercion */
-        $fixedPrice = array_filter(
-            $allFixedPrices->data,
-            static fn (Price $price) => $price->unit_amount === $fixedInt,
-        )[0] ?? null;
-
-        assert(
-            $fixedPrice instanceof Price ||
-            $fixedPrice === null
-        );
+        $fixedPrice = $allFixedPrices->filter(
+            static fn (Price $price) => $price->unit_amount === $fixedInt
+        )->firstOrNull();
 
         if ($fixedPrice !== null) {
             return;
@@ -70,21 +59,14 @@ class SyncProductPricingSubscription implements SyncProductPricing
     {
         $priceInt = $this->software->renewalPriceAsInt();
 
-        $allSubPrices = $this->stripeClient->prices->all([
+        $allSubPrices = $this->stripeFetchPrices->fetch([
             'product' => $this->product->id,
             'type' => 'recurring',
         ]);
 
-        /** @psalm-suppress ArgumentTypeCoercion */
-        $subPrice = array_filter(
-            $allSubPrices->data,
-            static fn (Price $price) => $price->unit_amount === $priceInt,
-        )[0] ?? null;
-
-        assert(
-            $subPrice instanceof Price ||
-            $subPrice === null
-        );
+        $subPrice = $allSubPrices->filter(
+            static fn (Price $price) => $price->unit_amount === $priceInt
+        )->firstOrNull();
 
         if ($subPrice !== null) {
             return;

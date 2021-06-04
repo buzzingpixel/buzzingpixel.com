@@ -15,7 +15,7 @@ use function in_array;
 class SyncCustomers
 {
     public function __construct(
-        private StripeFetchAllCustomers $stripeFetchAllCustomers,
+        private StripeFetchCustomers $stripeFetchCustomers,
         private UserApi $userApi,
         private SyncCustomerFactory $syncCustomerFactory,
     ) {
@@ -28,7 +28,7 @@ class SyncCustomers
             new UserQueryBuilder()
         );
 
-        $customers = $this->stripeFetchAllCustomers->fetch();
+        $customers = $this->stripeFetchCustomers->fetch();
 
         // Sync all customers that already exist on Stripe, save the ids of the
         // updated items
