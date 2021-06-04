@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Response\Account\AccountIndexAction;
+use App\Http\Response\Account\BillingPortal\BillingPortalAction;
 use App\Http\Response\Account\ChangePassword\ChangePasswordAction;
 use App\Http\Response\Account\ChangePassword\PostChangePasswordAction;
 use App\Http\Response\Account\Licenses\AccountLicensesAction;
@@ -178,6 +179,11 @@ return static function (App $app): void {
         $r->post(pattern: '/profile', callable: PostAccountProfileAction::class);
         $r->get(pattern: '/change-password', callable: ChangePasswordAction::class);
         $r->post(pattern: '/change-password', callable: PostChangePasswordAction::class);
+        $r->get(
+            pattern: '/billing-portal',
+            callable:
+            BillingPortalAction::class
+        );
     })->add(RequireLogInAction::class);
 
     /**

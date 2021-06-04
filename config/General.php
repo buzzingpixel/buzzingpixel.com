@@ -116,6 +116,11 @@ class General extends SimpleModel
             'content' => 'Change Password',
             'isActive' => false,
         ],
+        'billing-portal' => [
+            'href' => '/account/billing-portal',
+            'content' => 'Billing Portal',
+            'isActive' => false,
+        ],
         'log-out' => [
             'href' => '/account/log-out',
             'content' => 'Log Out',

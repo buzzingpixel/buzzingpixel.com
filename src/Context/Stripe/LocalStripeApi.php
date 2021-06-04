@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace App\Context\Stripe;
 
+use App\Context\Stripe\Services\CreateBillingPortalSession;
 use App\Context\Stripe\Services\SyncCustomers;
 use App\Context\Stripe\Services\SyncProducts;
+use App\Context\Users\Entities\User;
+use Stripe\BillingPortal\Session;
 
 class LocalStripeApi
 {
     public function __construct(
         private SyncProducts $syncProducts,
         private SyncCustomers $syncCustomers,
+        private CreateBillingPortalSession $createBillingPortalSession,
     ) {
     }
 
@@ -23,5 +27,10 @@ class LocalStripeApi
     public function syncCustomers(): void
     {
         $this->syncCustomers->sync();
+    }
+
+    public function createBillingPortal(User $user): Session
+    {
+        return $this->createBillingPortalSession->create($user);
     }
 }
