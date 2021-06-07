@@ -6,6 +6,8 @@ namespace App\EntityPropertyTraits;
 
 use App\Context\Users\Entities\User as UserEntity;
 
+use function assert;
+
 trait User
 {
     private ?UserEntity $user;
@@ -13,6 +15,15 @@ trait User
     public function user(): ?UserEntity
     {
         return $this->user;
+    }
+
+    public function userGuarantee(): UserEntity
+    {
+        $user = $this->user;
+
+        assert($user instanceof UserEntity);
+
+        return $user;
     }
 
     /**

@@ -364,4 +364,21 @@ class Cart
     {
         return ltrim($this->totalFormatted(), '$');
     }
+
+    public function anyItemHasSubscription(): bool
+    {
+        $hasSub = false;
+
+        foreach ($this->cartItems()->toArray() as $item) {
+            if (! $item->software()->isSubscription()) {
+                continue;
+            }
+
+            $hasSub = true;
+
+            break;
+        }
+
+        return $hasSub;
+    }
 }
