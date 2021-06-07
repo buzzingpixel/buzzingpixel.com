@@ -72,7 +72,7 @@ class CacheItemPool implements CacheItemPoolInterface
         $collection = $this->runTimeCache->filter(
             static function (DatabaseCacheItem $c) use (
                 &$toQueryKeys,
-                $keys
+                $keys,
             ): bool {
                 if (isset($toQueryKeys[$c->getKey()])) {
                     /** @psalm-suppress MixedArrayAccess */
@@ -82,7 +82,7 @@ class CacheItemPool implements CacheItemPoolInterface
                 return in_array(
                     $c->getKey(),
                     $keys,
-                    true
+                    true,
                 );
             },
         );
@@ -217,7 +217,6 @@ class CacheItemPool implements CacheItemPoolInterface
     {
         $items = $this->getItemsByKeys->get($keys);
 
-        /** @psalm-suppress MixedArgumentTypeCoercion */
         $items->map(fn (
             DatabaseCacheItem $c
         ) => $this->runTimeCache->add($c));
