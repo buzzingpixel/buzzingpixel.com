@@ -41,7 +41,7 @@ const runDebounce = (modelData) => {
     }
 
     if (!window.axios) {
-        setTimeout(() => {
+        debouncer = setTimeout(() => {
             tries += 1;
 
             runDebounce(modelData);

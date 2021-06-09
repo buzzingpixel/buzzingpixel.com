@@ -102,9 +102,14 @@
                             {% else %}
                                 {# TODO: Pay Now Button #}
                                 {% include 'Http/_Infrastructure/Buttons/ActionButton.twig' with {
-                                    href: 'todo:paynow',
+                                    href: '#0',
                                     content: 'Pay Now',
                                     additionalClasses: 'px-16 lg:w-full text-center lg:block',
+                                    ref: 'cartPayNow',
+                                    data: {
+                                        'working-text': 'Preparing Checkout...',
+                                        'working-class': 'bg-gray-400-important',
+                                    },
                                 } only %}
                             {% endif %}
                         </div>

@@ -2,6 +2,8 @@
 {% set colorType = colorType ?? block('colorType') ?? null %}
 {% set content = content ?? block('content') ?? '' %}
 {% set additionalClasses = additionalClasses ?? '' %}
+{% set ref = ref ?? block('ref') ?? null %}
+{% set data = data ?? {} %}
 
 {% switch colorType %}
     {% case 'danger' %}
@@ -15,6 +17,12 @@
     type="button"
     class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm
     focus:outline-none focus:ring-2 focus:ring-offset-2 {{ colorClasses }} {{ additionalClasses }}"
+    {% if ref %}
+    ref="{{ ref }}"
+    {% endif %}
+    {% for key,item in data %}
+    data-{{ key }}="{{ item }}"
+    {% endfor %}
 >
     {{ content|smartypants }}
 </a>
