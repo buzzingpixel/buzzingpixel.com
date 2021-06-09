@@ -24,9 +24,9 @@ use function array_filter;
 use function array_map;
 use function array_merge;
 use function assert;
+use function ceil;
 use function is_array;
 use function ltrim;
-use function round;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue.NullabilitySymbolRequired
 
@@ -301,6 +301,19 @@ class Cart
         return ltrim($this->subTotalFormatted(), '$');
     }
 
+    public function requiresTax(): bool
+    {
+        $user = $this->user();
+
+        if ($user === null) {
+            return false;
+        }
+
+        $stateAbbr = $user->billingProfile()->billingStateProvince();
+
+        return $stateAbbr === 'TN';
+    }
+
     /**
      * Calculate 7% sales tax if in the state of TN
      */
@@ -323,7 +336,7 @@ class Cart
         }
 
         return new Money(
-            (int) round(
+            (int) ceil(
                 ((int) $this->subTotal()->getAmount()) * 0.07
             ),
             $usd
