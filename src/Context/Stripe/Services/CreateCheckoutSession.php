@@ -12,6 +12,7 @@ use Config\General;
 use Stripe\Checkout\Session;
 use Stripe\Price;
 use Stripe\Product;
+use Stripe\TaxRate;
 
 class CreateCheckoutSession
 {
@@ -21,6 +22,7 @@ class CreateCheckoutSession
         private StripeFetchCustomers $stripeFetchCustomers,
         private FetchPricesForSoftwareFactory $fetchPricesForSoftwareFactory,
         private StripeFetchProducts $stripeFetchProducts,
+        private StripeFetchTaxRates $stripeFetchTaxRates,
     ) {
     }
 
@@ -45,7 +47,7 @@ class CreateCheckoutSession
         $lineItems = [];
 
         $prices->map(
-            static function (Price $price) use (
+            function (Price $price) use (
                 &$lineItems,
                 $products,
                 $cart
@@ -61,14 +63,23 @@ class CreateCheckoutSession
                     )
                     ->first();
 
-                /**
-                 * @psalm-suppress MixedArrayAccess
-                 * @psalm-suppress MixedArrayAssignment
-                 */
-                $lineItems[] = [
+                $lineItem = [
                     'price' => $price->id,
                     'quantity' => $cartItem->quantity(),
                 ];
+
+                if ($cart->requiresTax()) {
+                    $taxRate = $this->stripeFetchTaxRates->fetch()->filter(
+                        static fn (TaxRate $r) => $r->state === 'TN',
+                    )->first();
+
+                    $lineItem['tax_rates'] = [$taxRate->id];
+                }
+
+                /**
+                 * @psalm-suppress MixedArrayAssignment
+                 */
+                $lineItems[] = $lineItem;
             }
         );
 
