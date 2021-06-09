@@ -32,8 +32,6 @@ class StripeFetchProducts
     /**
      * @param mixed[] $params
      *
-     * @psalm-suppress MixedInferredReturnType
-     *
      * @phpstan-ignore-next-line
      */
     public function fetch(array $params = []): StripeProductCollection

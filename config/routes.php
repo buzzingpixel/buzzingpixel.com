@@ -31,6 +31,7 @@ use App\Http\Response\Admin\Users\Edit\EditUserAction;
 use App\Http\Response\Admin\Users\Edit\PostEditUserAction;
 use App\Http\Response\Admin\Users\UsersAction;
 use App\Http\Response\Admin\Users\View\ViewUserAction;
+use App\Http\Response\Ajax\Cart\CreateCheckoutSessionAction;
 use App\Http\Response\Ajax\Cart\UpdateCartAction;
 use App\Http\Response\Ajax\FileUpload\FileUploadAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
@@ -270,4 +271,5 @@ return static function (App $app): void {
     $app->get(pattern: '/cart/delete/{softwareSlug}', callable: DeleteFromCartAction::class);
     $app->post(pattern: '/ajax/cart/update', callable: UpdateCartAction::class);
     $app->get(pattern: '/cart/log-in', callable: CartLogIn::class);
+    $app->get(pattern: '/ajax/cart/create-checkout-session', callable: CreateCheckoutSessionAction::class);
 };
