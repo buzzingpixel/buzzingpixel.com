@@ -193,15 +193,15 @@ class SaveSoftware
             ['softwareEntity' => $software],
         );
 
-        $afterAdd = new SaveSoftwareAfterSave(
+        $afterSave = new SaveSoftwareAfterSave(
             $software,
             $payload,
         );
 
-        $this->eventDispatcher->dispatch($afterAdd);
+        $this->eventDispatcher->dispatch($afterSave);
 
         $this->logger->info('The software was saved');
 
-        return $afterAdd->payload;
+        return $afterSave->payload;
     }
 }
