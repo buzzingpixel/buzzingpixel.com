@@ -25,7 +25,3 @@ services:
     volumes:
       - log-volume:/var/log
 
-volumes:
-  log-volume:
-  storage-volume:
-

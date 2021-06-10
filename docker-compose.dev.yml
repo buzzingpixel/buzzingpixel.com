@@ -1,6 +1,19 @@
 version: '3.7'
 
 services:
+  utility:
+    env_file:
+      - .env
+      - .env.local
+    image: ubuntu:18.04
+    restart: always
+    container_name: buzzingpixel-utility
+    volumes:
+      - .:/opt/project
+      - log-volume:/log-volume
+      - storage-volume:/storage-volume
+    command: bash -c "chmod +x /opt/project/docker/utility/prod.sh && /opt/project/docker/utility/prod.sh"
+
   app:
     volumes:
       - .:/opt/project:delegated

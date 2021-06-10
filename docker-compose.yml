@@ -33,3 +33,5 @@ services:
 
 volumes:
   db-volume:
+  log-volume:
+  storage-volume:
