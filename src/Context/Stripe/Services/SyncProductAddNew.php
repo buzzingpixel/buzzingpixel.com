@@ -31,6 +31,7 @@ class SyncProductAddNew implements SyncProduct
                 'active' => true,
                 'metadata' => [
                     'slug' => $this->software->slug(),
+                    'id' => $this->software->id(),
                 ],
             ]);
 

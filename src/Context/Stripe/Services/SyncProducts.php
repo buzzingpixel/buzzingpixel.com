@@ -32,12 +32,11 @@ class SyncProducts
 
         // Sync all products that already exist on Stripe, save slugs of the
         // updated items
-        $updatedSoftwareSlugs = $products->mapToArray(
+        $updatedSoftwareIds = $products->mapToArray(
             function (Product $product) use ($softwares): ?string {
                 $software = $softwares->where(
-                    'slug',
-                    /** @phpstan-ignore-next-line  */
-                    $product->metadata->slug,
+                    'id',
+                    $product->metadata['id'],
                 )->firstOrNull();
 
                 $this->syncProductFactory
@@ -51,27 +50,25 @@ class SyncProducts
                     return null;
                 }
 
-                return $software->slug();
+                return $software->id();
             }
         );
 
         // Add new software to stripe
         $softwares->map(function (Software $software) use (
-            $updatedSoftwareSlugs
+            $updatedSoftwareIds
         ): void {
             if (
                 in_array(
-                    $software->slug(),
-                    $updatedSoftwareSlugs,
+                    $software->id(),
+                    $updatedSoftwareIds,
                     true,
                 )
             ) {
                 return;
             }
 
-            $this->syncProductFactory->createSyncProduct(
-                software: $software,
-            )
+            $this->syncProductFactory->createSyncProduct(software: $software)
             ->sync();
         });
     }

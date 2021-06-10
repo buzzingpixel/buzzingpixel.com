@@ -38,7 +38,7 @@ class SyncUserWithStripeQueueAction
         assert($user instanceof User);
 
         $customer = $this->stripeFetchCustomers->fetch()
-            ->filter(static fn (Customer $c) => $c->email === $user->emailAddress())
+            ->filter(static fn (Customer $c) => $c->metadata['id'] === $user->id())
             ->firstOrNull();
 
         $this->syncCustomerFactory
