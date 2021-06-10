@@ -6,6 +6,7 @@ namespace Config;
 
 use App\Context\Queue\QueueRegisterEventListeners;
 use App\Context\Software\SoftwareRegisterEventListeners;
+use App\Context\Stripe\StripeRegisterEventListeners;
 use App\Context\Users\UsersRegisterEventListeners;
 use Crell\Tukio\OrderedListenerProvider;
 
@@ -21,8 +22,9 @@ class RegisterEventListeners
         // will be derived from reflection to see what event it's subscribing to
 
         $provider = $this->provider;
-        SoftwareRegisterEventListeners::register($provider);
-        UsersRegisterEventListeners::register($provider);
         QueueRegisterEventListeners::register($provider);
+        SoftwareRegisterEventListeners::register($provider);
+        StripeRegisterEventListeners::register($provider);
+        UsersRegisterEventListeners::register($provider);
     }
 }

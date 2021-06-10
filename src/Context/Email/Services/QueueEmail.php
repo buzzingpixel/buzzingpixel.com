@@ -28,7 +28,7 @@ class QueueEmail
                         methodName: 'send',
                         context: ['email' => serialize($email)]
                     ),
-                )
+                ),
         );
     }
 }
