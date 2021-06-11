@@ -15,6 +15,12 @@ use Doctrine\Migrations\Tools\Console\ConsoleRunner as DoctrineMigrationsConsole
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Logger\ConsoleLogger;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\VarDumper\Command\ServerDumpCommand;
+use Symfony\Component\VarDumper\Server\DumpServer;
 
 /**
  * Run bootstrap and get di container
@@ -100,6 +106,8 @@ foreach ($finalIterator as $files) {
         }
     }
 }
+
+require __DIR__ . '/config/dumperServerCommand.php';
 
 // Add the Doctrine commands to the console
 DoctrineConsoleRunner::addCommands($app);

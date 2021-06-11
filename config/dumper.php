@@ -16,21 +16,34 @@ $htmlDumper = new HtmlDumper();
 
 $htmlDumper->setTheme('light');
 
-$fallbackDumper = in_array(PHP_SAPI, ['cli', 'phpdbg']) ? new CliDumper() : $htmlDumper;
+$isCli = in_array(PHP_SAPI, ['cli', 'phpdbg'], true);
 
-$dumper = new ServerDumper('tcp://127.0.0.1:9912', $fallbackDumper, [
-    'cli' => new CliContextProvider(),
-    'source' => new SourceContextProvider(),
-]);
+$fallbackDumper = $isCli ? new CliDumper() : $htmlDumper;
 
-$twigDumper = $dumper = new ServerDumper('tcp://127.0.0.1:9912', $fallbackDumper);
+$twigDumper = $dumper = new ServerDumper(
+    'tcp://127.0.0.1:9912',
+    $fallbackDumper,
+    [
+        'cli' => new CliContextProvider(),
+        'source' => new SourceContextProvider(),
+    ]
+);
 
-$varStore            = new stdClass();
+$varStore = new stdClass();
+
 $varStore->hasDumped = false;
 
 /** @psalm-suppress MissingClosureParamType */
-VarDumper::setHandler(static function ($var) use ($cloner, $dumper, $twigDumper, $varStore): void {
-    /** @psalm-suppress RedundantCondition */
+VarDumper::setHandler(static function ($var) use (
+    $cloner,
+    $dumper,
+    $twigDumper,
+    $varStore
+): void {
+    /**
+     * @psalm-suppress RedundantCondition
+     * @phpstan-ignore-next-line
+     */
     if (PHP_SAPI !== 'cli' && $varStore->hasDumped === false) {
         echo '<head><title>Symfony Dumper</title></head><body>';
         $varStore->hasDumped = true;
@@ -45,7 +58,10 @@ VarDumper::setHandler(static function ($var) use ($cloner, $dumper, $twigDumper,
     }
 
     /** @psalm-suppress MixedArgument */
-    $checkForTwigDumperArray = explode(DIRECTORY_SEPARATOR, $checkForTwigDumperFile);
+    $checkForTwigDumperArray = explode(
+        DIRECTORY_SEPARATOR,
+        $checkForTwigDumperFile
+    );
 
     $isTwigDumper = $checkForTwigDumperArray[count($checkForTwigDumperArray) - 1] === 'TwigDumper.php';
 
