@@ -13,6 +13,7 @@ use App\EntityPropertyTraits\IsActive;
 use App\EntityPropertyTraits\IsAdmin;
 use App\EntityPropertyTraits\PasswordHash;
 use App\EntityPropertyTraits\Timezone;
+use App\EntityPropertyTraits\UserStripeId;
 use App\EntityValueObjects\EmailAddress as EmailAddressValue;
 use App\EntityValueObjects\Id as IdValue;
 use App\Persistence\Entities\Users\UserRecord;
@@ -33,6 +34,7 @@ use const PASSWORD_DEFAULT;
 class User
 {
     use Id;
+    use UserStripeId;
     use IsAdmin;
     use EmailAddress;
     use PasswordHash;
@@ -51,6 +53,7 @@ class User
     {
         return new self(
             id: $record->getId()->toString(),
+            userStripeId: $record->getUserStripeId(),
             isAdmin: $record->getIsAdmin(),
             emailAddress: $record->getEmailAddress(),
             passwordHash: $record->getPasswordHash(),
@@ -78,6 +81,7 @@ class User
         null | string | DateTimeZone $timezone = null,
         null | string | DateTimeInterface $createdAt = null,
         ?string $id = null,
+        string $userStripeId = '',
         string $plainTextPassword = '',
         ?UserSupportProfile $supportProfile = null,
         ?UserBillingProfile $billingProfile = null,
@@ -93,6 +97,8 @@ class User
         } else {
             $this->id = IdValue::fromString($id);
         }
+
+        $this->userStripeId = $userStripeId;
 
         $this->isAdmin = $isAdmin;
 

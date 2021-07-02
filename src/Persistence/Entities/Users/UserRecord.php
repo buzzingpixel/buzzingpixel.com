@@ -12,6 +12,7 @@ use App\Persistence\PropertyTraits\IsActive;
 use App\Persistence\PropertyTraits\IsAdmin;
 use App\Persistence\PropertyTraits\PasswordHash;
 use App\Persistence\PropertyTraits\Timezone;
+use App\Persistence\PropertyTraits\UserStripeId;
 use App\Persistence\UuidFactoryWithOrderedTimeCodec;
 use Doctrine\ORM\Mapping;
 use Ramsey\Uuid\Uuid;
@@ -25,6 +26,7 @@ use Ramsey\Uuid\Uuid;
 class UserRecord
 {
     use Id;
+    use UserStripeId;
     use IsAdmin;
     use EmailAddress;
     use PasswordHash;
@@ -85,6 +87,7 @@ class UserRecord
     public function hydrateFromEntity(User $user): self
     {
         $this->setId(Uuid::fromString($user->id()));
+        $this->setUserStripeId($user->userStripeId());
         $this->setIsAdmin($user->isAdmin());
         $this->setEmailAddress($user->emailAddress());
         $this->setPasswordHash($user->passwordHash());

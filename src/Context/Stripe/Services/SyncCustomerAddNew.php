@@ -7,6 +7,7 @@ namespace App\Context\Stripe\Services;
 use App\Context\Stripe\Contracts\SyncCustomer;
 use App\Context\Stripe\Factories\StripeFactory;
 use App\Context\Users\Entities\User;
+use App\Context\Users\UserApi;
 use Stripe\StripeClient;
 use Throwable;
 
@@ -17,6 +18,7 @@ class SyncCustomerAddNew implements SyncCustomer
     public function __construct(
         StripeFactory $stripeFactory,
         private User $user,
+        private UserApi $userApi,
     ) {
         $this->stripeClient = $stripeFactory->createStripeClient();
     }
@@ -24,7 +26,7 @@ class SyncCustomerAddNew implements SyncCustomer
     public function sync(): void
     {
         try {
-            $this->stripeClient->customers->create([
+            $customer = $this->stripeClient->customers->create([
                 'address' => [
                     'city' => $this->user->billingProfile()->billingCity(),
                     'country' => $this->user->billingProfile()->billingCountryRegionAlpha3(),
@@ -38,6 +40,10 @@ class SyncCustomerAddNew implements SyncCustomer
                 'name' => $this->user->billingProfile()->billingName(),
                 'phone' => $this->user->billingProfile()->billingPhone(),
             ]);
+
+            $user = $this->user->withUserStripeId($customer->id);
+
+            $this->userApi->saveUser($user);
         } catch (Throwable) {
         }
     }

@@ -7,6 +7,7 @@ namespace App\Context\Stripe\Services;
 use App\Context\Stripe\Contracts\SyncCustomer;
 use App\Context\Stripe\Factories\StripeFactory;
 use App\Context\Users\Entities\User;
+use App\Context\Users\UserApi;
 use Stripe\Customer;
 use Stripe\StripeClient;
 use Throwable;
@@ -19,6 +20,7 @@ class SyncCustomerExisting implements SyncCustomer
         StripeFactory $stripeFactory,
         private User $user,
         private Customer $customer,
+        private UserApi $userApi,
     ) {
         $this->stripeClient = $stripeFactory->createStripeClient();
     }
@@ -26,7 +28,7 @@ class SyncCustomerExisting implements SyncCustomer
     public function sync(): void
     {
         try {
-            $this->stripeClient->customers->update(
+            $customer = $this->stripeClient->customers->update(
                 $this->customer->id,
                 [
                     'address' => [
@@ -43,6 +45,10 @@ class SyncCustomerExisting implements SyncCustomer
                     'phone' => $this->user->billingProfile()->billingPhone(),
                 ],
             );
+
+            $user = $this->user->withUserStripeId($customer->id);
+
+            $this->userApi->saveUser($user);
         } catch (Throwable) {
         }
     }

@@ -9,12 +9,14 @@ use App\Context\Stripe\Services\SyncCustomerAddNew;
 use App\Context\Stripe\Services\SyncCustomerExisting;
 use App\Context\Stripe\Services\SyncCustomerNoOp;
 use App\Context\Users\Entities\User;
+use App\Context\Users\UserApi;
 use Stripe\Customer;
 
 class SyncCustomerFactory
 {
     public function __construct(
         private StripeFactory $stripeFactory,
+        private UserApi $userApi,
     ) {
     }
 
@@ -27,6 +29,7 @@ class SyncCustomerFactory
             return new SyncCustomerAddNew(
                 stripeFactory:  $this->stripeFactory,
                 user: $user,
+                userApi: $this->userApi,
             );
         }
 
@@ -36,6 +39,7 @@ class SyncCustomerFactory
                 stripeFactory:  $this->stripeFactory,
                 user: $user,
                 customer: $customer,
+                userApi: $this->userApi,
             );
         }
 
