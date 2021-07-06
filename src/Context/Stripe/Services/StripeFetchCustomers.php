@@ -52,8 +52,7 @@ class StripeFetchCustomers
 
         $collection = new StripeCustomerCollection();
 
-        $result = $this->stripeClient->customers
-            ->all(array_merge(self::DEFAULT_PARAMS, $params));
+        $result = $this->stripeClient->customers->all($params);
 
         foreach ($result->autoPagingIterator() as $item) {
             assert($item instanceof Customer);

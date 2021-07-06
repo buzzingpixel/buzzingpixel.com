@@ -52,8 +52,7 @@ class StripeFetchProducts
 
         $collection = new StripeProductCollection();
 
-        $result = $this->stripeClient->products
-            ->all($params);
+        $result = $this->stripeClient->products->all($params);
 
         foreach ($result->autoPagingIterator() as $item) {
             assert($item instanceof Product);

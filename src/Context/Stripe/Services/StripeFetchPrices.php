@@ -52,8 +52,7 @@ class StripeFetchPrices
 
         $collection = new StripePriceCollection();
 
-        $result = $this->stripeClient->prices
-            ->all($params);
+        $result = $this->stripeClient->prices->all($params);
 
         foreach ($result->autoPagingIterator() as $item) {
             assert($item instanceof Price);

@@ -52,8 +52,7 @@ class StripeFetchTaxRates
 
         $collection = new StripeTaxRateCollection();
 
-        $result = $this->stripeClient->taxRates
-            ->all($params);
+        $result = $this->stripeClient->taxRates->all($params);
 
         foreach ($result->autoPagingIterator() as $item) {
             assert($item instanceof TaxRate);

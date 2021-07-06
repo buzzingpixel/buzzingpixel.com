@@ -37,7 +37,7 @@ class Cart
     use CreatedAt;
     use User;
 
-    /** @phpstan-ignore-next-line  */
+    /** @phpstan-ignore-next-line */
     private CartItemCollection $cartItems;
 
     public static function fromRecord(CartRecord $record): self
@@ -118,10 +118,8 @@ class Cart
         }
 
         $clone->cartItems = new CartItemCollection(array_map(
-            static fn (CartItem $i) => $i->withCart(
-                $clone
-            ),
-            array_merge($cartItems)
+            static fn (CartItem $i) => $i->withCart($clone),
+            array_merge($cartItems),
         ));
 
         return $clone;
