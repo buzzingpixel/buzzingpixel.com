@@ -49,6 +49,7 @@ class FetchNextQueueItem
             ->createQueryBuilder('q')
             ->where('q.isRunning = false')
             ->where('q.isFinished = false')
+            ->setMaxResults(1)
             ->orderBy('q.addedAt', 'asc')
             ->getQuery()
             ->getOneOrNullResult();
