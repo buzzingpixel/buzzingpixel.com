@@ -35,6 +35,19 @@ class UserQueryBuilder extends QueryBuilder
         );
     }
 
+    public function withUserStripeId(
+        string $value,
+        string $comparison = '=',
+        string $concat = 'AND',
+    ): self {
+        return $this->withWhere(
+            'userStripeId',
+            $value,
+            $comparison,
+            $concat,
+        );
+    }
+
     public function withIsAdmin(
         bool $value,
         string $comparison = '=',
