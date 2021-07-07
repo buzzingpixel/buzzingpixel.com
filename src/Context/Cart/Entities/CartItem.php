@@ -8,6 +8,7 @@ use App\Context\Software\Entities\Software;
 use App\EntityPropertyTraits\Id;
 use App\EntityPropertyTraits\Quantity;
 use App\EntityPropertyTraits\Slug;
+use App\EntityPropertyTraits\Software as SoftwareTrait;
 use App\EntityValueObjects\Id as IdValue;
 use App\Persistence\Entities\Cart\CartItemRecord;
 use LogicException;
@@ -20,10 +21,10 @@ class CartItem
     use Id;
     use Quantity;
     use Slug;
+    use SoftwareTrait;
 
     /** @psalm-suppress PropertyNotSetInConstructor */
     private Cart $cart;
-    private Software $software;
 
     public static function fromRecord(
         CartItemRecord $record,
@@ -95,23 +96,6 @@ class CartItem
         $clone = clone $this;
 
         $clone->cart = $cart;
-
-        return $clone;
-    }
-
-    public function software(): Software
-    {
-        return $this->software;
-    }
-
-    /**
-     * @return $this
-     */
-    public function withSoftware(Software $software): self
-    {
-        $clone = clone $this;
-
-        $clone->software = $software;
 
         return $clone;
     }

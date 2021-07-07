@@ -21,8 +21,8 @@ trait HasBeenUpgraded
         return $this->hasBeenUpgrade;
     }
 
-    public function setHasBeenUpgraded(bool $hasBeenUpgrade): void
+    public function setHasBeenUpgraded(bool $hasBeenUpgraded): void
     {
-        $this->hasBeenUpgrade = $hasBeenUpgrade;
+        $this->hasBeenUpgrade = $hasBeenUpgraded;
     }
 }

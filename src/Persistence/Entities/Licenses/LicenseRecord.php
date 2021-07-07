@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Persistence\Entities\Licenses;
 
+use App\Context\Licenses\Entities\License;
+use App\Context\Users\Entities\User;
 use App\Persistence\Entities\Software\SoftwareRecord;
 use App\Persistence\Entities\Users\UserRecord;
 use App\Persistence\PropertyTraits\AdminNotes;
@@ -16,7 +18,11 @@ use App\Persistence\PropertyTraits\IsUpgrade;
 use App\Persistence\PropertyTraits\LicenseKey;
 use App\Persistence\PropertyTraits\MajorVersion;
 use App\Persistence\PropertyTraits\UserNotes;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping;
+use Ramsey\Uuid\Uuid;
+
+use function assert;
 
 /**
  * @Mapping\Entity
@@ -75,5 +81,47 @@ class LicenseRecord
     public function setSoftware(SoftwareRecord $software): void
     {
         $this->software = $software;
+    }
+
+    public function hydrateFromEntity(
+        License $entity,
+        EntityManager $entityManager,
+    ): self {
+        $this->setId(Uuid::fromString(uuid: $entity->id()));
+        $this->setIsDisabled(isDisabled: $entity->isDisabled());
+        $this->setMajorVersion(majorVersion: $entity->majorVersion());
+        $this->setIsUpgrade(isUpgrade: $entity->isUpgrade());
+        $this->setHasBeenUpgraded(hasBeenUpgraded: $entity->hasBeenUpgraded());
+        $this->setLicenseKey(licenseKey: $entity->licenseKey());
+        $this->setUserNotes(userNotes: $entity->userNotes());
+        $this->setAdminNotes(adminNotes: $entity->adminNotes());
+        $this->setAuthorizedDomains(authorizedDomains: $entity->authorizedDomains());
+        $this->setExpiresAt(expiresAt: $entity->expiresAt());
+
+        $user = $entity->user();
+
+        assert($user instanceof User);
+
+        $userRecord = $entityManager->find(
+            UserRecord::class,
+            $user->id(),
+        );
+
+        assert($userRecord instanceof UserRecord);
+
+        $this->setUser($userRecord);
+
+        $software = $entity->software();
+
+        $softwareRecord = $entityManager->find(
+            SoftwareRecord::class,
+            $software->id(),
+        );
+
+        assert($softwareRecord instanceof SoftwareRecord);
+
+        $this->setSoftware($softwareRecord);
+
+        return $this;
     }
 }
