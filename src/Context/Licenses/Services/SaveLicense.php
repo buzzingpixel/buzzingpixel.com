@@ -74,6 +74,6 @@ class SaveLicense
 
         return $this->saveLicenseFactory
             ->createSaveLicense($licenseRecord)
-            ->save($license);
+            ->save($license, $licenseRecord);
     }
 }

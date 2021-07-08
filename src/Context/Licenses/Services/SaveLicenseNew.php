@@ -27,8 +27,10 @@ class SaveLicenseNew implements SaveLicense
     ) {
     }
 
-    public function save(License $license): Payload
-    {
+    public function save(
+        License $license,
+        ?LicenseRecord $licenseRecord = null,
+    ): Payload {
         $this->logger->info(
             'Creating new License record'
         );
@@ -70,8 +72,10 @@ class SaveLicenseNew implements SaveLicense
             entityManager: $this->entityManager,
         );
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         $this->entityManager->persist($record);
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         $this->entityManager->flush();
 
         $payload = new Payload(
