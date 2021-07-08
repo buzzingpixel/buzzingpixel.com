@@ -48,7 +48,7 @@ class Cart
             lastTouchedAt: $record->getLastTouchedAt(),
             createdAt: $record->getCreatedAt(),
             user: $record->getUser() !== null ? UserEntity::fromRecord(
-                $record->getUser()
+                $record->getUser(),
             ) :
             null,
         ))->withItemsFromRecord($record);

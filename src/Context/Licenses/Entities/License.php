@@ -19,6 +19,7 @@ use App\EntityPropertyTraits\Software;
 use App\EntityPropertyTraits\User;
 use App\EntityPropertyTraits\UserNotes;
 use App\EntityValueObjects\Id as IdValue;
+use App\Persistence\Entities\Licenses\LicenseRecord;
 use App\Utilities\DateTimeUtility;
 use DateTimeInterface;
 use LogicException;
@@ -40,6 +41,25 @@ class License
     use ExpiresAt;
     use User;
     use Software;
+
+    public static function fromRecord(LicenseRecord $record): self
+    {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        return new self(
+            id: $record->getId(),
+            isDisabled: $record->getIsDisabled(),
+            majorVersion: $record->getMajorVersion(),
+            isUpgrade: $record->getIsUpgrade(),
+            hasBeenUpgraded: $record->getHasBeenUpgraded(),
+            licenseKey: $record->getLicenseKey(),
+            userNotes: $record->getUserNotes(),
+            adminNotes: $record->getAdminNotes(),
+            authorizedDomains: $record->getAuthorizedDomains(),
+            expiresAt: $record->getExpiresAt(),
+            user: UserEntity::fromRecord(record: $record->getUser()),
+            software: SoftwareEntity::fromRecord(record: $record->getSoftware()),
+        );
+    }
 
     /**
      * @param string[] $authorizedDomains

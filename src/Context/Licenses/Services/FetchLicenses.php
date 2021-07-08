@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Context\Software\Services;
+namespace App\Context\Licenses\Services;
 
-use App\Context\Software\Entities\Software;
-use App\Context\Software\Entities\SoftwareCollection;
-use App\Persistence\Entities\Software\SoftwareRecord;
-use App\Persistence\QueryBuilders\Software\SoftwareQueryBuilder;
+use App\Context\Licenses\Entities\License;
+use App\Context\Licenses\Entities\LicenseCollection;
+use App\Persistence\Entities\Licenses\LicenseRecord;
+use App\Persistence\QueryBuilders\LicenseQueryBuilder\LicenseQueryBuilder;
 use Config\General;
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
@@ -15,7 +15,7 @@ use Throwable;
 
 use function array_map;
 
-class FetchSoftware
+class FetchLicenses
 {
     public function __construct(
         private EntityManager $entityManager,
@@ -26,35 +26,36 @@ class FetchSoftware
 
     /** @phpstan-ignore-next-line */
     public function fetch(
-        SoftwareQueryBuilder $queryBuilder,
-    ): SoftwareCollection {
+        LicenseQueryBuilder $queryBuilder,
+    ): LicenseCollection {
         try {
             return $this->innerFetch($queryBuilder);
         } catch (Throwable $exception) {
             if ($this->config->devMode()) {
+                /** @noinspection PhpUnhandledExceptionInspection */
                 throw $exception;
             }
 
             $this->logger->emergency(
-                'An exception was caught querying for software',
+                'An exception was caught querying for Licenses',
                 ['exception' => $exception],
             );
 
-            return new SoftwareCollection();
+            return new LicenseCollection();
         }
     }
 
     /** @phpstan-ignore-next-line */
     private function innerFetch(
-        SoftwareQueryBuilder $queryBuilder,
-    ): SoftwareCollection {
+        LicenseQueryBuilder $queryBuilder,
+    ): LicenseCollection {
         /** @psalm-suppress MixedArgument */
-        return new SoftwareCollection(array_map(
-            static fn (SoftwareRecord $r) => Software::fromRecord(
+        return new LicenseCollection(array_map(
+            static fn (LicenseRecord $r) => License::fromRecord(
                 $r
             ),
             $queryBuilder->createQuery(
-                $this->entityManager,
+                $this->entityManager
             )->getResult(),
         ));
     }
