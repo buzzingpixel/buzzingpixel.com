@@ -8,12 +8,10 @@ use App\Context\Licenses\Contracts\SaveLicense;
 use App\Context\Licenses\Services\SaveLicenseExisting;
 use App\Context\Licenses\Services\SaveLicenseNew;
 use App\Persistence\Entities\Licenses\LicenseRecord;
-use Psr\Log\LoggerInterface;
 
 class SaveLicenseFactory
 {
     public function __construct(
-        private LoggerInterface $logger,
         private SaveLicenseNew $saveLicenseNew,
         private SaveLicenseExisting $saveLicenseExisting,
     ) {

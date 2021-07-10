@@ -35,6 +35,7 @@ class CartRecord
         $user = $entity->user();
 
         if ($user !== null) {
+            /** @noinspection PhpUnhandledExceptionInspection */
             $this->setUser($entityManager->find(
                 UserRecord::class,
                 $user->id(),

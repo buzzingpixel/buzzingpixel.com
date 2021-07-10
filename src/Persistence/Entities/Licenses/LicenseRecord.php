@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Persistence\Entities\Licenses;
 
 use App\Context\Licenses\Entities\License;
+use App\Context\Software\Entities\Software;
 use App\Context\Users\Entities\User;
 use App\Persistence\Entities\Software\SoftwareRecord;
 use App\Persistence\Entities\Users\UserRecord;
@@ -102,6 +103,7 @@ class LicenseRecord
 
         assert($user instanceof User);
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         $userRecord = $entityManager->find(
             UserRecord::class,
             $user->id(),
@@ -113,6 +115,9 @@ class LicenseRecord
 
         $software = $entity->software();
 
+        assert($software instanceof Software);
+
+        /** @noinspection PhpUnhandledExceptionInspection */
         $softwareRecord = $entityManager->find(
             SoftwareRecord::class,
             $software->id(),

@@ -6,6 +6,7 @@ namespace App\Context\Cart\Services;
 
 use App\Context\Cart\Entities\Cart;
 use App\Context\Cart\Entities\CartItem;
+use App\Context\Software\Entities\Software;
 use App\Payload\Payload;
 use App\Persistence\Entities\Cart\CartItemRecord;
 use App\Persistence\Entities\Cart\CartRecord;
@@ -39,6 +40,7 @@ class SaveCart
             return $this->innerSave($cart);
         } catch (Throwable $exception) {
             if ($this->config->devMode()) {
+                /** @noinspection PhpUnhandledExceptionInspection */
                 throw $exception;
             }
 
@@ -61,6 +63,7 @@ class SaveCart
      */
     private function innerSave(Cart $cart): Payload
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         $cart = $cart->withLastTouchedAt(new DateTimeImmutable(
             'now',
             new DateTimeZone('UTC')
@@ -127,9 +130,13 @@ class SaveCart
 
                     $itemRecord->setCart($record);
 
+                    $software = $item->software();
+
+                    assert($software instanceof Software);
+
                     $softwareRecord = $this->entityManager->find(
                         SoftwareRecord::class,
-                        $item->software()->id(),
+                        $software->id(),
                     );
 
                     assert($softwareRecord instanceof SoftwareRecord);

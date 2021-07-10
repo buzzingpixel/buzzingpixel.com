@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 namespace App\Persistence\Entities\Orders;
 
+use App\Context\Orders\Entities\OrderItem as OrderItemEntity;
 use App\Persistence\Entities\Licenses\LicenseRecord;
 use App\Persistence\Entities\Software\SoftwareRecord;
 use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\OriginalPrice;
 use App\Persistence\PropertyTraits\Price;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Mapping;
 use LogicException;
+use Ramsey\Uuid\Uuid;
+
+use function assert;
 
 /**
  * @Mapping\Entity
@@ -184,5 +189,45 @@ class OrderItemRecord
         }
 
         $this->setSoftware($software);
+    }
+
+    public function hydrateFromEntity(
+        OrderItemEntity $entity,
+        EntityManager $entityManager,
+        ?OrderRecord $orderRecord = null,
+    ): self {
+        if ($orderRecord !== null) {
+            $this->setOrder($orderRecord);
+        }
+
+        $this->setId(Uuid::fromString(uuid: $entity->id()));
+        $this->setPrice(price: $entity->priceAsInt());
+        $this->setPrice(price: $entity->originalPriceAsInt());
+
+        $license = $entity->license();
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $licenseRecord = $entityManager->find(
+            LicenseRecord::class,
+            $license->id(),
+        );
+
+        assert($licenseRecord instanceof LicenseRecord);
+
+        $this->setLicense($licenseRecord);
+
+        $software = $entity->software();
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $softwareRecord = $entityManager->find(
+            SoftwareRecord::class,
+            $software->id(),
+        );
+
+        assert($softwareRecord instanceof SoftwareRecord);
+
+        $this->setSoftware($softwareRecord);
+
+        return $this;
     }
 }

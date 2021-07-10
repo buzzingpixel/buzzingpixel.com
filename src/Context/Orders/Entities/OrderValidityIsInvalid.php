@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Context\Licenses\Entities;
+namespace App\Context\Orders\Entities;
 
-use App\Context\Licenses\Contracts\LicenseValidity;
+use App\Context\Orders\Contracts\OrderValidity;
 use App\Payload\Payload;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingTraversableTypeHintSpecification
 
-class LicenseValidityIsInvalid implements LicenseValidity
+class OrderValidityIsInvalid implements OrderValidity
 {
     /**
      * @param string[] $validationErrors

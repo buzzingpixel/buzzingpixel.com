@@ -2,49 +2,49 @@
 
 declare(strict_types=1);
 
-namespace App\Context\Licenses\Services;
+namespace App\Context\Orders\Services;
 
-use App\Context\Licenses\Contracts\SaveLicense;
-use App\Context\Licenses\Entities\License;
-use App\Context\Licenses\Events\SaveLicenseAfterSave;
-use App\Context\Licenses\Events\SaveLicenseBeforeSave;
-use App\Context\Licenses\Factories\LicenseValidityFactory;
+use App\Context\Orders\Contracts\SaveOrder;
+use App\Context\Orders\Entities\Order;
+use App\Context\Orders\Events\SaveOrderAfterSave;
+use App\Context\Orders\Events\SaveOrderBeforeSave;
+use App\Context\Orders\Factories\OrderValidityFactory;
 use App\Payload\Payload;
-use App\Persistence\Entities\Licenses\LicenseRecord;
+use App\Persistence\Entities\Orders\OrderRecord;
 use Doctrine\ORM\EntityManager;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 
 use function implode;
 
-class SaveLicenseNew implements SaveLicense
+class SaveOrderNew implements SaveOrder
 {
     public function __construct(
         private LoggerInterface $logger,
         private EntityManager $entityManager,
         private EventDispatcherInterface $eventDispatcher,
-        private LicenseValidityFactory $licenseValidityFactory,
+        private OrderValidityFactory $orderValidityFactory,
     ) {
     }
 
     public function save(
-        License $license,
-        ?LicenseRecord $licenseRecord = null,
+        Order $order,
+        ?OrderRecord $orderRecord = null
     ): Payload {
         $this->logger->info(
-            'Creating new License record'
+            'Creating new Order record'
         );
 
-        $validity = $this->licenseValidityFactory->createLicenseValidity(
-            license: $license
+        $validity = $this->orderValidityFactory->createOrderValidity(
+            order: $order,
         );
 
         if (! $validity->isValid()) {
             $this->logger->error(
                 'The License entity is invalid',
                 [
-                    'licenseEntity' => $license,
-                    'licenseValidity' => $validity,
+                    'orderEntity' => $order,
+                    'orderValidity' => $validity,
                 ],
             );
 
@@ -59,17 +59,17 @@ class SaveLicenseNew implements SaveLicense
             );
         }
 
-        $beforeSave = new SaveLicenseBeforeSave(license: $license);
+        $beforeSave = new SaveOrderBeforeSave(order: $order);
 
         $this->eventDispatcher->dispatch($beforeSave);
 
-        $license = $beforeSave->license;
+        $order = $beforeSave->order;
 
-        $record = new LicenseRecord();
+        $record = new OrderRecord();
 
         $record->hydrateFromEntity(
-            entity: $license,
-            entityManager: $this->entityManager,
+            entity: $order,
+            entityManager: $this->entityManager
         );
 
         /** @noinspection PhpUnhandledExceptionInspection */
@@ -80,17 +80,17 @@ class SaveLicenseNew implements SaveLicense
 
         $payload = new Payload(
             status: Payload::STATUS_CREATED,
-            result: ['licenseEntity' => $license],
+            result: ['orderEntity' => $order],
         );
 
-        $afterSave = new SaveLicenseAfterSave(
-            license: $license,
+        $afterSave = new SaveOrderAfterSave(
+            order: $order,
             payload: $payload,
         );
 
         $this->eventDispatcher->dispatch($afterSave);
 
-        $this->logger->info('The License was saved');
+        $this->logger->info('The Order was saved');
 
         return $afterSave->payload;
     }

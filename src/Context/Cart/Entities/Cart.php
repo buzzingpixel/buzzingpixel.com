@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Cart\Entities;
 
+use App\Context\Software\Entities\Software;
 use App\Context\Users\Entities\User as UserEntity;
 use App\EntityPropertyTraits\CreatedAt;
 use App\EntityPropertyTraits\Id;
@@ -85,10 +86,8 @@ class Cart
         }
 
         $this->cartItems = new CartItemCollection(array_map(
-            fn (CartItem $i) => $i->withCart(
-                $this,
-            ),
-            array_merge($cartItems)
+            fn (CartItem $i) => $i->withCart($this),
+            array_merge($cartItems),
         ));
 
         $this->lastTouchedAt = DateTimeUtility::createDateTimeImmutable(
@@ -98,6 +97,8 @@ class Cart
         $this->createdAt = DateTimeUtility::createDateTimeImmutable(
             $createdAt,
         );
+
+        $this->isInitialized = true;
     }
 
     private bool $isInitialized = false;
@@ -277,7 +278,9 @@ class Cart
 
         foreach ($this->cartItems()->toArray() as $item) {
             for ($i = 0; $i < $item->quantity(); $i++) {
-                $money = $money->add($item->software()->price());
+                $software = $item->software();
+                assert($software instanceof Software);
+                $money = $money->add($software->price());
             }
         }
 
@@ -381,7 +384,9 @@ class Cart
         $hasSub = false;
 
         foreach ($this->cartItems()->toArray() as $item) {
-            if (! $item->software()->isSubscription()) {
+            $software = $item->software();
+            assert($software instanceof Software);
+            if (! $software->isSubscription()) {
                 continue;
             }
 

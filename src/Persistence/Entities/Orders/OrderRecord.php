@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Persistence\Entities\Orders;
 
+use App\Context\Orders\Entities\Order as OrderEntity;
+use App\Context\Orders\Entities\OrderItem;
+use App\Context\Users\Entities\User;
 use App\Persistence\Entities\Users\UserRecord;
 use App\Persistence\PropertyTraits\BillingAddress;
 use App\Persistence\PropertyTraits\BillingAddressContinued;
@@ -27,8 +30,13 @@ use App\Persistence\PropertyTraits\StripePaid;
 use App\Persistence\PropertyTraits\SubTotal;
 use App\Persistence\PropertyTraits\Tax;
 use App\Persistence\PropertyTraits\Total;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping;
+use Ramsey\Uuid\Uuid;
+
+use function assert;
 
 /**
  * @Mapping\Entity
@@ -106,5 +114,70 @@ class OrderRecord
     public function setOrderItems(Collection $orderItems): void
     {
         $this->orderItems = $orderItems;
+    }
+
+    public function hydrateFromEntity(
+        OrderEntity $entity,
+        EntityManager $entityManager,
+    ): self {
+        $this->setId(Uuid::fromString(uuid: $entity->id()));
+        $this->setOldOrderNumber(oldOrderNumber: $entity->oldOrderNumber());
+        $this->setStripeId(stripeId: $entity->stripeId());
+        $this->setStripeAmount(stripeAmount: $entity->stripeAmount());
+        $this->setStripeBalanceTransaction(
+            stripeBalanceTransaction: $entity->stripeBalanceTransaction(),
+        );
+        $this->setStripeCaptured(stripeCaptured: $entity->stripeCaptured());
+        $this->setStripeCreated(stripeCreated: $entity->stripeCreated());
+        $this->setStripeCurrency(stripeCurrency: $entity->stripeCurrency());
+        $this->setStripePaid(stripePaid: $entity->stripePaid());
+        $this->setSubTotal(subTotal: $entity->subTotalAsInt());
+        $this->setTax(tax: $entity->taxAsInt());
+        $this->setTotal(total: $entity->totalAsInt());
+        $this->setBillingName(billingName: $entity->billingName());
+        $this->setBillingCompany(billingCompany: $entity->billingCompany());
+        $this->setBillingPhone(billingPhone: $entity->billingPhone());
+        $this->setBillingCountryRegion(
+            billingCountryRegion: $entity->billingCountryRegion(),
+        );
+        $this->setBillingAddress(billingAddress: $entity->billingAddress());
+        $this->setBillingAddressContinued(
+            billingAddressContinued: $entity->billingAddressContinued(),
+        );
+        $this->setBillingCity(billingCity: $entity->billingCity());
+        $this->setBillingStateProvince(
+            billingStateProvince: $entity->billingStateProvince(),
+        );
+        $this->setBillingPostalCode(
+            billingPostalCode: $entity->billingPostalCode(),
+        );
+        $this->setOrderDate(orderDate: $entity->orderDate());
+
+        $user = $entity->user();
+
+        assert($user instanceof User);
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $userRecord = $entityManager->find(
+            UserRecord::class,
+            $user->id(),
+        );
+
+        assert($userRecord instanceof UserRecord);
+
+        $this->setUser($userRecord);
+
+        $this->setOrderItems(new ArrayCollection(
+            $entity->orderItems()->mapToArray(
+                fn (OrderItem $i) => (new OrderItemRecord())
+                    ->hydrateFromEntity(
+                        entity: $i,
+                        entityManager: $entityManager,
+                        orderRecord: $this,
+                    ),
+            )
+        ));
+
+        return $this;
     }
 }

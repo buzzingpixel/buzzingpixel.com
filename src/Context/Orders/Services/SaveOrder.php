@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Context\Licenses\Services;
+namespace App\Context\Orders\Services;
 
-use App\Context\Licenses\Entities\License;
-use App\Context\Licenses\Events\SaveLicenseFailed;
-use App\Context\Licenses\Factories\SaveLicenseFactory;
+use App\Context\Orders\Entities\Order;
+use App\Context\Orders\Events\SaveOrderFailed;
+use App\Context\Orders\Factories\SaveOrderFactory;
 use App\Payload\Payload;
-use App\Persistence\Entities\Licenses\LicenseRecord;
+use App\Persistence\Entities\Orders\OrderRecord;
 use Config\General;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
@@ -18,21 +18,21 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-class SaveLicense
+class SaveOrder
 {
     public function __construct(
         private General $config,
         private LoggerInterface $logger,
         private EntityManager $entityManager,
-        private SaveLicenseFactory $saveLicenseFactory,
+        private SaveOrderFactory $saveOrderFactory,
         private EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
-    public function save(License $license): Payload
+    public function save(Order $order): Payload
     {
         try {
-            return $this->innerSave($license);
+            return $this->innerSave($order);
         } catch (Throwable $exception) {
             if ($this->config->devMode()) {
                 /** @noinspection PhpUnhandledExceptionInspection */
@@ -40,12 +40,12 @@ class SaveLicense
             }
 
             $this->logger->emergency(
-                'An exception was caught saving a license',
+                'An exception was caught saving an order',
                 ['exception' => $exception],
             );
 
-            $this->eventDispatcher->dispatch(new SaveLicenseFailed(
-                license: $license,
+            $this->eventDispatcher->dispatch(new SaveOrderFailed(
+                order: $order,
                 exception: $exception,
             ));
 
@@ -61,19 +61,19 @@ class SaveLicense
      * @throws OptimisticLockException
      * @throws TransactionRequiredException
      */
-    private function innerSave(License $license): Payload
+    private function innerSave(Order $order): Payload
     {
         $this->logger->info(
-            'Checking for existing license by ID: ' . $license->id()
+            'Checking for existing order by ID: ' . $order->id()
         );
 
-        $licenseRecord = $this->entityManager->find(
-            LicenseRecord::class,
-            $license->id(),
+        $orderRecord = $this->entityManager->find(
+            OrderRecord::class,
+            $order->id(),
         );
 
-        return $this->saveLicenseFactory
-            ->createSaveLicense(licenseRecord: $licenseRecord)
-            ->save(license: $license, licenseRecord: $licenseRecord);
+        return $this->saveOrderFactory
+            ->createSaveOrder(orderRecord: $orderRecord)
+            ->save(order: $order, orderRecord: $orderRecord);
     }
 }
