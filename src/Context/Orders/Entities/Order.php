@@ -29,6 +29,8 @@ use App\EntityPropertyTraits\Tax;
 use App\EntityPropertyTraits\Total;
 use App\EntityPropertyTraits\User;
 use App\EntityValueObjects\Id as IdValue;
+use App\Persistence\Entities\Orders\OrderItemRecord;
+use App\Persistence\Entities\Orders\OrderRecord;
 use App\Utilities\DateTimeUtility;
 use DateTimeInterface;
 use LogicException;
@@ -68,12 +70,52 @@ class Order
     use OrderDate;
     use User;
 
+    public static function fromRecord(OrderRecord $record): self
+    {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $order = new self(
+            id: $record->getId(),
+            oldOrderNumber: $record->getOldOrderNumber(),
+            stripeId: $record->getStripeId(),
+            stripeAmount: $record->getStripeAmount(),
+            stripeBalanceTransaction: $record->getStripeBalanceTransaction(),
+            stripeCaptured: $record->getStripeCaptured(),
+            stripeCreated: $record->getStripeCreated(),
+            stripeCurrency: $record->getStripeCurrency(),
+            stripePaid: $record->getStripePaid(),
+            subTotal: $record->getSubTotal(),
+            tax: $record->getTax(),
+            total: $record->getTotal(),
+            billingName: $record->getBillingName(),
+            billingCompany: $record->getBillingCompany(),
+            billingPhone: $record->getBillingPhone(),
+            billingCountryRegion: $record->getBillingCountryRegion(),
+            billingAddress: $record->getBillingAddress(),
+            billingAddressContinued: $record->getBillingAddressContinued(),
+            billingCity: $record->getBillingCity(),
+            billingStateProvince: $record->getBillingStateProvince(),
+            billingPostalCode: $record->getBillingPostalCode(),
+            orderDate: $record->getOrderDate(),
+            user: UserEntity::fromRecord($record->getUser()),
+        );
+
+        $order->orderItems = new OrderItemCollection(array_map(
+            static fn (OrderItemRecord $i) => OrderItem::fromRecord(
+                record: $i,
+                order: $order,
+            ),
+            $record->getOrderItems()->toArray(),
+        ));
+
+        return $order;
+    }
+
     /** @phpstan-ignore-next-line */
     private OrderItemCollection $orderItems;
 
     /** @phpstan-ignore-next-line */
     public function __construct(
-        string $olderOrderNumber = '',
+        string $oldOrderNumber = '',
         string $stripeId = '',
         string $stripeAmount = '',
         string $stripeBalanceTransaction = '',
@@ -94,9 +136,9 @@ class Order
         string $billingStateProvince = '',
         string $billingPostalCode = '',
         null | string | DateTimeInterface $orderDate = null,
-        null | string | UuidInterface $id = null,
-        null | array | OrderItemCollection $orderItems = [],
         ?UserEntity $user = null,
+        null | array | OrderItemCollection $orderItems = [],
+        null | string | UuidInterface $id = null,
     ) {
         if ($this->isInitialized) {
             throw new LogicException(
@@ -112,7 +154,7 @@ class Order
             $this->id = IdValue::fromString($id);
         }
 
-        $this->oldOrderNumber = $olderOrderNumber;
+        $this->oldOrderNumber = $oldOrderNumber;
 
         $this->stripeId = $stripeId;
 

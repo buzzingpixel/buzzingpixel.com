@@ -15,8 +15,9 @@ class FetchOneLicense
 
     public function fetch(LicenseQueryBuilder $queryBuilder): ?License
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         return $this->fetchLicenses->fetch(
-            $queryBuilder->withLimit(1),
+            queryBuilder: $queryBuilder->withLimit(1),
         )->firstOrNull();
     }
 }

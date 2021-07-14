@@ -96,7 +96,6 @@ class OrderRecord
      *     mappedBy="order",
      *     cascade={"persist", "remove"},
      * )
-     * @Mapping\OrderBy({"title" = "asc"})
      */
     private Collection $orderItems;
 

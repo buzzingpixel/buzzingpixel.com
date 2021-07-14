@@ -10,6 +10,7 @@ use App\EntityPropertyTraits\Id;
 use App\EntityPropertyTraits\OriginalPrice;
 use App\EntityPropertyTraits\Price;
 use App\EntityValueObjects\Id as IdValue;
+use App\Persistence\Entities\Orders\OrderItemRecord;
 use LogicException;
 use Money\Currency;
 use Money\Money;
@@ -25,8 +26,33 @@ class OrderItem
 
     /** @psalm-suppress PropertyNotSetInConstructor */
     private Order $order;
+    /** @psalm-suppress PropertyNotSetInConstructor */
     private License $license;
+    /** @psalm-suppress PropertyNotSetInConstructor */
     private Software $software;
+
+    public static function fromRecord(
+        OrderItemRecord $record,
+        ?Order $order = null,
+    ): self {
+        $orderItem = new self(
+            id: $record->getId(),
+            price: $record->getPrice(),
+            originalPrice: $record->getOriginalPrice(),
+            order: $order,
+            software: Software::fromRecord($record->getSoftware()),
+        );
+
+        $license = $record->getLicense();
+
+        if ($license !== null) {
+            $orderItem = $orderItem->withLicense(
+                License::fromRecord($license),
+            );
+        }
+
+        return $orderItem;
+    }
 
     public function __construct(
         int | Money $price = 0,
