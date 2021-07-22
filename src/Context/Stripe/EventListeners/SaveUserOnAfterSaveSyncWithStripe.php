@@ -18,6 +18,10 @@ class SaveUserOnAfterSaveSyncWithStripe
 
     public function onAfterSave(SaveUserAfterSave $event): void
     {
+        if ($event->userEntity->isSyncingWithStripe()) {
+            return;
+        }
+
         $this->queueApi->addToQueue(
             (new Queue())
                 ->withHandle('sync-user-with-stripe')

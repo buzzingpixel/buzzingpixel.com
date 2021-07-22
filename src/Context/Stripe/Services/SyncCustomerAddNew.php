@@ -41,7 +41,8 @@ class SyncCustomerAddNew implements SyncCustomer
                 'phone' => $this->user->billingProfile()->billingPhone(),
             ]);
 
-            $user = $this->user->withUserStripeId($customer->id);
+            $user = $this->user->withUserStripeId($customer->id)
+                ->withIsSyncingWithStripe();
 
             $this->userApi->saveUser($user);
         } catch (Throwable) {

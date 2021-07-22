@@ -228,4 +228,21 @@ class User
             ]
         );
     }
+
+    private bool $isSyncingWithStripe = false;
+
+    public function isSyncingWithStripe(): bool
+    {
+        return $this->isSyncingWithStripe;
+    }
+
+    public function withIsSyncingWithStripe(
+        bool $isSyncingWithStripe = true
+    ): self {
+        $clone = clone $this;
+
+        $clone->isSyncingWithStripe = $isSyncingWithStripe;
+
+        return $clone;
+    }
 }

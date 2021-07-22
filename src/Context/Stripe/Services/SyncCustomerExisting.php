@@ -46,7 +46,8 @@ class SyncCustomerExisting implements SyncCustomer
                 ],
             );
 
-            $user = $this->user->withUserStripeId($customer->id);
+            $user = $this->user->withUserStripeId($customer->id)
+                ->withIsSyncingWithStripe();
 
             $this->userApi->saveUser($user);
         } catch (Throwable) {
