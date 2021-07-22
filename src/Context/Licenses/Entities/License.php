@@ -9,10 +9,8 @@ use App\Context\Users\Entities\User as UserEntity;
 use App\EntityPropertyTraits\AdminNotes;
 use App\EntityPropertyTraits\AuthorizedDomains;
 use App\EntityPropertyTraits\ExpiresAt;
-use App\EntityPropertyTraits\HasBeenUpgraded;
 use App\EntityPropertyTraits\Id;
 use App\EntityPropertyTraits\IsDisabled;
-use App\EntityPropertyTraits\IsUpgrade;
 use App\EntityPropertyTraits\LicenseKey;
 use App\EntityPropertyTraits\MajorVersion;
 use App\EntityPropertyTraits\Software;
@@ -32,8 +30,6 @@ class License
     use Id;
     use IsDisabled;
     use MajorVersion;
-    use IsUpgrade;
-    use HasBeenUpgraded;
     use LicenseKey;
     use UserNotes;
     use AdminNotes;
@@ -49,8 +45,6 @@ class License
             id: $record->getId(),
             isDisabled: $record->getIsDisabled(),
             majorVersion: $record->getMajorVersion(),
-            isUpgrade: $record->getIsUpgrade(),
-            hasBeenUpgraded: $record->getHasBeenUpgraded(),
             licenseKey: $record->getLicenseKey(),
             userNotes: $record->getUserNotes(),
             adminNotes: $record->getAdminNotes(),
@@ -67,8 +61,6 @@ class License
     public function __construct(
         bool $isDisabled = false,
         string $majorVersion = '',
-        bool $isUpgrade = false,
-        bool $hasBeenUpgraded = false,
         string $licenseKey = '',
         string $userNotes = '',
         string $adminNotes = '',
@@ -95,10 +87,6 @@ class License
         $this->isDisabled = $isDisabled;
 
         $this->majorVersion = $majorVersion;
-
-        $this->isUpgrade = $isUpgrade;
-
-        $this->hasBeenUpgraded = $hasBeenUpgraded;
 
         $this->licenseKey = $licenseKey;
 

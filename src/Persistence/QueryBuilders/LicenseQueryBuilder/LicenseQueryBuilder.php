@@ -70,38 +70,6 @@ class LicenseQueryBuilder extends QueryBuilder
     /**
      * @return $this
      */
-    public function withIsUpgrade(
-        bool $value,
-        string $comparison = '=',
-        string $concat = 'AND',
-    ): self {
-        return $this->withWhere(
-            'isUpgrade',
-            $value,
-            $comparison,
-            $concat,
-        );
-    }
-
-    /**
-     * @return $this
-     */
-    public function withHasBeenUpgraded(
-        bool $value,
-        string $comparison = '=',
-        string $concat = 'AND',
-    ): self {
-        return $this->withWhere(
-            'hasBeenUpgraded',
-            $value,
-            $comparison,
-            $concat,
-        );
-    }
-
-    /**
-     * @return $this
-     */
     public function withLicenseKey(
         string $value,
         string $comparison = '=',

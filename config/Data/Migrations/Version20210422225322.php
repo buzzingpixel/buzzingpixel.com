@@ -16,7 +16,7 @@ final class Version20210422225322 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('CREATE TABLE licenses (id UUID NOT NULL, user_id UUID DEFAULT NULL, softare_id UUID DEFAULT NULL, is_disabled BOOLEAN NOT NULL, major_version VARCHAR(255) NOT NULL, is_upgrade BOOLEAN NOT NULL, has_been_upgrade BOOLEAN NOT NULL, license_key VARCHAR(255) NOT NULL, user_notes VARCHAR(255) NOT NULL, admin_notes VARCHAR(255) NOT NULL, authorized_domains JSON NOT NULL, expires_at TIMESTAMP(0) WITH TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE licenses (id UUID NOT NULL, user_id UUID DEFAULT NULL, softare_id UUID DEFAULT NULL, is_disabled BOOLEAN NOT NULL, major_version VARCHAR(255) NOT NULL, license_key VARCHAR(255) NOT NULL, user_notes VARCHAR(255) NOT NULL, admin_notes VARCHAR(255) NOT NULL, authorized_domains JSON NOT NULL, expires_at TIMESTAMP(0) WITH TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_7F320F3FA76ED395 ON licenses (user_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_7F320F3FA6CF31DF ON licenses (softare_id)');
         $this->addSql('COMMENT ON COLUMN licenses.id IS \'(DC2Type:uuid)\'');

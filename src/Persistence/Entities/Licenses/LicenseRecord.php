@@ -12,10 +12,8 @@ use App\Persistence\Entities\Users\UserRecord;
 use App\Persistence\PropertyTraits\AdminNotes;
 use App\Persistence\PropertyTraits\AuthorizedDomains;
 use App\Persistence\PropertyTraits\ExpiresAt;
-use App\Persistence\PropertyTraits\HasBeenUpgraded;
 use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\IsDisabled;
-use App\Persistence\PropertyTraits\IsUpgrade;
 use App\Persistence\PropertyTraits\LicenseKey;
 use App\Persistence\PropertyTraits\MajorVersion;
 use App\Persistence\PropertyTraits\UserNotes;
@@ -34,8 +32,6 @@ class LicenseRecord
     use Id;
     use IsDisabled;
     use MajorVersion;
-    use IsUpgrade;
-    use HasBeenUpgraded;
     use LicenseKey;
     use UserNotes;
     use AdminNotes;
@@ -91,8 +87,6 @@ class LicenseRecord
         $this->setId(Uuid::fromString(uuid: $entity->id()));
         $this->setIsDisabled(isDisabled: $entity->isDisabled());
         $this->setMajorVersion(majorVersion: $entity->majorVersion());
-        $this->setIsUpgrade(isUpgrade: $entity->isUpgrade());
-        $this->setHasBeenUpgraded(hasBeenUpgraded: $entity->hasBeenUpgraded());
         $this->setLicenseKey(licenseKey: $entity->licenseKey());
         $this->setUserNotes(userNotes: $entity->userNotes());
         $this->setAdminNotes(adminNotes: $entity->adminNotes());
