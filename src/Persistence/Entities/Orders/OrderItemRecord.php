@@ -10,6 +10,7 @@ use App\Persistence\Entities\Software\SoftwareRecord;
 use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\OriginalPrice;
 use App\Persistence\PropertyTraits\Price;
+use App\Persistence\PropertyTraits\Quantity;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Mapping;
@@ -28,6 +29,7 @@ class OrderItemRecord
     use Id;
     use Price;
     use OriginalPrice;
+    use Quantity;
 
     /**
      * @Mapping\ManyToOne(
@@ -203,6 +205,7 @@ class OrderItemRecord
         $this->setId(Uuid::fromString(uuid: $entity->id()));
         $this->setPrice(price: $entity->priceAsInt());
         $this->setPrice(price: $entity->originalPriceAsInt());
+        $this->setQuantity(quantity: $entity->quantity());
 
         $license = $entity->license();
 

@@ -9,6 +9,7 @@ use App\Context\Software\Entities\Software;
 use App\EntityPropertyTraits\Id;
 use App\EntityPropertyTraits\OriginalPrice;
 use App\EntityPropertyTraits\Price;
+use App\EntityPropertyTraits\Quantity;
 use App\EntityValueObjects\Id as IdValue;
 use App\Persistence\Entities\Orders\OrderItemRecord;
 use LogicException;
@@ -23,6 +24,7 @@ class OrderItem
     use Id;
     use Price;
     use OriginalPrice;
+    use Quantity;
 
     /** @psalm-suppress PropertyNotSetInConstructor */
     private Order $order;
@@ -39,6 +41,7 @@ class OrderItem
             id: $record->getId(),
             price: $record->getPrice(),
             originalPrice: $record->getOriginalPrice(),
+            quantity: $record->getQuantity(),
             order: $order,
             software: Software::fromRecord($record->getSoftware()),
         );
@@ -57,6 +60,7 @@ class OrderItem
     public function __construct(
         int | Money $price = 0,
         int | Money $originalPrice = 0,
+        int $quantity = 1,
         ?Order $order = null,
         ?License $license = null,
         ?Software $software = null,
@@ -93,6 +97,8 @@ class OrderItem
                 new Currency('USD')
             );
         }
+
+        $this->quantity = $quantity;
 
         if ($order !== null) {
             $this->order = $order;
