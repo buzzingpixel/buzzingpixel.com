@@ -124,9 +124,12 @@ class SyncInvoiceCreateOrder implements SyncInvoiceContract
 
             assert($software instanceof Software);
 
-            // TODO: Add plan subscription id to license record
+            $stripeId = '';
+
             // TODO: Check if a license for this plan ID exists
             if ($subscriptionPlan !== null) {
+                $stripeId = $subscriptionPlan->id;
+
                 /** @noinspection PhpUnhandledExceptionInspection */
                 $expiresAt = (new DateTimeImmutable(
                     'now',
@@ -145,6 +148,7 @@ class SyncInvoiceCreateOrder implements SyncInvoiceContract
                 expiresAt: $expiresAt,
                 user: $user,
                 software: $software,
+                stripeId: $stripeId,
             );
 
             $this->licenseApi->saveLicense($license);
