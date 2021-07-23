@@ -257,4 +257,19 @@ class Order
 
         return $clone;
     }
+
+    public function withAddedOrderItem(OrderItem $newOrderItem): self
+    {
+        $clone = clone $this;
+
+        $clone->orderItems = new OrderItemCollection(array_map(
+            static fn (OrderItem $i) => $i->withOrder($clone),
+            array_merge(
+                $this->orderItems->toArray(),
+                [$newOrderItem],
+            ),
+        ));
+
+        return $clone;
+    }
 }

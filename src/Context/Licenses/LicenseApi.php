@@ -8,6 +8,7 @@ use App\Context\Licenses\Entities\License;
 use App\Context\Licenses\Entities\LicenseCollection;
 use App\Context\Licenses\Services\FetchLicenses;
 use App\Context\Licenses\Services\FetchOneLicense;
+use App\Context\Licenses\Services\GenerateLicenseKey;
 use App\Context\Licenses\Services\SaveLicense;
 use App\Payload\Payload;
 use App\Persistence\QueryBuilders\LicenseQueryBuilder\LicenseQueryBuilder;
@@ -18,6 +19,7 @@ class LicenseApi
         private SaveLicense $saveLicense,
         private FetchLicenses $fetchLicenses,
         private FetchOneLicense $fetchOneLicense,
+        private GenerateLicenseKey $generateLicenseKey,
     ) {
     }
 
@@ -39,5 +41,10 @@ class LicenseApi
         LicenseQueryBuilder $queryBuilder,
     ): ?License {
         return $this->fetchOneLicense->fetch($queryBuilder);
+    }
+
+    public function generateLicenseKey(): string
+    {
+        return $this->generateLicenseKey->generate();
     }
 }

@@ -22,6 +22,7 @@ use function is_string;
  * @method string systemEmailSenderName()
  * @method string stripePublishableKey()
  * @method string stripeSecretKey()
+ * @method string stripeCheckoutSessionCompletedSigningSecret()
  * @method array stylesheets()
  * @method array jsFiles()
  * @method array accountMenu()
@@ -48,6 +49,10 @@ class General extends SimpleModel
 
         /** @phpstan-ignore-next-line */
         static::$stripeSecretKey = (string) getenv('STRIPE_SECRET_KEY');
+
+        static::$stripeCheckoutSessionCompletedSigningSecret = (string) getenv(
+            'STRIPE_CHECKOUT_SESSION_COMPLETED_SIGNING_SECRET',
+        );
 
         if (getenv('SITE_URL') !== false) {
             $siteUrl = getenv('SITE_URL');
@@ -87,6 +92,8 @@ class General extends SimpleModel
     public static string $stripePublishableKey = '';
 
     public static string $stripeSecretKey = '';
+
+    public static string $stripeCheckoutSessionCompletedSigningSecret = '';
 
     /** @var string[] */
     public static array $stylesheets = [];

@@ -183,12 +183,10 @@ class Queue
         $clone = clone $this;
 
         $clone->queueItems = new QueueItemCollection(array_map(
-            static fn (QueueItem $e) => $e->withQueue(
-                $clone
-            ),
+            static fn (QueueItem $e) => $e->withQueue($clone),
             array_merge(
                 $this->queueItems->toArray(),
-                [$newQueueItem]
+                [$newQueueItem],
             ),
         ));
 

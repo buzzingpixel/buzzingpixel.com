@@ -90,6 +90,7 @@ use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocTemplateTa
 use App\Http\Response\Software\Treasury\TreasuryAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogItemAction;
+use App\Http\Response\Stripe\Webhook\PostCheckoutSessionCompletedAction;
 use App\Http\RouteMiddleware\Admin\RequireAdminAction;
 use App\Http\RouteMiddleware\LogIn\RequireLogInAction;
 use Config\NoOp;
@@ -272,4 +273,10 @@ return static function (App $app): void {
     $app->post(pattern: '/ajax/cart/update', callable: UpdateCartAction::class);
     $app->get(pattern: '/cart/log-in', callable: CartLogIn::class);
     $app->get(pattern: '/ajax/cart/create-checkout-session', callable: CreateCheckoutSessionAction::class);
+
+    // Stripe
+    $app->post(
+        pattern: '/stripe/webhook/checkout-session-completed',
+        callable: PostCheckoutSessionCompletedAction::class,
+    );
 };

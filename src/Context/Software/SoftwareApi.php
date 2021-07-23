@@ -13,6 +13,7 @@ use App\Context\Software\Services\DeleteSoftwareVersion;
 use App\Context\Software\Services\FetchOneSoftware;
 use App\Context\Software\Services\FetchOneSoftwareVersion;
 use App\Context\Software\Services\FetchSoftware;
+use App\Context\Software\Services\FetchSoftwareByStripePriceId;
 use App\Context\Software\Services\FetchSoftwareVersions;
 use App\Context\Software\Services\SaveSoftware;
 use App\Payload\Payload;
@@ -25,6 +26,7 @@ class SoftwareApi
         private SaveSoftware $saveSoftware,
         private FetchSoftware $fetchSoftware,
         private FetchOneSoftware $fetchOneSoftware,
+        private FetchSoftwareByStripePriceId $fetchSoftwareByStripePriceId,
         private FetchSoftwareVersions $fetchSoftwareVersions,
         private FetchOneSoftwareVersion $fetchOneSoftwareVersion,
         private DeleteSoftware $deleteSoftware,
@@ -48,6 +50,11 @@ class SoftwareApi
         SoftwareQueryBuilder $queryBuilder,
     ): ?Software {
         return $this->fetchOneSoftware->fetch($queryBuilder);
+    }
+
+    public function fetchSoftwareByStripeId(string $stripeId): Software
+    {
+        return $this->fetchSoftwareByStripePriceId->fetch($stripeId);
     }
 
     /** @phpstan-ignore-next-line  */
