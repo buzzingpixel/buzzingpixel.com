@@ -123,6 +123,19 @@ class Cart
             array_merge($cartItems),
         ));
 
+        foreach ($this->cartItems->toArray() as $cartItem) {
+            $itemOrNull = $clone->cartItems->where(
+                'id',
+                $cartItem->id()
+            )->firstOrNull();
+
+            if ($itemOrNull !== null) {
+                continue;
+            }
+
+            $clone->removedCartItemIds[] = $cartItem->id();
+        }
+
         return $clone;
     }
 
