@@ -59,7 +59,7 @@ class CartItemRecord
      *     targetEntity="\App\Persistence\Entities\Software\SoftwareRecord"
      * )
      * @Mapping\JoinColumn(
-     *     name="softare_id",
+     *     name="software_id",
      *     referencedColumnName="id",
      * )
      */
