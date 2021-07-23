@@ -38,6 +38,7 @@ use App\Http\Response\Ajax\User\GetUserPayloadAction;
 use App\Http\Response\Cart\AddToCartAction;
 use App\Http\Response\Cart\CartAction;
 use App\Http\Response\Cart\CartLogIn;
+use App\Http\Response\Cart\CheckoutSuccessAction;
 use App\Http\Response\Cart\DeleteFromCartAction;
 use App\Http\Response\HealthCheck\HealthCheckAction;
 use App\Http\Response\Home\HomeAction;
@@ -273,6 +274,7 @@ return static function (App $app): void {
     $app->post(pattern: '/ajax/cart/update', callable: UpdateCartAction::class);
     $app->get(pattern: '/cart/log-in', callable: CartLogIn::class);
     $app->get(pattern: '/ajax/cart/create-checkout-session', callable: CreateCheckoutSessionAction::class);
+    $app->get(pattern: '/cart/checkout-success', callable: CheckoutSuccessAction::class);
 
     // Stripe
     $app->post(

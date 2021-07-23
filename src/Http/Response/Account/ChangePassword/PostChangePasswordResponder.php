@@ -11,20 +11,15 @@ use Slim\Flash\Messages as FlashMessages;
 
 class PostChangePasswordResponder
 {
-    private FlashMessages $flashMessages;
-    private ResponseFactoryInterface $responseFactory;
-
     public function __construct(
-        FlashMessages $flashMessages,
-        ResponseFactoryInterface $responseFactory
+        private FlashMessages $flashMessages,
+        private ResponseFactoryInterface $responseFactory,
     ) {
-        $this->flashMessages   = $flashMessages;
-        $this->responseFactory = $responseFactory;
     }
 
     public function respond(
         Payload $payload,
-        string $redirectTo
+        string $redirectTo,
     ): ResponseInterface {
         if ($payload->getStatus() !== Payload::STATUS_UPDATED) {
             $this->flashMessages->addMessage(

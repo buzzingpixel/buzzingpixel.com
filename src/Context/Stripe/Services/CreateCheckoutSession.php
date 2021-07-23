@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Context\Stripe\Services;
 
 use App\Context\Cart\Entities\Cart;
+use App\Context\Software\Entities\Software;
 use App\Context\Stripe\Entities\StripePriceCollection;
 use App\Context\Stripe\Factories\FetchPricesForSoftwareFactory;
 use App\Context\Stripe\Factories\StripeFactory;
@@ -13,6 +14,8 @@ use Stripe\Checkout\Session;
 use Stripe\Price;
 use Stripe\Product;
 use Stripe\TaxRate;
+
+use function assert;
 
 class CreateCheckoutSession
 {
@@ -33,8 +36,12 @@ class CreateCheckoutSession
         $prices = new StripePriceCollection();
 
         foreach ($cart->cartItems()->toArray() as $cartItem) {
+            $software = $cartItem->software();
+
+            assert($software instanceof Software);
+
             $itemPrices = $this->fetchPricesForSoftwareFactory->createFetchPricesForSoftware(
-                $cartItem->software()
+                software: $software,
             )->fetch();
 
             $itemPrices->map(static fn (Price $p) => $prices->add($p));
@@ -83,6 +90,7 @@ class CreateCheckoutSession
             }
         );
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         return $this->stripeFactory->createStripeClient()
             ->checkout
             ->sessions
