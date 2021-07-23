@@ -14,6 +14,7 @@ use App\EntityPropertyTraits\IsDisabled;
 use App\EntityPropertyTraits\LicenseKey;
 use App\EntityPropertyTraits\MajorVersion;
 use App\EntityPropertyTraits\Software;
+use App\EntityPropertyTraits\StripeId;
 use App\EntityPropertyTraits\User;
 use App\EntityPropertyTraits\UserNotes;
 use App\EntityValueObjects\Id as IdValue;
@@ -37,6 +38,7 @@ class License
     use ExpiresAt;
     use User;
     use Software;
+    use StripeId;
 
     public static function fromRecord(LicenseRecord $record): self
     {
@@ -52,6 +54,7 @@ class License
             expiresAt: $record->getExpiresAt(),
             user: UserEntity::fromRecord(record: $record->getUser()),
             software: SoftwareEntity::fromRecord(record: $record->getSoftware()),
+            stripeId: $record->getStripeId(),
         );
     }
 
@@ -68,6 +71,7 @@ class License
         null | string | DateTimeInterface $expiresAt = null,
         ?UserEntity $user = null,
         ?SoftwareEntity $software = null,
+        string $stripeId = '',
         null | string | UuidInterface $id = null,
     ) {
         if ($this->isInitialized) {
@@ -103,6 +107,8 @@ class License
         $this->user = $user;
 
         $this->software = $software;
+
+        $this->stripeId = $stripeId;
     }
 
     private bool $isInitialized = false;
