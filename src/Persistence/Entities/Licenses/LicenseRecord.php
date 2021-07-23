@@ -62,7 +62,7 @@ class LicenseRecord
     }
 
     /**
-     * @Mapping\OneToOne(
+     * @Mapping\ManyToOne(
      *     targetEntity="\App\Persistence\Entities\Software\SoftwareRecord"
      * )
      * @Mapping\JoinColumn(
