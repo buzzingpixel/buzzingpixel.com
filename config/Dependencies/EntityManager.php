@@ -49,9 +49,7 @@ return [
 
         $storageDir = $generalConfig->pathToStorageDirectory();
 
-        $proxyDir = $generalConfig->devMode() ?
-            null :
-            $storageDir . '/doctrine/proxy';
+        $proxyDir = $storageDir . '/doctrine/proxy';
 
         $cache = $generalConfig->devMode() ?
             null :
