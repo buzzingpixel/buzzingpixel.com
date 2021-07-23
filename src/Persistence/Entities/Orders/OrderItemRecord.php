@@ -204,7 +204,7 @@ class OrderItemRecord
 
         $this->setId(Uuid::fromString(uuid: $entity->id()));
         $this->setPrice(price: $entity->priceAsInt());
-        $this->setPrice(price: $entity->originalPriceAsInt());
+        $this->setOriginalPrice(originalPrice: $entity->originalPriceAsInt());
         $this->setQuantity(quantity: $entity->quantity());
 
         $license = $entity->license();
