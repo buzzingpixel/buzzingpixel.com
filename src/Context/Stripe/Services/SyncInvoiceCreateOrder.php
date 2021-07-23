@@ -14,6 +14,7 @@ use App\Context\Software\Entities\Software;
 use App\Context\Software\Services\FetchSoftwareByStripePriceId;
 use App\Context\Stripe\Contracts\SyncInvoice as SyncInvoiceContract;
 use App\Context\Users\Entities\User;
+use App\Persistence\QueryBuilders\LicenseQueryBuilder\LicenseQueryBuilder;
 use DateInterval;
 use DateTimeImmutable;
 use DateTimeZone;
@@ -126,7 +127,8 @@ class SyncInvoiceCreateOrder implements SyncInvoiceContract
 
             $stripeId = '';
 
-            // TODO: Check if a license for this plan ID exists
+            $license = null;
+
             if ($subscriptionPlan !== null) {
                 $stripeId = $subscriptionPlan->id;
 
@@ -140,18 +142,25 @@ class SyncInvoiceCreateOrder implements SyncInvoiceContract
                     )
                     // Possible TODO: This assumes subscriptions are 1 year
                     ->add(new DateInterval('P1Y'));
+
+                $license = $this->licenseApi->fetchOneLicense(
+                    (new LicenseQueryBuilder())
+                        ->withStripeId($stripeId),
+                );
             }
 
-            $license = new License(
-                majorVersion: $software->versions()->first()->majorVersion(),
-                licenseKey: $this->generateLicenseKey->generate(),
-                expiresAt: $expiresAt,
-                user: $user,
-                software: $software,
-                stripeId: $stripeId,
-            );
+            if ($license === null) {
+                $license = new License(
+                    majorVersion: $software->versions()->first()->majorVersion(),
+                    licenseKey: $this->generateLicenseKey->generate(),
+                    expiresAt: $expiresAt,
+                    user: $user,
+                    software: $software,
+                    stripeId: $stripeId,
+                );
 
-            $this->licenseApi->saveLicense($license);
+                $this->licenseApi->saveLicense($license);
+            }
 
             $order = $order->withAddedOrderItem(new OrderItem(
                 price: $lineItem['amount'],

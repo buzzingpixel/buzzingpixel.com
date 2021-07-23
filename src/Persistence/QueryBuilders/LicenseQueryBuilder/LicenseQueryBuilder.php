@@ -38,6 +38,22 @@ class LicenseQueryBuilder extends QueryBuilder
     /**
      * @return $this
      */
+    public function withStripeId(
+        string $value,
+        string $comparison = '=',
+        string $concat = 'AND',
+    ): self {
+        return $this->withWhere(
+            'stripeId',
+            $value,
+            $comparison,
+            $concat,
+        );
+    }
+
+    /**
+     * @return $this
+     */
     public function withIsDisabled(
         bool $value,
         string $comparison = '=',
