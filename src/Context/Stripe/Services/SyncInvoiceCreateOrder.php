@@ -15,12 +15,10 @@ use App\Context\Software\Services\FetchSoftwareByStripePriceId;
 use App\Context\Stripe\Contracts\SyncInvoice as SyncInvoiceContract;
 use App\Context\Users\Entities\User;
 use App\Persistence\QueryBuilders\LicenseQueryBuilder\LicenseQueryBuilder;
-use DateInterval;
 use DateTimeImmutable;
 use DateTimeZone;
 use Stripe\Invoice;
 use Stripe\InvoiceLineItem;
-use Stripe\Plan;
 use Stripe\Price;
 use Stripe\StripeObject;
 
@@ -79,6 +77,17 @@ class SyncInvoiceCreateOrder implements SyncInvoiceContract
         foreach ($invoice->lines->data as $lineItem) {
             assert($lineItem instanceof InvoiceLineItem);
 
+            /**
+             * @phpstan-ignore-next-line
+             */
+            $endTimeStamp = (int) $lineItem->period->end;
+
+            $endTime = (new DateTimeImmutable())
+                ->setTimezone(new DateTimeZone('UTC'))
+                ->setTimestamp(
+                    $endTimeStamp
+                );
+
             $stripePrice = $lineItem->price;
 
             assert($stripePrice instanceof Price);
@@ -94,7 +103,8 @@ class SyncInvoiceCreateOrder implements SyncInvoiceContract
                     'amount' => 0,
                     'quantity' => 0,
                     'software' => null,
-                    'subscriptionPlan' => null,
+                    'subscriptionItemId' => '',
+                    'subscriptionEndTime' => $endTime,
                 ];
             }
 
@@ -104,48 +114,36 @@ class SyncInvoiceCreateOrder implements SyncInvoiceContract
 
             $lineItems[$softwareId]['software'] = $software;
 
-            $plan = $lineItem->plan;
+            $subscriptionItemId = $lineItem->subscription_item;
 
-            if ($plan === null) {
+            /**
+             * @psalm-suppress DocblockTypeContradiction
+             * @phpstan-ignore-next-line
+             */
+            if ($subscriptionItemId === null) {
                 continue;
             }
 
-            $lineItems[$softwareId]['subscriptionPlan'] = $plan;
+            $lineItems[$softwareId]['subscriptionItemId'] = $subscriptionItemId;
         }
 
         foreach ($lineItems as $lineItem) {
             $software = $lineItem['software'];
 
-            $subscriptionPlan = $lineItem['subscriptionPlan'];
+            $subscriptionItemId = $lineItem['subscriptionItemId'];
 
             $expiresAt = null;
 
-            /** @phpstan-ignore-next-line  */
-            assert($subscriptionPlan instanceof Plan || $subscriptionPlan === null);
-
             assert($software instanceof Software);
-
-            $stripeId = '';
 
             $license = null;
 
-            if ($subscriptionPlan !== null) {
-                $stripeId = $subscriptionPlan->id;
-
-                /** @noinspection PhpUnhandledExceptionInspection */
-                $expiresAt = (new DateTimeImmutable(
-                    'now',
-                    new DateTimeZone('UTC')
-                ))
-                    ->setTimestamp(
-                        $subscriptionPlan->created
-                    )
-                    // Possible TODO: This assumes subscriptions are 1 year
-                    ->add(new DateInterval('P1Y'));
+            if ($subscriptionItemId !== '') {
+                $expiresAt = $lineItem['subscriptionEndTime'];
 
                 $license = $this->licenseApi->fetchOneLicense(
                     (new LicenseQueryBuilder())
-                        ->withStripeId($stripeId),
+                        ->withStripeId($subscriptionItemId),
                 );
             }
 
@@ -156,7 +154,7 @@ class SyncInvoiceCreateOrder implements SyncInvoiceContract
                     expiresAt: $expiresAt,
                     user: $user,
                     software: $software,
-                    stripeId: $stripeId,
+                    stripeId: $subscriptionItemId,
                 );
 
                 $this->licenseApi->saveLicense($license);
