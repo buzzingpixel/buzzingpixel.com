@@ -26,6 +26,7 @@ class CartApi
 
     public function saveCart(Cart $cart): Payload
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         return $this->saveCart->save($cart);
     }
 

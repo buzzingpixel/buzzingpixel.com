@@ -147,6 +147,10 @@
                                                         @change="data.cartItems['{{ item.slug }}'].quantity = $event.currentTarget.value; $dispatch('userUpdatedCart')"
                                                         @keyup="data.cartItems['{{ item.slug }}'].quantity = $event.currentTarget.value; $dispatch('userUpdatedCart')"
                                                     >
+                                                    {% if item.software.isSubscription %}
+                                                        &nbsp;
+                                                        <small class="text-gray-500">( + {{ item.software.renewalPriceFormatted }}/year)</small>
+                                                    {% endif %}
                                                 </label>
                                             </dd>
                                             <div class="absolute right-2 top-1/2 transform -translate-y-1/2">
