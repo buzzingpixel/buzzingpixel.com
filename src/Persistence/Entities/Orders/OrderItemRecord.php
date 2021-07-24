@@ -99,7 +99,7 @@ class OrderItemRecord
     }
 
     /**
-     * @Mapping\OneToOne(
+     * @Mapping\ManyToOne(
      *     targetEntity="\App\Persistence\Entities\Software\SoftwareRecord"
      * )
      * @Mapping\JoinColumn(

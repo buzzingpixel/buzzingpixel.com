@@ -12,6 +12,7 @@ trait StripeId
      * @Mapping\Column(
      *     name="stripe_id",
      *     type="string",
+     *     options={"default" : ""},
      * )
      */
     protected string $stripeId = '';

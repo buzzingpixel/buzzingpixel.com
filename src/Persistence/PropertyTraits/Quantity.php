@@ -12,6 +12,7 @@ trait Quantity
      * @Mapping\Column(
      *     name="quantity",
      *     type="integer",
+     *     options={"default" : 0},
      * )
      */
     protected int $quantity = 0;
