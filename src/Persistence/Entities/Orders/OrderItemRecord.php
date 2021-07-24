@@ -66,7 +66,7 @@ class OrderItemRecord
     }
 
     /**
-     * @Mapping\OneToOne(
+     * @Mapping\ManyToOne(
      *     targetEntity="\App\Persistence\Entities\Licenses\LicenseRecord",
      * )
      * @Mapping\JoinColumn(
