@@ -25,6 +25,10 @@ class SyncInvoiceFactory
         Invoice $invoice,
         User $user,
     ): SyncInvoice {
+        if (! $invoice->paid) {
+            return $this->syncInvoiceNoOp;
+        }
+
         $order = $this->orderApi->fetchOneOrder(
             queryBuilder: (new OrderQueryBuilder())
                 ->withStripeId($invoice->id)
