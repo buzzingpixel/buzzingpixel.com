@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Cli\Commands\Queue;
 
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,8 +16,10 @@ use function usleep;
 
 class QueueListenCommand extends Command
 {
-    public function __construct(private RunQueueCommand $runQueue)
-    {
+    public function __construct(
+        private RunQueueCommand $runQueue,
+        private EntityManager $entityManager,
+    ) {
         parent::__construct();
     }
 
@@ -44,6 +47,12 @@ class QueueListenCommand extends Command
 
     public function innerRun(): void
     {
+        // We have to clear out the entity manager or strange things happen
+        // with stale data since created objects persist in the listen loop
+        // and the entityManager is no exception
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $this->entityManager->clear();
+
         $input = new ArgvInput();
 
         $output = new NullOutput();
