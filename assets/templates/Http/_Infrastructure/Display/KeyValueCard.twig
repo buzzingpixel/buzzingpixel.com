@@ -42,6 +42,19 @@
                                     {% include item.template with item.value only %}
                                 {% else %}
                                     {{ item.value|smartypants }}
+                                    {% if item.valueActionLink is defined %}
+                                        {% if item.value %}
+                                            <br><br>
+                                        {% endif %}
+                                        <div>
+                                            <a
+                                                href="{{ item.valueActionLink.href }}"
+                                                class="font-medium text-jade hover:text-deep-sea"
+                                            >
+                                                {{ item.valueActionLink.content }}
+                                            </a>
+                                        </div>
+                                    {% endif %}
                                 {% endif %}
                             </dd>
                         </div>

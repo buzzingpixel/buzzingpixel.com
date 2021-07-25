@@ -7,6 +7,7 @@ use App\Http\Response\Account\BillingPortal\BillingPortalAction;
 use App\Http\Response\Account\ChangePassword\ChangePasswordAction;
 use App\Http\Response\Account\ChangePassword\PostChangePasswordAction;
 use App\Http\Response\Account\Licenses\AccountLicensesAction;
+use App\Http\Response\Account\Licenses\AccountLicensesDetailAction;
 use App\Http\Response\Account\Profile\AccountProfileAction;
 use App\Http\Response\Account\Profile\PostAccountProfileAction;
 use App\Http\Response\Account\Purchases\AccountPurchasesAction;
@@ -178,6 +179,7 @@ return static function (App $app): void {
 
         $r->get(pattern: '', callable: AccountIndexAction::class);
         $r->get(pattern: '/licenses', callable: AccountLicensesAction::class);
+        $r->get(pattern: '/licenses/{licenseKey}', callable: AccountLicensesDetailAction::class);
         $r->get(pattern: '/purchases', callable: AccountPurchasesAction::class);
         $r->get(pattern: '/purchases/{orderId}', callable: AccountPurchasesDetailAction::class);
         $r->get(pattern: '/profile', callable: AccountProfileAction::class);

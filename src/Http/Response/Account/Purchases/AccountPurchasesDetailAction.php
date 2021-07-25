@@ -6,6 +6,7 @@ namespace App\Http\Response\Account\Purchases;
 
 use App\Context\Orders\Entities\OrderItem;
 use App\Context\Orders\OrderApi;
+use App\Context\Users\Entities\LoggedInUser;
 use App\Http\Entities\Meta;
 use App\Persistence\QueryBuilders\Orders\OrderQueryBuilder;
 use Config\General;
@@ -21,6 +22,7 @@ class AccountPurchasesDetailAction
         private General $config,
         private OrderApi $orderApi,
         private TwigEnvironment $twig,
+        private LoggedInUser $loggedInUser,
         private ResponseFactoryInterface $responseFactory,
     ) {
     }
@@ -31,6 +33,7 @@ class AccountPurchasesDetailAction
 
         $order = $this->orderApi->fetchOneOrder(
             (new OrderQueryBuilder())
+                ->withUserId($this->loggedInUser->user()->id())
                 ->withId($orderId),
         );
 

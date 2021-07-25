@@ -123,7 +123,41 @@ class License
             [
                 'account',
                 'licenses',
-                $this->id(),
+                $this->licenseKey(),
+            ],
+        );
+    }
+
+    public function accountAddAuthorizedDomainLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->accountLink(),
+                'add-authorized-domain',
+            ],
+        );
+    }
+
+    public function accountEditNotesLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->accountLink(),
+                'edit-notes',
+            ],
+        );
+    }
+
+    public function accountDeleteAuthorizedDomain(string $domain): string
+    {
+        return implode(
+            '/',
+            [
+                $this->accountLink(),
+                'delete-authorized-domain',
+                $domain,
             ],
         );
     }
@@ -137,5 +171,12 @@ class License
         }
 
         return $expiresAt->modify('-1 month');
+    }
+
+    public function isExpired(): bool
+    {
+        $currentDateTime = new DateTimeImmutable();
+
+        return $currentDateTime > $this->expiresAt();
     }
 }
