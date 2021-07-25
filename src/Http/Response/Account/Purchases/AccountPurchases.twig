@@ -1,4 +1,5 @@
 {# @var string headline #}
+{# @var \App\Context\Orders\Entities\OrderCollection orders #}
 
 {% extends '@app/Http/Response/Account/_AccountLayout.twig' %}
 
@@ -37,27 +38,29 @@
                 {# Content #}
                 <div class="bg-white shadow sm:rounded-md">
                     <ul class="divide-y divide-gray-200">
-                        {# TODO: put real content here #}
-                        {% for i in range(0, 3) %}
+                        {% for orderItem in orders.toArray %}
                             <li>
-                                <a href="#" class="block hover:bg-gray-50">
+                                <a
+                                    href="/account/purchases/{{ orderItem.id() }}"
+                                    class="block hover:bg-gray-50"
+                                >
                                     <div class="flex items-center px-4 py-4 sm:px-6">
                                         <div class="min-w-0 flex-1 flex items-center">
                                             <div class="min-w-0 flex-1 pr-4 md:grid md:grid-cols-2 md:gap-4">
                                                 <div>
-                                                    <p class="text-sm font-medium text-deep-sea truncate">ToDo</p>
+                                                    <p class="text-sm font-medium text-deep-sea truncate">{{ orderItem.id() }}</p>
                                                     <p class="mt-2 flex items-center text-sm text-gray-500">
-                                                        <span class="truncate">todo</span>
+                                                        <span class="truncate">{{ orderItem.orderDate.format('F j, Y') }}</span>
                                                     </p>
                                                 </div>
                                                 <div class="hidden md:block">
                                                     <div>
                                                         <p class="text-sm text-gray-900">
-                                                            ToDo
+                                                            {{ orderItem.totalFormatted }}
                                                         </p>
-                                                        <p class="mt-2 flex items-center text-sm text-gray-500">
-                                                            todo
-                                                        </p>
+                                                        {# <p class="mt-2 flex items-center text-sm text-gray-500">
+                                                            content
+                                                        </p> #}
                                                     </div>
                                                 </div>
                                             </div>
