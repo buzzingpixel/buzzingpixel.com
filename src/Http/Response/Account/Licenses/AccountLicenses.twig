@@ -1,9 +1,10 @@
 {# @var string headline #}
+{# @var \App\Context\Licenses\Entities\LicenseCollection licenses #}
 
 {% extends '@app/Http/Response/Account/_AccountLayout.twig' %}
 
 {% block accountContent %}
-    <div class="relative z-10 flex-shrink-0 h-16 bg-gray-50 border-b border-gray-200 flex">
+    {#<div class="relative z-10 flex-shrink-0 h-16 bg-gray-50 border-b border-gray-200 flex">
         <div class="flex-1 flex justify-between px-4 md:px-0">
             <div class="flex-1 flex">
                 <form class="w-full flex md:ml-0" action="#" method="GET">
@@ -25,7 +26,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div>#}
     <div class="flex-1 relative focus:outline-none" tabindex="0">
         <div class="py-6">
             <div class="px-4 sm:px-6 md:px-0 mb-4">
@@ -37,27 +38,42 @@
                 {# Content #}
                 <div class="bg-white shadow sm:rounded-md">
                     <ul class="divide-y divide-gray-200">
-                        {# TODO: put real content here #}
-                        {% for i in range(0, 3) %}
+                        {% for license in licenses.toArray %}
                             <li>
-                                <a href="#" class="block hover:bg-gray-50">
+                                <a
+                                    href="{{ license.accountLink }}"
+                                    class="block hover:bg-gray-50"
+                                >
                                     <div class="flex items-center px-4 py-4 sm:px-6">
                                         <div class="min-w-0 flex-1 flex items-center">
                                             <div class="min-w-0 flex-1 pr-4 md:grid md:grid-cols-2 md:gap-4">
                                                 <div>
-                                                    <p class="text-sm font-medium text-deep-sea truncate">ToDo</p>
+                                                    <p class="text-sm font-medium text-deep-sea truncate">
+                                                        {{ license.software.name }}
+                                                    </p>
                                                     <p class="mt-2 flex items-center text-sm text-gray-500">
-                                                        <span class="truncate">todo</span>
+                                                        <span class="truncate">
+                                                            Version: {{ license.majorVersion }}<br>
+                                                            License Key: {{ license.licenseKey }}
+                                                        </span>
                                                     </p>
                                                 </div>
                                                 <div class="hidden md:block">
                                                     <div>
                                                         <p class="text-sm text-gray-900">
-                                                            ToDo
+                                                            {% if license.authorizedDomains|length < 1 %}
+                                                                No authorized domains configured
+                                                            {% else %}
+                                                                {% for domain in license.authorizedDomains %}
+                                                                    {{ domain }}<br>
+                                                                {% endfor %}
+                                                            {% endif %}
                                                         </p>
-                                                        <p class="mt-2 flex items-center text-sm text-gray-500">
-                                                            todo
-                                                        </p>
+                                                        {% if license.renewalDate %}
+                                                            <p class="mt-2 flex items-center text-sm text-gray-500">
+                                                                Renews on {{ license.renewalDate.format('F j, Y') }}
+                                                            </p>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             </div>

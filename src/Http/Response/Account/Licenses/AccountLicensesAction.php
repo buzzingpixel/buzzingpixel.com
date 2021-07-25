@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Response\Account\Licenses;
 
+use App\Context\Licenses\LicenseApi;
+use App\Context\Users\Entities\LoggedInUser;
 use App\Http\Entities\Meta;
+use App\Persistence\QueryBuilders\LicenseQueryBuilder\LicenseQueryBuilder;
 use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -16,9 +19,11 @@ use Twig\Error\SyntaxError;
 class AccountLicensesAction
 {
     public function __construct(
-        private ResponseFactoryInterface $responseFactory,
-        private TwigEnvironment $twig,
         private General $config,
+        private TwigEnvironment $twig,
+        private LicenseApi $licenseApi,
+        private LoggedInUser $loggedInUser,
+        private ResponseFactoryInterface $responseFactory,
     ) {
     }
 
@@ -36,14 +41,21 @@ class AccountLicensesAction
         /** @psalm-suppress MixedArrayAssignment */
         $accountMenu['licenses']['isActive'] = true;
 
-        $response->getBody()->write($this->twig->render(
-            '@app/Http/Response/Account/Licenses/AccountLicenses.twig',
-            [
+        $licenses = $this->licenseApi->fetchLicenses(
+            (new LicenseQueryBuilder())
+                ->withUserId($this->loggedInUser->user()->id())
+                ->withOrderBy('id', 'desc'),
+        );
+
+        $response->getBody()->write(string: $this->twig->render(
+            name: '@app/Http/Response/Account/Licenses/AccountLicenses.twig',
+            context: [
                 'meta' => new Meta(
                     metaTitle: 'Licenses',
                 ),
                 'accountMenu' => $accountMenu,
                 'headline' => 'Licenses',
+                'licenses' => $licenses,
             ],
         ));
 

@@ -111,4 +111,20 @@ class LicenseQueryBuilder extends QueryBuilder
             $concat,
         );
     }
+
+    /**
+     * @return $this
+     */
+    public function withUserId(
+        string $value,
+        string $comparison = '=',
+        string $concat = 'AND',
+    ): self {
+        return $this->withWhere(
+            'user',
+            $value,
+            $comparison,
+            $concat,
+        );
+    }
 }

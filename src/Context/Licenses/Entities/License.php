@@ -20,6 +20,7 @@ use App\EntityPropertyTraits\UserNotes;
 use App\EntityValueObjects\Id as IdValue;
 use App\Persistence\Entities\Licenses\LicenseRecord;
 use App\Utilities\DateTimeUtility;
+use DateTimeImmutable;
 use DateTimeInterface;
 use LogicException;
 use Ramsey\Uuid\UuidInterface;
@@ -125,5 +126,16 @@ class License
                 $this->id(),
             ],
         );
+    }
+
+    public function renewalDate(): ?DateTimeImmutable
+    {
+        $expiresAt = $this->expiresAt();
+
+        if ($expiresAt === null) {
+            return null;
+        }
+
+        return $expiresAt->modify('-1 month');
     }
 }
