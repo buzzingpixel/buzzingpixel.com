@@ -24,6 +24,8 @@ use DateTimeInterface;
 use LogicException;
 use Ramsey\Uuid\UuidInterface;
 
+use function implode;
+
 // phpcs:disable SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue.NullabilitySymbolRequired
 
 class License
@@ -112,4 +114,16 @@ class License
     }
 
     private bool $isInitialized = false;
+
+    public function accountLink(): string
+    {
+        return '/' . implode(
+            '/',
+            [
+                'account',
+                'licenses',
+                $this->id(),
+            ],
+        );
+    }
 }

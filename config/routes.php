@@ -10,6 +10,7 @@ use App\Http\Response\Account\Licenses\AccountLicensesAction;
 use App\Http\Response\Account\Profile\AccountProfileAction;
 use App\Http\Response\Account\Profile\PostAccountProfileAction;
 use App\Http\Response\Account\Purchases\AccountPurchasesAction;
+use App\Http\Response\Account\Purchases\AccountPurchasesDetailAction;
 use App\Http\Response\Admin\AdminIndexAction;
 use App\Http\Response\Admin\Software\AdminSoftwareAction;
 use App\Http\Response\Admin\Software\Create\AdminSoftwareCreateAction;
@@ -178,6 +179,7 @@ return static function (App $app): void {
         $r->get(pattern: '', callable: AccountIndexAction::class);
         $r->get(pattern: '/licenses', callable: AccountLicensesAction::class);
         $r->get(pattern: '/purchases', callable: AccountPurchasesAction::class);
+        $r->get(pattern: '/purchases/{orderId}', callable: AccountPurchasesDetailAction::class);
         $r->get(pattern: '/profile', callable: AccountProfileAction::class);
         $r->post(pattern: '/profile', callable: PostAccountProfileAction::class);
         $r->get(pattern: '/change-password', callable: ChangePasswordAction::class);

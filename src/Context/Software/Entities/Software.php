@@ -244,4 +244,15 @@ class Software
             ]
         );
     }
+
+    public function pageLink(): string
+    {
+        return '/' . implode(
+            '/',
+            [
+                'software',
+                $this->slug(),
+            ],
+        );
+    }
 }
