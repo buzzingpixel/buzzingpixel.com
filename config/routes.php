@@ -9,6 +9,7 @@ use App\Http\Response\Account\ChangePassword\PostChangePasswordAction;
 use App\Http\Response\Account\Licenses\AccountLicenseAddAuthorizedDomain;
 use App\Http\Response\Account\Licenses\AccountLicensesAction;
 use App\Http\Response\Account\Licenses\AccountLicensesDetailAction;
+use App\Http\Response\Account\Licenses\PostAccountLicensesAddAuthorizedDomainAction;
 use App\Http\Response\Account\Profile\AccountProfileAction;
 use App\Http\Response\Account\Profile\PostAccountProfileAction;
 use App\Http\Response\Account\Purchases\AccountPurchasesAction;
@@ -182,6 +183,7 @@ return static function (App $app): void {
         $r->get(pattern: '/licenses', callable: AccountLicensesAction::class);
         $r->get(pattern: '/licenses/{licenseKey}', callable: AccountLicensesDetailAction::class);
         $r->get(pattern: '/licenses/{licenseKey}/add-authorized-domain', callable: AccountLicenseAddAuthorizedDomain::class);
+        $r->post(pattern: '/licenses/{licenseKey}/add-authorized-domain', callable: PostAccountLicensesAddAuthorizedDomainAction::class);
         $r->get(pattern: '/purchases', callable: AccountPurchasesAction::class);
         $r->get(pattern: '/purchases/{orderId}', callable: AccountPurchasesDetailAction::class);
         $r->get(pattern: '/profile', callable: AccountProfileAction::class);
