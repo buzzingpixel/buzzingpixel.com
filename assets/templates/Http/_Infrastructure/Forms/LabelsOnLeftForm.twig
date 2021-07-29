@@ -4,6 +4,7 @@
 {% set formAction = formAction ?? null %}
 {% set inputs = inputs ?? [] %}
 {% set formAttrs = formAttrs ?? [] %}
+{% set hideTopButtons = hideTopButtons ?? false %}
 
 {% set buttons %}
     <div class="flex justify-end">
@@ -37,11 +38,13 @@
         {{ attr }}='{{ data|raw }}'
         {% endfor %}
     >
-        <div>
-            {{ buttons }}
-        </div>
+        {% if not hideTopButtons %}
+            <div>
+                {{ buttons }}
+            </div>
+        {% endif %}
         <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
-            <div class="pt-4 space-y-6 sm:pt-10 sm:space-y-5">
+            <div class="{% if not hideTopButtons %}pt-4 space-y-6 sm:pt-10 sm:space-y-5{% endif %}">
                 <div class="space-y-6 sm:space-y-5">
                     {% for input in inputs %}
                         {% set type = input.type ?? 'default' %}
@@ -73,13 +76,17 @@
                                             <small class="text-gray-400 font-normal">{{ input.labelSmall|smartypants }}</small>
                                         {% endif %}
                                         {% if input.subHeading is defined and input.subHeading %}
-                                            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                                            <p class="mt-1 max-w-2xl text-sm text-gray-500 font-normal">
                                                 {{ input.subHeading|smartypants }}
                                             </p>
                                         {% endif %}
                                     </label>
                                     <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                        <div class="max-w-lg">
+                                        <div
+                                            {% if input.limitedWidth is not defined or input.limitedWidth %}
+                                            class="max-w-lg"
+                                            {% endif %}
+                                        >
                                             {% include 'Http/_Infrastructure/Forms/Inputs/' ~ inputTemplate ~ '.twig' with input only %}
                                         </div>
                                     </div>
