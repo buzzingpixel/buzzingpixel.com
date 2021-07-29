@@ -37,4 +37,23 @@ trait AuthorizedDomains
 
         return $clone;
     }
+
+    public function withRemovedAuthorizedDomain(string $removedDomain): self
+    {
+        $clone = clone $this;
+
+        $domains = $clone->authorizedDomains;
+
+        foreach ($domains as $key => $domain) {
+            if ($domain !== $removedDomain) {
+                continue;
+            }
+
+            unset($domains[$key]);
+        }
+
+        $clone->authorizedDomains = $domains;
+
+        return $clone;
+    }
 }
