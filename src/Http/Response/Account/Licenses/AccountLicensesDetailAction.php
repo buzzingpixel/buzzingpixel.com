@@ -9,6 +9,7 @@ use App\Context\Software\Entities\Software;
 use App\Context\Users\Entities\LoggedInUser;
 use App\Http\Entities\Meta;
 use App\Persistence\QueryBuilders\LicenseQueryBuilder\LicenseQueryBuilder;
+use cebe\markdown\GithubMarkdown;
 use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -25,6 +26,7 @@ class AccountLicensesDetailAction
         private General $config,
         private TwigEnvironment $twig,
         private LicenseApi $licenseApi,
+        private GithubMarkdown $markdown,
         private LoggedInUser $loggedInUser,
         private ResponseFactoryInterface $responseFactory,
     ) {
@@ -129,11 +131,14 @@ class AccountLicensesDetailAction
         ];
 
         $keyValueItems[] = [
+            'template' => 'Http/_Infrastructure/Display/Prose.twig',
             'key' => 'Notes',
-            'value' => $license->userNotes(),
-            'valueActionLink' => [
-                'href' => $license->accountEditNotesLink(),
-                'content' => 'Edit Notes',
+            'value' => [
+                'content' => $this->markdown->parse($license->userNotes()),
+                'actionLink' => [
+                    'href' => $license->accountEditNotesLink(),
+                    'content' => 'Edit Notes',
+                ],
             ],
         ];
 
