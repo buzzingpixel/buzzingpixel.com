@@ -18,7 +18,7 @@ use Twig\Environment as TwigEnvironment;
 
 use function assert;
 
-class AccountLicenseEditNotes
+class AccountLicenseEditNotesAction
 {
     public function __construct(
         private General $config,
