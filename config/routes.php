@@ -8,6 +8,7 @@ use App\Http\Response\Account\ChangePassword\ChangePasswordAction;
 use App\Http\Response\Account\ChangePassword\PostChangePasswordAction;
 use App\Http\Response\Account\Licenses\AccountLicenseAddAuthorizedDomain;
 use App\Http\Response\Account\Licenses\AccountLicenseDeleteAction;
+use App\Http\Response\Account\Licenses\AccountLicenseEditNotes;
 use App\Http\Response\Account\Licenses\AccountLicensesAction;
 use App\Http\Response\Account\Licenses\AccountLicensesDetailAction;
 use App\Http\Response\Account\Licenses\PostAccountLicensesAddAuthorizedDomainAction;
@@ -186,6 +187,7 @@ return static function (App $app): void {
         $r->get(pattern: '/licenses/{licenseKey}/add-authorized-domain', callable: AccountLicenseAddAuthorizedDomain::class);
         $r->post(pattern: '/licenses/{licenseKey}/add-authorized-domain', callable: PostAccountLicensesAddAuthorizedDomainAction::class);
         $r->get(pattern: '/licenses/{licenseKey}/delete-authorized-domain/{domainName}', callable: AccountLicenseDeleteAction::class);
+        $r->get(pattern: '/licenses/{licenseKey}/edit-notes', callable: AccountLicenseEditNotes::class);
         $r->get(pattern: '/purchases', callable: AccountPurchasesAction::class);
         $r->get(pattern: '/purchases/{orderId}', callable: AccountPurchasesDetailAction::class);
         $r->get(pattern: '/profile', callable: AccountProfileAction::class);
