@@ -15,6 +15,7 @@ use App\EntityPropertyTraits\LicenseKey;
 use App\EntityPropertyTraits\MajorVersion;
 use App\EntityPropertyTraits\Software;
 use App\EntityPropertyTraits\StripeId;
+use App\EntityPropertyTraits\StripeStatus;
 use App\EntityPropertyTraits\User;
 use App\EntityPropertyTraits\UserNotes;
 use App\EntityValueObjects\Id as IdValue;
@@ -31,6 +32,13 @@ use function implode;
 
 class License
 {
+    public const STRIPE_STATUS_ACTIVE             = 'active';
+    public const STRIPE_STATUS_PAST_DUE           = 'past_due';
+    public const STRIPE_STATUS_UNPAID             = 'unpaid';
+    public const STRIPE_STATUS_CANCELED           = 'canceled';
+    public const STRIPE_STATUS_INCOMPLETE         = 'incomplete';
+    public const STRIPE_STATUS_INCOMPLETE_EXPIRED = 'incomplete_expired';
+    public const STRIPE_STATUS_TRIALING           = 'trialing';
     use Id;
     use IsDisabled;
     use MajorVersion;
@@ -42,6 +50,7 @@ class License
     use User;
     use Software;
     use StripeId;
+    use StripeStatus;
 
     public static function fromRecord(LicenseRecord $record): self
     {
@@ -58,6 +67,7 @@ class License
             user: UserEntity::fromRecord(record: $record->getUser()),
             software: SoftwareEntity::fromRecord(record: $record->getSoftware()),
             stripeId: $record->getStripeId(),
+            stripeStatus: $record->getStripeStatus(),
         );
     }
 
@@ -75,6 +85,7 @@ class License
         ?UserEntity $user = null,
         ?SoftwareEntity $software = null,
         string $stripeId = '',
+        string $stripeStatus = '',
         null | string | UuidInterface $id = null,
     ) {
         if ($this->isInitialized) {
@@ -112,6 +123,8 @@ class License
         $this->software = $software;
 
         $this->stripeId = $stripeId;
+
+        $this->stripeStatus = $stripeStatus;
     }
 
     private bool $isInitialized = false;
@@ -178,5 +191,10 @@ class License
         $currentDateTime = new DateTimeImmutable();
 
         return $currentDateTime > $this->expiresAt();
+    }
+
+    public function isActive(): bool
+    {
+        return $this->stripeStatus === self::STRIPE_STATUS_ACTIVE;
     }
 }

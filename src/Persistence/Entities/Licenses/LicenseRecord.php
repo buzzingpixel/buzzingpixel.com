@@ -17,6 +17,7 @@ use App\Persistence\PropertyTraits\IsDisabled;
 use App\Persistence\PropertyTraits\LicenseKey;
 use App\Persistence\PropertyTraits\MajorVersion;
 use App\Persistence\PropertyTraits\StripeId;
+use App\Persistence\PropertyTraits\StripeStatus;
 use App\Persistence\PropertyTraits\UserNotes;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping;
@@ -39,6 +40,7 @@ class LicenseRecord
     use AuthorizedDomains;
     use ExpiresAt;
     use StripeId;
+    use StripeStatus;
 
     /**
      * @Mapping\ManyToOne(
@@ -95,6 +97,7 @@ class LicenseRecord
         $this->setAuthorizedDomains(authorizedDomains: $entity->authorizedDomains());
         $this->setExpiresAt(expiresAt: $entity->expiresAt());
         $this->setStripeId(stripeId: $entity->stripeId());
+        $this->setStripeStatus(stripeStatus: $entity->stripeStatus());
 
         $user = $entity->user();
 
