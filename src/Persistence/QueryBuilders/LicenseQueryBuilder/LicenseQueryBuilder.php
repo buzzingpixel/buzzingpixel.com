@@ -112,6 +112,14 @@ class LicenseQueryBuilder extends QueryBuilder
         );
     }
 
+    public function withExpiresAtNotNull(): self
+    {
+        return $this->withWhere(
+            'expiresAt',
+            'NOTNULL',
+        );
+    }
+
     /**
      * @return $this
      */

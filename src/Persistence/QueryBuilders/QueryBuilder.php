@@ -8,6 +8,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query;
 
 use function implode;
+use function is_string;
+use function mb_strtolower;
 
 abstract class QueryBuilder implements IQueryBuilder
 {
@@ -114,6 +116,23 @@ abstract class QueryBuilder implements IQueryBuilder
 
         foreach ($this->whereClauses as $clause) {
             $paramKey = $clause->property() . $paramNum;
+
+            /** @psalm-suppress MixedAssignment */
+            $value = $clause->value();
+
+            if (is_string($value) && mb_strtolower($value) === 'notnull') {
+                $value = $queryBuilder->expr()->isNotNull(
+                    $a . '.' . $clause->property()
+                );
+
+                if ($clause->concat() === 'AND') {
+                    $queryBuilder->andWhere($value);
+                } else {
+                    $queryBuilder->orWhere($value);
+                }
+
+                continue;
+            }
 
             $predicates = implode(' ', [
                 $a . '.' . $clause->property(),
