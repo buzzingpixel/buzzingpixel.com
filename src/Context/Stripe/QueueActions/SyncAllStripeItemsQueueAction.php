@@ -16,5 +16,6 @@ class SyncAllStripeItemsQueueAction
     {
         $this->stripeApi->syncCustomers();
         $this->stripeApi->syncProducts();
+        $this->stripeApi->syncLicenses();
     }
 }

@@ -195,6 +195,7 @@ class License
 
     public function isActive(): bool
     {
+        // TODO: determine if renewing or canceling
         return $this->stripeStatus === self::STRIPE_STATUS_ACTIVE;
     }
 }

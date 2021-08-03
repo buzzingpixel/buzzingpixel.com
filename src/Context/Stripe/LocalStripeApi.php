@@ -8,6 +8,7 @@ use App\Context\Cart\Entities\Cart;
 use App\Context\Stripe\Services\CreateBillingPortalSession;
 use App\Context\Stripe\Services\CreateCheckoutSession;
 use App\Context\Stripe\Services\SyncCustomers;
+use App\Context\Stripe\Services\SyncLicenses;
 use App\Context\Stripe\Services\SyncProducts;
 use App\Context\Users\Entities\User;
 use Stripe\BillingPortal\Session as BillingSession;
@@ -17,9 +18,10 @@ class LocalStripeApi
 {
     public function __construct(
         private SyncProducts $syncProducts,
+        private SyncLicenses $syncLicenses,
         private SyncCustomers $syncCustomers,
-        private CreateBillingPortalSession $createBillingPortalSession,
         private CreateCheckoutSession $createCheckoutSession,
+        private CreateBillingPortalSession $createBillingPortalSession,
     ) {
     }
 
@@ -31,6 +33,11 @@ class LocalStripeApi
     public function syncCustomers(): void
     {
         $this->syncCustomers->sync();
+    }
+
+    public function syncLicenses(): void
+    {
+        $this->syncLicenses->sync();
     }
 
     public function createBillingPortal(User $user): BillingSession

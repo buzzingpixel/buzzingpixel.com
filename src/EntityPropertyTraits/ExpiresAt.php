@@ -20,7 +20,7 @@ trait ExpiresAt
     /**
      * @return $this
      */
-    public function withFinishedAt(
+    public function withExpiresAt(
         null | string | DateTimeInterface $expiresAt,
     ): self {
         $clone = clone $this;

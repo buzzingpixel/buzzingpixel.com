@@ -91,7 +91,7 @@ class AccountLicensesDetailAction
                 $actionButtons = [
                     [
                         'href' => '#',
-                        'content' => 'Renew Subscription',
+                        'content' => 'Start New Updates Subscription',
                     ],
                 ];
 

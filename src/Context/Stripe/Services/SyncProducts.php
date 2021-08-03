@@ -69,7 +69,7 @@ class SyncProducts
             }
 
             $this->syncProductFactory->createSyncProduct(software: $software)
-            ->sync();
+                ->sync();
         });
     }
 }
