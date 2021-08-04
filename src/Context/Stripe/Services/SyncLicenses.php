@@ -26,7 +26,7 @@ class SyncLicenses
         // Get all subscription based licenses
         $licenses = $this->licenseApi->fetchLicenses(
             queryBuilder: (new LicenseQueryBuilder())
-                ->withStripeId(
+                ->withStripeSubscriptionItemId(
                     value: '',
                     comparison: '!=',
                 )
@@ -43,7 +43,7 @@ class SyncLicenses
                     assert($item instanceof SubscriptionItem);
 
                     $license = $licenses->where(
-                        'stripeId',
+                        'stripeSubscriptionItemId',
                         $item->id
                     )->firstOrNull();
 

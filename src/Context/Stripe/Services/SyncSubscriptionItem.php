@@ -41,7 +41,12 @@ class SyncSubscriptionItem implements SyncSubscriptionItemContract
                     $endTimeStamp
                 );
 
-            $license = $license->withStripeId(stripeId: $subscriptionItem->id)
+            $license = $license->withStripeSubscriptionId(
+                stripeSubscriptionId: $subscription->id
+            )
+                ->withStripeSubscriptionItemId(
+                    stripeSubscriptionItemId: $subscriptionItem->id
+                )
                 ->withStripeStatus(stripeStatus: $subscription->status)
                 ->withExpiresAt(expiresAt: $endTime);
 

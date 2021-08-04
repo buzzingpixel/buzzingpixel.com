@@ -14,8 +14,9 @@ use App\EntityPropertyTraits\IsDisabled;
 use App\EntityPropertyTraits\LicenseKey;
 use App\EntityPropertyTraits\MajorVersion;
 use App\EntityPropertyTraits\Software;
-use App\EntityPropertyTraits\StripeId;
 use App\EntityPropertyTraits\StripeStatus;
+use App\EntityPropertyTraits\StripeSubscriptionId;
+use App\EntityPropertyTraits\StripeSubscriptionItemId;
 use App\EntityPropertyTraits\User;
 use App\EntityPropertyTraits\UserNotes;
 use App\EntityValueObjects\Id as IdValue;
@@ -49,8 +50,9 @@ class License
     use ExpiresAt;
     use User;
     use Software;
-    use StripeId;
     use StripeStatus;
+    use StripeSubscriptionId;
+    use StripeSubscriptionItemId;
 
     public static function fromRecord(LicenseRecord $record): self
     {
@@ -66,8 +68,9 @@ class License
             expiresAt: $record->getExpiresAt(),
             user: UserEntity::fromRecord(record: $record->getUser()),
             software: SoftwareEntity::fromRecord(record: $record->getSoftware()),
-            stripeId: $record->getStripeId(),
             stripeStatus: $record->getStripeStatus(),
+            stripeSubscriptionId: $record->getStripeSubscriptionId(),
+            stripeSubscriptionItemId: $record->getStripeSubscriptionItemId(),
         );
     }
 
@@ -84,8 +87,9 @@ class License
         null | string | DateTimeInterface $expiresAt = null,
         ?UserEntity $user = null,
         ?SoftwareEntity $software = null,
-        string $stripeId = '',
         string $stripeStatus = '',
+        string $stripeSubscriptionId = '',
+        string $stripeSubscriptionItemId = '',
         null | string | UuidInterface $id = null,
     ) {
         if ($this->isInitialized) {
@@ -122,9 +126,11 @@ class License
 
         $this->software = $software;
 
-        $this->stripeId = $stripeId;
-
         $this->stripeStatus = $stripeStatus;
+
+        $this->stripeSubscriptionId = $stripeSubscriptionId;
+
+        $this->stripeSubscriptionItemId = $stripeSubscriptionItemId;
     }
 
     private bool $isInitialized = false;

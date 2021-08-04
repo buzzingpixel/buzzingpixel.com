@@ -13,7 +13,7 @@ class PostAccountLicenseEditNotesResponder
 {
     public function __construct(
         private FlashMessages $flashMessages,
-        private ResponseFactoryInterface $responseFactory
+        private ResponseFactoryInterface $responseFactory,
     ) {
     }
 

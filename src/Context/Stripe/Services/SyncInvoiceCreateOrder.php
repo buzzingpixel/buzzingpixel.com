@@ -103,6 +103,7 @@ class SyncInvoiceCreateOrder implements SyncInvoiceContract
                     'amount' => 0,
                     'quantity' => 0,
                     'software' => null,
+                    'subscriptionId' => '',
                     'subscriptionItemId' => '',
                     'subscriptionEndTime' => $endTime,
                 ];
@@ -114,21 +115,26 @@ class SyncInvoiceCreateOrder implements SyncInvoiceContract
 
             $lineItems[$softwareId]['software'] = $software;
 
+            $subscriptionId = $lineItem->subscription;
+
             $subscriptionItemId = $lineItem->subscription_item;
 
             /**
              * @psalm-suppress DocblockTypeContradiction
              * @phpstan-ignore-next-line
              */
-            if ($subscriptionItemId === null) {
+            if ($subscriptionItemId === null || $subscriptionId === null) {
                 continue;
             }
 
+            $lineItems[$softwareId]['subscriptionId']     = $subscriptionId;
             $lineItems[$softwareId]['subscriptionItemId'] = $subscriptionItemId;
         }
 
         foreach ($lineItems as $lineItem) {
             $software = $lineItem['software'];
+
+            $subscriptionId = $lineItem['subscriptionId'];
 
             $subscriptionItemId = $lineItem['subscriptionItemId'];
 
@@ -143,7 +149,9 @@ class SyncInvoiceCreateOrder implements SyncInvoiceContract
 
                 $license = $this->licenseApi->fetchOneLicense(
                     (new LicenseQueryBuilder())
-                        ->withStripeId($subscriptionItemId),
+                        ->withStripeSubscriptionItemId(
+                            $subscriptionItemId
+                        ),
                 );
             }
 
@@ -154,7 +162,8 @@ class SyncInvoiceCreateOrder implements SyncInvoiceContract
                     expiresAt: $expiresAt,
                     user: $user,
                     software: $software,
-                    stripeId: $subscriptionItemId,
+                    stripeSubscriptionId: $subscriptionId,
+                    stripeSubscriptionItemId: $subscriptionItemId,
                 );
 
                 $this->licenseApi->saveLicense($license);

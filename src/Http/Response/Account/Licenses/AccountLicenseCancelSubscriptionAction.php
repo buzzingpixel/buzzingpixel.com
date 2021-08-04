@@ -74,8 +74,12 @@ class AccountLicenseCancelSubscriptionAction
 
         $otherLicenses = $this->licenseApi->fetchLicenses(
             (new LicenseQueryBuilder())
-                ->withStripeId($license->stripeId()),
-        )->filter(static fn (License $l) => $l->id() !== $license->id());
+                ->withStripeSubscriptionId(
+                    $license->stripeSubscriptionId()
+                ),
+        )->filter(
+            static fn (License $l) => $l->id() !== $license->id()
+        );
 
         if ($otherLicenses->count() > 0) {
             $content .= 'Please note also, that because of the way orders and ' .
