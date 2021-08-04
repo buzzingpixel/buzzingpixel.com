@@ -11,12 +11,12 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpNotFoundException;
 
-class AccountLicenseDeleteAction
+class AccountLicenseDeleteAuthorizedDomainAction
 {
     public function __construct(
         private LicenseApi $licenseApi,
         private LoggedInUser $loggedInUser,
-        private AccountLicenseDeleteResponder $responder,
+        private AccountLicenseDeleteAuthorizedDomainResponder $responder,
     ) {
     }
 

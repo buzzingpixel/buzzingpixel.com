@@ -163,7 +163,7 @@ class License
         );
     }
 
-    public function accountDeleteAuthorizedDomain(string $domain): string
+    public function accountDeleteAuthorizedDomainLink(string $domain): string
     {
         return implode(
             '/',
@@ -171,6 +171,17 @@ class License
                 $this->accountLink(),
                 'delete-authorized-domain',
                 $domain,
+            ],
+        );
+    }
+
+    public function accountCancelSubscriptionLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->accountLink(),
+                'cancel-subscription',
             ],
         );
     }
@@ -193,9 +204,28 @@ class License
         return $currentDateTime > $this->expiresAt();
     }
 
+    public function isSubscription(): bool
+    {
+        return $this->expiresAt !== null;
+    }
+
+    public function isNotSubscription(): bool
+    {
+        return ! $this->isSubscription();
+    }
+
     public function isActive(): bool
     {
+        if (! $this->isSubscription()) {
+            return true;
+        }
+
         // TODO: determine if renewing or canceling
         return $this->stripeStatus === self::STRIPE_STATUS_ACTIVE;
+    }
+
+    public function isNotActive(): bool
+    {
+        return ! $this->isActive();
     }
 }

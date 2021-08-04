@@ -1,0 +1,74 @@
+{% set headline = headline ?? null %}
+{% set content = content ?? null %}
+{% set listItems = listItems ?? [] %}
+{% set actionButtonContent = actionButtonContent ?? 'Confirm' %}
+{% set formAction = formAction ?? null %}
+{% set method = method ?? 'POST' %}
+{% set formAttrs = formAttrs ?? [] %}
+
+{% extends '@app/Http/Response/Account/_AccountLayout.twig' %}
+
+{% set hasContent = headline or content or listItems|length > 0 %}
+
+{% block accountContent %}
+    <div class="py-6">
+        <div class="bg-white shadow sm:rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                {% if hasContent %}
+                    {% if headline %}
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                            {{ headline|smartypants }}
+                        </h3>
+                    {% endif %}
+                    {% if content or listItems|length > 0 %}
+                        <div class="{% if headline %}mt-2 {% endif  %}max-w-xl text-sm text-gray-500">
+                            {% if content %}
+                                <p>
+                                    {{ content|smartypants }}
+                                </p>
+                            {% endif %}
+                            {% if listItems|length > 0 %}
+                                <ul class="list-disc ml-6 mb-2{% if content %} mt-4{% endif %}">
+                                    {% for item in listItems %}
+                                        <li>
+                                            {% if item.href is defined %}
+                                                <a href="{{ item.href }}">
+                                                    {{ item.content|smartypants }}
+                                                </a>
+                                            {% else %}
+                                                {{ item.content|smartypants }}
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endif %}
+                <div{% if hasContent %} class="mt-5"{% endif %}>
+                    <form
+                        {% if formAction %}
+                        action="{{ formAction }}"
+                        {% endif %}
+                        method="{{ method }}"
+                        accept-charset="UTF-8"
+                        enctype="multipart/form-data"
+                        {% for attr,data in formAttrs %}
+                        {{ attr }}='{{ data|raw }}'
+                        {% endfor %}
+                    >
+                        <button
+                            type="submit"
+                            class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 text-white bg-light-red hover:bg-red focus:ring-light-red "
+                        >
+                            {{ actionButtonContent|smartypants }}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if keyValueCard is defined %}
+        {% include 'Http/_Infrastructure/Display/KeyValueCard.twig' with keyValueCard only %}
+    {% endif %}
+{% endblock %}

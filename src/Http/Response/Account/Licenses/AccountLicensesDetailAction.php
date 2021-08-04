@@ -75,6 +75,7 @@ class AccountLicensesDetailAction
 
         $actionButtons = [];
 
+        // TODO: Determine correct logic here
         if ($renewalDate !== null) {
             $keyValueItems[] = [
                 'key' => 'Renews on',
@@ -83,7 +84,7 @@ class AccountLicensesDetailAction
 
             $actionButtons[] = [
                 'colorType' => 'danger',
-                'href' => '#',
+                'href' => $license->accountCancelSubscriptionLink(),
                 'content' => 'Cancel Subscription',
             ];
 
@@ -117,7 +118,7 @@ class AccountLicensesDetailAction
                             'content' => $domain,
                             'links' => [
                                 [
-                                    'href' => $license->accountDeleteAuthorizedDomain(
+                                    'href' => $license->accountDeleteAuthorizedDomainLink(
                                         $domain
                                     ),
                                     'content' => 'Remove',
