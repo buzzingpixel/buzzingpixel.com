@@ -164,6 +164,7 @@ class SyncInvoiceCreateOrder implements SyncInvoiceContract
                     software: $software,
                     stripeSubscriptionId: $subscriptionId,
                     stripeSubscriptionItemId: $subscriptionItemId,
+                    stripeStatus: 'active',
                 );
 
                 $this->licenseApi->saveLicense($license);
