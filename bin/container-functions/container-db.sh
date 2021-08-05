@@ -9,9 +9,9 @@ function container-db() {
 
     if [[ -z "${allArgsExceptFirst}" ]]; then
         printf "${Yellow}Remember to 'exit' when you're done.${Reset}\n";
-        docker exec -it -w /opt/project buzzingpixel-db bash;
+        docker exec -it buzzingpixel-db bash;
     else
-        docker exec -it -w /opt/project buzzingpixel-db bash -c "${allArgsExceptFirst}";
+        docker exec -it buzzingpixel-db bash -c "${allArgsExceptFirst}";
     fi
 
     return 0;
