@@ -16,7 +16,7 @@ use function assert;
 use function md5;
 use function serialize;
 
-class StripeFetchSubscriptionItems
+class StripeFetchSubscriptions
 {
     private const DEFAULT_PARAMS = ['limit' => 999999];
 

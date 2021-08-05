@@ -17,7 +17,7 @@ class SyncLicenses
     public function __construct(
         private LicenseApi $licenseApi,
         private SyncSubscriptionItemFactory $syncSubscriptionItemFactory,
-        private StripeFetchSubscriptionItems $stripeFetchSubscriptionItems
+        private StripeFetchSubscriptions $stripeFetchSubscriptionItems
     ) {
     }
 
@@ -51,7 +51,7 @@ class SyncLicenses
                         ->createSyncSubscriptionItem(
                             subscriptionItem: $item,
                             subscription: $subscription,
-                            license: $license
+                            license: $license,
                         )
                         ->sync(
                             subscriptionItem: $item,
