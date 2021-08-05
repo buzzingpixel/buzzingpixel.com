@@ -12,6 +12,7 @@ use App\Http\Response\Account\Licenses\AccountLicenseDeleteAuthorizedDomainActio
 use App\Http\Response\Account\Licenses\AccountLicenseEditNotesAction;
 use App\Http\Response\Account\Licenses\AccountLicensesAction;
 use App\Http\Response\Account\Licenses\AccountLicensesDetailAction;
+use App\Http\Response\Account\Licenses\PostAccountLicenseCancelSubscriptionAction;
 use App\Http\Response\Account\Licenses\PostAccountLicenseEditNotesAction;
 use App\Http\Response\Account\Licenses\PostAccountLicensesAddAuthorizedDomainAction;
 use App\Http\Response\Account\Profile\AccountProfileAction;
@@ -193,6 +194,7 @@ return static function (App $app): void {
         $r->get(pattern: '/licenses/{licenseKey}/edit-notes', callable: AccountLicenseEditNotesAction::class);
         $r->post(pattern: '/licenses/{licenseKey}/edit-notes', callable: PostAccountLicenseEditNotesAction::class);
         $r->get(pattern: '/licenses/{licenseKey}/cancel-subscription', callable: AccountLicenseCancelSubscriptionAction::class);
+        $r->post(pattern: '/licenses/{licenseKey}/cancel-subscription', callable: PostAccountLicenseCancelSubscriptionAction::class);
 
         $r->get(pattern: '/purchases', callable: AccountPurchasesAction::class);
         $r->get(pattern: '/purchases/{orderId}', callable: AccountPurchasesDetailAction::class);

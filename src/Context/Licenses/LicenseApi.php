@@ -6,6 +6,7 @@ namespace App\Context\Licenses;
 
 use App\Context\Licenses\Entities\License;
 use App\Context\Licenses\Entities\LicenseCollection;
+use App\Context\Licenses\Services\CancelSubscription;
 use App\Context\Licenses\Services\FetchLicenses;
 use App\Context\Licenses\Services\FetchOneLicense;
 use App\Context\Licenses\Services\GenerateLicenseKey;
@@ -20,6 +21,7 @@ class LicenseApi
         private FetchLicenses $fetchLicenses,
         private FetchOneLicense $fetchOneLicense,
         private GenerateLicenseKey $generateLicenseKey,
+        private CancelSubscription $cancelSubscription,
     ) {
     }
 
@@ -46,5 +48,10 @@ class LicenseApi
     public function generateLicenseKey(): string
     {
         return $this->generateLicenseKey->generate();
+    }
+
+    public function cancelSubscription(License $license): void
+    {
+        $this->cancelSubscription->cancel($license);
     }
 }

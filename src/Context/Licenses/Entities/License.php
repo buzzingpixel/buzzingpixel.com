@@ -218,6 +218,11 @@ class License
         return $currentDateTime > $this->expiresAt();
     }
 
+    public function isNotExpired(): bool
+    {
+        return ! $this->isExpired();
+    }
+
     public function isSubscription(): bool
     {
         return $this->expiresAt !== null;

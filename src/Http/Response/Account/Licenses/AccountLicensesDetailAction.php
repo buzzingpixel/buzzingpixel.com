@@ -73,10 +73,11 @@ class AccountLicensesDetailAction
 
         $renewalDate = $license->renewalDate();
 
+        $expirationDate = $license->expiresAt();
+
         $actionButtons = [];
 
-        // TODO: Determine correct logic here
-        if ($renewalDate !== null) {
+        if ($license->isNotCanceled() && $renewalDate !== null) {
             $keyValueItems[] = [
                 'key' => 'Renews on',
                 'value' => $renewalDate->format('F j, Y'),
@@ -100,6 +101,29 @@ class AccountLicensesDetailAction
             } else {
                 $keyValueSubHeadline = 'Subscription is active';
             }
+        } elseif ($expirationDate !== null) {
+            if ($license->isNotExpired()) {
+                $keyValueSubHeadline = 'Subscription is not active. ' .
+                    'Updates will expire at the end of the period';
+
+                $keyValueItems[] = [
+                    'key' => 'Expires on',
+                    'value' => $expirationDate->format('F j, Y'),
+                ];
+            } else {
+                $keyValueSubHeadline = 'Subscription has expired. ' .
+                    'Renew subscription to receiving updates and support development';
+
+                $keyValueItems[] = [
+                    'key' => 'Expired on',
+                    'value' => $expirationDate->format('F j, Y'),
+                ];
+            }
+
+            $actionButtons[] = [
+                'href' => '#',
+                'content' => 'Start New Updates Subscription',
+            ];
         }
 
         $keyValueItems[] = [
