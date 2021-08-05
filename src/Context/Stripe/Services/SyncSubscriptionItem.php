@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Context\Stripe\Services;
 
 use App\Context\Licenses\Entities\License;
-use App\Context\Licenses\LicenseApi;
+use App\Context\Licenses\Services\SaveLicense;
 use App\Context\Stripe\Contracts\SyncSubscriptionItem as SyncSubscriptionItemContract;
 use DateTimeImmutable;
 use DateTimeZone;
@@ -19,7 +19,7 @@ use function assert;
 
 class SyncSubscriptionItem implements SyncSubscriptionItemContract
 {
-    public function __construct(private LicenseApi $licenseApi)
+    public function __construct(private SaveLicense $saveLicense)
     {
     }
 
@@ -33,13 +33,21 @@ class SyncSubscriptionItem implements SyncSubscriptionItemContract
         assert($license instanceof License);
 
         try {
+            $canceledAt = null;
+
+            $canceledAtTimeStamp = $subscription->cancel_at;
+
+            if ($canceledAtTimeStamp !== null) {
+                $canceledAt = (new DateTimeImmutable())
+                    ->setTimezone(new DateTimeZone('UTC'))
+                    ->setTimestamp($canceledAtTimeStamp);
+            }
+
             $endTimeStamp = $subscription->current_period_end;
 
             $endTime = (new DateTimeImmutable())
                 ->setTimezone(new DateTimeZone('UTC'))
-                ->setTimestamp(
-                    $endTimeStamp
-                );
+                ->setTimestamp($endTimeStamp);
 
             $license = $license->withStripeSubscriptionId(
                 stripeSubscriptionId: $subscription->id
@@ -48,9 +56,10 @@ class SyncSubscriptionItem implements SyncSubscriptionItemContract
                     stripeSubscriptionItemId: $subscriptionItem->id
                 )
                 ->withStripeStatus(stripeStatus: $subscription->status)
-                ->withExpiresAt(expiresAt: $endTime);
+                ->withExpiresAt(expiresAt: $endTime)
+                ->withStripeCanceledAt(stripeCanceledAt: $canceledAt);
 
-            $this->licenseApi->saveLicense($license);
+            $this->saveLicense->save($license);
         } catch (Throwable) {
         }
     }

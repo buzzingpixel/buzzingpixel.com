@@ -14,6 +14,7 @@ use App\EntityPropertyTraits\IsDisabled;
 use App\EntityPropertyTraits\LicenseKey;
 use App\EntityPropertyTraits\MajorVersion;
 use App\EntityPropertyTraits\Software;
+use App\EntityPropertyTraits\StripeCanceledAt;
 use App\EntityPropertyTraits\StripeStatus;
 use App\EntityPropertyTraits\StripeSubscriptionId;
 use App\EntityPropertyTraits\StripeSubscriptionItemId;
@@ -53,6 +54,7 @@ class License
     use StripeStatus;
     use StripeSubscriptionId;
     use StripeSubscriptionItemId;
+    use StripeCanceledAt;
 
     public static function fromRecord(LicenseRecord $record): self
     {
@@ -71,6 +73,7 @@ class License
             stripeStatus: $record->getStripeStatus(),
             stripeSubscriptionId: $record->getStripeSubscriptionId(),
             stripeSubscriptionItemId: $record->getStripeSubscriptionItemId(),
+            stripeCanceledAt: $record->getStripeCanceledAt(),
         );
     }
 
@@ -90,6 +93,7 @@ class License
         string $stripeStatus = '',
         string $stripeSubscriptionId = '',
         string $stripeSubscriptionItemId = '',
+        null | string | DateTimeInterface $stripeCanceledAt = null,
         null | string | UuidInterface $id = null,
     ) {
         if ($this->isInitialized) {
@@ -131,6 +135,10 @@ class License
         $this->stripeSubscriptionId = $stripeSubscriptionId;
 
         $this->stripeSubscriptionItemId = $stripeSubscriptionItemId;
+
+        $this->stripeCanceledAt = DateTimeUtility::createDateTimeImmutableOrNull(
+            $stripeCanceledAt,
+        );
     }
 
     private bool $isInitialized = false;
@@ -226,12 +234,21 @@ class License
             return true;
         }
 
-        // TODO: determine if renewing or canceling
         return $this->stripeStatus === self::STRIPE_STATUS_ACTIVE;
     }
 
     public function isNotActive(): bool
     {
         return ! $this->isActive();
+    }
+
+    public function isCanceled(): bool
+    {
+        return $this->stripeCanceledAt() !== null;
+    }
+
+    public function isNotCanceled(): bool
+    {
+        return $this->stripeCanceledAt() === null;
     }
 }

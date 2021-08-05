@@ -16,6 +16,7 @@ use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\IsDisabled;
 use App\Persistence\PropertyTraits\LicenseKey;
 use App\Persistence\PropertyTraits\MajorVersion;
+use App\Persistence\PropertyTraits\StripeCanceledAt;
 use App\Persistence\PropertyTraits\StripeStatus;
 use App\Persistence\PropertyTraits\StripeSubscriptionId;
 use App\Persistence\PropertyTraits\StripeSubscriptionItemId;
@@ -43,6 +44,7 @@ class LicenseRecord
     use StripeStatus;
     use StripeSubscriptionId;
     use StripeSubscriptionItemId;
+    use StripeCanceledAt;
 
     /**
      * @Mapping\ManyToOne(
@@ -101,6 +103,7 @@ class LicenseRecord
         $this->setStripeStatus(stripeStatus: $entity->stripeStatus());
         $this->setStripeSubscriptionId(stripeSubscriptionId: $entity->stripeSubscriptionId());
         $this->setStripeSubscriptionItemId(stripeSubscriptionItemId: $entity->stripeSubscriptionItemId());
+        $this->setStripeCanceledAt(stripeCanceledAt: $entity->stripeCanceledAt());
 
         $user = $entity->user();
 
