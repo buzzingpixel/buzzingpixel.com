@@ -37,57 +37,63 @@
             <div class="px-4 sm:px-6 md:px-0">
                 {# Content #}
                 <div class="bg-white shadow sm:rounded-md">
-                    <ul class="divide-y divide-gray-200">
-                        {% for license in licenses.toArray %}
-                            <li>
-                                <a
-                                    href="{{ license.accountLink }}"
-                                    class="block hover:bg-gray-50"
-                                >
-                                    <div class="flex items-center px-4 py-4 sm:px-6">
-                                        <div class="min-w-0 flex-1 flex items-center">
-                                            <div class="min-w-0 flex-1 pr-4 md:grid md:grid-cols-2 md:gap-4">
-                                                <div>
-                                                    <p class="text-sm font-medium text-deep-sea truncate">
-                                                        {{ license.software.name }}
-                                                    </p>
-                                                    <p class="mt-2 flex items-center text-sm text-gray-500">
-                                                        <span class="truncate">
-                                                            Version: {{ license.majorVersion }}<br>
-                                                            License Key: {{ license.licenseKey }}
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                                <div class="hidden md:block">
+                    {% if licenses.count < 1 %}
+                    <div class="p-10 text-center">
+                        {{ 'You don\'t have any licenses yet'|smartypants }}
+                    </div>
+                    {% else %}
+                        <ul class="divide-y divide-gray-200">
+                            {% for license in licenses.toArray %}
+                                <li>
+                                    <a
+                                        href="{{ license.accountLink }}"
+                                        class="block hover:bg-gray-50"
+                                    >
+                                        <div class="flex items-center px-4 py-4 sm:px-6">
+                                            <div class="min-w-0 flex-1 flex items-center">
+                                                <div class="min-w-0 flex-1 pr-4 md:grid md:grid-cols-2 md:gap-4">
                                                     <div>
-                                                        <p class="text-sm text-gray-900">
-                                                            {% if license.authorizedDomains|length < 1 %}
-                                                                No authorized domains configured
-                                                            {% else %}
-                                                                {% for domain in license.authorizedDomains %}
-                                                                    {{ domain }}<br>
-                                                                {% endfor %}
-                                                            {% endif %}
+                                                        <p class="text-sm font-medium text-deep-sea truncate">
+                                                            {{ license.software.name }}
                                                         </p>
-                                                        {% if license.renewalDate %}
-                                                            <p class="mt-2 flex items-center text-sm text-gray-500">
-                                                                Renews on {{ license.renewalDate.format('F j, Y') }}
+                                                        <p class="mt-2 flex items-center text-sm text-gray-500">
+                                                            <span class="truncate">
+                                                                Version: {{ license.majorVersion }}<br>
+                                                                License Key: {{ license.licenseKey }}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="hidden md:block">
+                                                        <div>
+                                                            <p class="text-sm text-gray-900">
+                                                                {% if license.authorizedDomains|length < 1 %}
+                                                                    No authorized domains configured
+                                                                {% else %}
+                                                                    {% for domain in license.authorizedDomains %}
+                                                                        {{ domain }}<br>
+                                                                    {% endfor %}
+                                                                {% endif %}
                                                             </p>
-                                                        {% endif %}
+                                                            {% if license.renewalDate %}
+                                                                <p class="mt-2 flex items-center text-sm text-gray-500">
+                                                                    Renews on {{ license.renewalDate.format('F j, Y') }}
+                                                                </p>
+                                                            {% endif %}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div>
+                                                {% include 'Http/_Infrastructure/Svg/SolidChevronRight.twig' with {
+                                                    classes: 'h-5 w-5 text-gray-400',
+                                                } only %}
+                                            </div>
                                         </div>
-                                        <div>
-                                            {% include 'Http/_Infrastructure/Svg/SolidChevronRight.twig' with {
-                                                classes: 'h-5 w-5 text-gray-400',
-                                            } only %}
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                 </div>
                 {# /EndContent #}
             </div>
