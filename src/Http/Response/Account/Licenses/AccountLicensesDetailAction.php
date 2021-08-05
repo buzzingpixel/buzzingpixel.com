@@ -11,6 +11,7 @@ use App\Http\Entities\Meta;
 use App\Persistence\QueryBuilders\LicenseQueryBuilder\LicenseQueryBuilder;
 use cebe\markdown\GithubMarkdown;
 use Config\General;
+use DateTimeImmutable;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -77,7 +78,7 @@ class AccountLicensesDetailAction
 
         $actionButtons = [];
 
-        if ($license->isNotCanceled() && $renewalDate !== null) {
+        if ($license->isSubscription() && $license->isNotCanceled() && $renewalDate !== null) {
             $keyValueItems[] = [
                 'key' => 'Renews on',
                 'value' => $renewalDate->format('F j, Y'),
@@ -101,10 +102,12 @@ class AccountLicensesDetailAction
             } else {
                 $keyValueSubHeadline = 'Subscription is active';
             }
-        } elseif ($expirationDate !== null) {
+        } elseif ($license->isSubscription()) {
+            assert($expirationDate instanceof DateTimeImmutable);
+
             if ($license->isNotExpired()) {
                 $keyValueSubHeadline = 'Subscription is not active. ' .
-                    'Updates will expire at the end of the period';
+                    'Updates will expire at the end of the period.';
 
                 $keyValueItems[] = [
                     'key' => 'Expires on',
@@ -112,7 +115,7 @@ class AccountLicensesDetailAction
                 ];
             } else {
                 $keyValueSubHeadline = 'Subscription has expired. ' .
-                    'Renew subscription to receiving updates and support development';
+                    'Renew subscription to receiving updates and support development.';
 
                 $keyValueItems[] = [
                     'key' => 'Expired on',

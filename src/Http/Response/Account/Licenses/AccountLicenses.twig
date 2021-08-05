@@ -74,9 +74,17 @@
                                                                     {% endfor %}
                                                                 {% endif %}
                                                             </p>
-                                                            {% if license.renewalDate %}
+                                                            {% if license.isSubscription and license.isNotCanceled and license.renewalDate is not null %}
                                                                 <p class="mt-2 flex items-center text-sm text-gray-500">
-                                                                    Renews on {{ license.renewalDate.format('F j, Y') }}
+                                                                    Subscription renews on {{ license.renewalDate.format('F j, Y') }}
+                                                                </p>
+                                                            {% elseif license.isSubscription %}
+                                                                <p class="mt-2 flex items-center text-sm text-gray-500">
+                                                                    {% if license.isNotExpired %}
+                                                                        Subscription is not active. Updates will expire at the end of the period.
+                                                                    {% else %}
+                                                                        Subscription has expired. Renew subscription to receiving updates and support development.
+                                                                    {% endif %}
                                                                 </p>
                                                             {% endif %}
                                                         </div>
