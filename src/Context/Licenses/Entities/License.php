@@ -208,7 +208,7 @@ class License
             return null;
         }
 
-        return $expiresAt->modify('-1 month');
+        return $expiresAt;
     }
 
     public function isExpired(): bool
