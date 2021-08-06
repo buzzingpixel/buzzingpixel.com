@@ -101,6 +101,7 @@ class UpdateCartAction
             'subTotal' => $cart->subTotalFormatted(),
             'tax' => $cart->taxFormatted(),
             'total' => $cart->totalFormatted(),
+            'hasMoreThanOneSubscription' => $cart->hasMoreThanOneSubscription(),
         ]));
 
         return $response;

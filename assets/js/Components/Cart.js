@@ -24,6 +24,7 @@ const ajaxUpdateCart = (modelData) => {
         modelData.subTotal = response.data.subTotal;
         modelData.tax = response.data.tax;
         modelData.total = response.data.total;
+        modelData.hasMoreThanOneSubscription = response.data.hasMoreThanOneSubscription;
     });
 };
 

@@ -21,6 +21,7 @@
                 subTotal: '{{ cart.subTotalFormatted }}',
                 tax: '{{ cart.taxFormatted }}',
                 total: '{{ cart.totalFormatted }}',
+                hasMoreThanOneSubscription: {{ cart.hasMoreThanOneSubscription ? 'true' : 'false' }},
             },
         }"
     >
@@ -100,7 +101,6 @@
                                     additionalClasses: 'px-16 lg:w-full text-center lg:block',
                                 } only %}
                             {% else %}
-                                {# TODO: Pay Now Button #}
                                 {% include 'Http/_Infrastructure/Buttons/ActionButton.twig' with {
                                     href: '#0',
                                     content: 'Pay Now',
@@ -128,6 +128,13 @@
                                 <h3 class="text-lg leading-6 font-medium text-gray-900">
                                     Your Cart Items
                                 </h3>
+                                <p
+                                    class="mt-1 max-w-2xl text-sm text-gray-500"
+                                    style="display: none;"
+                                    x-show="data.hasMoreThanOneSubscription"
+                                >
+                                    {{ 'Because of the way subscriptions work with Stripe (BuzzingPixel\'s payments and subscriptions provider), all subscriptions in your cart bought with the same order will be tied together. You cannot cancel or change one without canceling or changing them all. If you need for them to be separate, please buy them seperately. Otherwise, happy buying and thanks for supporting BuzzingPixel!'|smartypants }}
+                                </p>
                             </div>
                             <div class="border-t border-gray-200">
                                 <dl>

@@ -398,7 +398,9 @@ class Cart
 
         foreach ($this->cartItems()->toArray() as $item) {
             $software = $item->software();
+
             assert($software instanceof Software);
+
             if (! $software->isSubscription()) {
                 continue;
             }
@@ -409,5 +411,36 @@ class Cart
         }
 
         return $hasSub;
+    }
+
+    public function hasMoreThanOneSubscription(): bool
+    {
+        $count = 0;
+
+        foreach ($this->cartItems()->toArray() as $item) {
+            $software = $item->software();
+
+            assert($software instanceof Software);
+
+            if (! $software->isSubscription()) {
+                continue;
+            }
+
+            if ($item->quantity() > 1) {
+                $count = 2;
+
+                break;
+            }
+
+            if ($count > 0) {
+                $count++;
+
+                break;
+            }
+
+            $count++;
+        }
+
+        return $count > 1;
     }
 }
