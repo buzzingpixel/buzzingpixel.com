@@ -64,11 +64,14 @@ class AccountLicensesDetailAction
                 'key' => 'License Key',
                 'value' => $license->licenseKey(),
             ],
-            [
+        ];
+
+        if (! $license->isDisabled()) {
+            $keyValueItems[] = [
                 'key' => 'Software Version',
                 'value' => $license->majorVersion(),
-            ],
-        ];
+            ];
+        }
 
         $keyValueSubHeadline = '';
 
@@ -78,7 +81,9 @@ class AccountLicensesDetailAction
 
         $actionButtons = [];
 
-        if ($license->isSubscription() && $license->isNotCanceled() && $renewalDate !== null) {
+        if ($license->isDisabled()) {
+            $keyValueSubHeadline = 'disabled by admin';
+        } elseif ($license->isSubscription() && $license->isNotCanceled() && $renewalDate !== null) {
             $keyValueItems[] = [
                 'key' => 'Renews on',
                 'value' => $renewalDate->format('F j, Y'),
@@ -129,46 +134,48 @@ class AccountLicensesDetailAction
             ];
         }
 
-        $keyValueItems[] = [
-            'template' => 'Http/_Infrastructure/Display/SimpleTableList.twig',
-            'key' => 'Authorized Domains',
-            'value' => [
-                'actionLinks' => [
-                    [
-                        'href' => $license->accountAddAuthorizedDomainLink(),
-                        'content' => 'Add Authorized Domain',
+        if (! $license->isDisabled()) {
+            $keyValueItems[] = [
+                'template' => 'Http/_Infrastructure/Display/SimpleTableList.twig',
+                'key' => 'Authorized Domains',
+                'value' => [
+                    'actionLinks' => [
+                        [
+                            'href' => $license->accountAddAuthorizedDomainLink(),
+                            'content' => 'Add Authorized Domain',
+                        ],
+                    ],
+                    'items' => array_map(
+                        static function (string $domain) use ($license): array {
+                            return [
+                                'content' => $domain,
+                                'links' => [
+                                    [
+                                        'href' => $license->accountDeleteAuthorizedDomainLink(
+                                            $domain
+                                        ),
+                                        'content' => 'Remove',
+                                    ],
+                                ],
+                            ];
+                        },
+                        $license->authorizedDomains(),
+                    ),
+                ],
+            ];
+
+            $keyValueItems[] = [
+                'template' => 'Http/_Infrastructure/Display/Prose.twig',
+                'key' => 'Notes',
+                'value' => [
+                    'content' => $this->markdown->parse($license->userNotes()),
+                    'actionLink' => [
+                        'href' => $license->accountEditNotesLink(),
+                        'content' => 'Edit Notes',
                     ],
                 ],
-                'items' => array_map(
-                    static function (string $domain) use ($license): array {
-                        return [
-                            'content' => $domain,
-                            'links' => [
-                                [
-                                    'href' => $license->accountDeleteAuthorizedDomainLink(
-                                        $domain
-                                    ),
-                                    'content' => 'Remove',
-                                ],
-                            ],
-                        ];
-                    },
-                    $license->authorizedDomains(),
-                ),
-            ],
-        ];
-
-        $keyValueItems[] = [
-            'template' => 'Http/_Infrastructure/Display/Prose.twig',
-            'key' => 'Notes',
-            'value' => [
-                'content' => $this->markdown->parse($license->userNotes()),
-                'actionLink' => [
-                    'href' => $license->accountEditNotesLink(),
-                    'content' => 'Edit Notes',
-                ],
-            ],
-        ];
+            ];
+        }
 
         /** @noinspection PhpUnhandledExceptionInspection */
         $response->getBody()->write(
