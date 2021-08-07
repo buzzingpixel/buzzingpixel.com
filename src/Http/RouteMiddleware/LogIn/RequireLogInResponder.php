@@ -28,6 +28,7 @@ class RequireLogInResponder
     public function respond(
         Meta $meta,
         string $redirectTo,
+        string $heading = '',
     ): ResponseInterface {
         $response = $this->responseFactory->createResponse();
 
@@ -36,6 +37,7 @@ class RequireLogInResponder
             [
                 'meta' => $meta,
                 'redirectTo' => $redirectTo,
+                'heading' => $heading,
             ]
         ));
 

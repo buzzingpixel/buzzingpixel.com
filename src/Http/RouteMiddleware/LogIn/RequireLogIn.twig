@@ -1,5 +1,10 @@
 {% set breadcrumbTrail = breadcrumbTrail ?? null %}
 {% set breadcrumbSingle = breadcrumbSingle ?? null %}
+{% set heading = heading ?? '' %}
+
+{% if not heading %}
+    {% set heading = 'Log in to your account' %}
+{% endif %}
 
 {% extends 'Http/_Infrastructure/_Layout.twig' %}
 
@@ -19,7 +24,7 @@
     <div class="min-h-screen-minus-header-and-footer bg-gray-50 flex flex-col justify-center py-6 sm:px-6 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
             <h2 class="text-center text-3xl font-extrabold text-gray-900 px-4 sm:px-0">
-                Log in to your account
+                {{ heading|smartypants|widont }}
             </h2>
         </div>
         <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Context\Stripe;
 
 use App\Context\Licenses\Entities\License;
+use App\Context\Software\Entities\Software;
+use App\Context\Stripe\Entities\StripeCheckoutSessionContainer;
 use App\Context\Stripe\Entities\StripeCustomerCollection;
 use App\Context\Stripe\Entities\StripeInvoiceCollection;
 use App\Context\Stripe\Entities\StripeInvoiceItemCollection;
@@ -13,7 +15,8 @@ use App\Context\Stripe\Entities\StripeProductCollection;
 use App\Context\Stripe\Entities\StripeSubscriptionCollection;
 use App\Context\Stripe\Entities\StripeTaxRateCollection;
 use App\Context\Stripe\Services\CreateBillingPortalSession;
-use App\Context\Stripe\Services\CreateCheckoutSessionForNewLicenseSub;
+use App\Context\Stripe\Services\CreateCheckoutSessionForLicense;
+use App\Context\Stripe\Services\CreateCheckoutSessionForSoftware;
 use App\Context\Stripe\Services\StripeFetchCustomers;
 use App\Context\Stripe\Services\StripeFetchInvoiceItems;
 use App\Context\Stripe\Services\StripeFetchInvoices;
@@ -26,7 +29,6 @@ use App\Context\Stripe\Services\SyncLicenses;
 use App\Context\Stripe\Services\SyncProducts;
 use App\Context\Users\Entities\User;
 use Stripe\BillingPortal\Session as BillingSession;
-use Stripe\Checkout\Session;
 
 class LocalStripeApi
 {
@@ -42,7 +44,8 @@ class LocalStripeApi
         private StripeFetchInvoiceItems $fetchInvoiceItems,
         private StripeFetchSubscriptions $fetchSubscriptions,
         private CreateBillingPortalSession $createBillingPortalSession,
-        private CreateCheckoutSessionForNewLicenseSub $createCheckoutSessionForNewLicenseSub,
+        private CreateCheckoutSessionForSoftware $checkoutSessionForSoftware,
+        private CreateCheckoutSessionForLicense $createCheckoutSessionForLicense,
     ) {
     }
 
@@ -137,11 +140,21 @@ class LocalStripeApi
         return $this->fetchTaxRates->fetch($params);
     }
 
-    public function createCheckoutSessionForNewLicenseSub(
-        License $license,
-    ): Session {
-        return $this->createCheckoutSessionForNewLicenseSub->create(
-            $license,
+    public function createCheckoutSessionForSoftware(
+        Software $software,
+        User $user,
+    ): StripeCheckoutSessionContainer {
+        return $this->checkoutSessionForSoftware->create(
+            software: $software,
+            user: $user,
+        );
+    }
+
+    public function createCheckoutSessionForLicense(
+        License $license
+    ): StripeCheckoutSessionContainer {
+        return $this->createCheckoutSessionForLicense->create(
+            license: $license
         );
     }
 }

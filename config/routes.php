@@ -16,6 +16,7 @@ use App\Http\Response\Account\Licenses\AccountLicenseStartNewSubscriptionAction;
 use App\Http\Response\Account\Licenses\PostAccountLicenseCancelSubscriptionAction;
 use App\Http\Response\Account\Licenses\PostAccountLicenseEditNotesAction;
 use App\Http\Response\Account\Licenses\PostAccountLicensesAddAuthorizedDomainAction;
+use App\Http\Response\Account\PostCheckoutAction;
 use App\Http\Response\Account\Profile\AccountProfileAction;
 use App\Http\Response\Account\Profile\PostAccountProfileAction;
 use App\Http\Response\Account\Purchases\AccountPurchasesAction;
@@ -87,6 +88,7 @@ use App\Http\Response\Software\Construct\Documentation\V2\ConstructV2DocRoutingA
 use App\Http\Response\Software\Construct\Documentation\V2\ConstructV2DocTemplateTagsAction;
 use App\Http\Response\Software\Construct\Documentation\V2\ConstructV2ExtensionHookAction;
 use App\Http\Response\Software\SoftwareAction;
+use App\Http\Response\Software\SoftwarePurchaseAction;
 use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocDevelopersAction;
 use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocIndexAction;
 use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocLocationAction;
@@ -180,6 +182,8 @@ return static function (App $app): void {
 
         $r->get(pattern: '', callable: AccountIndexAction::class);
 
+        $r->get(pattern: '/post-checkout', callable: PostCheckoutAction::class);
+
         $r->get(pattern: '/licenses', callable: AccountLicensesAction::class);
         $r->get(pattern: '/licenses/{licenseKey}', callable: AccountLicensesDetailAction::class);
         $r->get(pattern: '/licenses/{licenseKey}/add-authorized-domain', callable: AccountLicenseAddAuthorizedDomain::class);
@@ -207,6 +211,9 @@ return static function (App $app): void {
      * Software
      */
     $app->get(pattern: '/software', callable: SoftwareAction::class);
+    $app->get(pattern: '/software/{softwareSlug}/purchase', callable: SoftwarePurchaseAction::class)
+        ->setArguments(['heading' => 'Log in or create an account to purchase'])
+        ->add(RequireLogInAction::class);
 
     /**
      * Ansel for Craft

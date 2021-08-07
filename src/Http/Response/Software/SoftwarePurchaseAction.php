@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Account\Licenses;
+namespace App\Http\Response\Software;
 
-use App\Context\Licenses\LicenseApi;
+use App\Context\Software\SoftwareApi;
 use App\Context\Stripe\LocalStripeApi;
 use App\Context\Users\Entities\LoggedInUser;
-use App\Persistence\QueryBuilders\LicenseQueryBuilder\LicenseQueryBuilder;
+use App\Persistence\QueryBuilders\Software\SoftwareQueryBuilder;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpNotFoundException;
 
-class AccountLicenseStartNewSubscriptionAction
+class SoftwarePurchaseAction
 {
     public function __construct(
-        private LicenseApi $licenseApi,
+        private SoftwareApi $softwareApi,
         private LoggedInUser $loggedInUser,
         private LocalStripeApi $localStripeApi,
         private ResponseFactoryInterface $responseFactory,
@@ -25,21 +25,21 @@ class AccountLicenseStartNewSubscriptionAction
 
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
-        $licenseKey = (string) $request->getAttribute('licenseKey');
+        $softwareSlug = (string) $request->getAttribute('softwareSlug');
 
-        $license = $this->licenseApi->fetchOneLicense(
-            (new LicenseQueryBuilder())
-                ->withUserId($this->loggedInUser->user()->id())
-                ->withLicenseKey($licenseKey),
+        $software = $this->softwareApi->fetchOneSoftware(
+            queryBuilder: (new SoftwareQueryBuilder())
+                ->withSlug($softwareSlug),
         );
 
-        if ($license === null || $license->isDisabled()) {
+        if ($software === null) {
             /** @noinspection PhpUnhandledExceptionInspection */
             throw new HttpNotFoundException($request);
         }
 
-        $session = $this->localStripeApi->createCheckoutSessionForLicense(
-            license: $license,
+        $session = $this->localStripeApi->createCheckoutSessionForSoftware(
+            software: $software,
+            user: $this->loggedInUser->user(),
         );
 
         return $this->responseFactory->createResponse(303)->withHeader(
