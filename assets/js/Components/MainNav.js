@@ -12,7 +12,6 @@ const run = (data) => {
             data.userIsLoggedIn = obj.data.userIsLoggedIn;
             data.userEmailAddress = obj.data.userEmailAddress;
             data.userIsAdmin = obj.data.userIsAdmin;
-            data.cartCount = obj.data.cartCount;
         });
 };
 

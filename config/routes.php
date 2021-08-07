@@ -41,15 +41,8 @@ use App\Http\Response\Admin\Users\Edit\EditUserAction;
 use App\Http\Response\Admin\Users\Edit\PostEditUserAction;
 use App\Http\Response\Admin\Users\UsersAction;
 use App\Http\Response\Admin\Users\View\ViewUserAction;
-use App\Http\Response\Ajax\Cart\CreateCheckoutSessionAction;
-use App\Http\Response\Ajax\Cart\UpdateCartAction;
 use App\Http\Response\Ajax\FileUpload\FileUploadAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
-use App\Http\Response\Cart\AddToCartAction;
-use App\Http\Response\Cart\CartAction;
-use App\Http\Response\Cart\CartLogIn;
-use App\Http\Response\Cart\CheckoutSuccessAction;
-use App\Http\Response\Cart\DeleteFromCartAction;
 use App\Http\Response\HealthCheck\HealthCheckAction;
 use App\Http\Response\Home\HomeAction;
 use App\Http\Response\IForgot\IForgotAction;
@@ -287,15 +280,6 @@ return static function (App $app): void {
     // Category Construct Docs
     $app->get(pattern: '/software/category-construct/documentation', callable: CategoryConstructV2DocIndexAction::class);
     $app->get(pattern: '/software/category-construct/documentation/template-tags', callable: CategoryConstructV2DocTemplateTagsAction::class);
-
-    // Cart
-    $app->get(pattern: '/cart', callable: CartAction::class);
-    $app->get(pattern: '/cart/add/{softwareSlug}', callable: AddToCartAction::class);
-    $app->get(pattern: '/cart/delete/{softwareSlug}', callable: DeleteFromCartAction::class);
-    $app->post(pattern: '/ajax/cart/update', callable: UpdateCartAction::class);
-    $app->get(pattern: '/cart/log-in', callable: CartLogIn::class);
-    $app->get(pattern: '/ajax/cart/create-checkout-session', callable: CreateCheckoutSessionAction::class);
-    $app->get(pattern: '/cart/checkout-success', callable: CheckoutSuccessAction::class);
 
     // Stripe
     $app->post(

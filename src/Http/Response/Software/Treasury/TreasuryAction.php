@@ -43,8 +43,8 @@ class TreasuryAction
                     'ctas' => [
                         [
                             'caret' => false,
-                            'href' =>  $this->siteUrl->siteUrl('/cart/add/treasury'),
-                            'content' => 'Add To Cart ($79)',
+                            'href' =>  $this->siteUrl->siteUrl('/software/treasury/purchase'),
+                            'content' => 'Purchase License ($79)',
                             'type' => 'primary',
                         ],
                     ],

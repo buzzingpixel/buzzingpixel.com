@@ -43,8 +43,8 @@ class ConstructAction
                     'ctas' => [
                         [
                             'caret' => false,
-                            'href' =>  $this->siteUrl->siteUrl('/cart/add/construct'),
-                            'content' => 'Add To Cart ($40)',
+                            'href' =>  $this->siteUrl->siteUrl('/software/construct/purchase'),
+                            'content' => 'Purchase License ($40)',
                             'type' => 'primary',
                         ],
                     ],

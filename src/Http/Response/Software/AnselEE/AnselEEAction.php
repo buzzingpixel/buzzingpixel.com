@@ -49,8 +49,8 @@ class AnselEEAction
                         ],
                         [
                             'caret' => false,
-                            'href' => $this->siteUrl->siteUrl('/cart/add/ansel-ee'),
-                            'content' => 'Add To Cart ($79)',
+                            'href' => $this->siteUrl->siteUrl('/software/ansel-ee/purchase'),
+                            'content' => 'Purchase License ($79)',
                             'type' => 'primary',
                         ],
                     ],

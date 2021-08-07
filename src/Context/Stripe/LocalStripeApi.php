@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Context\Stripe;
 
-use App\Context\Cart\Entities\Cart;
 use App\Context\Licenses\Entities\License;
 use App\Context\Stripe\Entities\StripeCustomerCollection;
 use App\Context\Stripe\Entities\StripeInvoiceCollection;
@@ -14,7 +13,6 @@ use App\Context\Stripe\Entities\StripeProductCollection;
 use App\Context\Stripe\Entities\StripeSubscriptionCollection;
 use App\Context\Stripe\Entities\StripeTaxRateCollection;
 use App\Context\Stripe\Services\CreateBillingPortalSession;
-use App\Context\Stripe\Services\CreateCheckoutSession;
 use App\Context\Stripe\Services\CreateCheckoutSessionForNewLicenseSub;
 use App\Context\Stripe\Services\StripeFetchCustomers;
 use App\Context\Stripe\Services\StripeFetchInvoiceItems;
@@ -29,7 +27,6 @@ use App\Context\Stripe\Services\SyncProducts;
 use App\Context\Users\Entities\User;
 use Stripe\BillingPortal\Session as BillingSession;
 use Stripe\Checkout\Session;
-use Stripe\Checkout\Session as CheckoutSession;
 
 class LocalStripeApi
 {
@@ -43,7 +40,6 @@ class LocalStripeApi
         private StripeFetchTaxRates $fetchTaxRates,
         private StripeFetchCustomers $fetchCustomers,
         private StripeFetchInvoiceItems $fetchInvoiceItems,
-        private CreateCheckoutSession $createCheckoutSession,
         private StripeFetchSubscriptions $fetchSubscriptions,
         private CreateBillingPortalSession $createBillingPortalSession,
         private CreateCheckoutSessionForNewLicenseSub $createCheckoutSessionForNewLicenseSub,
@@ -68,11 +64,6 @@ class LocalStripeApi
     public function createBillingPortal(User $user): BillingSession
     {
         return $this->createBillingPortalSession->create($user);
-    }
-
-    public function createCheckoutSession(Cart $cart): CheckoutSession
-    {
-        return $this->createCheckoutSession->create($cart);
     }
 
     /**

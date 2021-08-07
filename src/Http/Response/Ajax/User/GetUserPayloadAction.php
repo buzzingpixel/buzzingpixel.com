@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Response\Ajax\User;
 
-use App\Context\Cart\Entities\CurrentUserCart;
 use App\Context\Users\Entities\LoggedInUser;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -16,7 +15,6 @@ class GetUserPayloadAction
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
         private LoggedInUser $loggedInUser,
-        private CurrentUserCart $currentUserCart,
     ) {
     }
 
@@ -38,7 +36,6 @@ class GetUserPayloadAction
                     '',
                 'userIsAdmin' => $userIsLoggedIn &&
                     $this->loggedInUser->user()->isAdmin(),
-                'cartCount' => $this->currentUserCart->cart()->totalQuantity(),
             ],
         ));
 

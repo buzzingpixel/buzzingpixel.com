@@ -43,8 +43,8 @@ class CategoryConstructAction
                     'ctas' => [
                         [
                             'caret' => false,
-                            'href' =>  $this->siteUrl->siteUrl('/cart/add/category-construct'),
-                            'content' => 'Add To Cart ($15)',
+                            'href' =>  $this->siteUrl->siteUrl('/software/category-construct/purchase'),
+                            'content' => 'Purchase License ($15)',
                             'type' => 'primary',
                         ],
                     ],
