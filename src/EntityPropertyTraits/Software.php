@@ -6,6 +6,8 @@ namespace App\EntityPropertyTraits;
 
 use App\Context\Software\Entities\Software as SoftwareEntity;
 
+use function assert;
+
 trait Software
 {
     private ?SoftwareEntity $software;
@@ -13,6 +15,15 @@ trait Software
     public function software(): ?SoftwareEntity
     {
         return $this->software;
+    }
+
+    public function softwareGuarantee(): SoftwareEntity
+    {
+        $software = $this->software;
+
+        assert($software instanceof SoftwareEntity);
+
+        return $software;
     }
 
     /**

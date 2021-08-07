@@ -98,7 +98,7 @@ class AccountLicensesDetailAction
             if ($license->isExpired()) {
                 $actionButtons = [
                     [
-                        'href' => '#',
+                        'href' => $license->accountStartNewSubscriptionLink(),
                         'content' => 'Start New Updates Subscription',
                     ],
                 ];
@@ -129,7 +129,7 @@ class AccountLicensesDetailAction
             }
 
             $actionButtons[] = [
-                'href' => '#',
+                'href' => $license->accountStartNewSubscriptionLink(),
                 'content' => 'Start New Updates Subscription',
             ];
         }

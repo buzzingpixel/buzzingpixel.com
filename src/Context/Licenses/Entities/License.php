@@ -200,6 +200,17 @@ class License
         );
     }
 
+    public function accountStartNewSubscriptionLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->accountLink(),
+                'start-new-subscription',
+            ],
+        );
+    }
+
     public function renewalDate(): ?DateTimeImmutable
     {
         $expiresAt = $this->expiresAt();

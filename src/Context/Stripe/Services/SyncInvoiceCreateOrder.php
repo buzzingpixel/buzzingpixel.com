@@ -98,7 +98,7 @@ class SyncInvoiceCreateOrder implements SyncInvoiceContract
 
             $softwareId = $software->id();
 
-            if (! isset($lineItems[$lineItem->description])) {
+            if (! isset($lineItems[$softwareId])) {
                 $lineItems[$softwareId] = [
                     'amount' => 0,
                     'quantity' => 0,
@@ -106,7 +106,15 @@ class SyncInvoiceCreateOrder implements SyncInvoiceContract
                     'subscriptionId' => '',
                     'subscriptionItemId' => '',
                     'subscriptionEndTime' => $endTime,
+                    'licenseKey' => '',
                 ];
+            }
+
+            /** @psalm-suppress MixedArrayAccess */
+            $lineItems[$softwareId]['licenseKey'] = (string) ($lineItem['metadata']['license_key'] ?? '');
+
+            if ($lineItems[$softwareId]['licenseKey'] === '') {
+                $lineItems[$softwareId]['licenseKey'] = $this->generateLicenseKey->generate();
             }
 
             $lineItems[$softwareId]['amount'] += $lineItem->amount;
@@ -127,7 +135,8 @@ class SyncInvoiceCreateOrder implements SyncInvoiceContract
                 continue;
             }
 
-            $lineItems[$softwareId]['subscriptionId']     = $subscriptionId;
+            $lineItems[$softwareId]['subscriptionId'] = $subscriptionId;
+
             $lineItems[$softwareId]['subscriptionItemId'] = $subscriptionItemId;
         }
 
@@ -138,37 +147,39 @@ class SyncInvoiceCreateOrder implements SyncInvoiceContract
 
             $subscriptionItemId = $lineItem['subscriptionItemId'];
 
-            $expiresAt = null;
-
             assert($software instanceof Software);
 
-            $license = null;
+            $expiresAt = $subscriptionItemId !== '' ?
+                $lineItem['subscriptionEndTime'] :
+                null;
 
-            if ($subscriptionItemId !== '') {
-                $expiresAt = $lineItem['subscriptionEndTime'];
-
-                $license = $this->licenseApi->fetchOneLicense(
-                    (new LicenseQueryBuilder())
-                        ->withStripeSubscriptionItemId(
-                            $subscriptionItemId
-                        ),
-                );
-            }
+            $license = $this->licenseApi->fetchOneLicense(
+                (new LicenseQueryBuilder())
+                    ->withLicenseKey($lineItem['licenseKey']),
+            );
 
             if ($license === null) {
-                $license = new License(
-                    majorVersion: $software->versions()->first()->majorVersion(),
-                    licenseKey: $this->generateLicenseKey->generate(),
-                    expiresAt: $expiresAt,
-                    user: $user,
-                    software: $software,
-                    stripeSubscriptionId: $subscriptionId,
-                    stripeSubscriptionItemId: $subscriptionItemId,
-                    stripeStatus: 'active',
-                );
-
-                $this->licenseApi->saveLicense($license);
+                $license = new License();
             }
+
+            $license = $license
+                ->withMajorVersion(
+                    majorVersion: $software->versions()->first()->majorVersion()
+                )
+                ->withLicenseKey(licenseKey: $lineItem['licenseKey'])
+                ->withExpiresAt(expiresAt: $expiresAt)
+                ->withUser(user: $user)
+                ->withSoftware(software: $software)
+                ->withStripeSubscriptionId(
+                    stripeSubscriptionId:  $subscriptionId
+                )
+                ->withStripeSubscriptionItemId(
+                    stripeSubscriptionItemId: $subscriptionItemId
+                )
+                ->withStripeStatus(stripeStatus: License::STRIPE_STATUS_ACTIVE)
+                ->withStripeCanceledAt(stripeCanceledAt: null);
+
+            $this->licenseApi->saveLicense(license: $license);
 
             $order = $order->withAddedOrderItem(new OrderItem(
                 price: $lineItem['amount'],
