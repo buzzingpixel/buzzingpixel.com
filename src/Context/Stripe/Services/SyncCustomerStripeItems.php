@@ -10,7 +10,7 @@ use Stripe\Customer;
 class SyncCustomerStripeItems
 {
     public function __construct(
-        private SyncCustomerStripeItemsInvoices $syncInvoices,
+        private SyncCustomerPaymentIntents $syncPaymentIntents,
     ) {
     }
 
@@ -18,6 +18,6 @@ class SyncCustomerStripeItems
         Customer $customer,
         User $user,
     ): void {
-        $this->syncInvoices->sync($customer, $user);
+        $this->syncPaymentIntents->sync(customer: $customer, user: $user);
     }
 }

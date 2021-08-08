@@ -35,6 +35,11 @@ class CreateCheckoutSessionForSoftware
             software: $software,
         )->fetch();
 
+        $metaData = [
+            'license_key' => $this->generateLicenseKey->generate(),
+            'software_id' => $software->id(),
+        ];
+
         $params = [
             'cancel_url' => $this->siteUrl->siteUrl($software->pageLink()),
             'mode' => $software->isSubscription() ? 'subscription' : 'payment',
@@ -52,12 +57,13 @@ class CreateCheckoutSessionForSoftware
                     //     'Base price',
                 ],
             ),
-            'subscription_data' => [
-                'metadata' => [
-                    'license_key' => $this->generateLicenseKey->generate(),
-                ],
-            ],
         ];
+
+        if ($software->isSubscription()) {
+            $params['subscription_data'] = ['metadata' => $metaData];
+        } else {
+            $params['payment_intent_data'] = ['metadata' => $metaData];
+        }
 
         /** @noinspection PhpUnhandledExceptionInspection */
         return new StripeCheckoutSessionContainer(

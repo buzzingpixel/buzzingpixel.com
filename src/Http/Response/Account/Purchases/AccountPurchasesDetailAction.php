@@ -95,7 +95,9 @@ class AccountPurchasesDetailAction
                             ],
                             [
                                 'template' => 'Http/_Infrastructure/Display/SimpleTableList.twig',
-                                'key' => 'Order Items',
+                                'key' => $order->orderItems()->count() > 1 ?
+                                    'Order Items' :
+                                    'Order Item',
                                 'value' => [
                                     'items' => $order->orderItems()->mapToArray(
                                         static function (OrderItem $item): array {

@@ -31,8 +31,10 @@ class CreateCheckoutSessionForLicense
 
     public function create(License $license): StripeCheckoutSessionContainer
     {
+        $software = $license->softwareGuarantee();
+
         $prices = $this->fetchPricesForSoftwareFactory->createFetchPricesForSoftware(
-            software: $license->softwareGuarantee(),
+            software: $software,
         )->fetch();
 
         $price = $prices->filter(
@@ -56,6 +58,7 @@ class CreateCheckoutSessionForLicense
             'subscription_data' => [
                 'metadata' => [
                     'license_key' => $license->licenseKey(),
+                    'software_id' => $software->id(),
                 ],
             ],
         ];

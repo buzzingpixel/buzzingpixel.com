@@ -6,9 +6,9 @@ namespace App\Context\Stripe\Services;
 
 use App\Context\RequestCache\CacheItemPool as RequestCacheItemPool;
 use App\Context\RequestCache\Entities\SessionCacheItem;
-use App\Context\Stripe\Entities\StripeInvoiceCollection;
+use App\Context\Stripe\Entities\StripePaymentIntentsCollection;
 use App\Context\Stripe\Factories\StripeFactory;
-use Stripe\Invoice;
+use Stripe\PaymentIntent;
 use Stripe\StripeClient;
 
 use function array_merge;
@@ -16,7 +16,7 @@ use function assert;
 use function md5;
 use function serialize;
 
-class StripeFetchInvoices
+class StripeFetchPaymentIntents
 {
     private const DEFAULT_PARAMS = ['limit' => 999999];
 
@@ -35,31 +35,31 @@ class StripeFetchInvoices
      * @phpstan-ignore-next-line
      * @noinspection PhpDocMissingThrowsInspection
      */
-    public function fetch(array $params = []): StripeInvoiceCollection
+    public function fetch(array $params = []): StripePaymentIntentsCollection
     {
         $params = array_merge(self::DEFAULT_PARAMS, $params);
 
         $hash = md5(serialize($params));
 
-        $cashKey = 'stripe_fetch_invoices_' . $hash;
+        $cashKey = 'stripe_fetch_payment_intents_' . $hash;
 
         /** @noinspection PhpUnhandledExceptionInspection */
         if ($this->cacheItemPool->hasItem($cashKey)) {
             /** @noinspection PhpUnhandledExceptionInspection */
             $collection = $this->cacheItemPool->getItem($cashKey)->get();
 
-            assert($collection instanceof StripeInvoiceCollection);
+            assert($collection instanceof StripePaymentIntentsCollection);
 
             return $collection;
         }
 
-        $collection = new StripeInvoiceCollection();
+        $collection = new StripePaymentIntentsCollection();
 
         /** @noinspection PhpUnhandledExceptionInspection */
-        $result = $this->stripeClient->invoices->all($params);
+        $result = $this->stripeClient->paymentIntents->all($params);
 
         foreach ($result->autoPagingIterator() as $item) {
-            assert($item instanceof Invoice);
+            assert($item instanceof PaymentIntent);
 
             $collection->add($item);
         }
