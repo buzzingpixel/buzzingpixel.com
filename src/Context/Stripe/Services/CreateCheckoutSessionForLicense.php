@@ -9,12 +9,8 @@ use App\Context\Stripe\Entities\StripeCheckoutSessionContainer;
 use App\Context\Stripe\Factories\FetchPricesForSoftwareFactory;
 use App\Context\Stripe\Factories\StripeFactory;
 use App\Templating\TwigExtensions\SiteUrl;
-use App\Utilities\SystemClock;
-use DateTimeImmutable;
 use Stripe\Price;
 use Stripe\StripeClient;
-
-use function assert;
 
 class CreateCheckoutSessionForLicense
 {
@@ -23,7 +19,6 @@ class CreateCheckoutSessionForLicense
     public function __construct(
         private SiteUrl $siteUrl,
         StripeFactory $stripeFactory,
-        private SystemClock $systemClock,
         private FetchPricesForSoftwareFactory $fetchPricesForSoftwareFactory,
     ) {
         $this->stripeClient = $stripeFactory->createStripeClient();
@@ -62,22 +57,6 @@ class CreateCheckoutSessionForLicense
                 ],
             ],
         ];
-
-        $currentTime = $this->systemClock->getCurrentTimeUtc();
-
-        $expiresAt = $license->expiresAt();
-
-        assert($expiresAt instanceof DateTimeImmutable);
-
-        if ($expiresAt > $currentTime) {
-            /** @noinspection PhpUnhandledExceptionInspection */
-            $days = (int) $currentTime->diff($expiresAt)
-                ->format('%a');
-
-            if ($days > 7) {
-                $params['subscription_data']['trial_period_days'] = $days;
-            }
-        }
 
         /** @noinspection PhpUnhandledExceptionInspection */
         return new StripeCheckoutSessionContainer(
