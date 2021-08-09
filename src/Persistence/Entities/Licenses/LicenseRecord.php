@@ -18,6 +18,7 @@ use App\Persistence\PropertyTraits\LicenseKey;
 use App\Persistence\PropertyTraits\MajorVersion;
 use App\Persistence\PropertyTraits\StripeCanceledAt;
 use App\Persistence\PropertyTraits\StripeStatus;
+use App\Persistence\PropertyTraits\StripeSubscriptionAmount;
 use App\Persistence\PropertyTraits\StripeSubscriptionId;
 use App\Persistence\PropertyTraits\StripeSubscriptionItemId;
 use App\Persistence\PropertyTraits\UserNotes;
@@ -45,6 +46,7 @@ class LicenseRecord
     use StripeSubscriptionId;
     use StripeSubscriptionItemId;
     use StripeCanceledAt;
+    use StripeSubscriptionAmount;
 
     /**
      * @Mapping\ManyToOne(
@@ -104,6 +106,7 @@ class LicenseRecord
         $this->setStripeSubscriptionId(stripeSubscriptionId: $entity->stripeSubscriptionId());
         $this->setStripeSubscriptionItemId(stripeSubscriptionItemId: $entity->stripeSubscriptionItemId());
         $this->setStripeCanceledAt(stripeCanceledAt: $entity->stripeCanceledAt());
+        $this->setStripeSubscriptionAmount(stripeSubscriptionAmount: $entity->stripeSubscriptionAmountAsInt());
 
         $user = $entity->user();
 

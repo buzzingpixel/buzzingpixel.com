@@ -100,6 +100,8 @@ class SyncOrderSubscription implements SyncOrderContract
 
         $expiresAt = null;
 
+        $subscriptionAmount = 0;
+
         foreach ($invoice->lines->data as $lineItem) {
             assert($lineItem instanceof InvoiceLineItem);
 
@@ -125,6 +127,8 @@ class SyncOrderSubscription implements SyncOrderContract
             $expiresAt = (new DateTimeImmutable())
                 ->setTimezone(new DateTimeZone('UTC'))
                 ->setTimestamp($expiresAtTimeStamp);
+
+            $subscriptionAmount = $lineItem->amount;
         }
 
         $license = $this->licenseApi->fetchOneLicense(
@@ -157,7 +161,10 @@ class SyncOrderSubscription implements SyncOrderContract
             ->withStripeSubscriptionItemId(
                 stripeSubscriptionItemId: (string) $subscriptionItemId
             )
-            ->withStripeCanceledAt(stripeCanceledAt: null);
+            ->withStripeCanceledAt(stripeCanceledAt: null)
+            ->withStripeSubscriptionAmount(
+                stripeSubscriptionAmount: $subscriptionAmount
+            );
 
         $this->licenseApi->saveLicense($license);
 

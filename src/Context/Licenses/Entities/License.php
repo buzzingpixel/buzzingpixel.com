@@ -16,6 +16,7 @@ use App\EntityPropertyTraits\MajorVersion;
 use App\EntityPropertyTraits\Software;
 use App\EntityPropertyTraits\StripeCanceledAt;
 use App\EntityPropertyTraits\StripeStatus;
+use App\EntityPropertyTraits\StripeSubscriptionAmount;
 use App\EntityPropertyTraits\StripeSubscriptionId;
 use App\EntityPropertyTraits\StripeSubscriptionItemId;
 use App\EntityPropertyTraits\User;
@@ -26,6 +27,8 @@ use App\Utilities\DateTimeUtility;
 use DateTimeImmutable;
 use DateTimeInterface;
 use LogicException;
+use Money\Currency;
+use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 
 use function implode;
@@ -55,6 +58,7 @@ class License
     use StripeSubscriptionId;
     use StripeSubscriptionItemId;
     use StripeCanceledAt;
+    use StripeSubscriptionAmount;
 
     public static function fromRecord(LicenseRecord $record): self
     {
@@ -74,6 +78,7 @@ class License
             stripeSubscriptionId: $record->getStripeSubscriptionId(),
             stripeSubscriptionItemId: $record->getStripeSubscriptionItemId(),
             stripeCanceledAt: $record->getStripeCanceledAt(),
+            stripeSubscriptionAmount: $record->getStripeSubscriptionAmount(),
         );
     }
 
@@ -93,6 +98,7 @@ class License
         string $stripeStatus = '',
         string $stripeSubscriptionId = '',
         string $stripeSubscriptionItemId = '',
+        int | Money $stripeSubscriptionAmount = 0,
         null | string | DateTimeInterface $stripeCanceledAt = null,
         null | string | UuidInterface $id = null,
     ) {
@@ -139,6 +145,15 @@ class License
         $this->stripeCanceledAt = DateTimeUtility::createDateTimeImmutableOrNull(
             $stripeCanceledAt,
         );
+
+        if ($stripeSubscriptionAmount instanceof Money) {
+            $this->stripeSubscriptionAmount = $stripeSubscriptionAmount;
+        } else {
+            $this->stripeSubscriptionAmount = new Money(
+                $stripeSubscriptionAmount,
+                new Currency('USD')
+            );
+        }
     }
 
     private bool $isInitialized = false;

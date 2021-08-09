@@ -9,6 +9,7 @@ use App\Context\Licenses\Services\SaveLicense;
 use App\Context\Stripe\Contracts\SyncSubscriptionItem as SyncSubscriptionItemContract;
 use DateTimeImmutable;
 use DateTimeZone;
+use Stripe\Invoice;
 use Stripe\Subscription;
 use Stripe\SubscriptionItem;
 use Throwable;
@@ -19,8 +20,10 @@ use function assert;
 
 class SyncSubscriptionItem implements SyncSubscriptionItemContract
 {
-    public function __construct(private SaveLicense $saveLicense)
-    {
+    public function __construct(
+        private SaveLicense $saveLicense,
+        private StripeFetchInvoices $stripeFetchInvoices,
+    ) {
     }
 
     public function sync(
@@ -60,6 +63,8 @@ class SyncSubscriptionItem implements SyncSubscriptionItemContract
                 ->setTimezone(new DateTimeZone('UTC'))
                 ->setTimestamp($endTimeStamp);
 
+            $subscriptionAmount = (int) $subscriptionItem->price->unit_amount;
+
             $license = $license->withStripeSubscriptionId(
                 stripeSubscriptionId: $subscription->id
             )
@@ -68,7 +73,10 @@ class SyncSubscriptionItem implements SyncSubscriptionItemContract
                 )
                 ->withStripeStatus(stripeStatus: $subscription->status)
                 ->withExpiresAt(expiresAt: $endTime)
-                ->withStripeCanceledAt(stripeCanceledAt: $canceledAt);
+                ->withStripeCanceledAt(stripeCanceledAt: $canceledAt)
+            ->withStripeSubscriptionAmount(
+                stripeSubscriptionAmount: $subscriptionAmount
+            );
 
             $this->saveLicense->save($license);
         } catch (Throwable) {

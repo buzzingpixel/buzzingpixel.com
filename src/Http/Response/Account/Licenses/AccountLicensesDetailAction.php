@@ -20,6 +20,7 @@ use Twig\Environment as TwigEnvironment;
 
 use function array_map;
 use function assert;
+use function floatval;
 
 class AccountLicensesDetailAction
 {
@@ -93,6 +94,11 @@ class AccountLicensesDetailAction
                 'value' => $renewalDate->format('F j, Y'),
             ];
 
+            $keyValueItems[] = [
+                'key' => 'Renewal Amount',
+                'value' => $license->stripeSubscriptionAmountFormatted(),
+            ];
+
             $actionButtons[] = [
                 'colorType' => 'danger',
                 'href' => $license->accountCancelSubscriptionLink(),
@@ -125,7 +131,9 @@ class AccountLicensesDetailAction
 
                 $actionButtons[] = [
                     'href' => $license->accountResumeSubscriptionLink(),
-                    'content' => 'Resume Subscription',
+                    'content' => 'Resume Subscription ($' .
+                        floatval($software->renewalPriceFormattedNoSymbol()) .
+                        '/yr)',
                 ];
             } else {
                 $keyValueSubHeadline = 'Subscription has expired. ' .
@@ -139,7 +147,9 @@ class AccountLicensesDetailAction
 
                 $actionButtons[] = [
                     'href' => $license->accountStartNewSubscriptionLink(),
-                    'content' => 'Start New Updates Subscription',
+                    'content' => 'Start New Subscription ($' .
+                        floatval($software->renewalPriceFormattedNoSymbol()) .
+                        '/yr)',
                 ];
             }
         }
