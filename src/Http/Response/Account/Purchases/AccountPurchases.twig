@@ -63,9 +63,11 @@
                                                             <p class="text-sm text-gray-900">
                                                                 {{ orderItem.totalFormatted }}
                                                             </p>
-                                                            {# <p class="mt-2 flex items-center text-sm text-gray-500">
-                                                                content
-                                                            </p> #}
+                                                            <p class="mt-2 flex items-center text-sm text-gray-500">
+                                                                {% for item in orderItem.orderItems.toArray %}
+                                                                    {{ item.software.name }}{% if not loop.last %}, {% endif %}
+                                                                {% endfor %}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
