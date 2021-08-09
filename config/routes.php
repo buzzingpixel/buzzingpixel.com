@@ -6,10 +6,11 @@ use App\Http\Response\Account\AccountIndexAction;
 use App\Http\Response\Account\BillingPortal\BillingPortalAction;
 use App\Http\Response\Account\ChangePassword\ChangePasswordAction;
 use App\Http\Response\Account\ChangePassword\PostChangePasswordAction;
-use App\Http\Response\Account\Licenses\AccountLicenseAddAuthorizedDomain;
+use App\Http\Response\Account\Licenses\AccountLicenseAddAuthorizedDomainAction;
 use App\Http\Response\Account\Licenses\AccountLicenseCancelSubscriptionAction;
 use App\Http\Response\Account\Licenses\AccountLicenseDeleteAuthorizedDomainAction;
 use App\Http\Response\Account\Licenses\AccountLicenseEditNotesAction;
+use App\Http\Response\Account\Licenses\AccountLicenseResumeSubscriptionAction;
 use App\Http\Response\Account\Licenses\AccountLicensesAction;
 use App\Http\Response\Account\Licenses\AccountLicensesDetailAction;
 use App\Http\Response\Account\Licenses\AccountLicenseStartNewSubscriptionAction;
@@ -186,13 +187,14 @@ return static function (App $app): void {
 
         $r->get(pattern: '/licenses', callable: AccountLicensesAction::class);
         $r->get(pattern: '/licenses/{licenseKey}', callable: AccountLicensesDetailAction::class);
-        $r->get(pattern: '/licenses/{licenseKey}/add-authorized-domain', callable: AccountLicenseAddAuthorizedDomain::class);
+        $r->get(pattern: '/licenses/{licenseKey}/add-authorized-domain', callable: AccountLicenseAddAuthorizedDomainAction::class);
         $r->post(pattern: '/licenses/{licenseKey}/add-authorized-domain', callable: PostAccountLicensesAddAuthorizedDomainAction::class);
         $r->get(pattern: '/licenses/{licenseKey}/delete-authorized-domain/{domainName}', callable: AccountLicenseDeleteAuthorizedDomainAction::class);
         $r->get(pattern: '/licenses/{licenseKey}/edit-notes', callable: AccountLicenseEditNotesAction::class);
         $r->post(pattern: '/licenses/{licenseKey}/edit-notes', callable: PostAccountLicenseEditNotesAction::class);
         $r->get(pattern: '/licenses/{licenseKey}/cancel-subscription', callable: AccountLicenseCancelSubscriptionAction::class);
         $r->post(pattern: '/licenses/{licenseKey}/cancel-subscription', callable: PostAccountLicenseCancelSubscriptionAction::class);
+        $r->get(pattern: '/licenses/{licenseKey}/resume-subscription', callable: AccountLicenseResumeSubscriptionAction::class);
         $r->get(pattern: '/licenses/{licenseKey}/start-new-subscription', callable: AccountLicenseStartNewSubscriptionAction::class);
 
         $r->get(pattern: '/purchases', callable: AccountPurchasesAction::class);

@@ -83,7 +83,11 @@ class AccountLicensesDetailAction
 
         if ($license->isDisabled()) {
             $keyValueSubHeadline = 'disabled by admin';
-        } elseif ($license->isSubscription() && $license->isNotCanceled() && $renewalDate !== null) {
+        } elseif (
+            $license->isSubscription() &&
+            $license->isNotCanceled() &&
+            $renewalDate !== null
+        ) {
             $keyValueItems[] = [
                 'key' => 'Renews on',
                 'value' => $renewalDate->format('F j, Y'),
@@ -118,20 +122,26 @@ class AccountLicensesDetailAction
                     'key' => 'Expires on',
                     'value' => $expirationDate->format('F j, Y'),
                 ];
+
+                $actionButtons[] = [
+                    'href' => $license->accountResumeSubscriptionLink(),
+                    'content' => 'Resume Subscription',
+                ];
             } else {
                 $keyValueSubHeadline = 'Subscription has expired. ' .
-                    'Renew subscription to receiving updates and support development.';
+                    'Restart subscription to keep receiving updates and ' .
+                    'support development.';
 
                 $keyValueItems[] = [
                     'key' => 'Expired on',
                     'value' => $expirationDate->format('F j, Y'),
                 ];
-            }
 
-            $actionButtons[] = [
-                'href' => $license->accountStartNewSubscriptionLink(),
-                'content' => 'Start New Updates Subscription',
-            ];
+                $actionButtons[] = [
+                    'href' => $license->accountStartNewSubscriptionLink(),
+                    'content' => 'Start New Updates Subscription',
+                ];
+            }
         }
 
         if (! $license->isDisabled()) {

@@ -18,7 +18,7 @@ use Twig\Environment as TwigEnvironment;
 
 use function assert;
 
-class AccountLicenseAddAuthorizedDomain
+class AccountLicenseAddAuthorizedDomainAction
 {
     public function __construct(
         private General $config,

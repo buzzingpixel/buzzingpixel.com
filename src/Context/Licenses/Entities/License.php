@@ -200,6 +200,17 @@ class License
         );
     }
 
+    public function accountResumeSubscriptionLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->accountLink(),
+                'resume-subscription',
+            ],
+        );
+    }
+
     public function accountStartNewSubscriptionLink(): string
     {
         return implode(
@@ -226,7 +237,7 @@ class License
     {
         $currentDateTime = new DateTimeImmutable();
 
-        return $currentDateTime > $this->expiresAt();
+        return $currentDateTime > $this->expiresAt() || $this->isNotActive();
     }
 
     public function isNotExpired(): bool

@@ -9,6 +9,7 @@ use App\Context\Licenses\Entities\LicenseCollection;
 use App\Context\Licenses\Services\CancelSubscription;
 use App\Context\Licenses\Services\FetchLicenses;
 use App\Context\Licenses\Services\FetchOneLicense;
+use App\Context\Licenses\Services\ResumeSubscription;
 use App\Context\Licenses\Services\SaveLicense;
 use App\Payload\Payload;
 use App\Persistence\QueryBuilders\LicenseQueryBuilder\LicenseQueryBuilder;
@@ -20,6 +21,7 @@ class LicenseApi
         private FetchLicenses $fetchLicenses,
         private FetchOneLicense $fetchOneLicense,
         private CancelSubscription $cancelSubscription,
+        private ResumeSubscription $resumeSubscription,
     ) {
     }
 
@@ -46,5 +48,10 @@ class LicenseApi
     public function cancelSubscription(License $license): void
     {
         $this->cancelSubscription->cancel($license);
+    }
+
+    public function resumeSubscription(License $license): void
+    {
+        $this->resumeSubscription->resume($license);
     }
 }

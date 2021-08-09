@@ -12,7 +12,7 @@ use Throwable;
 
 // phpcs:disable Squiz.NamingConventions.ValidVariableName.NotCamelCaps
 
-class CancelSubscription
+class ResumeSubscription
 {
     private StripeClient $stripeClient;
 
@@ -23,15 +23,15 @@ class CancelSubscription
         $this->stripeClient = $stripeFactory->createStripeClient();
     }
 
-    public function cancel(License $license): void
+    public function resume(License $license): void
     {
         try {
-            $this->cancelInner($license);
+            $this->resumeInner($license);
         } catch (Throwable) {
         }
     }
 
-    private function cancelInner(License $license): void
+    private function resumeInner(License $license): void
     {
         if ($license->isNotActive() || $license->isNotSubscription()) {
             return;
@@ -42,7 +42,7 @@ class CancelSubscription
         /** @noinspection PhpUnhandledExceptionInspection */
         $this->stripeClient->subscriptions->update(
             $subId,
-            ['cancel_at_period_end' => true],
+            ['cancel_at_period_end' => false],
         );
 
         $this->syncSubscriptionLicenses->sync(
