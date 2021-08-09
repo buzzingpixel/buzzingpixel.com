@@ -35,15 +35,26 @@ class SyncSubscriptionItem implements SyncSubscriptionItemContract
         try {
             $canceledAt = null;
 
-            $canceledAtTimeStamp = $subscription->cancel_at;
+            $cancelAtTimeStamp   = $subscription->cancel_at;
+            $canceledAtTimeStamp = $subscription->canceled_at;
+            $endTimeStamp        = $subscription->current_period_end;
 
             if ($canceledAtTimeStamp !== null) {
                 $canceledAt = (new DateTimeImmutable())
                     ->setTimezone(new DateTimeZone('UTC'))
                     ->setTimestamp($canceledAtTimeStamp);
+            } elseif ($cancelAtTimeStamp !== null) {
+                $canceledAt = (new DateTimeImmutable())
+                    ->setTimezone(new DateTimeZone('UTC'))
+                    ->setTimestamp($cancelAtTimeStamp);
             }
 
-            $endTimeStamp = $subscription->current_period_end;
+            if (
+                $canceledAt !== null &&
+                $endTimeStamp > $canceledAt->getTimestamp()
+            ) {
+                $endTimeStamp = $canceledAt->getTimestamp();
+            }
 
             $endTime = (new DateTimeImmutable())
                 ->setTimezone(new DateTimeZone('UTC'))

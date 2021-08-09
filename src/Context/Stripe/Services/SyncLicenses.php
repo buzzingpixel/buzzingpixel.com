@@ -17,7 +17,7 @@ class SyncLicenses
     public function __construct(
         private LicenseApi $licenseApi,
         private SyncSubscriptionItemFactory $syncSubscriptionItemFactory,
-        private StripeFetchSubscriptions $stripeFetchSubscriptionItems
+        private StripeFetchSubscriptions $stripeFetchSubscriptions
     ) {
     }
 
@@ -33,7 +33,9 @@ class SyncLicenses
                 ->withExpiresAtNotNull(),
         );
 
-        $subscriptions = $this->stripeFetchSubscriptionItems->fetch();
+        $subscriptions = $this->stripeFetchSubscriptions->fetch(
+            params: ['status' => 'all']
+        );
 
         $subscriptions->mapToArray(
             function (Subscription $subscription) use (
