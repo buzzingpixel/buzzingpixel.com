@@ -3,5 +3,8 @@
 {% extends '@app/Http/Response/Account/_AccountLayout.twig' %}
 
 {% block accountContent %}
+    {% include 'Http/_Infrastructure/Tabs/TabsWithUnderline.twig' with {
+        tabs: tabs ?? [],
+    } only %}
     {% include 'Http/_Infrastructure/Display/KeyValueCard.twig' with keyValueCard only %}
 {% endblock %}

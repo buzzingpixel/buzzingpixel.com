@@ -42,7 +42,7 @@ use App\Http\Response\Admin\Users\Delete\DeleteUserAction;
 use App\Http\Response\Admin\Users\Edit\EditUserAction;
 use App\Http\Response\Admin\Users\Edit\PostEditUserAction;
 use App\Http\Response\Admin\Users\UsersAction;
-use App\Http\Response\Admin\Users\View\ViewUserAction;
+use App\Http\Response\Admin\Users\View\ViewUserProfileAction;
 use App\Http\Response\Ajax\FileUpload\FileUploadAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
 use App\Http\Response\HealthCheck\HealthCheckAction;
@@ -162,7 +162,7 @@ return static function (App $app): void {
         $r->get(pattern: '/users', callable: UsersAction::class);
         $r->get(pattern: '/users/create', callable: CreateUserAction::class);
         $r->post(pattern: '/users/create', callable: PostCreateUserAction::class);
-        $r->get(pattern: '/users/{emailAddress}', callable: ViewUserAction::class);
+        $r->get(pattern: '/users/{emailAddress}', callable: ViewUserProfileAction::class);
         $r->get(pattern: '/users/{emailAddress}/edit', callable: EditUserAction::class);
         $r->post(pattern: '/users/{emailAddress}/edit', callable: PostEditUserAction::class);
         $r->any(pattern: '/users/{emailAddress}/delete', callable: DeleteUserAction::class);

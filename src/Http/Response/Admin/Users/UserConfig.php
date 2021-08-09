@@ -233,4 +233,30 @@ class UserConfig
             ),
         );
     }
+
+    /**
+     * @return mixed[]
+     */
+    public static function getUserViewTabs(
+        string $baseAdminProfileLink,
+        string $activeTab = 'profile',
+    ): array {
+        return [
+            [
+                'href' => $baseAdminProfileLink,
+                'content' => 'Profile',
+                'isActive' => $activeTab === 'profile',
+            ],
+            [
+                'href' => $baseAdminProfileLink . '/purchases',
+                'content' => 'Purchases',
+                'isActive' => $activeTab === 'purchases',
+            ],
+            [
+                'href' => $baseAdminProfileLink . '/licenses',
+                'content' => 'Licenses',
+                'isActive' => $activeTab === 'licenses',
+            ],
+        ];
+    }
 }

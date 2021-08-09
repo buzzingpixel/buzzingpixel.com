@@ -6,6 +6,7 @@ namespace App\Http\Response\Admin\Users\View;
 
 use App\Context\Users\UserApi;
 use App\Http\Entities\Meta;
+use App\Http\Response\Admin\Users\UserConfig;
 use App\Persistence\QueryBuilders\Users\UserQueryBuilder;
 use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -17,7 +18,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class ViewUserAction
+class ViewUserProfileAction
 {
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
@@ -62,6 +63,10 @@ class ViewUserAction
                     metaTitle: $user->emailAddress() . ' | Users | Admin',
                 ),
                 'accountMenu' => $adminMenu,
+                'tabs' => UserConfig::getUserViewTabs(
+                    baseAdminProfileLink: $user->adminBaseLink(),
+                    activeTab: 'profile',
+                ),
                 'breadcrumbSingle' => [
                     'content' => 'Users',
                     'uri' => '/admin/users',
