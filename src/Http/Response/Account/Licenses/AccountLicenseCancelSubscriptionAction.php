@@ -44,12 +44,12 @@ class AccountLicenseCancelSubscriptionAction
                 ->withLicenseKey($licenseKey),
         );
 
-        if ($license === null) {
+        if (
+            $license === null ||
+            $license->isNotSubscription() ||
+            $license->isNotActive()
+        ) {
             /** @noinspection PhpUnhandledExceptionInspection */
-            throw new HttpNotFoundException($request);
-        }
-
-        if ($license->isNotSubscription() || $license->isNotActive()) {
             throw new HttpNotFoundException($request);
         }
 
@@ -67,11 +67,14 @@ class AccountLicenseCancelSubscriptionAction
         assert($renewalDate instanceof DateTimeImmutable);
 
         $content = 'When you cancel your subscription, you will no longer ' .
-            'receive updates or support at the end of the period (' .
-            $renewalDate->format('F j, Y') . '). ';
+            'receive updates or support at the end of the period ending on ' .
+            $renewalDate->format('F j, Y') . '. ';
 
         $listItems = [];
 
+        // This shouldn't be necessary anymore since we refactored checkout to
+        // only allow one license purchase at a time for just this reason. But
+        // It doesn't really hurt anything
         $otherLicenses = $this->licenseApi->fetchLicenses(
             (new LicenseQueryBuilder())
                 ->withStripeSubscriptionId(

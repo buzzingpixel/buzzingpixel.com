@@ -8,6 +8,7 @@ use App\Context\Licenses\Entities\License;
 use App\Context\Stripe\Factories\StripeFactory;
 use App\Context\Stripe\QueueActions\SyncSubscriptionLicensesQueueAction;
 use Stripe\StripeClient;
+use Throwable;
 
 // phpcs:disable Squiz.NamingConventions.ValidVariableName.NotCamelCaps
 
@@ -23,6 +24,14 @@ class CancelSubscription
     }
 
     public function cancel(License $license): void
+    {
+        try {
+            $this->cancelInner($license);
+        } catch (Throwable) {
+        }
+    }
+
+    public function cancelInner(License $license): void
     {
         if ($license->isNotActive() || $license->isNotSubscription()) {
             return;

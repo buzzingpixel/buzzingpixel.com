@@ -34,7 +34,11 @@ class PostAccountLicenseCancelSubscriptionAction
                 ->withLicenseKey($licenseKey),
         );
 
-        if ($license === null || $license->isNotActive()) {
+        if (
+            $license === null ||
+            $license->isNotSubscription() ||
+            $license->isNotActive()
+        ) {
             /** @noinspection PhpUnhandledExceptionInspection */
             throw new HttpNotFoundException($request);
         }
