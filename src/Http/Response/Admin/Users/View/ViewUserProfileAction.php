@@ -36,8 +36,6 @@ class ViewUserProfileAction
      */
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
-        // TODO: Display User Orders
-        // TODO: Display User Licenses
         $emailAddress = (string) $request->getAttribute('emailAddress');
 
         $user = $this->userApi->fetchOneUser(

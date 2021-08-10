@@ -40,6 +40,7 @@ use Ramsey\Uuid\UuidInterface;
 
 use function array_map;
 use function array_merge;
+use function implode;
 use function is_array;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue.NullabilitySymbolRequired
@@ -271,5 +272,31 @@ class Order
         ));
 
         return $clone;
+    }
+
+    public function accountLink(): string
+    {
+        return '/' . implode(
+            '/',
+            [
+                'account',
+                'purchases',
+                $this->id(),
+            ],
+        );
+    }
+
+    public function adminBaseLink(): string
+    {
+        return '/' . implode(
+            '/',
+            [
+                'admin',
+                'users',
+                $this->userGuarantee()->emailAddress(),
+                'purchases',
+                $this->id(),
+            ],
+        );
     }
 }
