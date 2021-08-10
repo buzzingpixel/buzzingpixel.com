@@ -228,6 +228,28 @@ class License
         );
     }
 
+    public function adminDisableLicenseLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->adminLink(),
+                'disable-license',
+            ],
+        );
+    }
+
+    public function adminEnableLicenseLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->adminLink(),
+                'enable-license',
+            ],
+        );
+    }
+
     public function accountLink(): string
     {
         return '/' . implode(

@@ -104,13 +104,7 @@ class ViewUserLicenseDetailAction
 
         $actionButtons = [];
 
-        if ($license->isDisabled()) {
-            $keyValueSubHeadline = 'disabled by admin';
-        } elseif (
-            $license->isSubscription() &&
-            $license->isNotCanceled() &&
-            $renewalDate !== null
-        ) {
+        if ($license->isNotCanceled()) {
             $keyValueItems[] = [
                 'key' => 'Renews on',
                 'value' => $renewalDate->setTimezone(
@@ -128,10 +122,16 @@ class ViewUserLicenseDetailAction
                 'href' => $license->adminCancelSubscriptionLink(),
                 'content' => 'Cancel Subscription',
             ];
+        }
 
+        if ($license->isDisabled()) {
+            $keyValueSubHeadline = 'disabled by admin';
+        } elseif (
+            $license->isSubscription() &&
+            $license->isNotCanceled() &&
+            $renewalDate !== null
+        ) {
             if ($license->isExpired()) {
-                $actionButtons = [];
-
                 $keyValueSubHeadline = 'Updates have expired';
             } else {
                 $keyValueSubHeadline = 'Subscription is active';
@@ -237,12 +237,12 @@ class ViewUserLicenseDetailAction
         if ($license->isNotDisabled()) {
             $actionButtons[] = [
                 'colorType' => 'danger',
-                'href' => '#todo',
+                'href' => $license->adminDisableLicenseLink(),
                 'content' => 'Disable License',
             ];
         } else {
             $actionButtons[] = [
-                'href' => '#todo',
+                'href' => $license->adminEnableLicenseLink(),
                 'content' => 'Enable License',
             ];
         }
