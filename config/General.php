@@ -27,6 +27,7 @@ use function is_string;
  * @method array jsFiles()
  * @method array accountMenu()
  * @method array adminMenu()
+ * @method array siteBanner()
  */
 class General extends SimpleModel
 {
@@ -162,5 +163,17 @@ class General extends SimpleModel
             'content' => 'Analytics',
             'isActive' => false,
         ],
+    ];
+
+    /** @var mixed[] */
+    public static array $siteBanner = [
+        'siteBanner' => 'filler',
+        'explanation' => 'Keep PHPCS from complaining when items commented out',
+        // 'content' => 'This is a test of the emergency broadcasting system',
+        // 'mobileContent' => 'Do stuff',
+        // 'link' => [
+        //     'href' => '#todo',
+        //     'content' => 'Go Here',
+        // ],
     ];
 }

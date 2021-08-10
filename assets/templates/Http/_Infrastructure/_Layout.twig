@@ -1,7 +1,21 @@
+{# @var \Config\General GeneralConfig #}
+{# @var \App\Http\Utilities\Segments\UriSegments UriSegments #}
+
+{% if UriSegments.segment(1) == 'admin' %}
+    {% set banner = {
+        content: 'Admin Area',
+    } %}
+{% else %}
+    {% set banner = GeneralConfig.siteBanner %}
+{% endif %}
+
 {% extends 'Http/_Infrastructure/_Skeleton.twig' %}
 
 {% block skeletonContent %}
     {% include 'Http/_Infrastructure/Global/MainNav.twig' only %}
+    {% include 'Http/_Infrastructure/Banners/CenteredStrip.twig' with {
+        banner: banner,
+    } only %}
     <div class="min-h-screen-minus-header-and-footer">
         {% block content %}
             <div class="p-10">

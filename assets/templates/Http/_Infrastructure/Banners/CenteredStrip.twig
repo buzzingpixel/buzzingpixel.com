@@ -1,0 +1,32 @@
+{% set banner = banner ?? null %}
+
+{% set content = banner.content ?? null %}
+{% set mobileContent = banner.mobileContent?? content %}
+{% set link = banner.link ?? null %}
+
+{% if content %}
+    <div class="relative bg-champagne">
+        <div class="max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
+            <div class="pr-16 sm:text-center sm:px-16">
+                <p class="font-medium text-nandor">
+                    <span class="md:hidden">
+                        {{ mobileContent|smartypants|widont }}
+                    </span>
+                    <span class="hidden md:inline">
+                        {{ content|smartypants|widont }}
+                    </span>
+                    {% if link %}
+                        <span class="block sm:ml-2 sm:inline-block">
+                            <a
+                                href="{{ link.href }}"
+                                class="text-nandor font-bold underline"
+                            >
+                                {{ link.content}} <span aria-hidden="true">&rarr;</span>
+                            </a>
+                        </span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endif %}
