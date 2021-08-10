@@ -172,6 +172,62 @@ class License
         );
     }
 
+    public function adminCancelSubscriptionLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->adminLink(),
+                'cancel-subscription',
+            ]
+        );
+    }
+
+    public function adminResumeSubscriptionLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->adminLink(),
+                'resume-subscription',
+            ]
+        );
+    }
+
+    public function adminAddAuthorizedDomainLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->adminLink(),
+                'add-authorized-domain',
+            ],
+        );
+    }
+
+    public function adminDeleteAuthorizedDomainLink(string $domain): string
+    {
+        return implode(
+            '/',
+            [
+                $this->adminLink(),
+                'delete-authorized-domain',
+                $domain,
+            ],
+        );
+    }
+
+    public function adminEditAdminNotesLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->adminLink(),
+                'edit-admin-notes',
+            ],
+        );
+    }
+
     public function accountLink(): string
     {
         return '/' . implode(

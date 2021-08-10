@@ -91,7 +91,9 @@ class AccountLicensesDetailAction
         ) {
             $keyValueItems[] = [
                 'key' => 'Renews on',
-                'value' => $renewalDate->format('F j, Y'),
+                'value' => $renewalDate->setTimezone(
+                    $this->loggedInUser->user()->timezone(),
+                )->format('F j, Y'),
             ];
 
             $keyValueItems[] = [
@@ -126,7 +128,9 @@ class AccountLicensesDetailAction
 
                 $keyValueItems[] = [
                     'key' => 'Expires on',
-                    'value' => $expirationDate->format('F j, Y'),
+                    'value' => $expirationDate->setTimezone(
+                        $this->loggedInUser->user()->timezone(),
+                    )->format('F j, Y'),
                 ];
 
                 $actionButtons[] = [
@@ -142,7 +146,9 @@ class AccountLicensesDetailAction
 
                 $keyValueItems[] = [
                     'key' => 'Expired on',
-                    'value' => $expirationDate->format('F j, Y'),
+                    'value' => $expirationDate->setTimezone(
+                        $this->loggedInUser->user()->timezone(),
+                    )->format('F j, Y'),
                 ];
 
                 $actionButtons[] = [
@@ -198,38 +204,36 @@ class AccountLicensesDetailAction
         }
 
         /** @noinspection PhpUnhandledExceptionInspection */
-        $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@app/Http/Response/Account/AccountKeyValuePage.twig',
-                context: [
-                    'meta' => new Meta(
-                        metaTitle: 'Viewing License | Licenses | Account',
-                    ),
-                    'accountMenu' => $accountMenu,
-                    'breadcrumbSingle' => [
+        $response->getBody()->write($this->twig->render(
+            '@app/Http/Response/Account/AccountKeyValuePage.twig',
+            [
+                'meta' => new Meta(
+                    metaTitle: 'Viewing License | Licenses | Account',
+                ),
+                'accountMenu' => $accountMenu,
+                'breadcrumbSingle' => [
+                    'content' => 'Licenses',
+                    'uri' => '/account/licenses',
+                ],
+                'breadcrumbTrail' => [
+                    [
+                        'content' => 'Account',
+                        'uri' => '/account',
+                    ],
+                    [
                         'content' => 'Licenses',
                         'uri' => '/account/licenses',
                     ],
-                    'breadcrumbTrail' => [
-                        [
-                            'content' => 'Account',
-                            'uri' => '/account',
-                        ],
-                        [
-                            'content' => 'Licenses',
-                            'uri' => '/account/licenses',
-                        ],
-                        ['content' => 'View'],
-                    ],
-                    'keyValueCard' => [
-                        'headline' => 'License for: ' . $software->name(),
-                        'subHeadline' => $keyValueSubHeadline,
-                        'actionButtons' => $actionButtons,
-                        'items' => $keyValueItems,
-                    ],
+                    ['content' => 'View'],
                 ],
-            ),
-        );
+                'keyValueCard' => [
+                    'headline' => 'License for: ' . $software->name(),
+                    'subHeadline' => $keyValueSubHeadline,
+                    'actionButtons' => $actionButtons,
+                    'items' => $keyValueItems,
+                ],
+            ],
+        ));
 
         return $response;
     }
