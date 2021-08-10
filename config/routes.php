@@ -43,6 +43,7 @@ use App\Http\Response\Admin\Users\Edit\EditUserAction;
 use App\Http\Response\Admin\Users\Edit\PostEditUserAction;
 use App\Http\Response\Admin\Users\UsersAction;
 use App\Http\Response\Admin\Users\View\ViewUserProfileAction;
+use App\Http\Response\Admin\Users\View\ViewUserPurchaseDetailAction;
 use App\Http\Response\Admin\Users\View\ViewUserPurchasesAction;
 use App\Http\Response\Ajax\FileUpload\FileUploadAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
@@ -168,6 +169,7 @@ return static function (App $app): void {
         $r->post(pattern: '/users/{emailAddress}/edit', callable: PostEditUserAction::class);
         $r->any(pattern: '/users/{emailAddress}/delete', callable: DeleteUserAction::class);
         $r->get(pattern: '/users/{emailAddress}/purchases', callable: ViewUserPurchasesAction::class);
+        $r->get(pattern: '/users/{emailAddress}/purchases/{orderId}', callable: ViewUserPurchaseDetailAction::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 

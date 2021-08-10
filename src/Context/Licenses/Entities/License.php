@@ -158,6 +158,20 @@ class License
 
     private bool $isInitialized = false;
 
+    public function adminLink(): string
+    {
+        return '/' . implode(
+            '/',
+            [
+                'admin',
+                'users',
+                $this->userGuarantee()->emailAddress(),
+                'licenses',
+                $this->licenseKey(),
+            ],
+        );
+    }
+
     public function accountLink(): string
     {
         return '/' . implode(
