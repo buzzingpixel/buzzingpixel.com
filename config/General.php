@@ -51,6 +51,7 @@ class General extends SimpleModel
         /** @phpstan-ignore-next-line */
         static::$stripeSecretKey = (string) getenv('STRIPE_SECRET_KEY');
 
+        /** @phpstan-ignore-next-line */
         static::$stripeCheckoutSessionCompletedSigningSecret = (string) getenv(
             'STRIPE_CHECKOUT_SESSION_COMPLETED_SIGNING_SECRET',
         );
@@ -151,6 +152,16 @@ class General extends SimpleModel
         'orders' => [
             'href' => '/admin/orders',
             'content' => 'Orders',
+            'isActive' => false,
+        ],
+        'licenseSearch' => [
+            'href' => '/admin/license-search',
+            'content' => 'License Search',
+            'isActive' => false,
+        ],
+        'addNewLicense' => [
+            'href' => '/admin/new-license',
+            'content' => 'New License',
             'isActive' => false,
         ],
         'queue' => [
