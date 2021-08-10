@@ -78,7 +78,7 @@ class ViewUserProfileAction
                         'content' => 'Users',
                         'uri' => '/admin/users',
                     ],
-                    ['content' => 'View'],
+                    ['content' => 'Profile'],
                 ],
                 'keyValueCard' => [
                     'actionButtons' => [

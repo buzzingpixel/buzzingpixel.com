@@ -51,7 +51,7 @@ class AccountLicensesAction
             name: '@app/Http/Response/Account/Licenses/AccountLicenses.twig',
             context: [
                 'meta' => new Meta(
-                    metaTitle: 'Licenses',
+                    metaTitle: 'Licenses | Account',
                 ),
                 'accountMenu' => $accountMenu,
                 'headline' => 'Licenses',

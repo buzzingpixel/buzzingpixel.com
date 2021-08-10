@@ -45,7 +45,7 @@ class AccountPurchasesAction
                 name: '@app/Http/Response/Account/Purchases/AccountPurchases.twig',
                 context: [
                     'meta' => new Meta(
-                        metaTitle: 'Purchases',
+                        metaTitle: 'Purchases | Account',
                     ),
                     'accountMenu' => $accountMenu,
                     'headline' => 'Purchases',

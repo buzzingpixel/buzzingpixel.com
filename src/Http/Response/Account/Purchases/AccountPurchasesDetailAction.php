@@ -55,7 +55,7 @@ class AccountPurchasesDetailAction
                 name: '@app/Http/Response/Account/AccountKeyValuePage.twig',
                 context: [
                     'meta' => new Meta(
-                        metaTitle: 'Viewing Order | Account | Admin',
+                    metaTitle: 'Viewing Order | Purchases | Account',
                     ),
                     'accountMenu' => $accountMenu,
                     'breadcrumbSingle' => [

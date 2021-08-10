@@ -66,8 +66,8 @@ class ViewUserPurchasesAction
                     activeTab: 'purchases',
                 ),
                 'breadcrumbSingle' => [
-                    'content' => 'Users',
-                    'uri' => '/admin/users',
+                    'content' => 'Profile',
+                    'uri' => '/admin/users/' . $user->emailAddress(),
                 ],
                 'breadcrumbTrail' => [
                     [
@@ -78,13 +78,17 @@ class ViewUserPurchasesAction
                         'content' => 'Users',
                         'uri' => '/admin/users',
                     ],
-                    ['content' => 'View'],
+                    [
+                        'content' => 'Profile',
+                        'uri' => '/admin/users/' . $user->emailAddress(),
+                    ],
+                    ['content' => 'Purchases'],
                 ],
                 'stackedListTwoColumnConfig' => [
                     'headline' => 'Purchases by ' . $user->emailAddress(),
                     'noResultsContent' => 'There are no orders from this user yet.',
                     'items' => $this->orderApi->fetchOrders(
-                        (new OrderQueryBuilder())
+                        queryBuilder: (new OrderQueryBuilder())
                             ->withUserId($user->id())
                             ->withOrderBy('orderDate', 'desc'),
                     )->mapToArray(

@@ -42,7 +42,7 @@ class AccountProfileAction
                 name: '@app/Http/Response/Account/Profile/AccountProfile.twig',
                 context: [
                     'meta' => new Meta(
-                        metaTitle: 'Profile',
+                        metaTitle: 'Profile | Account',
                     ),
                     'accountMenu' => $accountMenu,
                     'headline' => 'Profile',

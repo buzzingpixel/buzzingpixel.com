@@ -203,7 +203,7 @@ class AccountLicensesDetailAction
                 name: '@app/Http/Response/Account/AccountKeyValuePage.twig',
                 context: [
                     'meta' => new Meta(
-                        metaTitle: 'Viewing License | Account | Admin',
+                        metaTitle: 'Viewing License | Licenses | Account',
                     ),
                     'accountMenu' => $accountMenu,
                     'breadcrumbSingle' => [
