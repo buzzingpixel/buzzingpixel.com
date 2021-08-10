@@ -1,5 +1,6 @@
 {# @var string headline #}
 {# @var \App\Context\Orders\Entities\OrderCollection orders #}
+{# @var \App\Context\Users\Entities\LoggedInUser LoggedInUser #}
 
 {% extends '@app/Http/Response/Account/_AccountLayout.twig' %}
 
@@ -55,7 +56,9 @@
                                                     <div>
                                                         <p class="text-sm font-medium text-deep-sea truncate">{{ orderItem.id() }}</p>
                                                         <p class="mt-2 flex items-center text-sm text-gray-500">
-                                                            <span class="truncate">{{ orderItem.orderDate.format('F j, Y') }}</span>
+                                                            <span class="truncate">
+                                                                {{ orderItem.orderDate.setTimezone(LoggedInUser.user.timezone).format('F jS, Y, g:i a') }}
+                                                            </span>
                                                         </p>
                                                     </div>
                                                     <div class="hidden md:block">
