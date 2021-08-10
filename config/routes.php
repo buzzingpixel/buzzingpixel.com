@@ -42,6 +42,7 @@ use App\Http\Response\Admin\Users\Delete\DeleteUserAction;
 use App\Http\Response\Admin\Users\Edit\EditUserAction;
 use App\Http\Response\Admin\Users\Edit\PostEditUserAction;
 use App\Http\Response\Admin\Users\UsersAction;
+use App\Http\Response\Admin\Users\View\ViewUserLicensesAction;
 use App\Http\Response\Admin\Users\View\ViewUserProfileAction;
 use App\Http\Response\Admin\Users\View\ViewUserPurchaseDetailAction;
 use App\Http\Response\Admin\Users\View\ViewUserPurchasesAction;
@@ -170,6 +171,7 @@ return static function (App $app): void {
         $r->any(pattern: '/users/{emailAddress}/delete', callable: DeleteUserAction::class);
         $r->get(pattern: '/users/{emailAddress}/purchases', callable: ViewUserPurchasesAction::class);
         $r->get(pattern: '/users/{emailAddress}/purchases/{orderId}', callable: ViewUserPurchaseDetailAction::class);
+        $r->get(pattern: '/users/{emailAddress}/licenses', callable: ViewUserLicensesAction::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 
