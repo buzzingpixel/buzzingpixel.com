@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\EntityPropertyTraits;
 
+use function count;
+
 trait AuthorizedDomains
 {
     /** @var string[] */
@@ -55,5 +57,24 @@ trait AuthorizedDomains
         $clone->authorizedDomains = $domains;
 
         return $clone;
+    }
+
+    public function hasReachedMaxDomains(): bool
+    {
+        $domains = $this->authorizedDomains();
+
+        return count($domains) >= self::MAX_AUTHORIZED_DOMAINS;
+    }
+
+    public function hasNotReachedMaxDomains(): bool
+    {
+        return ! $this->hasReachedMaxDomains();
+    }
+
+    public function hasExceededMaxDomains(): bool
+    {
+        $domains = $this->authorizedDomains();
+
+        return count($domains) > self::MAX_AUTHORIZED_DOMAINS;
     }
 }

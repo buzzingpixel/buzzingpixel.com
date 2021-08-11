@@ -37,6 +37,7 @@ use function implode;
 
 class License
 {
+    public const MAX_AUTHORIZED_DOMAINS           = 4;
     public const STRIPE_STATUS_ACTIVE             = 'active';
     public const STRIPE_STATUS_PAST_DUE           = 'past_due';
     public const STRIPE_STATUS_UNPAID             = 'unpaid';
