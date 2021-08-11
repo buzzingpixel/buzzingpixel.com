@@ -8,6 +8,7 @@ use App\Context\Orders\Entities\Order;
 use App\Context\Orders\Entities\OrderCollection;
 use App\Context\Orders\Services\FetchOneOrder;
 use App\Context\Orders\Services\FetchOrders;
+use App\Context\Orders\Services\FetchTotalOrders;
 use App\Context\Orders\Services\SaveOrder;
 use App\Payload\Payload;
 use App\Persistence\QueryBuilders\Orders\OrderQueryBuilder;
@@ -18,6 +19,7 @@ class OrderApi
         private SaveOrder $saveOrder,
         private FetchOrders $fetchOrders,
         private FetchOneOrder $fetchOneOrder,
+        private FetchTotalOrders $fetchTotalOrders,
     ) {
     }
 
@@ -25,6 +27,13 @@ class OrderApi
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         return $this->saveOrder->save($order);
+    }
+
+    public function fetchTotalOrders(
+        ?OrderQueryBuilder $queryBuilder = null
+    ): int {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        return $this->fetchTotalOrders->fetch($queryBuilder);
     }
 
     /** @phpstan-ignore-next-line */

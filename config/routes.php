@@ -23,6 +23,7 @@ use App\Http\Response\Account\Profile\PostAccountProfileAction;
 use App\Http\Response\Account\Purchases\AccountPurchasesAction;
 use App\Http\Response\Account\Purchases\AccountPurchasesDetailAction;
 use App\Http\Response\Admin\AdminIndexAction;
+use App\Http\Response\Admin\Orders\PaginatedIndex\PaginatedOrdersAction;
 use App\Http\Response\Admin\Software\AdminSoftwareAction;
 use App\Http\Response\Admin\Software\Create\AdminSoftwareCreateAction;
 use App\Http\Response\Admin\Software\Create\PostAdminSoftwareCreateAction;
@@ -192,6 +193,9 @@ return static function (App $app): void {
         $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/delete-authorized-domain/{domainName}', callable: UserLicenseDeleteAuthorizedDomainAction::class);
         $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/edit-admin-notes', callable: UserLicenseEditAdminNotesAction::class);
         $r->post(pattern: '/users/{emailAddress}/licenses/{licenseKey}/edit-admin-notes', callable: PostUserLicenseEditAdminNotesAction::class);
+
+        /** Orders */
+        $r->get('/orders', PaginatedOrdersAction::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 

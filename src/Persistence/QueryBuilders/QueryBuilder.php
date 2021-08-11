@@ -16,6 +16,9 @@ abstract class QueryBuilder implements IQueryBuilder
     /** @var SearchField[] */
     private array $search = [];
 
+    /** @var SearchField[] */
+    private array $orSearch = [];
+
     /**
      * @return $this
      */
@@ -31,6 +34,51 @@ abstract class QueryBuilder implements IQueryBuilder
         );
 
         return $clone;
+    }
+
+    /**
+     * @return $this
+     */
+    public function withSearchFieldIfValue(
+        string $property,
+        string $value,
+    ): self {
+        if ($value === '') {
+            return clone $this;
+        }
+
+        return $this->withSearchField($property, $value);
+    }
+
+    /**
+     * @return $this
+     */
+    public function withOrSearchField(
+        string $property,
+        string $value,
+    ): self {
+        $clone = clone $this;
+
+        $clone->orSearch[] = new SearchField(
+            $property,
+            $value,
+        );
+
+        return $clone;
+    }
+
+    /**
+     * @return $this
+     */
+    public function withOrSearchFieldIfValue(
+        string $property,
+        string $value,
+    ): self {
+        if ($value === '') {
+            return clone $this;
+        }
+
+        return $this->withOrSearchField($property, $value);
     }
 
     /** @var WhereClause[] */
@@ -158,6 +206,22 @@ abstract class QueryBuilder implements IQueryBuilder
             $paramKey = $searchField->property() . $paramNum;
 
             $queryBuilder->andWhere(
+                $queryBuilder->expr()->like(
+                    $a . '.' . $searchField->property(),
+                    ':' . $paramKey,
+                ),
+            );
+
+            $queryBuilder->setParameter(
+                $paramKey,
+                '%' . $searchField->value() . '%',
+            );
+        }
+
+        foreach ($this->orSearch as $searchField) {
+            $paramKey = $searchField->property() . $paramNum;
+
+            $queryBuilder->orWhere(
                 $queryBuilder->expr()->like(
                     $a . '.' . $searchField->property(),
                     ':' . $paramKey,

@@ -78,7 +78,7 @@ class UsersAction
             ->withCurrentPage($pageNum)
             ->withPerPage(self::LIMIT)
             ->withTotalResults($this->userApi->fetchTotalUsers(
-                $queryBuilder
+                queryBuilder: $queryBuilder,
             ));
 
         if ($pageNum > 1 && $users->count() < 1) {
@@ -114,7 +114,7 @@ class UsersAction
                                 'column2Headline' => 'Billing Name:',
                                 'column2SubHeadline' => $user->billingProfile()->billingName(),
                             ];
-                        }
+                        },
                     ),
                 ],
             ],
