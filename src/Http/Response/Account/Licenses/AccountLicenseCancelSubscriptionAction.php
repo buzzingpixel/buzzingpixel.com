@@ -126,25 +126,9 @@ class AccountLicenseCancelSubscriptionAction
                 'template' => 'Http/_Infrastructure/Display/SimpleTableList.twig',
                 'key' => 'Authorized Domains',
                 'value' => [
-                    'actionLinks' => [
-                        [
-                            'href' => $license->accountAddAuthorizedDomainLink(),
-                            'content' => 'Add Authorized Domain',
-                        ],
-                    ],
                     'items' => array_map(
-                        static function (string $domain) use ($license): array {
-                            return [
-                                'content' => $domain,
-                                'links' => [
-                                    [
-                                        'href' => $license->accountDeleteAuthorizedDomainLink(
-                                            $domain
-                                        ),
-                                        'content' => 'Remove',
-                                    ],
-                                ],
-                            ];
+                        static function (string $domain): array {
+                            return ['content' => $domain];
                         },
                         $license->authorizedDomains(),
                     ),
@@ -155,10 +139,6 @@ class AccountLicenseCancelSubscriptionAction
                 'key' => 'Notes',
                 'value' => [
                     'content' => $this->markdown->parse($license->userNotes()),
-                    'actionLink' => [
-                        'href' => $license->accountEditNotesLink(),
-                        'content' => 'Edit Notes',
-                    ],
                 ],
             ],
         ];
