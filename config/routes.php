@@ -45,6 +45,7 @@ use App\Http\Response\Admin\Users\UsersAction;
 use App\Http\Response\Admin\Users\View\PostUserAddAuthorizedDomainAction;
 use App\Http\Response\Admin\Users\View\UserCancelLicenseSubscriptionAction;
 use App\Http\Response\Admin\Users\View\UserLicenseAddAuthorizedDomainAction;
+use App\Http\Response\Admin\Users\View\UserLicenseDeleteAuthorizedDomainAction;
 use App\Http\Response\Admin\Users\View\UserLicenseDisableAction;
 use App\Http\Response\Admin\Users\View\UserLicenseEnableAction;
 use App\Http\Response\Admin\Users\View\UserResumeLicenseSubscriptionAction;
@@ -186,6 +187,7 @@ return static function (App $app): void {
         $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/resume-subscription', callable: UserResumeLicenseSubscriptionAction::class);
         $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/add-authorized-domain', callable: UserLicenseAddAuthorizedDomainAction::class);
         $r->post(pattern: '/users/{emailAddress}/licenses/{licenseKey}/add-authorized-domain', callable: PostUserAddAuthorizedDomainAction::class);
+        $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/delete-authorized-domain/{domainName}', callable: UserLicenseDeleteAuthorizedDomainAction::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 
