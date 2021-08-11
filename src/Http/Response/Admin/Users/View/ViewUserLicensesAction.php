@@ -126,7 +126,7 @@ class ViewUserLicensesAction
                                     '<br>' .
                                     'License Key: ' . $license->licenseKey(),
                                 'column2Headline' => count($authorizedDomains) > 0 ?
-                                    implode(', ', $authorizedDomains) :
+                                    implode('<br>', $authorizedDomains) :
                                     'No authorized domains configured',
                                 'column2SubHeadline' => $subscriptionSubHeadline,
                             ];

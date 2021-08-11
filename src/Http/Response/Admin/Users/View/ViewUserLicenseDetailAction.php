@@ -105,9 +105,7 @@ class ViewUserLicenseDetailAction
 
         $actionButtons = [];
 
-        if ($license->isNotCanceled()) {
-            assert($renewalDate instanceof DateTimeImmutable);
-
+        if ($license->isNotCanceled() && $renewalDate !== null) {
             $keyValueItems[] = [
                 'key' => 'Renews on',
                 'value' => $renewalDate->setTimezone(
@@ -207,20 +205,26 @@ class ViewUserLicenseDetailAction
             ],
         ];
 
-        $keyValueItems[] = [
-            'key' => 'Stripe Status',
-            'value' => $license->stripeStatus(),
-        ];
+        if ($license->stripeStatus() !== '') {
+            $keyValueItems[] = [
+                'key' => 'Stripe Status',
+                'value' => $license->stripeStatus(),
+            ];
+        }
 
-        $keyValueItems[] = [
-            'key' => 'Stripe Subscription ID',
-            'value' => $license->stripeSubscriptionId(),
-        ];
+        if ($license->stripeSubscriptionId() !== '') {
+            $keyValueItems[] = [
+                'key' => 'Stripe Subscription ID',
+                'value' => $license->stripeSubscriptionId(),
+            ];
+        }
 
-        $keyValueItems[] = [
-            'key' => 'Stripe Subscription Item ID',
-            'value' => $license->stripeSubscriptionItemId(),
-        ];
+        if ($license->stripeSubscriptionItemId() !== '') {
+            $keyValueItems[] = [
+                'key' => 'Stripe Subscription Item ID',
+                'value' => $license->stripeSubscriptionItemId(),
+            ];
+        }
 
         $keyValueItems[] = [
             'template' => 'Http/_Infrastructure/Display/Prose.twig',
