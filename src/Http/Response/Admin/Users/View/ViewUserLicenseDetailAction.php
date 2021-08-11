@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Response\Admin\Users\View;
 
+use App\Context\Licenses\Entities\License;
 use App\Context\Licenses\LicenseApi;
 use App\Context\Software\Entities\Software;
 use App\Context\Users\Entities\LoggedInUser;
@@ -170,16 +171,21 @@ class ViewUserLicenseDetailAction
             }
         }
 
+        $addAuthorizedDomainActionLinks = [];
+
+        if ($license->hasNotReachedMaxDomains()) {
+            $addAuthorizedDomainActionLinks[] = [
+                'href' => $license->adminAddAuthorizedDomainLink(),
+                'content' => 'Add Authorized Domain',
+            ];
+        }
+
         $keyValueItems[] = [
             'template' => 'Http/_Infrastructure/Display/SimpleTableList.twig',
             'key' => 'Authorized Domains',
+            'subKey' => 'max allowed: ' . License::MAX_AUTHORIZED_DOMAINS,
             'value' => [
-                'actionLinks' => [
-                    [
-                        'href' => $license->adminAddAuthorizedDomainLink(),
-                        'content' => 'Add Authorized Domain',
-                    ],
-                ],
+                'actionLinks' => $addAuthorizedDomainActionLinks,
                 'items' => array_map(
                     static function (string $domain) use (
                         $license

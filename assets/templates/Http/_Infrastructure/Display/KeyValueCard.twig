@@ -36,6 +36,11 @@
                         <div class="{% if loop.index is odd %}bg-gray-50{% else%}bg-white{% endif %} px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-sm font-medium text-gray-500">
                                 {{ item.key|smartypants }}
+                                {% if item.subKey is defined and item.subKey %}
+                                    <div class="text-sm text-gray-500 font-light">
+                                        {{ item.subKey|smartypants }}
+                                    </div>
+                                {% endif %}
                             </dt>
                             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 {% if item.template is defined %}

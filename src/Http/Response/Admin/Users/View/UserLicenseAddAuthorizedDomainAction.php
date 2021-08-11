@@ -58,6 +58,11 @@ class UserLicenseAddAuthorizedDomainAction
             throw new HttpNotFoundException($request);
         }
 
+        if ($license->hasReachedMaxDomains()) {
+            /** @noinspection PhpUnhandledExceptionInspection */
+            throw new HttpNotFoundException($request);
+        }
+
         $software = $license->software();
 
         assert($software instanceof Software);

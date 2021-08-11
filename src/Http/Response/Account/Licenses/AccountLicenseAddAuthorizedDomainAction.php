@@ -44,6 +44,11 @@ class AccountLicenseAddAuthorizedDomainAction
             throw new HttpNotFoundException($request);
         }
 
+        if ($license->hasReachedMaxDomains()) {
+            /** @noinspection PhpUnhandledExceptionInspection */
+            throw new HttpNotFoundException($request);
+        }
+
         $response = $this->responseFactory->createResponse();
 
         $accountMenu = $this->config->accountMenu();

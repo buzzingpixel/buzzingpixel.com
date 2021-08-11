@@ -39,6 +39,11 @@ class PostAccountLicensesAddAuthorizedDomainAction
             throw new HttpNotFoundException($request);
         }
 
+        if ($license->hasReachedMaxDomains()) {
+            /** @noinspection PhpUnhandledExceptionInspection */
+            throw new HttpNotFoundException($request);
+        }
+
         $postData = $request->getParsedBody();
 
         assert(is_array($postData));
