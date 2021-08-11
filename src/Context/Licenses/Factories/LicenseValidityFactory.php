@@ -33,6 +33,11 @@ class LicenseValidityFactory
             $validationErrors[] = 'Software must be specified';
         }
 
+        if ($license->hasExceededMaxDomains()) {
+            $validationErrors[] = 'Only ' . License::MAX_AUTHORIZED_DOMAINS .
+                ' authorized domains may be added.';
+        }
+
         if (count($validationErrors) > 0) {
             return new LicenseValidityIsInvalid(
                 validationErrors: $validationErrors,
