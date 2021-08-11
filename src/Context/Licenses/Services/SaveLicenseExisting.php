@@ -8,7 +8,6 @@ use App\Context\Licenses\Contracts\SaveLicense;
 use App\Context\Licenses\Entities\License;
 use App\Context\Licenses\Events\SaveLicenseAfterSave;
 use App\Context\Licenses\Events\SaveLicenseBeforeSave;
-use App\Context\Licenses\Factories\LicenseValidityFactory;
 use App\Payload\Payload;
 use App\Persistence\Entities\Licenses\LicenseRecord;
 use Doctrine\ORM\EntityManager;
@@ -16,7 +15,6 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 
 use function assert;
-use function implode;
 
 class SaveLicenseExisting implements SaveLicense
 {
@@ -24,7 +22,6 @@ class SaveLicenseExisting implements SaveLicense
         private LoggerInterface $logger,
         private EntityManager $entityManager,
         private EventDispatcherInterface $eventDispatcher,
-        private LicenseValidityFactory $licenseValidityFactory,
     ) {
     }
 
@@ -37,30 +34,6 @@ class SaveLicenseExisting implements SaveLicense
         $this->logger->info(
             'Saving existing License record'
         );
-
-        $validity = $this->licenseValidityFactory->createLicenseValidity(
-            license: $license
-        );
-
-        if (! $validity->isValid()) {
-            $this->logger->error(
-                'The License entity is invalid',
-                [
-                    'licenseEntity' => $license,
-                    'licenseValidity' => $validity,
-                ],
-            );
-
-            return new Payload(
-                status: $validity->payloadStatusText(),
-                result: [
-                    'message' => implode(
-                        ' ',
-                        $validity->validationErrors()
-                    ),
-                ],
-            );
-        }
 
         $beforeSave = new SaveLicenseBeforeSave(license: $license);
 

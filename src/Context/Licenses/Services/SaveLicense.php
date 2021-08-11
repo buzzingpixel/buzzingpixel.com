@@ -73,7 +73,10 @@ class SaveLicense
         );
 
         return $this->saveLicenseFactory
-            ->createSaveLicense(licenseRecord: $licenseRecord)
+            ->createSaveLicense(
+                license: $license,
+                licenseRecord: $licenseRecord,
+            )
             ->save(license: $license, licenseRecord: $licenseRecord);
     }
 }
