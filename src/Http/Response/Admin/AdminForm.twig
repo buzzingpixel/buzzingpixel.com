@@ -1,4 +1,5 @@
 {% set headline = headline ?? '' %}
+{% set subHeadline = subHeadline ?? '' %}
 {% set formConfig = formConfig ?? [] %}
 
 {% extends '@app/Http/Response/Account/_AccountLayout.twig' %}
@@ -9,11 +10,18 @@
         tabindex="0"
     >
         <div class="py-6">
-            {% if headline %}
+            {% if headline or subHeadline %}
                 <div class="px-4 sm:px-6 md:px-0 mb-4">
-                    <h1 class="text-2xl font-semibold text-gray-900">
-                        {{ headline|smartypants }}
-                    </h1>
+                    {% if headline %}
+                        <h1 class="text-2xl font-semibold text-gray-900">
+                            {{ headline|smartypants }}
+                        </h1>
+                    {% endif %}
+                    {% if subHeadline %}
+                        <h2 class="text-base font-normal text-gray-500">
+                            {{ subHeadline|smartypants }}
+                        </h2>
+                    {% endif %}
                 </div>
             {% endif %}
             <div class="px-4 sm:px-6 md:px-0">

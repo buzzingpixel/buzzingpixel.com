@@ -43,6 +43,7 @@ use App\Http\Response\Admin\Users\Edit\EditUserAction;
 use App\Http\Response\Admin\Users\Edit\PostEditUserAction;
 use App\Http\Response\Admin\Users\UsersAction;
 use App\Http\Response\Admin\Users\View\UserCancelLicenseSubscriptionAction;
+use App\Http\Response\Admin\Users\View\UserLicenseAddAuthorizedDomainAction;
 use App\Http\Response\Admin\Users\View\UserLicenseDisableAction;
 use App\Http\Response\Admin\Users\View\UserLicenseEnableAction;
 use App\Http\Response\Admin\Users\View\UserResumeLicenseSubscriptionAction;
@@ -182,6 +183,7 @@ return static function (App $app): void {
         $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/enable-license', callable: UserLicenseEnableAction::class);
         $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/cancel-subscription', callable: UserCancelLicenseSubscriptionAction::class);
         $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/resume-subscription', callable: UserResumeLicenseSubscriptionAction::class);
+        $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/add-authorized-domain', callable: UserLicenseAddAuthorizedDomainAction::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 

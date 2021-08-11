@@ -56,53 +56,51 @@ class AccountLicenseAddAuthorizedDomainAction
         assert($software instanceof Software);
 
         /** @noinspection PhpUnhandledExceptionInspection */
-        $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@app/Http/Response/Account/AccountForm.twig',
-                context: [
-                    'meta' => new Meta(
-                        metaTitle: 'Add Authorized Domain | Licenses | Account',
-                    ),
-                    'accountMenu' => $accountMenu,
-                    'headline' => 'Add Authorized Domain',
-                    'subHeadline' => 'to license for ' . $software->name() . ': ' . $license->licenseKey(),
-                    'breadcrumbSingle' => [
+        $response->getBody()->write($this->twig->render(
+            '@app/Http/Response/Account/AccountForm.twig',
+            [
+                'meta' => new Meta(
+                    metaTitle: 'Add Authorized Domain | Licenses | Account',
+                ),
+                'accountMenu' => $accountMenu,
+                'headline' => 'Add Authorized Domain',
+                'subHeadline' => 'to license for ' . $software->name() . ': ' . $license->licenseKey(),
+                'breadcrumbSingle' => [
+                    'content' => 'License',
+                    'uri' => $license->accountLink(),
+                ],
+                'breadcrumbTrail' => [
+                    [
+                        'content' => 'Account',
+                        'uri' => '/account',
+                    ],
+                    [
+                        'content' => 'Licenses',
+                        'uri' => '/account/licenses',
+                    ],
+                    [
                         'content' => 'License',
                         'uri' => $license->accountLink(),
                     ],
-                    'breadcrumbTrail' => [
-                        [
-                            'content' => 'Account',
-                            'uri' => '/account',
-                        ],
-                        [
-                            'content' => 'Licenses',
-                            'uri' => '/account/licenses',
-                        ],
-                        [
-                            'content' => 'License',
-                            'uri' => $license->accountLink(),
-                        ],
 
-                        ['content' => 'Add Authorized Domain'],
-                    ],
-                    'formConfig' => [
-                        'hideTopButtons' => true,
-                        'submitContent' => 'Add Authorized Domain',
-                        'cancelAction' => $license->accountLink(),
-                        'formAction' => $license->accountAddAuthorizedDomainLink(),
-                        'inputs' => [
-                            [
-                                'limitedWidth' => false,
-                                'label' => 'Domain Name',
-                                'subHeading' => 'Omit subdomains (including "www") and http(s)://&nbsp;prefix. Example: "buzzingpixel.com"',
-                                'name' => 'domain_name',
-                            ],
+                    ['content' => 'Add Authorized Domain'],
+                ],
+                'formConfig' => [
+                    'hideTopButtons' => true,
+                    'submitContent' => 'Add Authorized Domain',
+                    'cancelAction' => $license->accountLink(),
+                    'formAction' => $license->accountAddAuthorizedDomainLink(),
+                    'inputs' => [
+                        [
+                            'limitedWidth' => false,
+                            'label' => 'Domain Name',
+                            'subHeading' => 'Omit subdomains (including "www") and http(s)://&nbsp;prefix. Example: "buzzingpixel.com"',
+                            'name' => 'domain_name',
                         ],
                     ],
                 ],
-            ),
-        );
+            ],
+        ));
 
         return $response;
     }
