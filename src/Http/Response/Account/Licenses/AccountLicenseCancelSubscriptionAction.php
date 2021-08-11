@@ -68,7 +68,9 @@ class AccountLicenseCancelSubscriptionAction
 
         $content = 'When you cancel your subscription, you will no longer ' .
             'receive updates or support at the end of the period ending on ' .
-            $renewalDate->format('F j, Y') . '. ';
+            $renewalDate->setTimezone(
+                $this->loggedInUser->user()->timezone(),
+            )->format('F j, Y') . '. ';
 
         $listItems = [];
 
@@ -116,7 +118,9 @@ class AccountLicenseCancelSubscriptionAction
             ],
             [
                 'key' => 'Renews on',
-                'value' => $renewalDate->format('F j, Y'),
+                'value' => $renewalDate->setTimezone(
+                    $this->loggedInUser->user()->timezone(),
+                )->format('F j, Y'),
             ],
             [
                 'template' => 'Http/_Infrastructure/Display/SimpleTableList.twig',

@@ -7,6 +7,7 @@ namespace App\Http\Response\Admin\Users\View;
 use App\Context\Orders\Entities\Order;
 use App\Context\Orders\Entities\OrderItem;
 use App\Context\Orders\OrderApi;
+use App\Context\Users\Entities\LoggedInUser;
 use App\Context\Users\UserApi;
 use App\Http\Entities\Meta;
 use App\Http\Response\Admin\Users\UserConfig;
@@ -28,6 +29,7 @@ class ViewUserPurchasesAction
         private UserApi $userApi,
         private OrderApi $orderApi,
         private TwigEnvironment $twig,
+        private LoggedInUser $loggedInUser,
         private ResponseFactoryInterface $responseFactory,
     ) {
     }
@@ -99,7 +101,9 @@ class ViewUserPurchasesAction
                                 'href' => $order->adminBaseLink(),
                                 'column1Headline' => $order->id(),
                                 'column1SubHeadline' => $date === null ? '' :
-                                    $date->format('F j, Y'),
+                                    $date->setTimezone(
+                                        $this->loggedInUser->user()->timezone(),
+                                    )->format('F j, Y'),
                                 'column2Headline' => $order->totalFormatted(),
                                 'column2SubHeadline' => implode(
                                     ', ',

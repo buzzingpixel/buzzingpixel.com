@@ -80,7 +80,7 @@
                                                                 </p>
                                                                 {% if license.isSubscription and license.isNotCanceled and license.renewalDate is not null %}
                                                                     <p class="mt-2 flex items-center text-sm text-gray-500">
-                                                                        Subscription renews on {{ license.renewalDate.format('F j, Y') }}
+                                                                        Subscription renews on {{ license.renewalDate.setTimezone(LoggedInUser.user.timezone).format('F j, Y') }}
                                                                     </p>
                                                                 {% elseif license.isSubscription %}
                                                                     <p class="mt-2 flex items-center text-sm text-gray-500">

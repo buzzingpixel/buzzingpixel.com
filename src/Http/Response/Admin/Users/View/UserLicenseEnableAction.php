@@ -26,7 +26,7 @@ class UserLicenseEnableAction
         $emailAddress = (string) $request->getAttribute('emailAddress');
 
         $user = $this->userApi->fetchOneUser(
-            (new UserQueryBuilder())
+            queryBuilder: (new UserQueryBuilder())
                 ->withEmailAddress($emailAddress),
         );
 
