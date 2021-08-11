@@ -23,6 +23,7 @@ use App\Http\Response\Account\Profile\PostAccountProfileAction;
 use App\Http\Response\Account\Purchases\AccountPurchasesAction;
 use App\Http\Response\Account\Purchases\AccountPurchasesDetailAction;
 use App\Http\Response\Admin\AdminIndexAction;
+use App\Http\Response\Admin\NewLicense\NewLicenseIndex\NewLicenseAction;
 use App\Http\Response\Admin\Orders\PaginatedIndex\PaginatedOrdersAction;
 use App\Http\Response\Admin\Software\AdminSoftwareAction;
 use App\Http\Response\Admin\Software\Create\AdminSoftwareCreateAction;
@@ -196,6 +197,9 @@ return static function (App $app): void {
 
         /** Orders */
         $r->get('/orders', PaginatedOrdersAction::class);
+
+        /** New License */
+        $r->get('/new-license', NewLicenseAction::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 

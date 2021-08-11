@@ -10,6 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 
 interface PaginatedOrdersResponderContract
 {
+    /** @phpstan-ignore-next-line  */
     public function respond(
         Pagination $pagination,
         OrderCollection $orders,

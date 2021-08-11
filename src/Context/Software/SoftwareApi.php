@@ -13,6 +13,7 @@ use App\Context\Software\Services\DeleteSoftwareVersion;
 use App\Context\Software\Services\FetchOneSoftware;
 use App\Context\Software\Services\FetchOneSoftwareVersion;
 use App\Context\Software\Services\FetchSoftware;
+use App\Context\Software\Services\FetchSoftwareAsOptionsArray;
 use App\Context\Software\Services\FetchSoftwareByStripePriceId;
 use App\Context\Software\Services\FetchSoftwareVersions;
 use App\Context\Software\Services\SaveSoftware;
@@ -25,12 +26,13 @@ class SoftwareApi
     public function __construct(
         private SaveSoftware $saveSoftware,
         private FetchSoftware $fetchSoftware,
+        private DeleteSoftware $deleteSoftware,
         private FetchOneSoftware $fetchOneSoftware,
-        private FetchSoftwareByStripePriceId $fetchSoftwareByStripePriceId,
+        private DeleteSoftwareVersion $deleteSoftwareVersion,
         private FetchSoftwareVersions $fetchSoftwareVersions,
         private FetchOneSoftwareVersion $fetchOneSoftwareVersion,
-        private DeleteSoftware $deleteSoftware,
-        private DeleteSoftwareVersion $deleteSoftwareVersion,
+        private FetchSoftwareAsOptionsArray $fetchSoftwareAsOptionsArray,
+        private FetchSoftwareByStripePriceId $fetchSoftwareByStripePriceId,
     ) {
     }
 
@@ -44,6 +46,17 @@ class SoftwareApi
         SoftwareQueryBuilder $queryBuilder,
     ): SoftwareCollection {
         return $this->fetchSoftware->fetch($queryBuilder);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function fetchSoftwareAsOptionsArray(
+        ?SoftwareQueryBuilder $queryBuilder = null
+    ): array {
+        return $this->fetchSoftwareAsOptionsArray->fetch(
+            queryBuilder: $queryBuilder
+        );
     }
 
     public function fetchOneSoftware(
