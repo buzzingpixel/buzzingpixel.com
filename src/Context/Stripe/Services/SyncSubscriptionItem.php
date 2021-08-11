@@ -7,9 +7,9 @@ namespace App\Context\Stripe\Services;
 use App\Context\Licenses\Entities\License;
 use App\Context\Licenses\Services\SaveLicense;
 use App\Context\Stripe\Contracts\SyncSubscriptionItem as SyncSubscriptionItemContract;
+use App\Utilities\SystemClock;
 use DateTimeImmutable;
 use DateTimeZone;
-use Stripe\Invoice;
 use Stripe\Subscription;
 use Stripe\SubscriptionItem;
 use Throwable;
@@ -22,6 +22,7 @@ class SyncSubscriptionItem implements SyncSubscriptionItemContract
 {
     public function __construct(
         private SaveLicense $saveLicense,
+        private SystemClock $systemClock,
         private StripeFetchInvoices $stripeFetchInvoices,
     ) {
     }
@@ -42,7 +43,10 @@ class SyncSubscriptionItem implements SyncSubscriptionItemContract
             $canceledAtTimeStamp = $subscription->canceled_at;
             $endTimeStamp        = $subscription->current_period_end;
 
-            if ($canceledAtTimeStamp !== null) {
+            if (
+                $canceledAtTimeStamp !== null &&
+                $cancelAtTimeStamp < $canceledAtTimeStamp
+            ) {
                 $canceledAt = (new DateTimeImmutable())
                     ->setTimezone(new DateTimeZone('UTC'))
                     ->setTimestamp($canceledAtTimeStamp);
