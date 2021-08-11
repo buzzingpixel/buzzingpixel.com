@@ -43,6 +43,7 @@ use App\Http\Response\Admin\Users\Edit\EditUserAction;
 use App\Http\Response\Admin\Users\Edit\PostEditUserAction;
 use App\Http\Response\Admin\Users\UsersAction;
 use App\Http\Response\Admin\Users\View\UserLicenseDisableAction;
+use App\Http\Response\Admin\Users\View\UserLicenseEnableAction;
 use App\Http\Response\Admin\Users\View\ViewUserLicenseDetailAction;
 use App\Http\Response\Admin\Users\View\ViewUserLicensesAction;
 use App\Http\Response\Admin\Users\View\ViewUserProfileAction;
@@ -176,6 +177,7 @@ return static function (App $app): void {
         $r->get(pattern: '/users/{emailAddress}/licenses', callable: ViewUserLicensesAction::class);
         $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}', callable: ViewUserLicenseDetailAction::class);
         $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/disable-license', callable: UserLicenseDisableAction::class);
+        $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/enable-license', callable: UserLicenseEnableAction::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 
