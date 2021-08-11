@@ -74,6 +74,7 @@ class UserLicenseAddAuthorizedDomainAction
 
         $response = $this->responseFactory->createResponse();
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         $response->getBody()->write($this->twig->render(
             '@app/Http/Response/Admin/AdminForm.twig',
             [
@@ -110,6 +111,7 @@ class UserLicenseAddAuthorizedDomainAction
                         'content' => 'License',
                         'uri' => $license->adminLink(),
                     ],
+                    ['content' => 'Add Domain'],
                 ],
                 'headline' => 'Add Authorized Domain',
                 'subHeadline' => 'to license for ' . $software->name() . ': ' . $license->licenseKey(),

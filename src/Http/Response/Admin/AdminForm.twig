@@ -5,6 +5,9 @@
 {% extends '@app/Http/Response/Account/_AccountLayout.twig' %}
 
 {% block accountContent %}
+    {% include 'Http/_Infrastructure/Tabs/TabsWithUnderline.twig' with {
+        tabs: tabs ?? [],
+    } only %}
     <div
         class="flex-1 relative focus:outline-none"
         tabindex="0"
