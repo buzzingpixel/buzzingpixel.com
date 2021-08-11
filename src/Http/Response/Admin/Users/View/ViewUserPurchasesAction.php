@@ -94,7 +94,7 @@ class ViewUserPurchasesAction
                             ->withUserId($user->id())
                             ->withOrderBy('orderDate', 'desc'),
                     )->mapToArray(
-                        static function (Order $order): array {
+                        function (Order $order): array {
                             $date = $order->orderDate();
 
                             return [
