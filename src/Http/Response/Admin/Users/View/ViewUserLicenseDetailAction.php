@@ -87,7 +87,7 @@ class ViewUserLicenseDetailAction
             ],
             [
                 'key' => 'Enabled?',
-                'value' => $license->isDisabled() ? 'Yes' : 'No',
+                'value' => $license->isNotDisabled() ? 'Yes' : 'No',
             ],
         ];
 
@@ -105,6 +105,8 @@ class ViewUserLicenseDetailAction
         $actionButtons = [];
 
         if ($license->isNotCanceled()) {
+            assert($renewalDate instanceof DateTimeImmutable);
+
             $keyValueItems[] = [
                 'key' => 'Renews on',
                 'value' => $renewalDate->setTimezone(
