@@ -154,11 +154,6 @@ class General extends SimpleModel
             'content' => 'Orders',
             'isActive' => false,
         ],
-        'licenseSearch' => [
-            'href' => '/admin/license-search',
-            'content' => 'License Search',
-            'isActive' => false,
-        ],
         'addNewLicense' => [
             'href' => '/admin/new-license',
             'content' => 'New License',
