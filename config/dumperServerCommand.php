@@ -16,6 +16,7 @@ use Symfony\Component\VarDumper\Server\DumpServer;
 /**
  * @noinspection PhpUndefinedVariableInspection
  * @psalm-suppress UndefinedGlobalVariable
+ * @psalm-suppress RedundantCondition
  * @phpstan-ignore-next-line
  */
 assert($app instanceof Application);

@@ -92,10 +92,12 @@ class ViewUserLicenseDetailAction
             ],
         ];
 
-        if ($license->stripeCanceledAt() !== null) {
+        $stripeCanceledAt = $license->stripeCanceledAt();
+
+        if ($stripeCanceledAt !== null) {
             $keyValueItems[] = [
                 'key' => 'Stripe Canceled At',
-                'value' => $license->stripeCanceledAt()->setTimezone(
+                'value' => $stripeCanceledAt->setTimezone(
                     $this->loggedInUser->user()->timezone(),
                 )->format('F jS, Y, g:i a'),
             ];

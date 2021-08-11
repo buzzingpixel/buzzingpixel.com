@@ -105,9 +105,15 @@ class ViewUserLicensesAction
 
                             $subscriptionSubHeadline = '';
 
-                            if ($license->isSubscription() && $license->isNotCanceled() && $license->renewalDate() !== null) {
+                            $renewalDate = $license->renewalDate();
+
+                            if (
+                                $license->isSubscription() &&
+                                $license->isNotCanceled() &&
+                                $renewalDate !== null
+                            ) {
                                 $subscriptionSubHeadline = 'Subscription renews on ' .
-                                    $license->renewalDate()->setTimezone(
+                                    $renewalDate->setTimezone(
                                         $this->loggedInUser->user()->timezone()
                                     )->format('F j, Y');
                             } elseif ($license->isSubscription()) {
