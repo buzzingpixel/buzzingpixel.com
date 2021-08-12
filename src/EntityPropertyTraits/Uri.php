@@ -20,7 +20,7 @@ trait Uri
     {
         $clone = clone $this;
 
-        $clone->uri = $slug;
+        $clone->uri = $uri;
 
         return $clone;
     }

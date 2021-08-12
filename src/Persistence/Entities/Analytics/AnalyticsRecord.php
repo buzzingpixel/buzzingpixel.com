@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Persistence\Entities\Analytics;
 
+use App\Context\Analytics\Entities\AnalyticsEntity;
 use App\Persistence\Entities\Users\UserRecord;
 use App\Persistence\PropertyTraits\CookieId;
 use App\Persistence\PropertyTraits\Date;
 use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\LoggedInOnPageLoad;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @Mapping\Entity
@@ -42,5 +45,28 @@ class AnalyticsRecord
     public function setUser(?UserRecord $user = null): void
     {
         $this->user = $user;
+    }
+
+    public function hydrateFromEntity(
+        AnalyticsEntity $entity,
+        EntityManager $entityManager,
+    ): self {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $userRecord = $entityManager->find(
+            UserRecord::class,
+            $entity->userGuarantee()->id(),
+        );
+
+        $this->setId(id: Uuid::fromString($entity->id()));
+        $this->setCookieId(cookieId: Uuid::fromString(
+            $entity->cookie()->value()
+        ));
+        $this->setLoggedInOnPageLoad(
+            loggedInOnPageLoad: $entity->loggedInOnPageLoad()
+        );
+        $this->setDate(date: $entity->date());
+        $this->setUser($userRecord);
+
+        return $this;
     }
 }
