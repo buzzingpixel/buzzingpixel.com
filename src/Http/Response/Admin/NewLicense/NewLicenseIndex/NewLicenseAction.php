@@ -70,7 +70,7 @@ class NewLicenseAction
                         [
                             'template' => 'Select',
                             'label' => 'Software',
-                            'name' => 'software',
+                            'name' => 'software_slug',
                             'options' => $this->softwareApi
                                 ->fetchSoftwareAsOptionsArray(),
                         ],
