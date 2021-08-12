@@ -2,28 +2,35 @@
 {% set headline = headline ?? block('headline') ?? '' %}
 {% set subHeadline = subHeadline ?? block('subHeadline') ?? '' %}
 {% set items = items ?? [] %}
+{% set noVerticalMargin = noVerticalMargin ?? false %}
 
-<div class="bg-white shadow overflow-hidden sm:rounded-lg my-10">
-    <div class="px-4 py-5 sm:px-6">
-        {% if actionButtons|length > 0 %}
-            <div class="float-right">
-                {% for button in actionButtons %}
-                    {% include 'Http/_Infrastructure/Buttons/ActionButton.twig' with button only %}
-                {% endfor %}
-            </div>
-        {% endif %}
-        <h3 class="text-lg leading-6 font-medium text-gray-900">
-            {{ headline|smartypants }}
-        </h3>
-        {% if subHeadline %}
-            <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                {{ subHeadline|smartypants }}
-            </p>
-        {% elseif actionButtons|length > 0 %}
-            <p class="mt-1 max-w-2xl text-sm text-gray-500">&nbsp;</p>
-        {% endif %}
-    </div>
-    <div class="border-t border-gray-200">
+{% set hasHeading = actionButtons|length > 0 or headline or subHeadline %}
+
+<div class="bg-white shadow overflow-hidden sm:rounded-lg{% if not noVerticalMargin %} my-10{% endif %}">
+    {% if hasHeading %}
+        <div class="px-4 py-5 sm:px-6">
+            {% if actionButtons|length > 0 %}
+                <div class="float-right">
+                    {% for button in actionButtons %}
+                        {% include 'Http/_Infrastructure/Buttons/ActionButton.twig' with button only %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if headline %}
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    {{ headline|smartypants }}
+                </h3>
+            {% endif %}
+            {% if subHeadline %}
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                    {{ subHeadline|smartypants }}
+                </p>
+            {% elseif actionButtons|length > 0 %}
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">&nbsp;</p>
+            {% endif %}
+        </div>
+    {% endif %}
+    <div class="{% if hasHeading %}border-t {% endif %}border-gray-200">
         <dl>
             {% for item in items %}
                 {% set type = item.type ?? null %}

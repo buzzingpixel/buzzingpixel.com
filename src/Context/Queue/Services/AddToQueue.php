@@ -15,6 +15,6 @@ class AddToQueue
 
     public function add(Queue $queue): Payload
     {
-        return $this->saveQueue->save($queue);
+        return $this->saveQueue->save(queue: $queue);
     }
 }

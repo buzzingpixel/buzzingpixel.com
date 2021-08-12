@@ -26,6 +26,7 @@ use App\Http\Response\Admin\AdminIndexAction;
 use App\Http\Response\Admin\NewLicense\NewLicenseIndex\NewLicenseAction;
 use App\Http\Response\Admin\NewLicense\NewLicenseIndex\PostNewLicenseAction;
 use App\Http\Response\Admin\Orders\PaginatedIndex\PaginatedOrdersAction;
+use App\Http\Response\Admin\Queue\QueueIndex\QueueIndexAction;
 use App\Http\Response\Admin\Software\AdminSoftwareAction;
 use App\Http\Response\Admin\Software\Create\AdminSoftwareCreateAction;
 use App\Http\Response\Admin\Software\Create\PostAdminSoftwareCreateAction;
@@ -202,6 +203,9 @@ return static function (App $app): void {
         /** New License */
         $r->get('/new-license', NewLicenseAction::class);
         $r->post('/new-license', PostNewLicenseAction::class);
+
+        /** Queue */
+        $r->get('/queue', QueueIndexAction::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 

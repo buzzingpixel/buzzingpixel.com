@@ -1,4 +1,4 @@
-{# @var array keyValueCard #}
+{# @var array keyValueCards #}
 
 {% extends '@app/Http/Response/Account/_AccountLayout.twig' %}
 
@@ -6,5 +6,7 @@
     {% include 'Http/_Infrastructure/Tabs/TabsWithUnderline.twig' with {
         tabs: tabs ?? [],
     } only %}
-    {% include 'Http/_Infrastructure/Display/KeyValueCard.twig' with keyValueCard only %}
+    {% for keyValueCard in keyValueCards %}
+        {% include 'Http/_Infrastructure/Display/KeyValueCard.twig' with keyValueCard only %}
+    {% endfor %}
 {% endblock %}
