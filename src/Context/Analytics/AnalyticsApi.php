@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace App\Context\Analytics;
 
 use App\Context\Analytics\Entities\AnalyticsEntity;
+use App\Context\Analytics\Services\GetTotalPageViewsSince;
 use App\Context\Analytics\Services\SaveAnalytic;
 use App\Payload\Payload;
+use DateTimeImmutable;
 
 class AnalyticsApi
 {
     public function __construct(
         private SaveAnalytic $saveAnalytic,
+        private GetTotalPageViewsSince $getTotalPageViewsSince,
     ) {
     }
 
@@ -19,5 +22,10 @@ class AnalyticsApi
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         return $this->saveAnalytic->save($analytic);
+    }
+
+    public function getTotalPageViewsSince(?DateTimeImmutable $date = null): int
+    {
+        return $this->getTotalPageViewsSince->get($date);
     }
 }
