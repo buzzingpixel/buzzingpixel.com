@@ -10,6 +10,7 @@ use App\Persistence\PropertyTraits\CookieId;
 use App\Persistence\PropertyTraits\Date;
 use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\LoggedInOnPageLoad;
+use App\Persistence\PropertyTraits\Uri;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping;
 use Ramsey\Uuid\Uuid;
@@ -23,6 +24,7 @@ class AnalyticsRecord
     use Id;
     use CookieId;
     use LoggedInOnPageLoad;
+    use Uri;
     use Date;
 
     /**
@@ -52,10 +54,10 @@ class AnalyticsRecord
         EntityManager $entityManager,
     ): self {
         /** @noinspection PhpUnhandledExceptionInspection */
-        $userRecord = $entityManager->find(
+        $userRecord = $entity->user() !== null ? $entityManager->find(
             UserRecord::class,
             $entity->userGuarantee()->id(),
-        );
+        ) : null;
 
         $this->setId(id: Uuid::fromString($entity->id()));
         $this->setCookieId(cookieId: Uuid::fromString(
@@ -65,7 +67,8 @@ class AnalyticsRecord
             loggedInOnPageLoad: $entity->loggedInOnPageLoad()
         );
         $this->setDate(date: $entity->date());
-        $this->setUser($userRecord);
+        $this->setUri(uri: $entity->uri());
+        $this->setUser(user: $userRecord);
 
         return $this;
     }

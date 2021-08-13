@@ -16,7 +16,7 @@ final class Version20210812144722 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('CREATE TABLE analytics (id UUID NOT NULL, user_id UUID DEFAULT NULL, cookie_id UUID NOT NULL, logged_in_on_page_load BOOLEAN NOT NULL, date TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE analytics (id UUID NOT NULL, user_id UUID DEFAULT NULL, cookie_id UUID NOT NULL, logged_in_on_page_load BOOLEAN NOT NULL, uri VARCHAR(255) NOT NULL, date TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_EAC2E688A76ED395 ON analytics (user_id)');
         $this->addSql('COMMENT ON COLUMN analytics.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN analytics.user_id IS \'(DC2Type:uuid)\'');

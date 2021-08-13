@@ -16,12 +16,12 @@ trait Uri
      */
     protected string $uri = '';
 
-    public function getHandle(): string
+    public function getUri(): string
     {
         return $this->uri;
     }
 
-    public function setHandle(string $uri): void
+    public function setUri(string $uri): void
     {
         $this->uri = $uri;
     }
