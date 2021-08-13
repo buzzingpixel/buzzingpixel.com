@@ -12,7 +12,7 @@ trait Cookie
 
     public function cookie(): CookieInterface
     {
-        return $this->cookie();
+        return $this->cookie;
     }
 
     /**

@@ -61,6 +61,7 @@ use App\Http\Response\Admin\Users\View\ViewUserProfileAction;
 use App\Http\Response\Admin\Users\View\ViewUserPurchaseDetailAction;
 use App\Http\Response\Admin\Users\View\ViewUserPurchasesAction;
 use App\Http\Response\Ajax\FileUpload\FileUploadAction;
+use App\Http\Response\Ajax\PostAnalyticPageView\PostAnalyticPageViewAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
 use App\Http\Response\HealthCheck\HealthCheckAction;
 use App\Http\Response\Home\HomeAction;
@@ -123,33 +124,34 @@ use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
 return static function (App $app): void {
-    $app->get(pattern: '/', callable: HomeAction::class);
+    $app->get('/', HomeAction::class);
 
-    $app->get(pattern: '/healthcheck/8HYhJLtmQA', callable: HealthCheckAction::class);
+    $app->get('/healthcheck/8HYhJLtmQA', HealthCheckAction::class);
 
     /**
      * Tinker
      */
     if ((bool) getenv('DEV_MODE')) {
-        $app->get(pattern: '/tinker', callable: Tinker::class);
+        $app->get('/tinker', Tinker::class);
     }
 
-    $app->get(pattern: '/ajax/user/payload', callable: GetUserPayloadAction::class);
-    $app->post(pattern: '/ajax/file-upload', callable: FileUploadAction::class);
+    $app->get('/ajax/user/payload', GetUserPayloadAction::class);
+    $app->post('/ajax/file-upload', FileUploadAction::class);
+    $app->post('/ajax/analytics/page-view', PostAnalyticPageViewAction::class);
 
-    $app->post(pattern: '/account/log-in', callable: PostLogInAction::class);
-    $app->any(pattern: '/account/log-out', callable: PostLogOutAction::class);
-    $app->get(pattern: '/account/register', callable: RegisterAction::class);
-    $app->post(pattern: '/account/register', callable: PostRegisterAction::class);
-    $app->get(pattern: '/account/iforgot', callable: IForgotAction::class);
-    $app->post(pattern: '/account/iforgot', callable: PostIForgotAction::class);
-    $app->get(pattern: '/reset-pw-with-token/{token}', callable: ResetPwWithTokenAction::class);
-    $app->post(pattern: '/reset-pw-with-token/{token}', callable: PostResetPwWithTokenAction::class);
+    $app->post('/account/log-in', PostLogInAction::class);
+    $app->any('/account/log-out', PostLogOutAction::class);
+    $app->get('/account/register', RegisterAction::class);
+    $app->post('/account/register', PostRegisterAction::class);
+    $app->get('/account/iforgot', IForgotAction::class);
+    $app->post('/account/iforgot', PostIForgotAction::class);
+    $app->get('/reset-pw-with-token/{token}', ResetPwWithTokenAction::class);
+    $app->post('/reset-pw-with-token/{token}', PostResetPwWithTokenAction::class);
 
     /**
      * Admin
      */
-    $app->group(pattern: '/admin', callable: function (RouteCollectorProxy $r): void {
+    $app->group('/admin', function (RouteCollectorProxy $r): void {
         // $this so PHPCS will be happy and not convert to static function.
         /**
          * @phpstan-ignore-next-line
@@ -158,44 +160,44 @@ return static function (App $app): void {
          */
         $this->get(NoOp::class);
 
-        $r->get(pattern: '', callable: AdminIndexAction::class);
+        $r->get('', AdminIndexAction::class);
 
         /** Software */
-        $r->get(pattern: '/software', callable: AdminSoftwareAction::class);
-        $r->get(pattern: '/software/create', callable: AdminSoftwareCreateAction::class);
-        $r->post(pattern: '/software/create', callable: PostAdminSoftwareCreateAction::class);
-        $r->get(pattern: '/software/{slug}', callable: SoftwareViewAction::class);
-        $r->get(pattern: '/software/{slug}/edit', callable: AdminSoftwareEditAction::class);
-        $r->post(pattern: '/software/{slug}/edit', callable: PostAdminSoftwareEditAction::class);
-        $r->any(pattern: '/software/{slug}/delete', callable: DeleteSoftwareAction::class);
-        $r->get(pattern: '/software/{softwareSlug}/add-version', callable: AdminCreateSoftwareVersionAction::class);
-        $r->post(pattern: '/software/{softwareSlug}/add-version', callable: PostAdminCreateSoftwareVersionAction::class);
-        $r->get(pattern: '/software/{softwareSlug}/version/{versionSlug}', callable: SoftwareViewVersionAction::class);
-        $r->get(pattern: '/software/{softwareSlug}/version/{versionSlug}/edit', callable: AdminEditVersionAction::class);
-        $r->post(pattern: '/software/{softwareSlug}/version/{versionSlug}/edit', callable: PostAdminEditVersionAction::class);
-        $r->any(pattern: '/software/{softwareSlug}/version/{versionSlug}/delete', callable: DeleteVersionAction::class);
+        $r->get('/software', AdminSoftwareAction::class);
+        $r->get('/software/create', AdminSoftwareCreateAction::class);
+        $r->post('/software/create', PostAdminSoftwareCreateAction::class);
+        $r->get('/software/{slug}', SoftwareViewAction::class);
+        $r->get('/software/{slug}/edit', AdminSoftwareEditAction::class);
+        $r->post('/software/{slug}/edit', PostAdminSoftwareEditAction::class);
+        $r->any('/software/{slug}/delete', DeleteSoftwareAction::class);
+        $r->get('/software/{softwareSlug}/add-version', AdminCreateSoftwareVersionAction::class);
+        $r->post('/software/{softwareSlug}/add-version', PostAdminCreateSoftwareVersionAction::class);
+        $r->get('/software/{softwareSlug}/version/{versionSlug}', SoftwareViewVersionAction::class);
+        $r->get('/software/{softwareSlug}/version/{versionSlug}/edit', AdminEditVersionAction::class);
+        $r->post('/software/{softwareSlug}/version/{versionSlug}/edit', PostAdminEditVersionAction::class);
+        $r->any('/software/{softwareSlug}/version/{versionSlug}/delete', DeleteVersionAction::class);
 
         /** Users */
-        $r->get(pattern: '/users', callable: UsersAction::class);
-        $r->get(pattern: '/users/create', callable: CreateUserAction::class);
-        $r->post(pattern: '/users/create', callable: PostCreateUserAction::class);
-        $r->get(pattern: '/users/{emailAddress}', callable: ViewUserProfileAction::class);
-        $r->get(pattern: '/users/{emailAddress}/edit', callable: EditUserAction::class);
-        $r->post(pattern: '/users/{emailAddress}/edit', callable: PostEditUserAction::class);
-        $r->any(pattern: '/users/{emailAddress}/delete', callable: DeleteUserAction::class);
-        $r->get(pattern: '/users/{emailAddress}/purchases', callable: ViewUserPurchasesAction::class);
-        $r->get(pattern: '/users/{emailAddress}/purchases/{orderId}', callable: ViewUserPurchaseDetailAction::class);
-        $r->get(pattern: '/users/{emailAddress}/licenses', callable: ViewUserLicensesAction::class);
-        $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}', callable: ViewUserLicenseDetailAction::class);
-        $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/disable-license', callable: UserLicenseDisableAction::class);
-        $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/enable-license', callable: UserLicenseEnableAction::class);
-        $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/cancel-subscription', callable: UserCancelLicenseSubscriptionAction::class);
-        $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/resume-subscription', callable: UserResumeLicenseSubscriptionAction::class);
-        $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/add-authorized-domain', callable: UserLicenseAddAuthorizedDomainAction::class);
-        $r->post(pattern: '/users/{emailAddress}/licenses/{licenseKey}/add-authorized-domain', callable: PostUserAddAuthorizedDomainAction::class);
-        $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/delete-authorized-domain/{domainName}', callable: UserLicenseDeleteAuthorizedDomainAction::class);
-        $r->get(pattern: '/users/{emailAddress}/licenses/{licenseKey}/edit-admin-notes', callable: UserLicenseEditAdminNotesAction::class);
-        $r->post(pattern: '/users/{emailAddress}/licenses/{licenseKey}/edit-admin-notes', callable: PostUserLicenseEditAdminNotesAction::class);
+        $r->get('/users', UsersAction::class);
+        $r->get('/users/create', CreateUserAction::class);
+        $r->post('/users/create', PostCreateUserAction::class);
+        $r->get('/users/{emailAddress}', ViewUserProfileAction::class);
+        $r->get('/users/{emailAddress}/edit', EditUserAction::class);
+        $r->post('/users/{emailAddress}/edit', PostEditUserAction::class);
+        $r->any('/users/{emailAddress}/delete', DeleteUserAction::class);
+        $r->get('/users/{emailAddress}/purchases', ViewUserPurchasesAction::class);
+        $r->get('/users/{emailAddress}/purchases/{orderId}', ViewUserPurchaseDetailAction::class);
+        $r->get('/users/{emailAddress}/licenses', ViewUserLicensesAction::class);
+        $r->get('/users/{emailAddress}/licenses/{licenseKey}', ViewUserLicenseDetailAction::class);
+        $r->get('/users/{emailAddress}/licenses/{licenseKey}/disable-license', UserLicenseDisableAction::class);
+        $r->get('/users/{emailAddress}/licenses/{licenseKey}/enable-license', UserLicenseEnableAction::class);
+        $r->get('/users/{emailAddress}/licenses/{licenseKey}/cancel-subscription', UserCancelLicenseSubscriptionAction::class);
+        $r->get('/users/{emailAddress}/licenses/{licenseKey}/resume-subscription', UserResumeLicenseSubscriptionAction::class);
+        $r->get('/users/{emailAddress}/licenses/{licenseKey}/add-authorized-domain', UserLicenseAddAuthorizedDomainAction::class);
+        $r->post('/users/{emailAddress}/licenses/{licenseKey}/add-authorized-domain', PostUserAddAuthorizedDomainAction::class);
+        $r->get('/users/{emailAddress}/licenses/{licenseKey}/delete-authorized-domain/{domainName}', UserLicenseDeleteAuthorizedDomainAction::class);
+        $r->get('/users/{emailAddress}/licenses/{licenseKey}/edit-admin-notes', UserLicenseEditAdminNotesAction::class);
+        $r->post('/users/{emailAddress}/licenses/{licenseKey}/edit-admin-notes', PostUserLicenseEditAdminNotesAction::class);
 
         /** Orders */
         $r->get('/orders', PaginatedOrdersAction::class);
@@ -212,7 +214,7 @@ return static function (App $app): void {
     /**
      * Account
      */
-    $app->group(pattern: '/account', callable: function (RouteCollectorProxy $r): void {
+    $app->group('/account', function (RouteCollectorProxy $r): void {
         // $this so PHPCS will be happy and not convert to static function.
         /**
          * @phpstan-ignore-next-line
@@ -221,118 +223,118 @@ return static function (App $app): void {
          */
         $this->get(NoOp::class);
 
-        $r->get(pattern: '', callable: AccountIndexAction::class);
+        $r->get('', AccountIndexAction::class);
 
-        $r->get(pattern: '/post-checkout', callable: PostCheckoutAction::class);
+        $r->get('/post-checkout', PostCheckoutAction::class);
 
-        $r->get(pattern: '/licenses', callable: AccountLicensesAction::class);
-        $r->get(pattern: '/licenses/{licenseKey}', callable: AccountLicensesDetailAction::class);
-        $r->get(pattern: '/licenses/{licenseKey}/add-authorized-domain', callable: AccountLicenseAddAuthorizedDomainAction::class);
-        $r->post(pattern: '/licenses/{licenseKey}/add-authorized-domain', callable: PostAccountLicensesAddAuthorizedDomainAction::class);
-        $r->get(pattern: '/licenses/{licenseKey}/delete-authorized-domain/{domainName}', callable: AccountLicenseDeleteAuthorizedDomainAction::class);
-        $r->get(pattern: '/licenses/{licenseKey}/edit-notes', callable: AccountLicenseEditNotesAction::class);
-        $r->post(pattern: '/licenses/{licenseKey}/edit-notes', callable: PostAccountLicenseEditNotesAction::class);
-        $r->get(pattern: '/licenses/{licenseKey}/cancel-subscription', callable: AccountLicenseCancelSubscriptionAction::class);
-        $r->post(pattern: '/licenses/{licenseKey}/cancel-subscription', callable: PostAccountLicenseCancelSubscriptionAction::class);
-        $r->get(pattern: '/licenses/{licenseKey}/resume-subscription', callable: AccountLicenseResumeSubscriptionAction::class);
-        $r->get(pattern: '/licenses/{licenseKey}/start-new-subscription', callable: AccountLicenseStartNewSubscriptionAction::class);
+        $r->get('/licenses', AccountLicensesAction::class);
+        $r->get('/licenses/{licenseKey}', AccountLicensesDetailAction::class);
+        $r->get('/licenses/{licenseKey}/add-authorized-domain', AccountLicenseAddAuthorizedDomainAction::class);
+        $r->post('/licenses/{licenseKey}/add-authorized-domain', PostAccountLicensesAddAuthorizedDomainAction::class);
+        $r->get('/licenses/{licenseKey}/delete-authorized-domain/{domainName}', AccountLicenseDeleteAuthorizedDomainAction::class);
+        $r->get('/licenses/{licenseKey}/edit-notes', AccountLicenseEditNotesAction::class);
+        $r->post('/licenses/{licenseKey}/edit-notes', PostAccountLicenseEditNotesAction::class);
+        $r->get('/licenses/{licenseKey}/cancel-subscription', AccountLicenseCancelSubscriptionAction::class);
+        $r->post('/licenses/{licenseKey}/cancel-subscription', PostAccountLicenseCancelSubscriptionAction::class);
+        $r->get('/licenses/{licenseKey}/resume-subscription', AccountLicenseResumeSubscriptionAction::class);
+        $r->get('/licenses/{licenseKey}/start-new-subscription', AccountLicenseStartNewSubscriptionAction::class);
 
-        $r->get(pattern: '/purchases', callable: AccountPurchasesAction::class);
-        $r->get(pattern: '/purchases/{orderId}', callable: AccountPurchasesDetailAction::class);
+        $r->get('/purchases', AccountPurchasesAction::class);
+        $r->get('/purchases/{orderId}', AccountPurchasesDetailAction::class);
 
-        $r->get(pattern: '/profile', callable: AccountProfileAction::class);
-        $r->post(pattern: '/profile', callable: PostAccountProfileAction::class);
+        $r->get('/profile', AccountProfileAction::class);
+        $r->post('/profile', PostAccountProfileAction::class);
 
-        $r->get(pattern: '/change-password', callable: ChangePasswordAction::class);
-        $r->post(pattern: '/change-password', callable: PostChangePasswordAction::class);
+        $r->get('/change-password', ChangePasswordAction::class);
+        $r->post('/change-password', PostChangePasswordAction::class);
 
-        $r->get(pattern: '/billing-portal', callable: BillingPortalAction::class);
+        $r->get('/billing-portal', BillingPortalAction::class);
     })->add(RequireLogInAction::class);
 
     /**
      * Software
      */
-    $app->get(pattern: '/software', callable: SoftwareAction::class);
-    $app->get(pattern: '/software/{softwareSlug}/purchase', callable: SoftwarePurchaseAction::class)
+    $app->get('/software', SoftwareAction::class);
+    $app->get('/software/{softwareSlug}/purchase', SoftwarePurchaseAction::class)
         ->setArguments(['heading' => 'Log in or create an account to purchase'])
         ->add(RequireLogInAction::class);
 
     /**
      * Ansel for Craft
      */
-    $app->get(pattern: '/software/ansel-craft', callable: AnselCraftAction::class);
-    $app->get(pattern: '/software/ansel-craft/changelog', callable: AnselCraftChangelogAction::class);
-    $app->get(pattern: '/software/ansel-craft/changelog/{slug:[^\/]+}', callable: AnselCraftChangelogItemAction::class);
+    $app->get('/software/ansel-craft', AnselCraftAction::class);
+    $app->get('/software/ansel-craft/changelog', AnselCraftChangelogAction::class);
+    $app->get('/software/ansel-craft/changelog/{slug:[^\/]+}', AnselCraftChangelogItemAction::class);
 
     // Ansel for Craft Current Docs
-    $app->get(pattern: '/software/ansel-craft/documentation', callable: AnselCraftDocIndexAction::class);
-    $app->get(pattern: '/software/ansel-craft/documentation/field-type-settings', callable: AnselCraftDocFieldTypeSettingsAction::class);
-    $app->get(pattern: '/software/ansel-craft/documentation/field-type-use', callable: AnselCraftDocFieldTypeUseAction::class);
-    $app->get(pattern: '/software/ansel-craft/documentation/templating', callable: AnselCraftDocTemplatingAction::class);
+    $app->get('/software/ansel-craft/documentation', AnselCraftDocIndexAction::class);
+    $app->get('/software/ansel-craft/documentation/field-type-settings', AnselCraftDocFieldTypeSettingsAction::class);
+    $app->get('/software/ansel-craft/documentation/field-type-use', AnselCraftDocFieldTypeUseAction::class);
+    $app->get('/software/ansel-craft/documentation/templating', AnselCraftDocTemplatingAction::class);
 
     // Ansel for Craft Legacy V1 Docs
-    $app->get(pattern: '/software/ansel-craft/documentation/v1', callable: AnselCraftV1DocIndexAction::class);
-    $app->get(pattern: '/software/ansel-craft/documentation/v1/field-type-settings', callable: AnselCraftV1DocFieldTypeSettingsAction::class);
-    $app->get(pattern: '/software/ansel-craft/documentation/v1/field-type-use', callable: AnselCraftV1DocFieldTypeUseAction::class);
-    $app->get(pattern: '/software/ansel-craft/documentation/v1/templating', callable: AnselCraftV1DocTemplatingAction::class);
+    $app->get('/software/ansel-craft/documentation/v1', AnselCraftV1DocIndexAction::class);
+    $app->get('/software/ansel-craft/documentation/v1/field-type-settings', AnselCraftV1DocFieldTypeSettingsAction::class);
+    $app->get('/software/ansel-craft/documentation/v1/field-type-use', AnselCraftV1DocFieldTypeUseAction::class);
+    $app->get('/software/ansel-craft/documentation/v1/templating', AnselCraftV1DocTemplatingAction::class);
 
     /**
      * Ansel for ExpressionEngine
      */
-    $app->get(pattern: '/software/ansel-ee', callable: AnselEEAction::class);
-    $app->get(pattern: '/software/ansel-ee/changelog', callable: AnselEEChangelogAction::class);
-    $app->get(pattern: '/software/ansel-ee/changelog/{slug:[^\/]+}', callable: AnselEEChangelogItemAction::class);
+    $app->get('/software/ansel-ee', AnselEEAction::class);
+    $app->get('/software/ansel-ee/changelog', AnselEEChangelogAction::class);
+    $app->get('/software/ansel-ee/changelog/{slug:[^\/]+}', AnselEEChangelogItemAction::class);
 
     // Ansel for EE Current Docs
-    $app->get(pattern: '/software/ansel-ee/documentation', callable: AnselEEV2DocIndexAction::class);
-    $app->get(pattern: '/software/ansel-ee/documentation/field-type-settings', callable: AnselEEV2FieldTypeSettingsAction::class);
-    $app->get(pattern: '/software/ansel-ee/documentation/field-type-use', callable: AnselEEV2FieldTypeUseAction::class);
-    $app->get(pattern: '/software/ansel-ee/documentation/templating', callable: AnselEEV2DocTemplatingAction::class);
+    $app->get('/software/ansel-ee/documentation', AnselEEV2DocIndexAction::class);
+    $app->get('/software/ansel-ee/documentation/field-type-settings', AnselEEV2FieldTypeSettingsAction::class);
+    $app->get('/software/ansel-ee/documentation/field-type-use', AnselEEV2FieldTypeUseAction::class);
+    $app->get('/software/ansel-ee/documentation/templating', AnselEEV2DocTemplatingAction::class);
 
     /**
      * Treasury
      */
-    $app->get(pattern: '/software/treasury', callable: TreasuryAction::class);
-    $app->get(pattern: '/software/treasury/changelog', callable: TreasuryChangelogAction::class);
-    $app->get(pattern: '/software/treasury/changelog/{slug:[^\/]+}', callable: TreasuryChangelogItemAction::class);
+    $app->get('/software/treasury', TreasuryAction::class);
+    $app->get('/software/treasury/changelog', TreasuryChangelogAction::class);
+    $app->get('/software/treasury/changelog/{slug:[^\/]+}', TreasuryChangelogItemAction::class);
 
     // Treasury docs
-    $app->get(pattern: '/software/treasury/documentation', callable: TreasuryV1DocIndexAction::class);
-    $app->get(pattern: '/software/treasury/documentation/locations', callable: TreasuryV1DocLocationAction::class);
-    $app->get(pattern: '/software/treasury/documentation/template-tags', callable: TreasuryV1DocTemplateTagsAction::class);
-    $app->get(pattern: '/software/treasury/documentation/developers', callable: TreasuryV1DocDevelopersAction::class);
+    $app->get('/software/treasury/documentation', TreasuryV1DocIndexAction::class);
+    $app->get('/software/treasury/documentation/locations', TreasuryV1DocLocationAction::class);
+    $app->get('/software/treasury/documentation/template-tags', TreasuryV1DocTemplateTagsAction::class);
+    $app->get('/software/treasury/documentation/developers', TreasuryV1DocDevelopersAction::class);
 
     /**
      * Construct
      */
-    $app->get(pattern: '/software/construct', callable: ConstructAction::class);
-    $app->get(pattern: '/software/construct/changelog', callable: ConstructChangelogAction::class);
-    $app->get(pattern: '/software/construct/changelog/{slug:[^\/]+}', callable: ConstructChangelogItemAction::class);
+    $app->get('/software/construct', ConstructAction::class);
+    $app->get('/software/construct/changelog', ConstructChangelogAction::class);
+    $app->get('/software/construct/changelog/{slug:[^\/]+}', ConstructChangelogItemAction::class);
 
     // Construct Docs
-    $app->get(pattern: '/software/construct/documentation', callable: ConstructV2DocIndexAction::class);
-    $app->get(pattern: '/software/construct/documentation/control-panel', callable: ConstructV2DocControlPanelAction::class);
-    $app->get(pattern: '/software/construct/documentation/field-types', callable: ConstructV2DocFieldTypesAction::class);
-    $app->get(pattern: '/software/construct/documentation/routing', callable: ConstructV2DocRoutingAction::class);
-    $app->get(pattern: '/software/construct/documentation/config-routing', callable: ConstructV2DocConfigRoutingAction::class);
-    $app->get(pattern: '/software/construct/documentation/template-tags', callable: ConstructV2DocTemplateTagsAction::class);
+    $app->get('/software/construct/documentation', ConstructV2DocIndexAction::class);
+    $app->get('/software/construct/documentation/control-panel', ConstructV2DocControlPanelAction::class);
+    $app->get('/software/construct/documentation/field-types', ConstructV2DocFieldTypesAction::class);
+    $app->get('/software/construct/documentation/routing', ConstructV2DocRoutingAction::class);
+    $app->get('/software/construct/documentation/config-routing', ConstructV2DocConfigRoutingAction::class);
+    $app->get('/software/construct/documentation/template-tags', ConstructV2DocTemplateTagsAction::class);
     $app->redirect('/software/construct/documentation/extension-hook', '/software/construct/documentation/extension-hooks');
-    $app->get(pattern: '/software/construct/documentation/extension-hooks', callable: ConstructV2ExtensionHookAction::class);
+    $app->get('/software/construct/documentation/extension-hooks', ConstructV2ExtensionHookAction::class);
 
     /**
      * Category Construct
      */
-    $app->get(pattern: '/software/category-construct', callable: CategoryConstructAction::class);
-    $app->get(pattern: '/software/category-construct/changelog', callable: CategoryConstructChangelogAction::class);
-    $app->get(pattern: '/software/category-construct/changelog/{slug:[^\/]+}', callable: CategoryConstructChangelogItemAction::class);
+    $app->get('/software/category-construct', CategoryConstructAction::class);
+    $app->get('/software/category-construct/changelog', CategoryConstructChangelogAction::class);
+    $app->get('/software/category-construct/changelog/{slug:[^\/]+}', CategoryConstructChangelogItemAction::class);
 
     // Category Construct Docs
-    $app->get(pattern: '/software/category-construct/documentation', callable: CategoryConstructV2DocIndexAction::class);
-    $app->get(pattern: '/software/category-construct/documentation/template-tags', callable: CategoryConstructV2DocTemplateTagsAction::class);
+    $app->get('/software/category-construct/documentation', CategoryConstructV2DocIndexAction::class);
+    $app->get('/software/category-construct/documentation/template-tags', CategoryConstructV2DocTemplateTagsAction::class);
 
     // Stripe
     $app->post(
-        pattern: '/stripe/webhook/checkout-session-completed',
-        callable: PostCheckoutSessionCompletedAction::class,
+        '/stripe/webhook/checkout-session-completed',
+        PostCheckoutSessionCompletedAction::class,
     );
 };

@@ -26,4 +26,9 @@ class LoggedInUser
     {
         return $this->user;
     }
+
+    public function userOrNull(): ?User
+    {
+        return $this->hasUser() ? $this->user() : null;
+    }
 }

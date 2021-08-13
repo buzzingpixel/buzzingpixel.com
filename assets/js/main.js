@@ -5,6 +5,7 @@
  */
 
 // Setup
+import Analytics from './SetUp/Analytics.js';
 import Events from './Events.js';
 import FileUploadField from './Components/FileUploadField.js';
 import Flatpickr from './Components/Flatpickr.js';
@@ -26,6 +27,7 @@ window.Methods.FileUploadField = FileUploadField;
 Events();
 LoadAxios();
 SetGlobalData();
+Analytics();
 
 // Components
 
