@@ -1,0 +1,126 @@
+{% set groups = groups ?? [] %}
+{% set noItemsContent = noItemsContent ?? 'There are no items to display' %}
+
+{# {% set groups = [{
+    title: 'Foo Title Optional',
+    items: [{
+        href: '/foo/item',
+        title: 'Foo Item',
+        subtitle: '',
+        column2: 'Can Be String',
+        column2: [
+            'Can Also',
+            'be an',
+            'Array',
+        ],
+    }],
+}] %} #}
+
+{% set noContent %}
+    <div class="border-4 border-dashed border-gray-200 dark:border-blue-smoke rounded-lg py-8 px-6 text-center dark:text-gray-200">
+        {{ noItemsContent|smartypants|widont }}
+    </div>
+{% endset %}
+
+{% if groups|length < 1 %}
+    {{ noContent }}
+{% else %}
+    {% for group in groups %}
+        <div class="{% if loop.first %}mt-5{% else %} mt-16{% endif %}">
+            {% if group['title'] is defined %}
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 ml-2 mb-2">
+                        {{ group.title|smartypants|widont }}
+                    </h3>
+                </div>
+            {% endif %}
+            {% if group.items|length < 1 %}
+                {{ noContent }}
+            {% else %}
+                <div class="bg-white dark:bg-blue-smoke shadow overflow-hidden sm:rounded-md">
+                    {% set displayPaginationOnTop = true %}
+                    {% if group['displayPaginationOnTop'] is defined %}
+                        {% set displayPaginationOnTop = group.displayPaginationOnTop %}
+                    {% endif %}
+                    {% if displayPaginationOnTop %}
+                        {% if group['pagination'] is defined %}
+                            {% if group.pagination.totalPages > 1 %}
+                                <div class="border-b border-gray-200">
+                                    <div class="px-4 py-3 sm:px-6 bg-white border-t border-gray-200">
+                                        {% include 'Http/_Infrastructure/Pagination.twig' with {
+                                            pagination: pagination,
+                                        } only %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                    <ul class="list-none m-0">
+                        {% for item in group.items %}
+                            <li class="{% if not loop.first %} border-t border-gray-200 dark:border-gray-400{% endif %}">
+                                <a
+                                    {% if item['href'] is defined %}
+                                        href="{{ item.href }}"
+                                    {% endif %}
+                                    class="block {% if item['href'] is defined %} hover:bg-gray-50 dark:hover:bg-nandor-light focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out {% endif %}"
+                                >
+                                    <div class="flex items-center px-4 py-4 sm:px-6">
+                                        <div class="min-w-0 flex-1 flex items-center">
+                                            <div class="min-w-0 flex-1 pr-4 md:grid md:grid-cols-2 md:gap-4">
+                                                <div>
+                                                    <div class="text-sm leading-5 font-medium text-jade dark:text-aqua-island truncate">
+                                                        {{ item.title|smartypants|widont }}
+                                                    </div>
+                                                    {% if item['subtitle'] is defined %}
+                                                        <div class="mt-2 flex items-center text-sm leading-5 text-gray-500 dark:text-gray-200">
+                                                            <span class="truncate">
+                                                                {{ item.subtitle|smartypants|widont }}
+                                                            </span>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                                {% if item['column2'] is defined %}
+                                                    <div class="hidden md:block">
+                                                        <div>
+                                                            {% if item.column2 is iterable %}
+                                                                {% for columnItem in item.column2 %}
+                                                                    <div class="{% if not loop.first %}mt-2 {% endif%}flex items-center text-sm leading-5 text-gray-500 dark:text-gray-200">
+                                                                        <span class="truncate">{{ columnItem|smartypants|widont }}</span>
+                                                                    </div>
+                                                                {% endfor %}
+                                                            {% else %}
+                                                                <p class="mt-1 text-sm leading-5 text-gray-500 dark:text-gray-300">
+                                                                    {{ item.column2|smartypants|widont }}
+                                                                </p>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            {% if item['href'] is defined %}
+                                                <svg class="h-5 w-5 text-gray-400 dark:text-gray-200" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% if group['pagination'] is defined %}
+                        {% if group.pagination.totalPages > 1 %}
+                            <div class="px-4 py-3 sm:px-6 bg-white border-t border-gray-200">
+                                {% include 'Http/_Infrastructure/Pagination.twig' with {
+                                    pagination: pagination,
+                                } only %}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endif %}

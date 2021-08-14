@@ -23,6 +23,7 @@ use App\Http\Response\Account\Profile\PostAccountProfileAction;
 use App\Http\Response\Account\Purchases\AccountPurchasesAction;
 use App\Http\Response\Account\Purchases\AccountPurchasesDetailAction;
 use App\Http\Response\Admin\AdminIndexAction;
+use App\Http\Response\Admin\Analytics\AnalyticsViewAction;
 use App\Http\Response\Admin\NewLicense\NewLicenseIndex\NewLicenseAction;
 use App\Http\Response\Admin\NewLicense\NewLicenseIndex\PostNewLicenseAction;
 use App\Http\Response\Admin\Orders\PaginatedIndex\PaginatedOrdersAction;
@@ -208,6 +209,9 @@ return static function (App $app): void {
 
         /** Queue */
         $r->get('/queue', QueueIndexAction::class);
+
+        /** Analytics */
+        $r->get('/analytics', AnalyticsViewAction::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 

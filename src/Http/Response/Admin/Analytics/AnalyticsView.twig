@@ -1,0 +1,104 @@
+{% extends '@app/Http/Response/Account/_AccountLayout.twig' %}
+
+{% block accountContent %}
+    <div class="py-12">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Last 24 Hours
+        </h3>
+        <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="px-4 py-5 sm:p-6">
+                    <dl>
+                        <dt class="text-sm leading-5 font-medium text-gray-500 truncate">
+                            Total Page Views
+                        </dt>
+                        <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
+                            {{ stats.last24Hours.totalPageViews }}
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="px-4 py-5 sm:p-6">
+                    <dl>
+                        <dt class="text-sm leading-5 font-medium text-gray-500 truncate">
+                            Total Unique Visitors
+                        </dt>
+                        <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
+                            {{ stats.last24Hours.uniqueTotalVisitors }}
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pb-12">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Last 30 Days
+        </h3>
+        <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="px-4 py-5 sm:p-6">
+                    <dl>
+                        <dt class="text-sm leading-5 font-medium text-gray-500 truncate">
+                            Total Page Views
+                        </dt>
+                        <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
+                            {{ stats.last30Days.totalPageViews }}
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="px-4 py-5 sm:p-6">
+                    <dl>
+                        <dt class="text-sm leading-5 font-medium text-gray-500 truncate">
+                            Total Unique Visitors
+                        </dt>
+                        <dd class="mt-1 text-3xl leading-9 font-semibold text-gray-900">
+                            {{ stats.last30Days.uniqueTotalVisitors }}
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% set items = [] %}
+
+    {% for model in stats.last24Hours.uriStatsModels %}
+        {# @var \App\Context\Analytics\Entities\UriStats model #}
+
+        {% set u = model.totalUniqueVisitorsInTimeRange %}
+
+        {% set t = model.totalVisitorsInTimeRange %}
+
+        {% set col2 = u ~ ' Unique Visitor' %}
+
+        {% if u > 1 %}
+            {% set col2 = col2 ~ 's' %}
+        {% endif %}
+
+        {% set col2 = col2 ~ '<br>' ~ t ~ ' Total Page View' %}
+
+        {% if t > 1 %}
+            {% set col2 = col2 ~ 's' %}
+        {% endif %}
+
+        {% set items = items|merge([{
+            href: model.uri,
+            title: model.uri,
+            column2: col2,
+        }]) %}
+    {% endfor %}
+
+    <div class="pb-12">
+        {% include 'Http/_Infrastructure/Display/WideLists.twig' with {
+            groups: [{
+                title: 'Page Visitors Over Last 24 Hours',
+                items: items,
+            }],
+        } only %}
+    </div>
+{% endblock %}
