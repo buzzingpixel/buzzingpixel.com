@@ -12,7 +12,7 @@ services:
     expose:
       - 80
     ports:
-      - 14689:80
+      - "14689:80"
 
   db:
     env_file:
@@ -25,13 +25,24 @@ services:
     volumes:
       - db-volume:/var/lib/postgresql/data
     ports:
-      - 14693:5432
+      - "14693:5432"
     networks:
       default:
         aliases:
           - buzzingpixel-db
 
+  redis:
+    container_name: buzzingpixel-redis
+    image: redis:alpine3.14
+    volumes:
+      - redis-volume:/data
+    networks:
+      default:
+        aliases:
+          - buzzingpixel-redis
+
 volumes:
   db-volume:
   log-volume:
+  redis-volume:
   storage-volume:

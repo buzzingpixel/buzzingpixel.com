@@ -20,5 +20,10 @@
         <LessSpecificReturnType errorLevel="info"/>
         <RedundantConditionGivenDocblockType errorLevel="suppress"/>
         <MissingConstructor errorLevel="suppress"/>
+        <UndefinedClass>
+            <errorLevel type="suppress">
+                <referencedClass name="Redis" />
+            </errorLevel>
+        </UndefinedClass>
     </issueHandlers>
 </psalm>

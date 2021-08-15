@@ -47,6 +47,7 @@
       <option name="INSTALLED_PATHS" value="$PROJECT_DIR$/vendor/doctrine/coding-standard/lib/Doctrine" />
       <option name="EXTENSIONS" value="php" />
     </inspection_tool>
+    <inspection_tool class="PhpComposerExtensionStubsInspection" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="PhpDocMissingReturnTagInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <option name="SKIP_ON_PRESENT_TYPE_HINT" value="true" />
     </inspection_tool>

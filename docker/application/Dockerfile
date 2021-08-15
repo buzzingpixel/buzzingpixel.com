@@ -140,6 +140,9 @@ COPY docker/application/php/php.ini $PHP_INI_DIR/conf.d/
 RUN pecl install xdebug-3.0.4
 COPY docker/application/php/xdebug.ini $PHP_INI_DIR/disabled/
 
+# Install redis
+RUN pecl install redis && docker-php-ext-enable redis
+
 # Custom nginx config
 COPY docker/application/nginx /etc/nginx/imported
 RUN cp /etc/nginx/imported/nginx.conf /etc/nginx/nginx.conf \
