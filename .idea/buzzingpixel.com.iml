@@ -150,6 +150,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/awurth/slim-validation" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/respect/validation" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/stripe/stripe-php" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/yaml" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/yaml-front-matter" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
