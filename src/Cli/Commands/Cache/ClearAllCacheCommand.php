@@ -11,11 +11,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ClearAllCacheCommand extends Command
 {
     public function __construct(
-        private ClearDatabaseCacheCommand $clearDatabaseCacheCommand,
         private ClearDiCacheCommand $clearDiCache,
-        private ClearStaticCacheCommand $clearStaticCache,
         private ClearTwigCacheCommand $clearTwigCache,
+        private ClearStaticCacheCommand $clearStaticCache,
         private ClearOrmCacheCommand $clearOrmCacheCommand,
+        private ClearRedisCacheCommand $clearRedisCacheCommand,
+        private ClearDatabaseCacheCommand $clearDatabaseCacheCommand,
     ) {
         parent::__construct();
     }
@@ -33,6 +34,8 @@ class ClearAllCacheCommand extends Command
             input: $input,
             output: $output
         );
+
+        $this->clearRedisCacheCommand->execute(input: $input, output: $output);
 
         $this->clearDiCache->execute(input: $input, output: $output);
 

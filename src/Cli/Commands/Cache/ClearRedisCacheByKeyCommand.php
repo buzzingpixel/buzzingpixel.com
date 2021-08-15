@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Cli\Commands\Cache;
 
 use App\Cli\Services\CliQuestion;
-use App\Context\DatabaseCache\CacheItemPool;
+use App\Context\RedisCache\CacheItemPool;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ClearDatabaseCacheByKeyCommand extends Command
+class ClearRedisCacheByKeyCommand extends Command
 {
     public function __construct(
         private CacheItemPool $cacheItemPool,
@@ -22,9 +22,9 @@ class ClearDatabaseCacheByKeyCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName(name: 'cache:clear-database-by-key');
+        $this->setName(name: 'cache:clear-redis-by-key');
 
-        $this->setDescription(description: 'Clears the database cache by key');
+        $this->setDescription(description: 'Clears the redis cache by key');
     }
 
     /**
