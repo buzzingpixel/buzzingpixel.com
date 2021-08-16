@@ -6,7 +6,7 @@ namespace App\Http\Entities\ValueObjects;
 
 use Stringable;
 
-class MetaTitle implements Stringable
+class StringValue implements Stringable
 {
     public function __construct(private string $value)
     {
