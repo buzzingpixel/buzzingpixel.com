@@ -72,7 +72,7 @@
                             {% else %}
                                 <a
                                     href="{{ page.target }}"
-                                    class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50{% if loop.first and not pagination.firstPageLink and not pagination.prevPageLink %} rounded-l-md{% endif %}{% if loop.last and not pagination.lastPageLink and not pagination.prevPageLink %} rounded-r-md{% endif %}"
+                                    class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50{% if loop.first and not pagination.firstPageLink and not pagination.prevPageLink %} rounded-l-md{% endif %}{% if loop.last and not pagination.lastPageLink and not pagination.nextPageLink %} rounded-r-md{% endif %}"
                                 >
                                     {{ page.label }}
                                 </a>
