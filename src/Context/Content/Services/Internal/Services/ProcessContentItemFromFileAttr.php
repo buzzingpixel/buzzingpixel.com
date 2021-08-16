@@ -36,6 +36,7 @@ class ProcessContentItemFromFileAttr
         return new ContentItem(
             title: (string) $matter['title'],
             slug: (string) $matter['slug'],
+            author: (string) ($matter['author'] ?? 'TJ Draper'),
             dateString: (string) $matter['date'],
             rawBody: $yamlDoc->body(),
             body: $this->markdown->parse($yamlDoc->body()),

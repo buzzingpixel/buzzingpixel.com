@@ -16,6 +16,7 @@ class ContentItem
     public function __construct(
         private string $title,
         private string $slug,
+        private string $author,
         private string $dateString,
         private string $rawBody,
         private string $body,
@@ -39,6 +40,11 @@ class ContentItem
     public function slug(): string
     {
         return $this->slug;
+    }
+
+    public function author(): string
+    {
+        return $this->author;
     }
 
     public function getDate(): DateTimeImmutable
@@ -69,6 +75,7 @@ class ContentItem
         return [
             'title' => $this->title,
             'slug' => $this->slug,
+            'author' => $this->author,
             'dateString' => $this->dateString,
             'rawBody' => $this->rawBody,
             'body' => $this->body,
@@ -83,6 +90,7 @@ class ContentItem
         $this->__construct(
             title: $data['title'],
             slug: $data['slug'],
+            author: $data['author'],
             dateString: $data['dateString'],
             rawBody: $data['rawBody'],
             body: $data['body'],

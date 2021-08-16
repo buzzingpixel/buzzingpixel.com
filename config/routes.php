@@ -70,6 +70,7 @@ use App\Http\Response\IForgot\IForgotAction;
 use App\Http\Response\IForgot\PostIForgotAction;
 use App\Http\Response\LogIn\PostLogInAction;
 use App\Http\Response\LogIn\PostLogOutAction;
+use App\Http\Response\News\Detail\NewsDetailAction;
 use App\Http\Response\News\PaginatedIndex\PaginatedIndexAction;
 use App\Http\Response\Register\PostRegisterAction;
 use App\Http\Response\Register\RegisterAction;
@@ -344,4 +345,5 @@ return static function (App $app): void {
     );
 
     $app->get('/news[/page/{pageNum:\d+}]', PaginatedIndexAction::class);
+    $app->get('/news/{slug}', NewsDetailAction::class);
 };

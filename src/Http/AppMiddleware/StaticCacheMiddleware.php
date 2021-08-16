@@ -27,7 +27,7 @@ class StaticCacheMiddleware implements MiddlewareInterface
         RequestHandlerInterface $handler
     ): ResponseInterface {
         if (! $this->staticCacheEnabled) {
-            return $response = $handler->handle(request: $request);
+            return $handler->handle(request: $request);
         }
 
         $cached = $this->staticCacheApi->doesCacheFileExistForRequest(
@@ -60,7 +60,7 @@ class StaticCacheMiddleware implements MiddlewareInterface
         $response = $handler->handle(request: $request);
 
         $enableStaticCache = $response->getHeader(
-            name: 'EnableStaticCache'
+            'EnableStaticCache'
         )[0] ?? false;
 
         if ($enableStaticCache !== 'true') {
@@ -68,7 +68,7 @@ class StaticCacheMiddleware implements MiddlewareInterface
         }
 
         $this->staticCacheApi->createCacheFromResponse(
-            response: $response->withoutHeader(name: 'EnableStaticCache'),
+            response: $response->withoutHeader('EnableStaticCache'),
             request: $request
         );
 
