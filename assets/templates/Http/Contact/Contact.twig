@@ -2,6 +2,11 @@
 
 {% set mainBgColorClass = 'bg-gray-100' %}
 
+{% set message = flash('FormMessage') %}
+{% if message[0] is defined %}
+    {% set message = message[0] %}
+{% endif %}
+
 {% block content %}
     <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
         <h1 class="text-4xl text-center font-medium text-gray-900 mb-10">Get In Touch</h1>
@@ -88,6 +93,15 @@
                     </ul>#}
                 </div>
                 <div class="py-10 px-6 sm:px-10 lg:col-span-2 xl:p-12">
+                    {% if message['status'] is defined %}
+                        <div class="pb-6 px-4 sm:px-6 md:px-0">
+                            {% include 'Http/Components/Alert.twig' with {
+                                content: message.result.message|default(''),
+                                contentList: message.result.messageList|default([]),
+                                type: message['status'] == 'SUCCESSFUL' ? 'success' : 'error',
+                            } only %}
+                        </div>
+                    {% endif %}
                     <form action="/contact" method="POST" class="{# mt-6 #} grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
                         <input type="hidden" name="{!--csrfTokenNameKey--}" value="{!--csrfTokenName--}">
                         <input type="hidden" name="{!--csrfTokenValueKey--}" value="{!--csrfTokenValue--}">

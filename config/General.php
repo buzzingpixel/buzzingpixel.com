@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Config;
 
+use App\Context\Email\Entity\EmailRecipient;
+use App\Context\Email\Entity\EmailRecipientCollection;
 use Config\Abstractions\SimpleModel;
 
 use function assert;
@@ -182,4 +184,12 @@ class General extends SimpleModel
         //     'content' => 'Go Here',
         // ],
     ];
+
+    /** @phpstan-ignore-next-line  */
+    public function contactFormRecipients(): EmailRecipientCollection
+    {
+        return new EmailRecipientCollection([
+            new EmailRecipient(emailAddress: 'tj@buzzingpixel.com'),
+        ]);
+    }
 }

@@ -65,6 +65,7 @@ use App\Http\Response\Ajax\FileUpload\FileUploadAction;
 use App\Http\Response\Ajax\PostAnalyticPageView\PostAnalyticPageViewAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
 use App\Http\Response\Contact\ContactAction;
+use App\Http\Response\Contact\PostContactAction;
 use App\Http\Response\HealthCheck\HealthCheckAction;
 use App\Http\Response\Home\HomeAction;
 use App\Http\Response\IForgot\IForgotAction;
@@ -351,4 +352,5 @@ return static function (App $app): void {
 
     // Contact
     $app->get('/contact', ContactAction::class);
+    $app->post('/contact', PostContactAction::class);
 };
