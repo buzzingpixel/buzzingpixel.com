@@ -10,6 +10,9 @@ use cebe\markdown\GithubMarkdown;
 use League\Flysystem\FileAttributes;
 use League\Flysystem\Filesystem;
 
+use function assert;
+use function is_array;
+
 class ProcessContentItemFromFileAttr
 {
     public function __construct(
@@ -26,10 +29,14 @@ class ProcessContentItemFromFileAttr
 
         $yamlDoc = $this->documentFactory->createFromString($contents);
 
+        $matter = $yamlDoc->matter();
+
+        assert(is_array($matter));
+
         return new ContentItem(
-            title: (string) $yamlDoc->matter()['title'],
-            slug: (string) $yamlDoc->matter()['slug'],
-            dateString: (string) $yamlDoc->matter()['date'],
+            title: (string) $matter['title'],
+            slug: (string) $matter['slug'],
+            dateString: (string) $matter['date'],
             rawBody: $yamlDoc->body(),
             body: $this->markdown->parse($yamlDoc->body()),
         );

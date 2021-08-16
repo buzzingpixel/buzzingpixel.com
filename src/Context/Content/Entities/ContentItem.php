@@ -71,7 +71,7 @@ class ContentItem
             'slug' => $this->slug,
             'dateString' => $this->dateString,
             'rawBody' => $this->rawBody,
-            'body' => $this->rawBody,
+            'body' => $this->body,
         ];
     }
 
