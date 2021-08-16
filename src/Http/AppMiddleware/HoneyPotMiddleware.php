@@ -28,9 +28,11 @@ class HoneyPotMiddleware implements MiddlewareInterface
 
         $post = (array) $request->getParsedBody();
 
-        $honeyPotField = (string) ($post['a_password'] ?? '');
+        $honeyPotField1 = (string) ($post['a_password'] ?? '');
 
-        if ($honeyPotField !== '') {
+        $honeyPotField2 = (string) ($post['your_company'] ?? '');
+
+        if ($honeyPotField1 !== '' || $honeyPotField2 !== '') {
             throw new HttpBadRequestException(
                 request: $request,
                 message: 'The honeypot field must not be filled in',

@@ -3,6 +3,7 @@
 
 {% set cssManifestJson = readJson(GeneralConfig.rootPath ~ '/public/assets/css/manifest.json') %}
 {% set jsManifestJson = readJson(GeneralConfig.rootPath ~ '/public/assets/js/manifest.json') %}
+{% set mainBgColorClass = mainBgColorClass ?? 'bg-white' %}
 
 <!doctype html>
 <html lang="en">
@@ -45,7 +46,7 @@
         }
     }'
 >
-    <main class="min-h-screen bg-white">
+    <main class="min-h-screen {{ mainBgColorClass }}">
         {{ block('skeletonContent') }}
     </main>
 

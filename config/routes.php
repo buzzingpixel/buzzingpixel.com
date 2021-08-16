@@ -64,6 +64,7 @@ use App\Http\Response\Admin\Users\View\ViewUserPurchasesAction;
 use App\Http\Response\Ajax\FileUpload\FileUploadAction;
 use App\Http\Response\Ajax\PostAnalyticPageView\PostAnalyticPageViewAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
+use App\Http\Response\Contact\ContactAction;
 use App\Http\Response\HealthCheck\HealthCheckAction;
 use App\Http\Response\Home\HomeAction;
 use App\Http\Response\IForgot\IForgotAction;
@@ -344,6 +345,10 @@ return static function (App $app): void {
         PostCheckoutSessionCompletedAction::class,
     );
 
+    // News
     $app->get('/news[/page/{pageNum:\d+}]', PaginatedIndexAction::class);
     $app->get('/news/{slug}', NewsDetailAction::class);
+
+    // Contact
+    $app->get('/contact', ContactAction::class);
 };
