@@ -19,6 +19,7 @@ use App\Collections\AbstractCollection;
  * @method ScheduleConfigItem[] toArray()
  * @method ScheduleConfigItem|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, ScheduleConfigItem $item, bool $setLastIfNoMatch = false)
+ * @method ScheduleConfigItemCollection slice(int $offset = 0, ?int $length = null)
  * @template-extends AbstractCollection<ScheduleConfigItem>
  */
 class ScheduleConfigItemCollection extends AbstractCollection

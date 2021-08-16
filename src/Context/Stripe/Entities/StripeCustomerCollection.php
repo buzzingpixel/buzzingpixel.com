@@ -20,6 +20,7 @@ use Stripe\Customer;
  * @method Customer[] toArray()
  * @method Customer|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, Customer $item, bool $setLastIfNoMatch = false)
+ * @method StripeCustomerCollection slice(int $offset = 0, ?int $length = null)
  * @template-extends AbstractCollection<Customer>
  */
 class StripeCustomerCollection extends AbstractCollection

@@ -19,6 +19,7 @@ use App\Collections\AbstractCollection;
  * @method License[] toArray()
  * @method License|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, License $item, bool $setLastIfNoMatch = false)
+ * @method LicenseCollection slice(int $offset = 0, ?int $length = null)
  * @template-extends AbstractCollection<License>
  */
 class LicenseCollection extends AbstractCollection

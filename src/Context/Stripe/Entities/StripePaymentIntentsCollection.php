@@ -20,6 +20,7 @@ use Stripe\PaymentIntent;
  * @method PaymentIntent[] toArray()
  * @method PaymentIntent|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, PaymentIntent $item, bool $setLastIfNoMatch = false)
+ * @method StripePaymentIntentsCollection slice(int $offset = 0, ?int $length = null)
  * @template-extends AbstractCollection<PaymentIntent>
  */
 class StripePaymentIntentsCollection extends AbstractCollection

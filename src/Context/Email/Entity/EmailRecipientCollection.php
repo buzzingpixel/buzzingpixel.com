@@ -19,6 +19,7 @@ use App\Collections\AbstractCollection;
  * @method EmailRecipient[] toArray()
  * @method EmailRecipient|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, EmailRecipient $item, bool $setLastIfNoMatch = false)
+ * @method EmailRecipientCollection slice(int $offset = 0, ?int $length = null)
  * @template-extends AbstractCollection<EmailRecipient>
  */
 class EmailRecipientCollection extends AbstractCollection

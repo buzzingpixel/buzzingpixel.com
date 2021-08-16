@@ -20,6 +20,7 @@ use Psr\Cache\CacheItemInterface;
  * @method DatabaseCacheItem[] toArray()
  * @method DatabaseCacheItem|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, DatabaseCacheItem|CacheItemInterface $item, bool $setLastIfNoMatch = false)
+ * @method DatabaseCacheItemCollection slice(int $offset = 0, ?int $length = null)
  * @template-extends AbstractCollection<DatabaseCacheItem>
  */
 class DatabaseCacheItemCollection extends AbstractCollection

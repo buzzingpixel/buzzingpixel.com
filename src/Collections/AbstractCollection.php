@@ -8,6 +8,7 @@ use Ramsey\Collection\AbstractCollection as RamseyAbstractCollection;
 use Ramsey\Collection\Exception\ValueExtractionException;
 
 use function array_map;
+use function array_slice;
 use function array_walk;
 use function get_class;
 use function is_object;
@@ -134,5 +135,19 @@ abstract class AbstractCollection extends RamseyAbstractCollection
             $callable,
             $this->toArray(),
         );
+    }
+
+    /** @phpstan-ignore-next-line */
+    public function slice(int $offset = 0, ?int $length = null): self
+    {
+        $clone = clone $this;
+
+        $clone->data = array_slice(
+            $clone->data,
+            $offset,
+            $length,
+        );
+
+        return $clone;
     }
 }

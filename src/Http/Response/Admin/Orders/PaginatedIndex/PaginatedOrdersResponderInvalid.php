@@ -19,6 +19,8 @@ class PaginatedOrdersResponderInvalid implements PaginatedOrdersResponderContrac
 
     /**
      * @throws HttpNotFoundException
+     *
+     * @phpstan-ignore-next-line
      */
     public function respond(
         Pagination $pagination,

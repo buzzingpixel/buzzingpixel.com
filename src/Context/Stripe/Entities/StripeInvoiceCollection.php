@@ -20,6 +20,7 @@ use Stripe\Invoice;
  * @method Invoice[] toArray()
  * @method Invoice|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, Invoice $item, bool $setLastIfNoMatch = false)
+ * @method StripeInvoiceCollection slice(int $offset = 0, ?int $length = null)
  * @template-extends AbstractCollection<Invoice>
  */
 class StripeInvoiceCollection extends AbstractCollection

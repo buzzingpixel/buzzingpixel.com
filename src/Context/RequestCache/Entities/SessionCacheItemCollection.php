@@ -20,6 +20,7 @@ use Psr\Cache\CacheItemInterface;
  * @method SessionCacheItem[] toArray()
  * @method SessionCacheItem|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, SessionCacheItem|CacheItemInterface $item, bool $setLastIfNoMatch = false)
+ * @method SessionCacheItemCollection slice(int $offset = 0, ?int $length = null)
  * @template-extends AbstractCollection<SessionCacheItem>
  */
 class SessionCacheItemCollection extends AbstractCollection

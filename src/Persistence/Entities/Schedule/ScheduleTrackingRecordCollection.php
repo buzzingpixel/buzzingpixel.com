@@ -19,6 +19,7 @@ use App\Collections\AbstractCollection;
  * @method ScheduleTrackingRecord[] toArray()
  * @method ScheduleTrackingRecord|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, ScheduleTrackingRecord $item, bool $setLastIfNoMatch = false)
+ * @method ScheduleTrackingRecordCollection slice(int $offset = 0, ?int $length = null)
  * @template-extends AbstractCollection<ScheduleTrackingRecord>
  */
 class ScheduleTrackingRecordCollection extends AbstractCollection

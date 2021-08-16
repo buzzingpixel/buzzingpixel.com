@@ -20,6 +20,7 @@ use App\Collections\AbstractCollection;
  * @method QueueItem[] toArray()
  * @method QueueItem|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, QueueItem $item, bool $setLastIfNoMatch = false)
+ * @method QueueItemCollection slice(int $offset = 0, ?int $length = null)
  * @template-extends AbstractCollection<QueueItem>
  */
 class QueueItemCollection extends AbstractCollection

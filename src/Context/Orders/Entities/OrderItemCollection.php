@@ -19,6 +19,7 @@ use App\Collections\AbstractCollection;
  * @method OrderItem[] toArray()
  * @method OrderItem|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, OrderItem $item, bool $setLastIfNoMatch = false)
+ * @method OrderItemCollection slice(int $offset = 0, ?int $length = null)
  * @template-extends AbstractCollection<OrderItem>
  */
 class OrderItemCollection extends AbstractCollection

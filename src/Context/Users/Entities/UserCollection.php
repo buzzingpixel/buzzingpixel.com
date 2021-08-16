@@ -19,6 +19,7 @@ use App\Collections\AbstractCollection;
  * @method User[] toArray()
  * @method User|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, User $item, bool $setLastIfNoMatch = false)
+ * @method UserCollection slice(int $offset = 0, ?int $length = null)
  * @template-extends AbstractCollection<User>
  */
 class UserCollection extends AbstractCollection

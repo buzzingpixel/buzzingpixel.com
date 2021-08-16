@@ -19,6 +19,7 @@ use App\Collections\AbstractCollection;
  * @method UriStats[] toArray()
  * @method UriStats|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, UriStats $item, bool $setLastIfNoMatch = false)
+ * @method UriStatsCollection slice(int $offset = 0, ?int $length = null)
  * @template-extends AbstractCollection<UriStats>
  */
 class UriStatsCollection extends AbstractCollection

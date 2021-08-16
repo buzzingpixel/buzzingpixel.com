@@ -20,6 +20,7 @@ use Stripe\TaxRate;
  * @method TaxRate[] toArray()
  * @method TaxRate|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, TaxRate $item, bool $setLastIfNoMatch = false)
+ * @method StripeTaxRateCollection slice(int $offset = 0, ?int $length = null)
  * @template-extends AbstractCollection<TaxRate>
  */
 class StripeTaxRateCollection extends AbstractCollection

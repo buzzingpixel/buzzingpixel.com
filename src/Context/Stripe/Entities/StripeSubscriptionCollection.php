@@ -20,6 +20,7 @@ use Stripe\Subscription;
  * @method Subscription[] toArray()
  * @method Subscription|null firstOrNull()
  * @method void replaceWhereMatch(string $propertyOrMethod, Subscription $item, bool $setLastIfNoMatch = false)
+ * @method StripeSubscriptionCollection slice(int $offset = 0, ?int $length = null)
  * @template-extends AbstractCollection<Subscription>
  */
 class StripeSubscriptionCollection extends AbstractCollection
