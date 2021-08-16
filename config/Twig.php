@@ -14,6 +14,7 @@ use App\Templating\TwigExtensions\ISO3166;
 use App\Templating\TwigExtensions\PhpFunctions;
 use App\Templating\TwigExtensions\ReadJson;
 use App\Templating\TwigExtensions\SiteUrl;
+use App\Templating\TwigExtensions\Truncate;
 use App\Templating\TwigExtensions\TwigSlimFlashMessages;
 use App\Templating\TwigExtensions\UsStates;
 use BuzzingPixel\TwigMarkdown\MarkdownTwigExtension;
@@ -45,6 +46,7 @@ class Twig
         SiteUrl::class,
         SmartypantsTwigExtension::class,
         SwitchTwigExtension::class,
+        Truncate::class,
         TwigSlimFlashMessages::class,
         UsStates::class,
         WidontTwigExtension::class,

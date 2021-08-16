@@ -60,6 +60,7 @@
         "stripe/stripe-php": "^7.79",
         "symfony/console": "^5.2",
         "thecodingmachine/safe": "^1.3",
+        "timostamm/text-truncation": "dev-master",
         "twig/twig": "^3.2"
     },
     "require-dev": {

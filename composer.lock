@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7d4159466e2f43f73795eb62ca367d4f",
+    "content-hash": "a8b9def0347083bb38142de186377c76",
     "packages": [
         {
             "name": "awurth/slim-validation",
@@ -6910,6 +6910,43 @@
             "time": "2020-12-19T00:06:29+00:00"
         },
         {
+            "name": "timostamm/text-truncation",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/timostamm/text-truncation.git",
+                "reference": "4eb77aaa04c16104196662c11aa4acb358397e8d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/timostamm/text-truncation/zipball/4eb77aaa04c16104196662c11aa4acb358397e8d",
+                "reference": "4eb77aaa04c16104196662c11aa4acb358397e8d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.3"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TS\\": "src/TS"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "AGPL-3.0"
+            ],
+            "support": {
+                "issues": "https://github.com/timostamm/text-truncation/issues",
+                "source": "https://github.com/timostamm/text-truncation/tree/master"
+            },
+            "time": "2017-10-03T16:11:05+00:00"
+        },
+        {
             "name": "twig/twig",
             "version": "v3.3.0",
             "source": {
@@ -9199,7 +9236,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "awurth/slim-validation": 20
+        "awurth/slim-validation": 20,
+        "timostamm/text-truncation": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

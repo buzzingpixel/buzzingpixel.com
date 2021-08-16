@@ -162,6 +162,7 @@
       <path value="$PROJECT_DIR$/vendor/stripe/stripe-php" />
       <path value="$PROJECT_DIR$/vendor/symfony/yaml" />
       <path value="$PROJECT_DIR$/vendor/spatie/yaml-front-matter" />
+      <path value="$PROJECT_DIR$/vendor/timostamm/text-truncation" />
     </include_path>
   </component>
   <component name="PhpInterpreters">
