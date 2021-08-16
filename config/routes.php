@@ -70,6 +70,7 @@ use App\Http\Response\IForgot\IForgotAction;
 use App\Http\Response\IForgot\PostIForgotAction;
 use App\Http\Response\LogIn\PostLogInAction;
 use App\Http\Response\LogIn\PostLogOutAction;
+use App\Http\Response\News\PaginatedIndex\PaginatedIndexAction;
 use App\Http\Response\Register\PostRegisterAction;
 use App\Http\Response\Register\RegisterAction;
 use App\Http\Response\ResetPwWithToken\PostResetPwWithTokenAction;
@@ -341,4 +342,6 @@ return static function (App $app): void {
         '/stripe/webhook/checkout-session-completed',
         PostCheckoutSessionCompletedAction::class,
     );
+
+    $app->get('/news[/page/{pageNum:\d+}]', PaginatedIndexAction::class);
 };
