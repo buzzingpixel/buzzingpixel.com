@@ -34,11 +34,11 @@ class PostContactAction
         );
 
         $this->sendEmailFactory
-            ->getSendEmail($formValues)
-            ->send($formValues);
+            ->getSendEmail(formValues: $formValues)
+            ->send(formValues: $formValues);
 
         return $this->responderFactory
-            ->getResponder($formValues)
-            ->respond($formValues);
+            ->getResponder(formValues: $formValues)
+            ->respond(formValues: $formValues);
     }
 }
