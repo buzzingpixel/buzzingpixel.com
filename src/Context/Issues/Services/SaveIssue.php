@@ -10,10 +10,13 @@ use App\Context\Issues\Services\SaveIssue\Factories\IssueValidityFactory;
 use App\Context\Issues\Services\SaveIssue\Factories\SaveIssueFactory;
 use App\Payload\Payload;
 use App\Persistence\Entities\Support\IssueRecord;
+use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\TransactionRequiredException;
+use Exception;
 use Throwable;
 
 class SaveIssue
@@ -40,9 +43,15 @@ class SaveIssue
      * @throws OptimisticLockException
      * @throws TransactionRequiredException
      * @throws ORMException
+     * @throws Exception
      */
     public function innerSave(Issue $issue): Payload
     {
+        $issue = $issue->withUpdatedAt(new DateTimeImmutable(
+            'now',
+            new DateTimeZone('UTC'),
+        ));
+
         $record = $this->entityManager->find(
             IssueRecord::class,
             $issue->id(),
