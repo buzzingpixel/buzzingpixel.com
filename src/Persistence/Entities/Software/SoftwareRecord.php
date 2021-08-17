@@ -51,7 +51,7 @@ class SoftwareRecord
     }
 
     /**
-     * One queue has many queue items. This is the inverse side.
+     * One software has many software items. This is the inverse side.
      *
      * @var Collection<int, SoftwareVersionRecord>
      * @Mapping\OneToMany(
