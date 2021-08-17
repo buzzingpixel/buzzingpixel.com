@@ -183,12 +183,27 @@ class IssueRecord
 
         $this->setIssueMessages(issueMessages: new ArrayCollection(
             $entity->issueMessages()->mapToArray(
-                fn (IssueMessage $i) => (new IssueMessageRecord())
-                    ->hydrateFromEntity(
-                        entity: $i,
+                function (IssueMessage $iM) use (
+                    $entityManager,
+                ): IssueMessageRecord {
+                    $iRecord = $this->getIssueMessages()->filter(
+                        static fn (
+                            IssueMessageRecord $r
+                        ) => $r->getId()->toString() === $iM->id(),
+                    )->first();
+
+                    $isInstance = $iRecord instanceof IssueMessageRecord;
+
+                    if (! $isInstance) {
+                        $iRecord = new IssueMessageRecord();
+                    }
+
+                    return $iRecord->hydrateFromEntity(
+                        entity: $iM,
                         entityManager: $entityManager,
                         issueRecord: $this,
-                    ),
+                    );
+                },
             ),
         ));
 
