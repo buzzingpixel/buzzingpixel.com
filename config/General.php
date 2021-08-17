@@ -27,8 +27,6 @@ use function is_string;
  * @method string stripeCheckoutSessionCompletedSigningSecret()
  * @method array stylesheets()
  * @method array jsFiles()
- * @method array accountMenu()
- * @method array adminMenu()
  * @method array siteBanner()
  */
 class General extends SimpleModel
@@ -105,7 +103,7 @@ class General extends SimpleModel
     /** @var string[] */
     public static array $jsFiles = ['https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js'];
 
-    /** @var array<array-key, array<array-key, string|false>>  */
+    /** @var array<string, array<string, string|bool>> */
     public static array $accountMenu = [
         'licenses' => [
             'href' => '/account/licenses',
@@ -139,7 +137,58 @@ class General extends SimpleModel
         ],
     ];
 
-    /** @var array<array-key, array<array-key, string|false>>  */
+    /**
+     * @return array<string, array<string, string|bool>>
+     *
+     * @noinspection PhpDocSignatureInspection
+     */
+    public function accountMenu(?string $active = null): array
+    {
+        $menu = self::$accountMenu;
+
+        if ($active !== null) {
+            $menu[$active]['isActive'] = true;
+        }
+
+        return $menu;
+    }
+
+    /** @var array<string, array<string, string|bool>> */
+    public static array $supportMenu = [
+        'dashboard' => [
+            'href' => '/support',
+            'content' => 'Dashboard',
+            'isActive' => false,
+        ],
+        'publicIssues' => [
+            'href' => '/support/public',
+            'content' => 'Public Issues',
+            'isActive' => false,
+        ],
+        'privateIssues' => [
+            'href' => '/support/private',
+            'content' => 'Private Issues',
+            'isActive' => false,
+        ],
+    ];
+
+    /**
+     * @return array<string, array<string, string|bool>>
+     *
+     * @noinspection PhpDocSignatureInspection
+     */
+    public function supportMenu(?string $active = null): array
+    {
+        $menu = self::$supportMenu;
+
+        if ($active !== null) {
+            $menu[$active]['isActive'] = true;
+        }
+
+        return $menu;
+    }
+
+    /** @var array<string, array<string, string|bool>> */
     public static array $adminMenu = [
         'software' => [
             'href' => '/admin/software',
@@ -172,6 +221,22 @@ class General extends SimpleModel
             'isActive' => false,
         ],
     ];
+
+    /**
+     * @return array<string, array<string, string|bool>>
+     *
+     * @noinspection PhpDocSignatureInspection
+     */
+    public function adminMenu(?string $active = null): array
+    {
+        $menu = self::$adminMenu;
+
+        if ($active !== null) {
+            $menu[$active]['isActive'] = true;
+        }
+
+        return $menu;
+    }
 
     /** @var mixed[] */
     public static array $siteBanner = [
