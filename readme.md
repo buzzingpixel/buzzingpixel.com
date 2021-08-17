@@ -9,6 +9,7 @@ Set up Traefik Dev https://github.com/buzzingpixel/traefik-dev
 
 ## Commands for starting repo from scratch:
 
+- Set up environment variables in `.env.local`
 - `./dev docker-build`
 - `./dev docker-up`
 - `./dev container-app composer install`
