@@ -31,9 +31,7 @@ class SaveOrderNew implements SaveOrder
         Order $order,
         ?OrderRecord $orderRecord = null
     ): Payload {
-        $this->logger->info(
-            'Creating new Order record'
-        );
+        $this->logger->info('Creating new Order record');
 
         $validity = $this->orderValidityFactory->createOrderValidity(
             order: $order,
@@ -69,7 +67,7 @@ class SaveOrderNew implements SaveOrder
 
         $record->hydrateFromEntity(
             entity: $order,
-            entityManager: $this->entityManager
+            entityManager: $this->entityManager,
         );
 
         /** @noinspection PhpUnhandledExceptionInspection */

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Persistence\Entities\Support;
 
+use App\Context\Issues\Entities\Issue;
+use App\Context\Issues\Entities\IssueMessage;
+use App\Context\Users\Entities\User;
 use App\Persistence\Entities\Software\SoftwareRecord;
 use App\Persistence\Entities\Users\UserRecord;
 use App\Persistence\PropertyTraits\AdditionalEnvDetails;
@@ -24,7 +27,11 @@ use App\Persistence\PropertyTraits\Status;
 use App\Persistence\PropertyTraits\UpdatedAt;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping;
+use Ramsey\Uuid\Uuid;
+
+use function assert;
 
 /**
  * @Mapping\Entity
@@ -147,5 +154,72 @@ class IssueRecord
     public function setDuplicateOf(?IssueRecord $duplicateOf): void
     {
         $this->duplicateOf = $duplicateOf;
+    }
+
+    public function hydrateFromEntity(
+        Issue $entity,
+        EntityManager $entityManager
+    ): self {
+        $this->setId(Uuid::fromString(uuid: $entity->id()));
+        $this->setIssueNumber(issueNumber: $entity->issueNumber());
+        $this->setStatus(status: $entity->status());
+        $this->setIsPublic(isPublic: $entity->isPublic());
+        $this->setSoftwareVersion(softwareVersion: $entity->softwareVersion());
+        $this->setCmsVersion(cmsVersion: $entity->cmsVersion());
+        $this->setPhpVersion(phpVersion: $entity->phpVersion());
+        $this->setMySqlVersion(mySqlVersion: $entity->mySqlVersion());
+        $this->setAdditionalEnvDetails(
+            additionalEnvDetails: $entity->additionalEnvDetails()
+        );
+        $this->setPrivateInfo(privateInfo: $entity->privateInfo());
+        $this->setSolution(solution: $entity->solution());
+        $this->setSolutionFile(solutionFile: $entity->solutionFile());
+        $this->setLegacySolutionFile(
+            legacySolutionFile: $entity->legacySolutionFile()
+        );
+        $this->setIsEnabled(isEnabled: $entity->isEnabled());
+        $this->setCreatedAt(createdAt: $entity->createdAt());
+        $this->setUpdatedAt(updatedAt: $entity->updatedAt());
+
+        $this->setIssueMessages(issueMessages: new ArrayCollection(
+            $entity->issueMessages()->mapToArray(
+                fn (IssueMessage $i) => (new IssueMessageRecord())
+                    ->hydrateFromEntity(
+                        entity: $i,
+                        entityManager: $entityManager,
+                        issueRecord: $this,
+                    ),
+            ),
+        ));
+
+        $software = $entity->software();
+
+        if ($software === null) {
+            $this->setSoftware(null);
+        } else {
+            /** @noinspection PhpUnhandledExceptionInspection */
+            $softwareRecord = $entityManager->find(
+                SoftwareRecord::class,
+                $software->id(),
+            );
+
+            $this->setSoftware($softwareRecord);
+        }
+
+        $user = $entity->user();
+
+        assert($user instanceof User);
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $userRecord = $entityManager->find(
+            UserRecord::class,
+            $user->id(),
+        );
+
+        assert($userRecord instanceof UserRecord);
+
+        $this->setUser($userRecord);
+
+        return $this;
     }
 }

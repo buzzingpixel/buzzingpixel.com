@@ -202,7 +202,7 @@ class OrderItemRecord
             $this->setOrder($orderRecord);
         }
 
-        $this->setId(Uuid::fromString(uuid: $entity->id()));
+        $this->setId(id: Uuid::fromString(uuid: $entity->id()));
         $this->setPrice(price: $entity->priceAsInt());
         $this->setOriginalPrice(originalPrice: $entity->originalPriceAsInt());
         $this->setQuantity(quantity: $entity->quantity());

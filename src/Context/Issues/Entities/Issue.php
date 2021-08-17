@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Context\Issues\Entities;
 
+use App\Context\Software\Entities\Software as SoftwareEntity;
+use App\Context\Users\Entities\User as UserEntity;
 use App\EntityPropertyTraits\AdditionalEnvDetails;
 use App\EntityPropertyTraits\CmsVersion;
 use App\EntityPropertyTraits\CreatedAt;
@@ -16,11 +18,13 @@ use App\EntityPropertyTraits\MySqlVersion;
 use App\EntityPropertyTraits\NewSolutionFileLocation;
 use App\EntityPropertyTraits\PhpVersion;
 use App\EntityPropertyTraits\PrivateInfo;
+use App\EntityPropertyTraits\Software;
 use App\EntityPropertyTraits\SoftwareVersion;
 use App\EntityPropertyTraits\Solution;
 use App\EntityPropertyTraits\SolutionFile;
 use App\EntityPropertyTraits\Status;
 use App\EntityPropertyTraits\UpdatedAt;
+use App\EntityPropertyTraits\User;
 use App\EntityValueObjects\Id as IdValue;
 use App\Persistence\Entities\Support\IssueMessageRecord;
 use App\Persistence\Entities\Support\IssueRecord;
@@ -42,12 +46,21 @@ use function is_string;
 class Issue
 {
     public const STATUS_NEW                     = 'new';
-    public const STATUS_CLARIFICATION_REQUESTED = 'issue: ';
+    public const STATUS_CLARIFICATION_REQUESTED = 'clarificationRequested';
     public const STATUS_ACCEPTED                = 'accepted';
     public const STATUS_DUPLICATE               = 'duplicate';
     public const STATUS_FIX_IN_UPCOMING_RELEASE = 'fixIsInUpcomingRelease';
     public const STATUS_COMPLETE                = 'complete';
     public const STATUS_SEE_COMMENTS            = 'seeComments';
+    public const ALL_STATUSES                   = [
+        self::STATUS_NEW => self::STATUS_NEW,
+        self::STATUS_CLARIFICATION_REQUESTED => self::STATUS_CLARIFICATION_REQUESTED,
+        self::STATUS_ACCEPTED => self::STATUS_ACCEPTED,
+        self::STATUS_DUPLICATE => self::STATUS_DUPLICATE,
+        self::STATUS_FIX_IN_UPCOMING_RELEASE => self::STATUS_FIX_IN_UPCOMING_RELEASE,
+        self::STATUS_COMPLETE => self::STATUS_COMPLETE,
+        self::STATUS_SEE_COMMENTS => self::STATUS_SEE_COMMENTS,
+    ];
     use Id;
     use IssueNumber;
     use Status;
@@ -63,6 +76,8 @@ class Issue
     use NewSolutionFileLocation;
     use LegacySolutionFile;
     use IsEnabled;
+    use User;
+    use Software;
     use CreatedAt;
     use UpdatedAt;
 
@@ -71,6 +86,17 @@ class Issue
 
     public static function fromRecord(IssueRecord $record): self
     {
+        $software = null;
+
+        $softwareRecord = $record->getSoftware();
+
+        if ($softwareRecord !== null) {
+            $software = SoftwareEntity::fromRecord(record: $softwareRecord);
+        }
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $user = UserEntity::fromRecord(record: $record->getUser());
+
         return (new self(
             id: $record->getId(),
             issueNumber: $record->getIssueNumber(),
@@ -86,6 +112,8 @@ class Issue
             solutionFile: $record->getSolutionFile(),
             legacySolutionFile: $record->getLegacySolutionFile(),
             isEnabled: $record->getIsEnabled(),
+            user: $user,
+            software: $software,
             createdAt: $record->getCreatedAt(),
             updatedAt: $record->getUpdatedAt(),
         ))->withIssueMessagesFromRecord($record);
@@ -109,6 +137,8 @@ class Issue
         bool $isEnabled = true,
         null | string | DateTimeInterface $createdAt = null,
         null | string | DateTimeInterface $updatedAt = null,
+        ?UserEntity $user = null,
+        ?SoftwareEntity $software = null,
         null | array | IssueMessageCollection $issueMessages = null,
         null | string | UuidInterface $id = null,
     ) {
@@ -205,10 +235,17 @@ class Issue
 
         $this->updatedAt = $updatedAtClass;
 
+        $this->user = $user;
+
+        $this->software = $software;
+
         if ($issueMessages === null) {
             $this->issueMessages = new IssueMessageCollection();
         } elseif (is_array($issueMessages)) {
-            $this->issueMessages = new IssueMessageCollection();
+            /** @psalm-suppress MixedArgumentTypeCoercion */
+            $this->issueMessages = new IssueMessageCollection(
+                $issueMessages,
+            );
         } else {
             $this->issueMessages = $issueMessages;
         }

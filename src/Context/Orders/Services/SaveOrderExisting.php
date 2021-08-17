@@ -70,7 +70,7 @@ class SaveOrderExisting implements SaveOrder
 
         $orderRecord->hydrateFromEntity(
             entity: $order,
-            entityManager: $this->entityManager
+            entityManager: $this->entityManager,
         );
 
         /** @noinspection PhpUnhandledExceptionInspection */

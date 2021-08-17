@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace App\Persistence\Entities\Support;
 
+use App\Context\Issues\Entities\IssueMessage;
+use App\Context\Users\Entities\User;
 use App\Persistence\Entities\Users\UserRecord;
 use App\Persistence\PropertyTraits\CreatedAt;
 use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\Message;
 use App\Persistence\PropertyTraits\UpdatedAt;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Mapping;
 use LogicException;
+use Ramsey\Uuid\Uuid;
+
+use function assert;
 
 /**
  * @Mapping\Entity
@@ -127,5 +133,36 @@ class IssueMessageRecord
         }
 
         $this->setIssue($issue);
+    }
+
+    public function hydrateFromEntity(
+        IssueMessage $entity,
+        EntityManager $entityManager,
+        ?IssueRecord $issueRecord = null,
+    ): self {
+        if ($issueRecord !== null) {
+            $this->setIssue($issueRecord);
+        }
+
+        $this->setId(id: Uuid::fromString(uuid: $entity->id()));
+        $this->setMessage(message: $entity->message());
+        $this->setCreatedAt(createdAt: $entity->createdAt());
+        $this->setUpdatedAt(updatedAt: $entity->updatedAt());
+
+        $user = $entity->user();
+
+        assert($user instanceof User);
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $userRecord = $entityManager->find(
+            UserRecord::class,
+            $user->id(),
+        );
+
+        assert($userRecord instanceof UserRecord);
+
+        $this->setUser($userRecord);
+
+        return $this;
     }
 }

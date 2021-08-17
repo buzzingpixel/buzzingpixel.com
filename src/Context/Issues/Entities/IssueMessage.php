@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Context\Issues\Entities;
 
+use App\Context\Users\Entities\User as UserEntity;
 use App\EntityPropertyTraits\CreatedAt;
 use App\EntityPropertyTraits\Id;
 use App\EntityPropertyTraits\Message;
 use App\EntityPropertyTraits\UpdatedAt;
+use App\EntityPropertyTraits\User;
 use App\EntityValueObjects\Id as IdValue;
 use App\Persistence\Entities\Support\IssueMessageRecord;
 use App\Persistence\Entities\Support\IssueRecord;
@@ -26,6 +28,7 @@ class IssueMessage
 {
     use Id;
     use Message;
+    use User;
     use CreatedAt;
     use UpdatedAt;
 
@@ -44,9 +47,13 @@ class IssueMessage
             $issue = Issue::fromRecord($issueRecord);
         }
 
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $user = UserEntity::fromRecord(record: $record->getUser());
+
         return new self(
             id: $record->getId(),
             message: $record->getMessage(),
+            user: $user,
             createdAt: $record->getCreatedAt(),
             updatedAt: $record->getUpdatedAt(),
             issue: $issue,
@@ -55,6 +62,7 @@ class IssueMessage
 
     public function __construct(
         string $message = '',
+        ?UserEntity $user = null,
         null | string | DateTimeInterface $createdAt = null,
         null | string | DateTimeInterface $updatedAt = null,
         ?Issue $issue = null,
@@ -75,6 +83,8 @@ class IssueMessage
         }
 
         $this->message = $message;
+
+        $this->user = $user;
 
         // Created At
         if ($createdAt instanceof DateTimeInterface) {
