@@ -36,7 +36,7 @@ class Software
     use RenewalPrice;
     use IsSubscription;
 
-    /** @phpstan-ignore-next-line  */
+    /** @phpstan-ignore-next-line */
     private SoftwareVersionCollection $versions;
 
     public static function fromRecord(SoftwareRecord $record): self
@@ -117,13 +117,13 @@ class Software
 
     private bool $isInitialized = false;
 
-    /** @phpstan-ignore-next-line  */
+    /** @phpstan-ignore-next-line */
     public function versions(): SoftwareVersionCollection
     {
         return $this->versions;
     }
 
-    /** @phpstan-ignore-next-line  */
+    /** @phpstan-ignore-next-line */
     public function withVersions(array | SoftwareVersionCollection $versions): self
     {
         $clone = clone $this;
@@ -134,7 +134,7 @@ class Software
 
         $clone->versions = new SoftwareVersionCollection(array_map(
             static fn (SoftwareVersion $v) => $v->withSoftware(
-                $clone
+                $clone,
             ),
             array_merge($versions)
         ));
@@ -177,7 +177,7 @@ class Software
     }
 
     public function withVersionFromVersionRecord(
-        SoftwareVersionRecord $record
+        SoftwareVersionRecord $record,
     ): self {
         $clone = clone $this;
 

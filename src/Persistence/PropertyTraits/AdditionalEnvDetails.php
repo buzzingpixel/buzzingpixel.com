@@ -16,12 +16,12 @@ trait AdditionalEnvDetails
      */
     protected string $additionalEnvDetails = '';
 
-    public function setAdditionalEnvDetails(): string
+    public function getAdditionalEnvDetails(): string
     {
         return $this->additionalEnvDetails;
     }
 
-    public function getAdditionalEnvDetails(string $additionalEnvDetails): void
+    public function setAdditionalEnvDetails(string $additionalEnvDetails): void
     {
         $this->additionalEnvDetails = $additionalEnvDetails;
     }

@@ -16,12 +16,12 @@ trait PrivateInfo
      */
     protected string $privateInfo = '';
 
-    public function setPrivateInfo(): string
+    public function getPrivateInfo(): string
     {
         return $this->privateInfo;
     }
 
-    public function getPrivateInfo(string $privateInfo): void
+    public function setPrivateInfo(string $privateInfo): void
     {
         $this->privateInfo = $privateInfo;
     }

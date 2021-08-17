@@ -16,12 +16,12 @@ trait Solution
      */
     protected string $solution = '';
 
-    public function setSolution(): string
+    public function getSolution(): string
     {
         return $this->solution;
     }
 
-    public function getSolution(string $solution): void
+    public function setSolution(string $solution): void
     {
         $this->solution = $solution;
     }

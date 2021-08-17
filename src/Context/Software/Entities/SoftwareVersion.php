@@ -121,7 +121,7 @@ class SoftwareVersion
         assert($releasedOnClass instanceof DateTimeImmutable);
 
         $releasedOnClass = $releasedOnClass->setTimezone(
-            new DateTimeZone('UTC')
+            new DateTimeZone('UTC'),
         );
 
         $this->releasedOn = $releasedOnClass;
