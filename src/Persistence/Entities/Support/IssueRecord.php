@@ -17,6 +17,7 @@ use App\Persistence\PropertyTraits\IsEnabled;
 use App\Persistence\PropertyTraits\IsPublic;
 use App\Persistence\PropertyTraits\IssueNumber;
 use App\Persistence\PropertyTraits\LastCommentAt;
+use App\Persistence\PropertyTraits\LastCommentUserType;
 use App\Persistence\PropertyTraits\LegacySolutionFile;
 use App\Persistence\PropertyTraits\MySqlVersion;
 use App\Persistence\PropertyTraits\PhpVersion;
@@ -60,6 +61,7 @@ class IssueRecord
     use CreatedAt;
     use UpdatedAt;
     use LastCommentAt;
+    use LastCommentUserType;
 
     public function __construct()
     {
@@ -188,6 +190,9 @@ class IssueRecord
         $this->setCreatedAt(createdAt: $entity->createdAt());
         $this->setUpdatedAt(updatedAt: $entity->updatedAt());
         $this->setLastCommentAt(lastCommentAt: $entity->lastCommentAt());
+        $this->setLastCommentUserType(
+            lastCommentUserType: $entity->lastCommentUserType()
+        );
 
         $this->setIssueMessages(issueMessages: new ArrayCollection(
             $entity->issueMessages()->mapToArray(

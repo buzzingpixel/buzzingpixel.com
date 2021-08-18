@@ -14,6 +14,7 @@ use App\EntityPropertyTraits\IsEnabled;
 use App\EntityPropertyTraits\IsPublic;
 use App\EntityPropertyTraits\IssueNumber;
 use App\EntityPropertyTraits\LastCommentAt;
+use App\EntityPropertyTraits\LastCommentUserType;
 use App\EntityPropertyTraits\LegacySolutionFile;
 use App\EntityPropertyTraits\MySqlVersion;
 use App\EntityPropertyTraits\NewSolutionFileLocation;
@@ -81,6 +82,8 @@ class Issue
         self::STATUS_COMPLETE => 'green',
         self::STATUS_SEE_COMMENTS => 'gray',
     ];
+    public const USER_TYPE_ADMIN                = 'admin';
+    public const USER_TYPE_USER                 = 'user';
     use Id;
     use ShortDescription;
     use IssueNumber;
@@ -102,6 +105,7 @@ class Issue
     use CreatedAt;
     use UpdatedAt;
     use LastCommentAt;
+    use LastCommentUserType;
 
     public function humanReadableStatus(): string
     {
@@ -150,6 +154,7 @@ class Issue
             createdAt: $record->getCreatedAt(),
             updatedAt: $record->getUpdatedAt(),
             lastCommentAt: $record->getLastCommentAt(),
+            lastCommentUserType: $record->getLastCommentUserType(),
         ))->withIssueMessagesFromRecord($record);
     }
 
@@ -173,6 +178,7 @@ class Issue
         null | string | DateTimeInterface $createdAt = null,
         null | string | DateTimeInterface $updatedAt = null,
         null | string | DateTimeInterface $lastCommentAt = null,
+        string $lastCommentUserType = self::USER_TYPE_USER,
         ?UserEntity $user = null,
         ?SoftwareEntity $software = null,
         null | array | IssueMessageCollection $issueMessages = null,
@@ -304,6 +310,8 @@ class Issue
 
         $this->lastCommentAt = $lastCommentAtClass;
         // End last comment at
+
+        $this->lastCommentUserType = $lastCommentUserType;
 
         $this->user = $user;
 

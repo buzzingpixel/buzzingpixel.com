@@ -154,4 +154,11 @@ class IssueMessage
 
         return $clone;
     }
+
+    public function getCommentUserType(): string
+    {
+        return $this->userGuarantee()->isAdmin() ?
+            Issue::USER_TYPE_ADMIN :
+            Issue::USER_TYPE_USER;
+    }
 }

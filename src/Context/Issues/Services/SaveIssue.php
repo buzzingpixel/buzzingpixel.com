@@ -47,17 +47,19 @@ class SaveIssue
      */
     public function innerSave(Issue $issue): Payload
     {
-        $issue = $issue->withUpdatedAt(new DateTimeImmutable(
-            'now',
-            new DateTimeZone('UTC'),
-        ));
+        $lastMessage = $issue->issueMessages()
+            ->sort('createdAt', 'desc')
+            ->first();
 
-        $issue->withLastCommentAt(
-            lastCommentAt: $issue->issueMessages()
-                ->sort('createdAt', 'desc')
-                ->first()
-                ->createdAt(),
-        );
+        $issue = $issue
+            ->withUpdatedAt(updatedAt: new DateTimeImmutable(
+                'now',
+                new DateTimeZone('UTC'),
+            ))
+            ->withLastCommentAt(lastCommentAt: $lastMessage->createdAt())
+            ->withLastCommentUserType(
+                lastCommentUserType: $lastMessage->getCommentUserType(),
+            );
 
         $record = $this->entityManager->find(
             IssueRecord::class,
