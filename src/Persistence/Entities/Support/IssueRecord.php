@@ -16,6 +16,7 @@ use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\IsEnabled;
 use App\Persistence\PropertyTraits\IsPublic;
 use App\Persistence\PropertyTraits\IssueNumber;
+use App\Persistence\PropertyTraits\LastCommentAt;
 use App\Persistence\PropertyTraits\LegacySolutionFile;
 use App\Persistence\PropertyTraits\MySqlVersion;
 use App\Persistence\PropertyTraits\PhpVersion;
@@ -58,6 +59,7 @@ class IssueRecord
     use IsEnabled;
     use CreatedAt;
     use UpdatedAt;
+    use LastCommentAt;
 
     public function __construct()
     {
@@ -185,6 +187,7 @@ class IssueRecord
         $this->setIsEnabled(isEnabled: $entity->isEnabled());
         $this->setCreatedAt(createdAt: $entity->createdAt());
         $this->setUpdatedAt(updatedAt: $entity->updatedAt());
+        $this->setLastCommentAt(lastCommentAt: $entity->lastCommentAt());
 
         $this->setIssueMessages(issueMessages: new ArrayCollection(
             $entity->issueMessages()->mapToArray(
@@ -202,6 +205,8 @@ class IssueRecord
                     if (! $isInstance) {
                         $iRecord = new IssueMessageRecord();
                     }
+
+                    assert($iRecord instanceof IssueMessageRecord);
 
                     return $iRecord->hydrateFromEntity(
                         entity: $iM,

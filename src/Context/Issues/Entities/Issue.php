@@ -13,6 +13,7 @@ use App\EntityPropertyTraits\Id;
 use App\EntityPropertyTraits\IsEnabled;
 use App\EntityPropertyTraits\IsPublic;
 use App\EntityPropertyTraits\IssueNumber;
+use App\EntityPropertyTraits\LastCommentAt;
 use App\EntityPropertyTraits\LegacySolutionFile;
 use App\EntityPropertyTraits\MySqlVersion;
 use App\EntityPropertyTraits\NewSolutionFileLocation;
@@ -100,6 +101,7 @@ class Issue
     use Software;
     use CreatedAt;
     use UpdatedAt;
+    use LastCommentAt;
 
     public function humanReadableStatus(): string
     {
@@ -147,6 +149,7 @@ class Issue
             software: $software,
             createdAt: $record->getCreatedAt(),
             updatedAt: $record->getUpdatedAt(),
+            lastCommentAt: $record->getLastCommentAt(),
         ))->withIssueMessagesFromRecord($record);
     }
 
@@ -169,6 +172,7 @@ class Issue
         bool $isEnabled = true,
         null | string | DateTimeInterface $createdAt = null,
         null | string | DateTimeInterface $updatedAt = null,
+        null | string | DateTimeInterface $lastCommentAt = null,
         ?UserEntity $user = null,
         ?SoftwareEntity $software = null,
         null | array | IssueMessageCollection $issueMessages = null,
@@ -241,6 +245,7 @@ class Issue
         );
 
         $this->createdAt = $createdAtClass;
+        // End created At
 
         // Updated At
         if ($updatedAt instanceof DateTimeInterface) {
@@ -268,6 +273,37 @@ class Issue
         );
 
         $this->updatedAt = $updatedAtClass;
+        // End updated at
+
+        // Last Comment At
+        if ($lastCommentAt instanceof DateTimeInterface) {
+            $lastCommentAtClass = DateTimeImmutable::createFromFormat(
+                DateTimeInterface::ATOM,
+                $lastCommentAt->format(
+                    DateTimeInterface::ATOM
+                ),
+            );
+        } elseif (is_string($lastCommentAt)) {
+            $lastCommentAtClass = DateTimeImmutable::createFromFormat(
+                DateTimeInterface::ATOM,
+                $lastCommentAt,
+            );
+        } else {
+            /** @noinspection PhpUnhandledExceptionInspection */
+            $lastCommentAtClass = new DateTimeImmutable(
+                'now',
+                new DateTimeZone('UTC'),
+            );
+        }
+
+        assert($lastCommentAtClass instanceof DateTimeImmutable);
+
+        $lastCommentAtClass = $lastCommentAtClass->setTimezone(
+            new DateTimeZone('UTC'),
+        );
+
+        $this->lastCommentAt = $lastCommentAtClass;
+        // End last comment at
 
         $this->user = $user;
 

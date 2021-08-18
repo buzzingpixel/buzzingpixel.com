@@ -52,6 +52,13 @@ class SaveIssue
             new DateTimeZone('UTC'),
         ));
 
+        $issue->withLastCommentAt(
+            lastCommentAt: $issue->issueMessages()
+                ->sort('createdAt', 'desc')
+                ->first()
+                ->createdAt(),
+        );
+
         $record = $this->entityManager->find(
             IssueRecord::class,
             $issue->id(),
