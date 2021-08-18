@@ -39,7 +39,7 @@ class PaginatedIndexResponderPage2OrGreater implements PaginatedIndexResponderCo
         $response = $this->responseFactory->createResponse();
 
         $response->getBody()->write($this->twig->render(
-            'Http/Content/ContentListing.twig',
+            'Http/Content/ContentListingPage.twig',
             [
                 'meta' => $meta,
                 'contentItemCollection' => $newsCollection,

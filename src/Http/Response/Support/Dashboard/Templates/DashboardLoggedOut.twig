@@ -1,1 +1,33 @@
+{# @var \App\Context\Content\Entities\ContentItemCollection supportArticles #}
+{# @var \App\Context\Content\Contracts\ItemLinkResolverContract supportArticleLinkResolver #}
+
 {% extends '@app/Http/Response/Support/Templates/_SupportLayout.twig' %}
+
+{% block supportContent %}
+    <div class="pt-10 px-4 sm:px-6 lg:pb-10 lg:px-8 max-w-screen-xl mx-auto">
+        <div class="bg-spring-wood rounded-lg">
+            <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-24 lg:px-8 lg:flex lg:items-center lg:justify-between">
+                <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 md:text-4xl">
+                    <span class="block">Log In</span>
+                    <span class="block text-meteor">to view your issues<br>or open a new one</span>
+                </h2>
+                <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+                    <div class="inline-flex rounded-md shadow">
+                        <a
+                            href="/support/log-in"
+                            class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-meteor hover:bg-pumpkin-skin"
+                        >
+                            Log In Or Register
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'Http/Content/ContentListing.twig' with {
+        contentItemCollection: supportArticles,
+        itemLinkResolver: supportArticleLinkResolver,
+        heading: 'Support Articles',
+        columns: 3,
+    } only %}
+{% endblock %}

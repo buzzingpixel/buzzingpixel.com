@@ -1,0 +1,25 @@
+{# @var \App\Http\Entities\Meta meta #}
+{# @var \App\Context\Content\Entities\ContentItemCollection contentItemCollection #}
+{# @var \App\Http\Entities\Pagination pagination #}
+{# @var \App\Context\Content\Contracts\ItemLinkResolverContract itemLinkResolver #}
+{# @var \App\Context\Users\Entities\LoggedInUser LoggedInUser #}
+
+{% set breadcrumbTrail = breadcrumbTrail ?? [] %}
+{% set breadcrumbSingle = breadcrumbSingle ?? {} %}
+
+{% extends 'Http/_Infrastructure/_Layout.twig' %}
+
+{% block content %}
+    {% include 'Http/_Infrastructure/Breadcrumbs.twig' with {
+        breadcrumbTrail: breadcrumbTrail,
+        breadcrumbSingle: breadcrumbSingle,
+        useMaxWidth: false,
+    } only %}
+    {% include 'Http/Content/ContentListing.twig' with {
+        contentItemCollection: contentItemCollection,
+        itemLinkResolver: itemLinkResolver,
+        heading: meta.pageHeading.toString,
+        subHeading: meta.pageSubHeading.toString,
+        pagination: pagination,
+    } only %}
+{% endblock %}

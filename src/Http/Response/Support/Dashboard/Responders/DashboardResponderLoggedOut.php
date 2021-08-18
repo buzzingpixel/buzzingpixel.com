@@ -7,6 +7,7 @@ namespace App\Http\Response\Support\Dashboard\Responders;
 use App\Context\Content\Entities\ContentItemCollection;
 use App\Http\Entities\Meta;
 use App\Http\Response\Support\Dashboard\Contracts\DashboardResponderContract;
+use App\Http\Response\Support\Dashboard\Services\SupportArticleLinkResolver;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment as TwigEnvironment;
@@ -19,6 +20,7 @@ class DashboardResponderLoggedOut implements DashboardResponderContract
     public function __construct(
         private TwigEnvironment $twig,
         private ResponseFactoryInterface $responseFactory,
+        private SupportArticleLinkResolver $supportArticleLinkResolver,
     ) {
     }
 
@@ -43,6 +45,8 @@ class DashboardResponderLoggedOut implements DashboardResponderContract
                     metaTitle: 'Support Dashboard',
                 ),
                 'supportMenu' => $supportMenu,
+                'supportArticles' => $supportArticles,
+                'supportArticleLinkResolver' => $this->supportArticleLinkResolver,
             ],
         ));
 

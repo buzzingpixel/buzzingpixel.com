@@ -17,6 +17,11 @@ class StringValue implements Stringable
         return $this->value;
     }
 
+    public function toString(): string
+    {
+        return $this->value;
+    }
+
     public function hasValue(): bool
     {
         return $this->value !== '';
