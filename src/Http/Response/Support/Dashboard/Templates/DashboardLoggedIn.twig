@@ -1,1 +1,52 @@
+{# @var \App\Context\Users\Entities\User user #}
+{# @var \App\Context\Issues\Entities\IssueCollection mostRecentIssues #}
+{# @var \App\Context\Content\Entities\ContentItemCollection supportArticles #}
+{# @var \App\Context\Content\Contracts\ItemLinkResolverContract supportArticleLinkResolver #}
+
 {% extends '@app/Http/Response/Support/Templates/_SupportLayout.twig' %}
+
+{% block supportContent %}
+    <div class="pt-10 px-4 sm:px-6 lg:pb-10 lg:px-8 max-w-screen-xl mx-auto">
+        <div class="relative divide-y-2 divide-gray-200">
+            <h2 class="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl">
+                Welcome back!
+            </h2>
+        </div>
+        {% if not user.supportProfile.displayName %}
+            <div class="mt-2 bg-spring-wood rounded-lg">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:py-12 lg:px-8 lg:flex lg:items-center lg:justify-between">
+                    <h2 class="text-xl font-extrabold tracking-tight text-gray-900 pr-2">
+                        <span class="block">Information Needed</span>
+                        <span class="block text-meteor">please set your display name to post issues</span>
+                    </h2>
+                    <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+                        <div class="inline-flex rounded-md shadow">
+                            <a
+                                href="/account/profile"
+                                class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-meteor hover:bg-pumpkin-skin"
+                            >
+                                Update Support Profile
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    {% if mostRecentIssues.count > 0 %}
+        {% set recentIssuesHeading = 'Your Most Recent Issue' %}
+        {% if mostRecentIssues.count > 1 %}
+            {% set recentIssuesHeading = recentIssuesHeading ~ 's' %}
+        {% endif %}
+        {% include '@app/Http/Response/Support/Templates/IssueDisplay.twig' with {
+            heading: recentIssuesHeading,
+            issues: mostRecentIssues,
+        } only %}
+    {% endif %}
+    {% include 'Http/Content/ContentListing.twig' with {
+        contentItemCollection: supportArticles,
+        itemLinkResolver: supportArticleLinkResolver,
+        heading: 'Support Articles',
+        columns: 3,
+    } only %}
+{% endblock %}

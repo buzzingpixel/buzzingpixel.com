@@ -87,7 +87,7 @@ class IssueQueryBuilder extends QueryBuilder
      * @return $this
      */
     public function withIsEnabled(
-        bool $value,
+        bool $value = true,
         string $comparison = '=',
         string $concat = 'AND',
     ): self {

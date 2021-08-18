@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Response\Support\Dashboard\Responders;
 
 use App\Context\Content\Entities\ContentItemCollection;
+use App\Context\Issues\IssuesApi;
+use App\Context\Users\Entities\LoggedInUser;
 use App\Http\Entities\Meta;
 use App\Http\Response\Support\Dashboard\Contracts\DashboardResponderContract;
+use App\Http\Response\Support\Dashboard\Services\SupportArticleLinkResolver;
+use App\Persistence\QueryBuilders\Support\IssueQueryBuilder;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment as TwigEnvironment;
@@ -17,8 +21,11 @@ use Twig\Error\SyntaxError;
 class DashboardResponderLoggedIn implements DashboardResponderContract
 {
     public function __construct(
+        private IssuesApi $issuesApi,
         private TwigEnvironment $twig,
+        private LoggedInUser $loggedInUser,
         private ResponseFactoryInterface $responseFactory,
+        private SupportArticleLinkResolver $supportArticleLinkResolver,
     ) {
     }
 
@@ -34,6 +41,14 @@ class DashboardResponderLoggedIn implements DashboardResponderContract
         array $supportMenu,
         ContentItemCollection $supportArticles,
     ): ResponseInterface {
+        $mostRecentIssues = $this->issuesApi->fetchIssues(
+            queryBuilder: (new IssueQueryBuilder())
+                ->withIsEnabled()
+                ->withUserId($this->loggedInUser->user()->id())
+                ->withOrderBy('updatedAt', 'desc')
+                ->withLimit(6),
+        );
+
         $response = $this->responseFactory->createResponse();
 
         $response->getBody()->write($this->twig->render(
@@ -43,6 +58,10 @@ class DashboardResponderLoggedIn implements DashboardResponderContract
                     metaTitle: 'Support Dashboard',
                 ),
                 'supportMenu' => $supportMenu,
+                'user' => $this->loggedInUser->user(),
+                'supportArticles' => $supportArticles,
+                'mostRecentIssues' => $mostRecentIssues,
+                'supportArticleLinkResolver' => $this->supportArticleLinkResolver,
             ],
         ));
 

@@ -62,6 +62,24 @@ class Issue
         self::STATUS_COMPLETE => self::STATUS_COMPLETE,
         self::STATUS_SEE_COMMENTS => self::STATUS_SEE_COMMENTS,
     ];
+    public const HUMAN_READABLE_STATUS_MAP      = [
+        self::STATUS_NEW => 'New',
+        self::STATUS_CLARIFICATION_REQUESTED => 'Clarification Requested',
+        self::STATUS_ACCEPTED => 'Accepted',
+        self::STATUS_DUPLICATE => 'Duplicate',
+        self::STATUS_FIX_IN_UPCOMING_RELEASE => 'Fix in upcoming release',
+        self::STATUS_COMPLETE => 'Complete',
+        self::STATUS_SEE_COMMENTS => 'See Comments',
+    ];
+    public const STATUS_COLOR_MAP               = [
+        self::STATUS_NEW => 'gray',
+        self::STATUS_CLARIFICATION_REQUESTED => 'yellow',
+        self::STATUS_ACCEPTED => 'gray',
+        self::STATUS_DUPLICATE => 'gray',
+        self::STATUS_FIX_IN_UPCOMING_RELEASE => 'green',
+        self::STATUS_COMPLETE => 'green',
+        self::STATUS_SEE_COMMENTS => 'gray',
+    ];
     use Id;
     use ShortDescription;
     use IssueNumber;
@@ -82,6 +100,16 @@ class Issue
     use Software;
     use CreatedAt;
     use UpdatedAt;
+
+    public function humanReadableStatus(): string
+    {
+        return self::HUMAN_READABLE_STATUS_MAP[$this->status];
+    }
+
+    public function statusColor(): string
+    {
+        return self::STATUS_COLOR_MAP[$this->status];
+    }
 
     /** @phpstan-ignore-next-line */
     private IssueMessageCollection $issueMessages;

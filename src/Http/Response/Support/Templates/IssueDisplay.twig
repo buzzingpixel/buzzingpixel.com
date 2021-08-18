@@ -1,0 +1,90 @@
+{# @var \App\Context\Users\Entities\LoggedInUser LoggedInUser #}
+{# @var \App\Context\Issues\Entities\IssueCollection issues #}
+
+{% set heading = heading ?? '' %}
+{% set subHeading = subHeading ?? '' %}
+
+{# @var \App\Http\Entities\Pagination pagination #}
+{% set pagination = pagination ?? null %}
+
+<div class="pt-10 pb-10 px-4 sm:px-6 lg:pb-16 lg:px-8 max-w-screen-xl mx-auto">
+    <div class="relative divide-y-2 divide-gray-200">
+        {% if heading or subHeading or (pagination and pagination.totalPages > 1) %}
+            <div>
+                {% if heading %}
+                    <h2 class="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl">
+                        {{ heading }}
+                    </h2>
+                {% endif %}
+                {% if subHeading %}
+                    <p class="{% if heading %}mt-3{% endif %} text-xl text-gray-500 sm:mt-4">
+                        {{ subHeading|smartypants }}
+                    </p>
+                {% endif %}
+                {% if pagination and pagination.totalPages > 1 %}
+                    <div
+                        {% if heading or subHeading %}
+                            class="mt-3"
+                        {% endif %}
+                    >
+                        {% include 'Http/_Infrastructure/Pagination.twig' with {
+                            pagination: pagination,
+                        } only %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        <div class="mt-6 bg-white shadow overflow-hidden sm:rounded-md">
+            <ul role="list" class="divide-y divide-gray-200">
+                {% for issue in issues.toArray %}
+                    {# @var \App\Context\Issues\Entities\IssueMessage lastMessage #}
+                    {% set lastMessage = issue.issueMessages.last %}
+                    <li>
+                        <a
+                            href="#"
+                            class="block hover:bg-gray-50"
+                        >
+                            <div class="px-4 py-4 sm:px-6">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-sm font-medium text-deep-sea truncate">
+                                        {{ issue.shortDescription|smartypants }}
+                                    </p>
+                                    <div class="ml-2 flex-shrink-0 flex">
+                                        {% switch issue.statusColor %}
+                                            {% case 'yellow' %}
+                                                {% set statusColorClasses = 'bg-yellow-100 text-yellow-800' %}
+                                            {% case 'green' %}
+                                                {% set statusColorClasses = 'bg-green-100 text-green-800' %}
+                                            {% default %}
+                                                {% set statusColorClasses = 'bg-gray-100 text-gray-800' %}
+                                        {% endswitch %}
+                                        <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ statusColorClasses }}">
+                                            {{ issue.humanReadableStatus }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mt-2 sm:flex sm:justify-between">
+                                    <div class="sm:flex">
+                                        <p class="flex items-center text-sm text-gray-500">
+                                            Last message by {{ lastMessage.user.supportProfile.displayName }}
+                                        </p>
+                                    </div>
+                                    <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                        <p>{{ lastMessage.createdAt.setTimezone(LoggedInUser.user.timezone).format('n/j/Y g:i A') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% if pagination and pagination.totalPages > 1 %}
+        <div class="mt-20" >
+            {% include 'Http/_Infrastructure/Pagination.twig' with {
+                pagination: pagination,
+            } only %}
+        </div>
+    {% endif %}
+</div>
