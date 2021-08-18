@@ -28,6 +28,13 @@ class IssueValidityFactory
     {
         $errors = new ValidityErrorMessageCollection();
 
+        if ($issue->shortDescription() === '') {
+            $errors->add(new ValidityErrorMessage(
+                'shortDescription',
+                'Short description is required',
+            ));
+        }
+
         if ($issue->issueNumber() < 1) {
             $errors->add(new ValidityErrorMessage(
                 'issueNumber',

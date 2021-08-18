@@ -20,6 +20,7 @@ use App\Persistence\PropertyTraits\LegacySolutionFile;
 use App\Persistence\PropertyTraits\MySqlVersion;
 use App\Persistence\PropertyTraits\PhpVersion;
 use App\Persistence\PropertyTraits\PrivateInfo;
+use App\Persistence\PropertyTraits\ShortDescription;
 use App\Persistence\PropertyTraits\SoftwareVersion;
 use App\Persistence\PropertyTraits\Solution;
 use App\Persistence\PropertyTraits\SolutionFile;
@@ -41,6 +42,7 @@ use function assert;
 class IssueRecord
 {
     use Id;
+    use ShortDescription;
     use IssueNumber;
     use Status;
     use IsPublic;
@@ -161,6 +163,9 @@ class IssueRecord
         EntityManager $entityManager
     ): self {
         $this->setId(Uuid::fromString(uuid: $entity->id()));
+        $this->setShortDescription(
+            shortDescription: $entity->shortDescription()
+        );
         $this->setIssueNumber(issueNumber: $entity->issueNumber());
         $this->setStatus(status: $entity->status());
         $this->setIsPublic(isPublic: $entity->isPublic());

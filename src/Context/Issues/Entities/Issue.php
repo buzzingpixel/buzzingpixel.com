@@ -18,6 +18,7 @@ use App\EntityPropertyTraits\MySqlVersion;
 use App\EntityPropertyTraits\NewSolutionFileLocation;
 use App\EntityPropertyTraits\PhpVersion;
 use App\EntityPropertyTraits\PrivateInfo;
+use App\EntityPropertyTraits\ShortDescription;
 use App\EntityPropertyTraits\Software;
 use App\EntityPropertyTraits\SoftwareVersion;
 use App\EntityPropertyTraits\Solution;
@@ -62,6 +63,7 @@ class Issue
         self::STATUS_SEE_COMMENTS => self::STATUS_SEE_COMMENTS,
     ];
     use Id;
+    use ShortDescription;
     use IssueNumber;
     use Status;
     use IsPublic;
@@ -99,6 +101,7 @@ class Issue
 
         return (new self(
             id: $record->getId(),
+            shortDescription: $record->getShortDescription(),
             issueNumber: $record->getIssueNumber(),
             status: $record->getStatus(),
             isPublic: $record->getIsPublic(),
@@ -121,6 +124,7 @@ class Issue
 
     /** @phpstan-ignore-next-line */
     public function __construct(
+        string $shortDescription = '',
         int $issueNumber = 0,
         string $status = self::STATUS_NEW,
         bool $isPublic = true,
@@ -155,6 +159,8 @@ class Issue
         } else {
             $this->id = IdValue::fromString($id);
         }
+
+        $this->shortDescription = $shortDescription;
 
         $this->issueNumber = $issueNumber;
 
