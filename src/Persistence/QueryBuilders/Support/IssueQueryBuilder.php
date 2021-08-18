@@ -130,4 +130,20 @@ class IssueQueryBuilder extends QueryBuilder
             $concat,
         );
     }
+
+    /**
+     * @return $this
+     */
+    public function withLastCommentUserType(
+        string $value,
+        string $comparison = '=',
+        string $concat = 'AND',
+    ): self {
+        return $this->withWhere(
+            'lastCommentUserType',
+            $value,
+            $comparison,
+            $concat,
+        );
+    }
 }

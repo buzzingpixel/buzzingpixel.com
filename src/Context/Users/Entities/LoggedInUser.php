@@ -22,6 +22,11 @@ class LoggedInUser
         return isset($this->user);
     }
 
+    public function hasNoUser(): bool
+    {
+        return ! $this->hasUser();
+    }
+
     public function user(): User
     {
         return $this->user;

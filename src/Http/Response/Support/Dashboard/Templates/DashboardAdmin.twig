@@ -1,0 +1,19 @@
+{# @var \App\Context\Issues\Entities\IssueCollection issues #}
+
+{% extends '@app/Http/Response/Support/Templates/_SupportLayout.twig' %}
+
+{% block supportContent %}
+    <div class="pt-10 px-4 sm:px-6 lg:pb-10 lg:px-8 max-w-screen-xl mx-auto">
+        <div class="relative divide-y-2 divide-gray-200">
+            <h2 class="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl">
+                Admin Dashboard
+            </h2>
+        </div>
+    </div>
+    {% if issues.count > 0 %}
+        {% include '@app/Http/Response/Support/Templates/IssueDisplay.twig' with {
+            heading: 'Recent issues by users',
+            issues: issues,
+        } only %}
+    {% endif %}
+{% endblock %}

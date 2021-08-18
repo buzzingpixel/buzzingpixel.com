@@ -8,7 +8,7 @@
 {% set pagination = pagination ?? null %}
 
 <div class="pt-10 pb-10 px-4 sm:px-6 lg:pb-16 lg:px-8 max-w-screen-xl mx-auto">
-    <div class="relative divide-y-2 divide-gray-200">
+    <div class="relative{# divide-y-2 divide-gray-200 #}">
         {% if heading or subHeading or (pagination and pagination.totalPages > 1) %}
             <div>
                 {% if heading %}

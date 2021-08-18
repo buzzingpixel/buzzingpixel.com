@@ -13,6 +13,11 @@ trait IsAdmin
         return $this->isAdmin;
     }
 
+    public function isNotAdmin(): bool
+    {
+        return ! $this->isAdmin();
+    }
+
     /**
      * @return $this
      */
