@@ -44,9 +44,10 @@ class DashboardResponderLoggedIn implements DashboardResponderContract
         $mostRecentIssues = $this->issuesApi->fetchIssues(
             queryBuilder: (new IssueQueryBuilder())
                 ->withIsEnabled()
-                ->withUserId($this->loggedInUser->user()->id())
-                ->withOrderBy('lastCommentAt', 'desc')
-                ->withLimit(6),
+                ->withUserId(value: $this->loggedInUser->user()->id())
+                ->withOrderBy(column: 'lastCommentUserType', direction: 'asc')
+                ->withOrderBy(column: 'lastCommentAt', direction:'desc')
+                ->withLimit(limit: 6),
         );
 
         $response = $this->responseFactory->createResponse();
