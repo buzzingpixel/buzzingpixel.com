@@ -17,7 +17,7 @@ class ItemLinkResolver implements ItemLinkResolverContract
     public function resolveLinkToItem(ContentItem $contentItem): string
     {
         return $this->siteUrl->siteUrl(
-            '/news/' . $contentItem->slug(),
+            uri: '/news/' . $contentItem->slug(),
         );
     }
 }
