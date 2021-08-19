@@ -1,0 +1,16 @@
+{# @var \App\Http\Entities\Meta meta #}
+{# @var \App\Http\Entities\Pagination pagination #}
+{# @var \App\Context\Issues\Entities\IssueCollection issues #}
+{# @var \App\Context\Issues\Contracts\IssueLinkResolverContract issueLinkResolver #}
+
+{% extends '@app/Http/Response/Support/Templates/_SupportLayout.twig' %}
+
+{% block supportContent %}
+    {% include '@app/Http/Response/Support/Templates/IssueDisplay.twig' with {
+        issues: issues,
+        pagination: pagination,
+        heading: meta.pageHeading,
+        subHeading: meta.pageSubHeading,
+        issueLinkResolver: issueLinkResolver,
+    } only %}
+{% endblock %}

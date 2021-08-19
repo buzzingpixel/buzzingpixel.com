@@ -1,0 +1,29 @@
+{# @var \App\Http\Entities\Meta meta #}
+
+{% extends '@app/Http/Response/Support/Templates/_SupportLayout.twig' %}
+
+{% block supportContent %}
+    <div class="pt-10 pb-10 px-4 sm:px-6 lg:pb-16 lg:px-8 max-w-screen-xl mx-auto">
+        <div class="relative{# divide-y-2 divide-gray-200 #}">
+            {% if meta.pageHeading or meta.pageSubHeading %}
+                <div>
+                    {% if meta.pageHeading %}
+                        <h2 class="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl">
+                            {{ meta.pageHeading|smartypants }}
+                        </h2>
+                    {% endif %}
+                    {% if meta.pageSubHeading %}
+                        <p class="{% if meta.pageSubHeading %}mt-3{% endif %} text-xl text-gray-500 sm:mt-4">
+                            {{ meta.pageSubHeading|smartypants }}
+                        </p>
+                    {% endif %}
+                </div>
+            {% endif %}
+            <div class="mt-6 bg-white shadow overflow-hidden sm:rounded-md">
+                <div class="p-10 text-lg">
+                    No issues found.
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -122,6 +122,7 @@ use App\Http\Response\Software\Treasury\TreasuryChangelogAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogItemAction;
 use App\Http\Response\Stripe\Webhook\PostCheckoutSessionCompletedAction;
 use App\Http\Response\Support\Dashboard\DashboardAction;
+use App\Http\Response\Support\IssueListing\PublicIssuesPaginatedIndexAction;
 use App\Http\RouteMiddleware\Admin\RequireAdminAction;
 use App\Http\RouteMiddleware\LogIn\RequireLogInAction;
 use Config\NoOp;
@@ -357,4 +358,5 @@ return static function (App $app): void {
 
     // Support
     $app->get('/support', DashboardAction::class);
+    $app->get('/support/public[/page/{pageNum:\d+}]', PublicIssuesPaginatedIndexAction::class);
 };
