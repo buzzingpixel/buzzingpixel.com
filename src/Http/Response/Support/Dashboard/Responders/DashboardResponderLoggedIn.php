@@ -10,6 +10,7 @@ use App\Context\Users\Entities\LoggedInUser;
 use App\Http\Entities\Meta;
 use App\Http\Response\Support\Dashboard\Contracts\DashboardResponderContract;
 use App\Http\Response\Support\Dashboard\Services\SupportArticleLinkResolver;
+use App\Http\Response\Support\IssueListing\Services\IssueLinkResolver;
 use App\Persistence\QueryBuilders\Support\IssueQueryBuilder;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -24,6 +25,7 @@ class DashboardResponderLoggedIn implements DashboardResponderContract
         private IssuesApi $issuesApi,
         private TwigEnvironment $twig,
         private LoggedInUser $loggedInUser,
+        private IssueLinkResolver $issueLinkResolver,
         private ResponseFactoryInterface $responseFactory,
         private SupportArticleLinkResolver $supportArticleLinkResolver,
     ) {
@@ -62,6 +64,7 @@ class DashboardResponderLoggedIn implements DashboardResponderContract
                 'user' => $this->loggedInUser->user(),
                 'supportArticles' => $supportArticles,
                 'mostRecentIssues' => $mostRecentIssues,
+                'issueLinkResolver' => $this->issueLinkResolver,
                 'supportArticleLinkResolver' => $this->supportArticleLinkResolver,
             ],
         ));

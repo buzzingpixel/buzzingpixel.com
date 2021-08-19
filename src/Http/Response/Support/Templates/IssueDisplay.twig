@@ -1,5 +1,6 @@
-{# @var \App\Context\Users\Entities\LoggedInUser LoggedInUser #}
 {# @var \App\Context\Issues\Entities\IssueCollection issues #}
+{# @var \App\Context\Users\Entities\LoggedInUser LoggedInUser #}
+{# @var \App\Context\Issues\Contracts\IssueLinkResolverContract issueLinkResolver #}
 
 {% set heading = heading ?? '' %}
 {% set subHeading = subHeading ?? '' %}
@@ -13,7 +14,7 @@
             <div>
                 {% if heading %}
                     <h2 class="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl">
-                        {{ heading }}
+                        {{ heading|smartypants }}
                     </h2>
                 {% endif %}
                 {% if subHeading %}
@@ -41,7 +42,7 @@
                     {% set lastMessage = issue.issueMessages.last %}
                     <li>
                         <a
-                            href="#"
+                            href="{{ issueLinkResolver.resolveLinkToIssue(issue) }}"
                             class="block hover:bg-gray-50"
                         >
                             <div class="px-4 py-4 sm:px-6">

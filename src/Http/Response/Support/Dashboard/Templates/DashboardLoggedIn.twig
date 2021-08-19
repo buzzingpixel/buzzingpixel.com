@@ -1,6 +1,7 @@
 {# @var \App\Context\Users\Entities\User user #}
 {# @var \App\Context\Issues\Entities\IssueCollection mostRecentIssues #}
 {# @var \App\Context\Content\Entities\ContentItemCollection supportArticles #}
+{# @var \App\Context\Issues\Contracts\IssueLinkResolverContract issueLinkResolver #}
 {# @var \App\Context\Content\Contracts\ItemLinkResolverContract supportArticleLinkResolver #}
 
 {% extends '@app/Http/Response/Support/Templates/_SupportLayout.twig' %}
@@ -40,14 +41,15 @@
             {% set recentIssuesHeading = recentIssuesHeading ~ 's' %}
         {% endif %}
         {% include '@app/Http/Response/Support/Templates/IssueDisplay.twig' with {
-            heading: recentIssuesHeading,
             issues: mostRecentIssues,
+            heading: recentIssuesHeading,
+            issueLinkResolver: issueLinkResolver,
         } only %}
     {% endif %}
     {% include 'Http/Content/ContentListing.twig' with {
+        columns: 3,
+        heading: 'Support Articles',
         contentItemCollection: supportArticles,
         itemLinkResolver: supportArticleLinkResolver,
-        heading: 'Support Articles',
-        columns: 3,
     } only %}
 {% endblock %}

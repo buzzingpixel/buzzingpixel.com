@@ -9,6 +9,7 @@ use App\Context\Issues\Entities\Issue;
 use App\Context\Issues\IssuesApi;
 use App\Http\Entities\Meta;
 use App\Http\Response\Support\Dashboard\Contracts\DashboardResponderContract;
+use App\Http\Response\Support\IssueListing\Services\IssueLinkResolver;
 use App\Persistence\QueryBuilders\Support\IssueQueryBuilder;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -22,6 +23,7 @@ class DashboardResponderAdmin implements DashboardResponderContract
     public function __construct(
         private IssuesApi $issuesApi,
         private TwigEnvironment $twig,
+        private IssueLinkResolver $issueLinkResolver,
         private ResponseFactoryInterface $responseFactory,
     ) {
     }
@@ -54,8 +56,9 @@ class DashboardResponderAdmin implements DashboardResponderContract
                 'meta' => new Meta(
                     metaTitle: 'Support Dashboard',
                 ),
-                'supportMenu' => $supportMenu,
                 'issues' => $issues,
+                'supportMenu' => $supportMenu,
+                'issueLinkResolver' => $this->issueLinkResolver,
             ],
         ));
 

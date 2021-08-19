@@ -1,4 +1,5 @@
 {# @var \App\Context\Issues\Entities\IssueCollection issues #}
+{# @var \App\Context\Issues\Contracts\IssueLinkResolverContract issueLinkResolver #}
 
 {% extends '@app/Http/Response/Support/Templates/_SupportLayout.twig' %}
 
@@ -12,8 +13,9 @@
     </div>
     {% if issues.count > 0 %}
         {% include '@app/Http/Response/Support/Templates/IssueDisplay.twig' with {
-            heading: 'Recent issues by users',
             issues: issues,
+            heading: 'Recent issues by users',
+            issueLinkResolver: issueLinkResolver,
         } only %}
     {% endif %}
 {% endblock %}
