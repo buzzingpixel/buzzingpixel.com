@@ -53,7 +53,7 @@ class PaginatedIndexAction
             ->withPerPage(val: self::PER_PAGE)
             ->withTotalResults(val: $newsCollectionTotal->count());
 
-        return $this->responderFactory->getResponderPage1(
+        return $this->responderFactory->getResponder(
             pageNumber: $pageNumberOrNull,
             newsCollection: $newsCollection,
             request: $request,

@@ -11,12 +11,12 @@ class PaginatedIndexResponderFactory
 {
     public function __construct(
         private PaginatedIndexResponderPage1 $responderPage1,
-        private PaginatedIndexResponderPage2OrGreater $resonderPage2OrGreater,
+        private PaginatedIndexResponderPage2OrGreater $responderPage2OrGreater,
     ) {
     }
 
     /** @phpstan-ignore-next-line  */
-    public function getResponderPage1(
+    public function getResponder(
         ?int $pageNumber,
         ContentItemCollection $newsCollection,
         ServerRequestInterface $request,
@@ -26,7 +26,7 @@ class PaginatedIndexResponderFactory
         }
 
         if ($pageNumber > 1) {
-            return $this->resonderPage2OrGreater;
+            return $this->responderPage2OrGreater;
         }
 
         return $this->responderPage1;
