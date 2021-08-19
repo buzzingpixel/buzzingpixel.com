@@ -26,7 +26,7 @@ class FetchIssues
     public function fetch(IssueQueryBuilder $queryBuilder): IssueCollection
     {
         try {
-            return $this->innerFetch($queryBuilder);
+            return $this->innerFetch(queryBuilder: $queryBuilder);
         } catch (Throwable $exception) {
             return $this->exceptionHandlerFactory->getExceptionHandler()
                 ->handle($exception);

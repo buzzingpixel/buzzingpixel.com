@@ -123,6 +123,15 @@ abstract class QueryBuilder implements IQueryBuilder
         return $clone;
     }
 
+    public function withClearOrderBy(): self
+    {
+        $clone = clone $this;
+
+        $clone->orderBySet = [];
+
+        return $clone;
+    }
+
     private ?int $limit = null;
 
     /**

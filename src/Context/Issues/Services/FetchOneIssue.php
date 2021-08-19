@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Context\Issues\Services\FetchIssues;
+namespace App\Context\Issues\Services;
 
 use App\Context\Issues\Entities\Issue;
-use App\Context\Issues\Services\FetchIssues;
 use App\Persistence\QueryBuilders\Support\IssueQueryBuilder;
 
 class FetchOneIssue

@@ -32,7 +32,7 @@ class SaveIssue
     public function save(Issue $issue): Payload
     {
         try {
-            return $this->innerSave($issue);
+            return $this->innerSave(issue: $issue);
         } catch (Throwable $exception) {
             return $this->exceptionHandlerFactory->getExceptionHandler()
                 ->handle(issue: $issue, exception: $exception);

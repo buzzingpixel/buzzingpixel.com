@@ -71,7 +71,7 @@ class IssueQueryBuilder extends QueryBuilder
      * @return $this
      */
     public function withIsPublic(
-        bool $value,
+        bool $value = true,
         string $comparison = '=',
         string $concat = 'AND',
     ): self {
