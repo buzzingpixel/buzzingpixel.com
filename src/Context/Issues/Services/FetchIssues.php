@@ -7,7 +7,7 @@ namespace App\Context\Issues\Services;
 use App\Context\Issues\Entities\Issue;
 use App\Context\Issues\Entities\IssueCollection;
 use App\Context\Issues\Services\FetchIssues\Factories\ExceptionHandlerFactory;
-use App\Persistence\Entities\Support\IssueRecord;
+use App\Persistence\Entities\Issues\IssueRecord;
 use App\Persistence\QueryBuilders\Support\IssueQueryBuilder;
 use Doctrine\ORM\EntityManager;
 use Throwable;

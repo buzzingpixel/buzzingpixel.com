@@ -6,7 +6,7 @@ namespace App\Context\Issues\Services\IssueOnBeforeValidateSetIssueNumber\Servic
 
 use App\Context\Issues\Entities\Issue;
 use App\Context\Issues\Services\IssueOnBeforeValidateSetIssueNumber\Contracts\SetNewIssueNumberContract;
-use App\Persistence\Entities\Support\IssueRecord;
+use App\Persistence\Entities\Issues\IssueRecord;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;

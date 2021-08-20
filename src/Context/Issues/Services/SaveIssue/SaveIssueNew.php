@@ -10,7 +10,7 @@ use App\Context\Issues\Events\SaveIssueBeforeSave;
 use App\Context\Issues\Services\SaveIssue\Contracts\SaveIssueContract;
 use App\Context\Issues\Services\SaveIssue\Contracts\ValidityContract;
 use App\Payload\Payload;
-use App\Persistence\Entities\Support\IssueRecord;
+use App\Persistence\Entities\Issues\IssueRecord;
 use Doctrine\ORM\EntityManager;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;

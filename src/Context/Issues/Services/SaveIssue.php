@@ -10,7 +10,7 @@ use App\Context\Issues\Services\SaveIssue\Factories\ExceptionHandlerFactory;
 use App\Context\Issues\Services\SaveIssue\Factories\IssueValidityFactory;
 use App\Context\Issues\Services\SaveIssue\Factories\SaveIssueFactory;
 use App\Payload\Payload;
-use App\Persistence\Entities\Support\IssueRecord;
+use App\Persistence\Entities\Issues\IssueRecord;
 use DateTimeImmutable;
 use DateTimeZone;
 use Doctrine\ORM\EntityManager;

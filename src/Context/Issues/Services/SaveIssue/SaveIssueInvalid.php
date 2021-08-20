@@ -8,7 +8,7 @@ use App\Context\Issues\Entities\Issue;
 use App\Context\Issues\Services\SaveIssue\Contracts\SaveIssueContract;
 use App\Context\Issues\Services\SaveIssue\Contracts\ValidityContract;
 use App\Payload\Payload;
-use App\Persistence\Entities\Support\IssueRecord;
+use App\Persistence\Entities\Issues\IssueRecord;
 
 class SaveIssueInvalid implements SaveIssueContract
 {

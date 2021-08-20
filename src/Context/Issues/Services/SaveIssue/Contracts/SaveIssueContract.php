@@ -6,7 +6,7 @@ namespace App\Context\Issues\Services\SaveIssue\Contracts;
 
 use App\Context\Issues\Entities\Issue;
 use App\Payload\Payload;
-use App\Persistence\Entities\Support\IssueRecord;
+use App\Persistence\Entities\Issues\IssueRecord;
 
 interface SaveIssueContract
 {

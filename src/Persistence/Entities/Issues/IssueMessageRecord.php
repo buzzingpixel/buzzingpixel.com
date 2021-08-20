@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Persistence\Entities\Support;
+namespace App\Persistence\Entities\Issues;
 
 use App\Context\Issues\Entities\IssueMessage;
 use App\Context\Users\Entities\User;

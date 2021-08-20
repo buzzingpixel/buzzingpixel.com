@@ -10,7 +10,7 @@ use App\Context\Issues\Services\SaveIssue\Entities\ValidityErrorMessage;
 use App\Context\Issues\Services\SaveIssue\Entities\ValidityErrorMessageCollection;
 use App\Context\Issues\Services\SaveIssue\Validity\IssueIsInvalid;
 use App\Context\Issues\Services\SaveIssue\Validity\IssueIsValid;
-use App\Persistence\Entities\Support\IssueRecord;
+use App\Persistence\Entities\Issues\IssueRecord;
 use Doctrine\ORM\EntityManager;
 
 use function assert;

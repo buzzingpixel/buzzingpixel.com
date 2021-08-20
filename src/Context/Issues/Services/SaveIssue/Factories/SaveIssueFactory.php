@@ -9,7 +9,7 @@ use App\Context\Issues\Services\SaveIssue\Contracts\ValidityContract;
 use App\Context\Issues\Services\SaveIssue\SaveIssueExisting;
 use App\Context\Issues\Services\SaveIssue\SaveIssueInvalid;
 use App\Context\Issues\Services\SaveIssue\SaveIssueNew;
-use App\Persistence\Entities\Support\IssueRecord;
+use App\Persistence\Entities\Issues\IssueRecord;
 
 class SaveIssueFactory
 {

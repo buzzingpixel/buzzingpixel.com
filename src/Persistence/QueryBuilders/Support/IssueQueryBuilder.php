@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Persistence\QueryBuilders\Support;
 
-use App\Persistence\Entities\Support\IssueRecord;
+use App\Persistence\Entities\Issues\IssueRecord;
 use App\Persistence\QueryBuilders\QueryBuilder;
 
 class IssueQueryBuilder extends QueryBuilder
