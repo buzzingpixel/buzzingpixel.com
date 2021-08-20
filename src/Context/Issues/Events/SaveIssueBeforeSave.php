@@ -9,7 +9,7 @@ use App\Events\StoppableEvent;
 
 class SaveIssueBeforeSave extends StoppableEvent
 {
-    public function __construct(public Issue $issue)
+    public function __construct(public Issue $issue, public bool $isNew)
     {
     }
 }

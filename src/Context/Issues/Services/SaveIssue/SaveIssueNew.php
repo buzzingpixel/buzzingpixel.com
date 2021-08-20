@@ -31,7 +31,7 @@ class SaveIssueNew implements SaveIssueContract
     ): Payload {
         $this->logger->info('Creating new Issue record');
 
-        $beforeSave = new SaveIssueBeforeSave(issue: $issue);
+        $beforeSave = new SaveIssueBeforeSave(issue: $issue, isNew: true);
 
         $this->eventDispatcher->dispatch($beforeSave);
 

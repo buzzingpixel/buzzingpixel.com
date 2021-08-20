@@ -35,7 +35,7 @@ class SaveIssueExisting implements SaveIssueContract
 
         $this->logger->info('Saving existing Issue record');
 
-        $beforeSave = new SaveIssueBeforeSave(issue: $issue);
+        $beforeSave = new SaveIssueBeforeSave(issue: $issue, isNew: false);
 
         $this->eventDispatcher->dispatch($beforeSave);
 
