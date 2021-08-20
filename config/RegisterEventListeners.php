@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Config;
 
+use App\Context\Issues\IssuesRegisterEventListeners;
 use App\Context\Queue\QueueRegisterEventListeners;
 use App\Context\Software\SoftwareRegisterEventListeners;
 use App\Context\Stripe\StripeRegisterEventListeners;
@@ -22,6 +23,7 @@ class RegisterEventListeners
         // will be derived from reflection to see what event it's subscribing to
 
         $provider = $this->provider;
+        IssuesRegisterEventListeners::register($provider);
         QueueRegisterEventListeners::register($provider);
         SoftwareRegisterEventListeners::register($provider);
         StripeRegisterEventListeners::register($provider);
