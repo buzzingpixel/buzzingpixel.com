@@ -16,7 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class PublicIssuesPaginatedIndexAction
 {
-    private const PER_PAGE = 20;
+    private const PER_PAGE = 2;
 
     public function __construct(
         private General $config,

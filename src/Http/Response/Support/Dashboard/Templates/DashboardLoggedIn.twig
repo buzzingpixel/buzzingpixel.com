@@ -6,6 +6,10 @@
 
 {% extends '@app/Http/Response/Support/Templates/_SupportLayout.twig' %}
 
+{% set searchValue = searchValue ?? '' %}
+{% set searchAction = searchAction ?? '' %}
+{% set searchPlaceholder = searchPlaceholder ?? 'Search' %}
+
 {% block supportContent %}
     <div class="pt-10 px-4 sm:px-6 lg:pb-10 lg:px-8 max-w-screen-xl mx-auto">
         <div class="relative divide-y-2 divide-gray-200">
@@ -42,7 +46,10 @@
         {% endif %}
         {% include '@app/Http/Response/Support/Templates/IssueDisplay.twig' with {
             issues: mostRecentIssues,
+            searchValue: searchValue,
+            searchAction: searchAction,
             heading: recentIssuesHeading,
+            searchPlaceholder: searchPlaceholder,
             issueLinkResolver: issueLinkResolver,
         } only %}
     {% endif %}

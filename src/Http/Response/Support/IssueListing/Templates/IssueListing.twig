@@ -2,6 +2,12 @@
 {# @var \App\Http\Entities\Pagination pagination #}
 {# @var \App\Context\Issues\Entities\IssueCollection issues #}
 {# @var \App\Context\Issues\Contracts\IssueLinkResolverContract issueLinkResolver #}
+{# @var string searchAction #}
+{# @var string searchPlaceholder #}
+
+{% set searchValue = searchValue ?? '' %}
+{% set searchAction = searchAction ?? '' %}
+{% set searchPlaceholder = searchPlaceholder ?? 'Search' %}
 
 {% extends '@app/Http/Response/Support/Templates/_SupportLayout.twig' %}
 
@@ -10,7 +16,9 @@
         issues: issues,
         pagination: pagination,
         heading: meta.pageHeading,
+        searchAction: searchAction,
         subHeading: meta.pageSubHeading,
         issueLinkResolver: issueLinkResolver,
+        searchPlaceholder: searchPlaceholder,
     } only %}
 {% endblock %}
