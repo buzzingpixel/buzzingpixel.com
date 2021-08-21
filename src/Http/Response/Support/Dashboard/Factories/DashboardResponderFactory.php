@@ -22,6 +22,8 @@ class DashboardResponderFactory
     public function getResponder(
         LoggedInUser $loggedInUser
     ): DashboardResponderContract {
+        return $this->dashboardResponderLoggedIn;
+
         if ($loggedInUser->hasNoUser()) {
             return $this->dashboardResponderLoggedOut;
         }

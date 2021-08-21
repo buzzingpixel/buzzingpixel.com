@@ -29,7 +29,7 @@ class FetchIssues
             return $this->innerFetch(queryBuilder: $queryBuilder);
         } catch (Throwable $exception) {
             return $this->exceptionHandlerFactory->getExceptionHandler()
-                ->handle($exception);
+                ->handle(exception: $exception);
         }
     }
 

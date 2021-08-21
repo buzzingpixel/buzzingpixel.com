@@ -64,7 +64,7 @@ class DashboardResponderLoggedIn implements DashboardResponderContract
                 'user' => $this->loggedInUser->user(),
                 'supportArticles' => $supportArticles,
                 'mostRecentIssues' => $mostRecentIssues,
-                'searchAction' => '/support/user-search',
+                'searchAction' => '/support/search',
                 'searchPlaceholder' => 'Search all issues',
                 'issueLinkResolver' => $this->issueLinkResolver,
                 'supportArticleLinkResolver' => $this->supportArticleLinkResolver,

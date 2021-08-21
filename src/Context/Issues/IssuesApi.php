@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Context\Issues;
 
+use App\Context\Issues\Entities\FetchParams;
 use App\Context\Issues\Entities\Issue;
 use App\Context\Issues\Entities\IssueCollection;
+use App\Context\Issues\Entities\IssuesResult;
+use App\Context\Issues\Services\FetchAllPlusUsersPrivateIssues;
 use App\Context\Issues\Services\FetchIssues;
 use App\Context\Issues\Services\FetchOneIssue;
 use App\Context\Issues\Services\FetchTotalIssues;
@@ -25,6 +28,7 @@ class IssuesApi
         private FetchTotalIssues $fetchTotalIssues,
         private SearchUserIssues $searchUserIssues,
         private SearchPublicIssues $searchPublicIssues,
+        private FetchAllPlusUsersPrivateIssues $allPlusUsersPrivateIssues,
     ) {
     }
 
@@ -49,6 +53,16 @@ class IssuesApi
         ?IssueQueryBuilder $queryBuilder = null
     ): int {
         return $this->fetchTotalIssues->fetch(queryBuilder: $queryBuilder);
+    }
+
+    public function fetchAllPlusPrivateIssue(
+        User $user,
+        ?FetchParams $fetchParams = null,
+    ): IssuesResult {
+        return $this->allPlusUsersPrivateIssues->fetch(
+            user: $user,
+            fetchParams: $fetchParams
+        );
     }
 
     /** @phpstan-ignore-next-line  */

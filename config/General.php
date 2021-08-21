@@ -160,9 +160,9 @@ class General extends SimpleModel
             'content' => 'Dashboard',
             'isActive' => false,
         ],
-        'publicIssues' => [
-            'href' => '/support/public',
-            'content' => 'Public Issues',
+        'allIssues' => [
+            'href' => '/support/all-issues',
+            'content' => 'All Issues',
             'isActive' => false,
         ],
         'myIssues' => [

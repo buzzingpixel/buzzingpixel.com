@@ -48,8 +48,8 @@ class PaginatedIndexResponderPage2OrGreater implements PaginatedIndexResponderCo
                 'issues' => $issues,
                 'pagination' => $pagination,
                 'supportMenu' => $supportMenu,
-                'searchAction' => '/support/public/search',
-                'searchPlaceholder' => 'Search public issues',
+                'searchAction' => '/support/search',
+                'searchPlaceholder' => 'Search all issues',
                 'issueLinkResolver' => $this->issueLinkResolver,
                 'breadcrumbSingle' => [
                     'content' => 'News Page 1',
@@ -61,8 +61,8 @@ class PaginatedIndexResponderPage2OrGreater implements PaginatedIndexResponderCo
                         'uri' => '/',
                     ],
                     [
-                        'content' => 'Public Issues Page 1',
-                        'uri' => '/support/public',
+                        'content' => 'All Issues Page 1',
+                        'uri' => '/support/all-issues',
                     ],
                     ['content' => 'Pagination'],
                 ],

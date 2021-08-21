@@ -48,8 +48,8 @@ class PaginatedIndexResponderPage1 implements PaginatedIndexResponderContract
                 'issues' => $issues,
                 'pagination' => $pagination,
                 'supportMenu' => $supportMenu,
-                'searchAction' => '/support/public/search',
-                'searchPlaceholder' => 'Search public issues',
+                'searchAction' => '/support/search',
+                'searchPlaceholder' => 'Search all issues',
                 'issueLinkResolver' => $this->issueLinkResolver,
             ],
         ));
