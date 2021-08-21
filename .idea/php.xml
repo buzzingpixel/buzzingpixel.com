@@ -163,6 +163,12 @@
       <path value="$PROJECT_DIR$/vendor/symfony/yaml" />
       <path value="$PROJECT_DIR$/vendor/spatie/yaml-front-matter" />
       <path value="$PROJECT_DIR$/vendor/timostamm/text-truncation" />
+      <path value="$PROJECT_DIR$/vendor/nederdirk/psalm-redis-stubs" />
+      <path value="$PROJECT_DIR$/vendor/ukko/phpredis-phpdoc" />
+      <path value="$PROJECT_DIR$/vendor/react/promise" />
+      <path value="$PROJECT_DIR$/vendor/ezimuel/guzzlestreams" />
+      <path value="$PROJECT_DIR$/vendor/ezimuel/ringphp" />
+      <path value="$PROJECT_DIR$/vendor/elasticsearch/elasticsearch" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

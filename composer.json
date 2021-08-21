@@ -34,6 +34,7 @@
         "doctrine/annotations": "^1.11",
         "doctrine/migrations": "^3.1",
         "doctrine/orm": "^2.8",
+        "elasticsearch/elasticsearch": "^7.14",
         "html2text/html2text": "^4.3",
         "jawira/case-converter": "^3.4",
         "league/flysystem": "^2.0",

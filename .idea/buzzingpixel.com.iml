@@ -153,6 +153,12 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/yaml" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/yaml-front-matter" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/timostamm/text-truncation" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nederdirk/psalm-redis-stubs" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/ukko/phpredis-phpdoc" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/promise" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/ezimuel/guzzlestreams" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/ezimuel/ringphp" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/elasticsearch/elasticsearch" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
