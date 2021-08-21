@@ -1,5 +1,5 @@
-{# @var \Config\General GeneralConfig #}
 {# @var array supportMenu #}
+{# @var \Config\General GeneralConfig #}
 
 {% set breadcrumbTrail = breadcrumbTrail ?? [] %}
 {% set breadcrumbSingle = breadcrumbSingle ?? {} %}
@@ -19,14 +19,12 @@
                     <div class="flex-grow flex flex-col">
                         <nav class="flex-1 bg-gray-50 px-2 space-y-1">
                             {% for key, item in supportMenu %}
-                                {% if key != 'log-out' %}
-                                    <a
-                                        href="{{ item.href }}"
-                                        class="{% if item.isActive %}bg-rich-gold text-gray-100{% else %}text-gray-600 hover:bg-gold-sand hover:text-gray-900{% endif%} group rounded-md py-2 px-2 flex items-center text-sm font-medium"
-                                    >
-                                        {{ item.content|smartypants }}
-                                    </a>
-                                {% endif %}
+                                <a
+                                    href="{{ item.href }}"
+                                    class="{% if item.isActive %}bg-rich-gold text-gray-100{% else %}text-gray-600 hover:bg-gold-sand hover:text-gray-900{% endif%} group rounded-md py-2 px-2 flex items-center text-sm font-medium"
+                                >
+                                    {{ item.content|smartypants }}
+                                </a>
                             {% endfor %}
                         </nav>
                     </div>

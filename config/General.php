@@ -165,9 +165,9 @@ class General extends SimpleModel
             'content' => 'Public Issues',
             'isActive' => false,
         ],
-        'privateIssues' => [
-            'href' => '/support/private',
-            'content' => 'Private Issues',
+        'myIssues' => [
+            'href' => '/support/my-issues',
+            'content' => 'My Issues',
             'isActive' => false,
         ],
     ];
