@@ -41,6 +41,7 @@ use function array_map;
 use function array_merge;
 use function array_values;
 use function assert;
+use function implode;
 use function is_array;
 use function is_string;
 
@@ -408,5 +409,29 @@ class Issue
         ));
 
         return $clone;
+    }
+
+    public function getIndexArray(): array
+    {
+        $software = $this->software();
+
+        $messagesText = implode(
+            ' ',
+            $this->issueMessages()->mapToArray(
+                static fn (IssueMessage $i) => $i->message(),
+            ),
+        );
+
+        return [
+            'messagesText' => $messagesText,
+            'isPublic' => $this->isPublic(),
+            'solution' => $this->solution(),
+            'isEnabled' => $this->isEnabled(),
+            'userId' => $this->userGuarantee()->id(),
+            'shortDescription' => $this->shortDescription(),
+            'additionalEnvDetails' => $this->additionalEnvDetails(),
+            'softwareId' => $software !== null ? $software->id() : '',
+            'softwareName' => $software !== null ? $software->name() : '',
+        ];
     }
 }

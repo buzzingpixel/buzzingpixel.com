@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Config;
 
+use App\Context\ElasticSearch\ElasticSearchRegisterEventListeners;
 use App\Context\Issues\IssuesRegisterEventListeners;
 use App\Context\Queue\QueueRegisterEventListeners;
 use App\Context\Software\SoftwareRegisterEventListeners;
@@ -23,10 +24,11 @@ class RegisterEventListeners
         // will be derived from reflection to see what event it's subscribing to
 
         $provider = $this->provider;
-        IssuesRegisterEventListeners::register($provider);
-        QueueRegisterEventListeners::register($provider);
-        SoftwareRegisterEventListeners::register($provider);
-        StripeRegisterEventListeners::register($provider);
-        UsersRegisterEventListeners::register($provider);
+        ElasticSearchRegisterEventListeners::register(provider: $provider);
+        IssuesRegisterEventListeners::register(provider: $provider);
+        QueueRegisterEventListeners::register(provider: $provider);
+        SoftwareRegisterEventListeners::register(provider: $provider);
+        StripeRegisterEventListeners::register(provider: $provider);
+        UsersRegisterEventListeners::register(provider: $provider);
     }
 }
