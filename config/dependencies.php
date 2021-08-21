@@ -11,6 +11,7 @@ return array_merge(
     require __DIR__ . '/Dependencies/CliQuestion.php',
     require __DIR__ . '/Dependencies/CookieApi.php',
     require __DIR__ . '/Dependencies/CsrfGuard.php',
+    require __DIR__ . '/Dependencies/ElasticSearch.php',
     require __DIR__ . '/Dependencies/Email.php',
     require __DIR__ . '/Dependencies/EntityManager.php',
     require __DIR__ . '/Dependencies/Events.php',
