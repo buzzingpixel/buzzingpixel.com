@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Context\ElasticSearch\Schedule;
 
-use App\Context\ElasticSearch\ElasticSearchApi;
+use App\Context\ElasticSearch\QueueActions\SetUpIndicesQueueAction;
+use App\Context\Queue\Entities\Queue;
+use App\Context\Queue\Entities\QueueItem;
+use App\Context\Queue\QueueApi;
 use App\Context\Schedule\Entities\ScheduleConfigItem;
 use App\Context\Schedule\Frequency;
-use Throwable;
 
 class SetUpIndicesSchedule
 {
@@ -19,15 +21,21 @@ class SetUpIndicesSchedule
         );
     }
 
-    public function __construct(private ElasticSearchApi $elasticSearchApi)
+    public function __construct(private QueueApi $queueApi)
     {
     }
 
     public function __invoke(): void
     {
-        try {
-            $this->elasticSearchApi->setUpIndices();
-        } catch (Throwable) {
-        }
+        $this->queueApi->addToQueue(
+            queue: (new Queue())
+                ->withHandle(handle: 'set-up-indices')
+                ->withAddedQueueItem(
+                    newQueueItem: new QueueItem(
+                        className: SetUpIndicesQueueAction::class,
+                        methodName: 'sync',
+                    ),
+                ),
+        );
     }
 }
