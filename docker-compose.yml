@@ -1,17 +1,5 @@
 version: '3.7'
 
-x-es: &es
-  image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
-  environment:
-    - cluster.name=es-docker-cluster
-    - cluster.initial_master_nodes=es01,es02,es03
-    - bootstrap.memory_lock=true
-    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-  ulimits:
-    memlock:
-      soft: -1
-      hard: -1
-
 services:
   app:
     env_file:
@@ -54,52 +42,30 @@ services:
           - buzzingpixel-redis
 
   es01:
-    <<: *es
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
     container_name: es01
     environment:
+      - cluster.name=es-docker-cluster
       - node.name=es01
-      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     volumes:
-      - elasticsearch-data1-volume:/usr/share/elasticsearch/data
+      - elasticsearch-data-volume:/usr/share/elasticsearch/data
     expose:
       - "9200"
     networks:
       default:
         aliases:
           - buzzingpixel-elasticsearch
-      elastic:
-
-  es02:
-    <<: *es
-    container_name: es02
-    environment:
-      - node.name=es02
-      - discovery.seed_hosts=es01,es03
-    volumes:
-      - elasticsearch-data2-volume:/usr/share/elasticsearch/data
-    networks:
-      elastic:
-
-  es03:
-    <<: *es
-    container_name: es03
-    environment:
-      - node.name=es03
-      - discovery.seed_hosts=es01,es02
-    volumes:
-      - elasticsearch-data3-volume:/usr/share/elasticsearch/data
-    networks:
-      elastic:
 
 volumes:
   db-volume:
-  elasticsearch-data1-volume:
-  elasticsearch-data2-volume:
-  elasticsearch-data3-volume:
+  elasticsearch-data-volume:
   log-volume:
   redis-volume:
   storage-volume:
-
-networks:
-  elastic:
-    driver: bridge
