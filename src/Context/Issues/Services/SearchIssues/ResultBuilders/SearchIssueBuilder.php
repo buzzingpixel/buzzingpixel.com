@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Context\Issues\Services\SearchUserIssues\ResultBuilders;
+namespace App\Context\Issues\Services\SearchIssues\ResultBuilders;
 
 use App\Context\Issues\Entities\Issue;
 use App\Context\Issues\Entities\IssueCollection;
-use App\Context\Issues\Services\SearchUserIssues\Contracts\SearchUserIssuesResultBuilderContract;
+use App\Context\Issues\Services\SearchIssues\Contracts\SearchUserIssuesResultBuilderContract;
 use App\Persistence\Entities\Issues\IssueRecord;
 use Doctrine\ORM\EntityManager;
 

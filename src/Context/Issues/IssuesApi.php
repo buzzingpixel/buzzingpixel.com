@@ -10,7 +10,7 @@ use App\Context\Issues\Services\FetchIssues;
 use App\Context\Issues\Services\FetchOneIssue;
 use App\Context\Issues\Services\FetchTotalIssues;
 use App\Context\Issues\Services\SaveIssue;
-use App\Context\Issues\Services\SearchUserIssues\SearchUserIssues;
+use App\Context\Issues\Services\SearchIssues\SearchUserIssues;
 use App\Context\Users\Entities\User;
 use App\Payload\Payload;
 use App\Persistence\QueryBuilders\Support\IssueQueryBuilder;

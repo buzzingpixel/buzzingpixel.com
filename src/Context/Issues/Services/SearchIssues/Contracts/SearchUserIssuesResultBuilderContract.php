@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Context\Issues\Services\SearchUserIssues\Contracts;
+namespace App\Context\Issues\Services\SearchIssues\Contracts;
 
 use App\Context\Issues\Entities\IssueCollection;
 

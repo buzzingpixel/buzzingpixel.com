@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Context\Issues\Services\SearchUserIssues;
+namespace App\Context\Issues\Services\SearchIssues;
 
 use App\Context\Issues\Entities\IssueCollection;
-use App\Context\Issues\Services\SearchUserIssues\Factories\SearchIssueBuilderFactory;
+use App\Context\Issues\Services\SearchIssues\Factories\SearchIssueBuilderFactory;
 use App\Context\Users\Entities\User;
 use Elasticsearch\Client;
 
