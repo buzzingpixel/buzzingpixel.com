@@ -142,7 +142,7 @@ class IssueRecord
 
     /**
      * @Mapping\ManyToOne(
-     *     targetEntity="\App\Persistence\Entities\Support\IssueRecord",
+     *     targetEntity="IssueRecord",
      * )
      * @Mapping\JoinColumn(
      *     name="duplicate_of",
