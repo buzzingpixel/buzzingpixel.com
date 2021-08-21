@@ -10,6 +10,8 @@ use App\Context\Issues\Services\FetchIssues;
 use App\Context\Issues\Services\FetchOneIssue;
 use App\Context\Issues\Services\FetchTotalIssues;
 use App\Context\Issues\Services\SaveIssue;
+use App\Context\Issues\Services\SearchUserIssues\SearchUserIssues;
+use App\Context\Users\Entities\User;
 use App\Payload\Payload;
 use App\Persistence\QueryBuilders\Support\IssueQueryBuilder;
 
@@ -20,6 +22,7 @@ class IssuesApi
         private FetchIssues $fetchIssues,
         private FetchOneIssue $fetchOneIssue,
         private FetchTotalIssues $fetchTotalIssues,
+        private SearchUserIssues $searchUserIssues,
     ) {
     }
 
@@ -44,5 +47,16 @@ class IssuesApi
         ?IssueQueryBuilder $queryBuilder = null
     ): int {
         return $this->fetchTotalIssues->fetch(queryBuilder: $queryBuilder);
+    }
+
+    /** @phpstan-ignore-next-line  */
+    public function searchUserIssues(
+        string $searchString,
+        User $user
+    ): IssueCollection {
+        return $this->searchUserIssues->search(
+            searchString: $searchString,
+            user: $user,
+        );
     }
 }
