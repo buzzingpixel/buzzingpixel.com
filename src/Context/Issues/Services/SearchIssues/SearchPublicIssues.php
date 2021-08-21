@@ -6,14 +6,13 @@ namespace App\Context\Issues\Services\SearchIssues;
 
 use App\Context\Issues\Entities\IssueCollection;
 use App\Context\Issues\Services\SearchIssues\Factories\SearchIssueBuilderFactory;
-use App\Context\Users\Entities\User;
 use Elasticsearch\Client;
 
 use function array_map;
 use function assert;
 use function is_array;
 
-class SearchUserIssues
+class SearchPublicIssues
 {
     public function __construct(
         private Client $client,
@@ -22,7 +21,7 @@ class SearchUserIssues
     }
 
     /** @phpstan-ignore-next-line */
-    public function search(string $searchString, User $user): IssueCollection
+    public function search(string $searchString): IssueCollection
     {
         $esSearchResults = $this->client->search([
             'index' => 'issues',
@@ -31,7 +30,7 @@ class SearchUserIssues
                     'bool' => [
                         'must' => [
                             [
-                                'match' => ['userId' => $user->id()],
+                                'match' => ['isPublic' => true],
                             ],
                             [
                                 'simple_query_string' => [

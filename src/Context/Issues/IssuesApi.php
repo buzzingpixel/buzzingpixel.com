@@ -10,6 +10,7 @@ use App\Context\Issues\Services\FetchIssues;
 use App\Context\Issues\Services\FetchOneIssue;
 use App\Context\Issues\Services\FetchTotalIssues;
 use App\Context\Issues\Services\SaveIssue;
+use App\Context\Issues\Services\SearchIssues\SearchPublicIssues;
 use App\Context\Issues\Services\SearchIssues\SearchUserIssues;
 use App\Context\Users\Entities\User;
 use App\Payload\Payload;
@@ -23,6 +24,7 @@ class IssuesApi
         private FetchOneIssue $fetchOneIssue,
         private FetchTotalIssues $fetchTotalIssues,
         private SearchUserIssues $searchUserIssues,
+        private SearchPublicIssues $searchPublicIssues,
     ) {
     }
 
@@ -58,5 +60,11 @@ class IssuesApi
             searchString: $searchString,
             user: $user,
         );
+    }
+
+    /** @phpstan-ignore-next-line */
+    public function searchPublicIssues(string $searchString): IssueCollection
+    {
+        return $this->searchPublicIssues->search(searchString: $searchString);
     }
 }
