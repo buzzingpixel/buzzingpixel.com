@@ -20,3 +20,4 @@ Set up Traefik Dev https://github.com/buzzingpixel/traefik-dev
 - `./dev container-app php cli user:promote`
 - `yarn`
 - `yarn build`
+- `./dev container-app php cli elastic-search:set-up-indices`
