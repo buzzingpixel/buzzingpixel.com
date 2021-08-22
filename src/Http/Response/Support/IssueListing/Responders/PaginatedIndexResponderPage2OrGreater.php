@@ -38,6 +38,7 @@ class PaginatedIndexResponderPage2OrGreater implements PaginatedIndexResponderCo
         IssueCollection $issues,
         Pagination $pagination,
         Meta $meta,
+        string $searchAction = '/support/search',
     ): ResponseInterface {
         $response = $this->responseFactory->createResponse();
 
@@ -48,7 +49,7 @@ class PaginatedIndexResponderPage2OrGreater implements PaginatedIndexResponderCo
                 'issues' => $issues,
                 'pagination' => $pagination,
                 'supportMenu' => $supportMenu,
-                'searchAction' => '/support/search',
+                'searchAction' => $searchAction,
                 'searchPlaceholder' => 'Search all issues',
                 'issueLinkResolver' => $this->issueLinkResolver,
                 'breadcrumbSingle' => [

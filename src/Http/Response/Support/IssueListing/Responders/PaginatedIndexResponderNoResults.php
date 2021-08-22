@@ -36,6 +36,7 @@ class PaginatedIndexResponderNoResults implements PaginatedIndexResponderContrac
         IssueCollection $issues,
         Pagination $pagination,
         Meta $meta,
+        string $searchAction = '/support/search',
     ): ResponseInterface {
         $response = $this->responseFactory->createResponse();
 

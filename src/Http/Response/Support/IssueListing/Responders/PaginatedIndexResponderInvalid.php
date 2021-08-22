@@ -30,6 +30,7 @@ class PaginatedIndexResponderInvalid implements PaginatedIndexResponderContract
         IssueCollection $issues,
         Pagination $pagination,
         Meta $meta,
+        string $searchAction = '/support/search',
     ): ResponseInterface {
         throw new HttpNotFoundException($this->request);
     }

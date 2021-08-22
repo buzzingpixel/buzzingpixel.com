@@ -9,7 +9,7 @@ use App\Context\Issues\Entities\IssuesResult;
 use App\Context\Issues\IssuesApi;
 use App\Context\Users\Entities\LoggedInUser;
 
-class IssueResultFactory
+class AllIssuesResultFactory
 {
     public function __construct(private IssuesApi $issuesApi)
     {
