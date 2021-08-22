@@ -1,3 +1,4 @@
+{# @var \Config\General GeneralConfig #}
 {# @var \App\Context\Issues\Entities\IssueCollection issues #}
 {# @var \App\Context\Users\Entities\LoggedInUser LoggedInUser #}
 {# @var \App\Context\Issues\Contracts\IssueLinkResolverContract issueLinkResolver #}
@@ -105,7 +106,9 @@
                                         </p>
                                     </div>
                                     <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                                        <p>{{ lastMessage.createdAt.setTimezone(LoggedInUser.user.timezone).format('n/j/Y g:i A') }}</p>
+                                        <p>{{ lastMessage.createdAt.setTimezone(
+                                                LoggedInUser.hasUser ? LoggedInUser.user.timezone : GeneralConfig.systemTimeZone
+                                            ).format('n/j/Y g:i A') }}</p>
                                     </div>
                                 </div>
                             </div>

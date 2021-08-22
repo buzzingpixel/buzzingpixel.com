@@ -6,6 +6,7 @@ namespace Config;
 
 use App\Context\Email\Entity\EmailRecipient;
 use App\Context\Email\Entity\EmailRecipientCollection;
+use DateTimeZone;
 
 use function assert;
 use function dirname;
@@ -28,7 +29,8 @@ class General
     /** @var string[] */
     private array $stylesheets = [];
     /** @var string[] */
-    private array $jsFiles = ['https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js'];
+    private array $jsFiles         = ['https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js'];
+    private string $systemTimeZone = 'US/Central';
 
     public function __construct()
     {
@@ -59,6 +61,11 @@ class General
             assert(is_string($siteUrl));
 
             $this->siteUrl = $siteUrl;
+        }
+
+        $systemTimeZone = getenv('SYSTEM_TIME_ZONE');
+        if (is_string($systemTimeZone) && $systemTimeZone !== '') {
+            $this->systemTimeZone = $systemTimeZone;
         }
 
         if (
@@ -300,5 +307,10 @@ class General
         return new EmailRecipientCollection([
             new EmailRecipient(emailAddress: 'tj@buzzingpixel.com'),
         ]);
+    }
+
+    public function systemTimeZone(): DateTimeZone
+    {
+        return new DateTimeZone('US/Central');
     }
 }
