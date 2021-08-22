@@ -13,6 +13,7 @@ use App\Context\Issues\Services\FetchOneIssue;
 use App\Context\Issues\Services\FetchPublicIssues;
 use App\Context\Issues\Services\FetchPublicPlusUsersPrivateIssues;
 use App\Context\Issues\Services\FetchTotalIssues;
+use App\Context\Issues\Services\FetchUsersIssues;
 use App\Context\Issues\Services\SaveIssue;
 use App\Context\Issues\Services\SearchIssues\SearchPublicIssues;
 use App\Context\Issues\Services\SearchIssues\SearchUserIssues;
@@ -27,6 +28,7 @@ class IssuesApi
         private FetchIssues $fetchIssues,
         private FetchOneIssue $fetchOneIssue,
         private FetchTotalIssues $fetchTotalIssues,
+        private FetchUsersIssues $fetchUsersIssues,
         private SearchUserIssues $searchUserIssues,
         private FetchPublicIssues $fetchPublicIssues,
         private SearchPublicIssues $searchPublicIssues,
@@ -71,6 +73,16 @@ class IssuesApi
         ?FetchParams $fetchParams = null
     ): IssuesResult {
         return $this->fetchPublicIssues->fetch(fetchParams: $fetchParams);
+    }
+
+    public function fetchUsersIssues(
+        User $user,
+        ?FetchParams $fetchParams = null,
+    ): IssuesResult {
+        return $this->fetchUsersIssues->fetch(
+            user: $user,
+            fetchParams: $fetchParams,
+        );
     }
 
     /** @phpstan-ignore-next-line  */

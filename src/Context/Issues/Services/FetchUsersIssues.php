@@ -18,7 +18,7 @@ use Throwable;
 
 use function array_map;
 
-class FetchPublicPlusUsersPrivateIssues
+class FetchUsersIssues
 {
     public function __construct(
         private EntityManager $entityManager,
@@ -56,8 +56,7 @@ class FetchPublicPlusUsersPrivateIssues
         $absoluteTotal = (int) $this->entityManager
             ->getRepository(IssueRecord::class)
             ->createQueryBuilder('i')
-            ->where('i.isPublic = true')
-            ->orWhere('i.user = :user')
+            ->where('i.user = :user')
             ->setParameter('user', $user->id())
             ->select('count(i.id)')
             ->getQuery()
@@ -67,8 +66,7 @@ class FetchPublicPlusUsersPrivateIssues
         $issueRecords = $this->entityManager
             ->getRepository(IssueRecord::class)
             ->createQueryBuilder('i')
-            ->where('i.isPublic = true')
-            ->orWhere('i.user = :user')
+            ->where('i.user = :user')
             ->setParameter('user', $user->id())
             ->orderBy('i.lastCommentAt', 'desc')
             ->setMaxResults($fetchParams->limit())
