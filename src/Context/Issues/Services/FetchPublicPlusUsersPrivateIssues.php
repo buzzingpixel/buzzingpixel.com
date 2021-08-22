@@ -18,7 +18,7 @@ use Throwable;
 
 use function array_map;
 
-class FetchAllPlusUsersPrivateIssues
+class FetchPublicPlusUsersPrivateIssues
 {
     public function __construct(
         private EntityManager $entityManager,

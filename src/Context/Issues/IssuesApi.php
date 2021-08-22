@@ -8,9 +8,10 @@ use App\Context\Issues\Entities\FetchParams;
 use App\Context\Issues\Entities\Issue;
 use App\Context\Issues\Entities\IssueCollection;
 use App\Context\Issues\Entities\IssuesResult;
-use App\Context\Issues\Services\FetchAllPlusUsersPrivateIssues;
 use App\Context\Issues\Services\FetchIssues;
 use App\Context\Issues\Services\FetchOneIssue;
+use App\Context\Issues\Services\FetchPublicIssues;
+use App\Context\Issues\Services\FetchPublicPlusUsersPrivateIssues;
 use App\Context\Issues\Services\FetchTotalIssues;
 use App\Context\Issues\Services\SaveIssue;
 use App\Context\Issues\Services\SearchIssues\SearchPublicIssues;
@@ -27,8 +28,9 @@ class IssuesApi
         private FetchOneIssue $fetchOneIssue,
         private FetchTotalIssues $fetchTotalIssues,
         private SearchUserIssues $searchUserIssues,
+        private FetchPublicIssues $fetchPublicIssues,
         private SearchPublicIssues $searchPublicIssues,
-        private FetchAllPlusUsersPrivateIssues $allPlusUsersPrivateIssues,
+        private FetchPublicPlusUsersPrivateIssues $fetchPublicPlusUsersPrivateIssues,
     ) {
     }
 
@@ -55,14 +57,20 @@ class IssuesApi
         return $this->fetchTotalIssues->fetch(queryBuilder: $queryBuilder);
     }
 
-    public function fetchAllPlusPrivateIssue(
+    public function fetchPublicPlusUsersPrivateIssues(
         User $user,
         ?FetchParams $fetchParams = null,
     ): IssuesResult {
-        return $this->allPlusUsersPrivateIssues->fetch(
+        return $this->fetchPublicPlusUsersPrivateIssues->fetch(
             user: $user,
             fetchParams: $fetchParams
         );
+    }
+
+    public function fetchPublicIssues(
+        ?FetchParams $fetchParams = null
+    ): IssuesResult {
+        return $this->fetchPublicIssues->fetch(fetchParams: $fetchParams);
     }
 
     /** @phpstan-ignore-next-line  */
