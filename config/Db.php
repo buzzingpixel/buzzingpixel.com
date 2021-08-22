@@ -4,76 +4,91 @@ declare(strict_types=1);
 
 namespace Config;
 
-use Config\Abstractions\SimpleModel;
-
 use function dirname;
 use function getenv;
 use function is_string;
 
-/**
- * @method string entitiesPath()
- * @method bool isInitialized()
- * @method string postgresPassword()
- * @method string dbHost()
- * @method int dbPort()
- * @method string dbUser()
- * @method string dbDatabase()
- * @method string dbPassword()
- */
-class Db extends SimpleModel
+class Db
 {
+    private string $entitiesPath;
+    private string $postgresPassword = 'root';
+    private string $dbHost           = 'buzzingpixel-db';
+    private int $dbPort              = 5432;
+    private string $dbUser           = 'buzzingpixel';
+    private string $dbDatabase       = 'buzzingpixel';
+    private string $dbPassword       = 'secret';
+
     public function __construct()
     {
         $rootPath = dirname(__DIR__);
 
-        static::$entitiesPath = $rootPath . '/src/Persistence/Entities';
+        $this->entitiesPath = $rootPath . '/src/Persistence/Entities';
 
         $postgresPassword = getenv('POSTGRES_PASSWORD');
         if (is_string($postgresPassword)) {
-            static::$postgresPassword = $postgresPassword;
+            $this->postgresPassword = $postgresPassword;
         }
 
         $dbHost = getenv('DB_HOST');
         if (is_string($dbHost)) {
-            static::$dbHost = $dbHost;
+            $this->dbHost = $dbHost;
         }
 
         $dbPort = getenv('DB_PORT');
         if (is_string($dbPort)) {
-            static::$dbPort = (int) $dbPort;
+            $this->dbPort = (int) $dbPort;
         }
 
         $dbUser = getenv('DB_USER');
         if (is_string($dbUser)) {
-            static::$dbUser = $dbUser;
+            $this->dbUser = $dbUser;
         }
 
         $dbDatabase = getenv('DB_DATABASE');
         if (is_string($dbDatabase)) {
-            static::$dbDatabase = $dbDatabase;
+            $this->dbDatabase = $dbDatabase;
         }
 
         $dbPassword = getenv('DB_PASSWORD');
-        if (is_string($dbPassword)) {
-            static::$dbPassword = $dbPassword;
+        if (! is_string($dbPassword)) {
+            return;
         }
 
-        self::$isInitialized = true;
+        $this->dbPassword = $dbPassword;
     }
 
-    public static string $entitiesPath = '';
+    public function entitiesPath(): string
+    {
+        return $this->entitiesPath;
+    }
 
-    public static bool $isInitialized = false;
+    public function postgresPassword(): string
+    {
+        return $this->postgresPassword;
+    }
 
-    public static string $postgresPassword = 'root';
+    public function dbHost(): string
+    {
+        return $this->dbHost;
+    }
 
-    public static string $dbHost = 'buzzingpixel-db';
+    public function dbPort(): int
+    {
+        return $this->dbPort;
+    }
 
-    public static int $dbPort = 5432;
+    public function dbUser(): string
+    {
+        return $this->dbUser;
+    }
 
-    public static string $dbUser = 'buzzingpixel';
+    public function dbDatabase(): string
+    {
+        return $this->dbDatabase;
+    }
 
-    public static string $dbDatabase = 'buzzingpixel';
-
-    public static string $dbPassword = 'secret';
+    public function dbPassword(): string
+    {
+        return $this->dbPassword;
+    }
 }

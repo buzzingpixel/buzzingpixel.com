@@ -6,53 +6,50 @@ namespace Config;
 
 use App\Context\Email\Entity\EmailRecipient;
 use App\Context\Email\Entity\EmailRecipientCollection;
-use Config\Abstractions\SimpleModel;
 
 use function assert;
 use function dirname;
 use function getenv;
 use function is_string;
 
-/**
- * @method bool devMode()
- * @method string rootPath()
- * @method string publicPath()
- * @method string pathToStorageDirectory()
- * @method string siteUrl()
- * @method string siteName()
- * @method string systemEmailSenderAddress()
- * @method string systemEmailSenderName()
- * @method string stripePublishableKey()
- * @method string stripeSecretKey()
- * @method string stripeCheckoutSessionCompletedSigningSecret()
- * @method array stylesheets()
- * @method array jsFiles()
- * @method array siteBanner()
- */
-class General extends SimpleModel
+class General
 {
+    private bool $devMode;
+    private string $rootPath;
+    private string $publicPath;
+    private string $pathToStorageDirectory;
+    private string $stripePublishableKey;
+    private string $stripeSecretKey;
+    private string $stripeCheckoutSessionCompletedSigningSecret;
+    private string $siteUrl                  = 'https://www.buzzingpixel.com';
+    private string $siteName                 = 'BuzzingPixel';
+    private string $systemEmailSenderAddress = 'info@buzzingpixel.com';
+    private string $systemEmailSenderName    = 'BuzzingPixel';
+    /** @var string[] */
+    private array $stylesheets = [];
+    /** @var string[] */
+    private array $jsFiles = ['https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js'];
+
     public function __construct()
     {
-        $rootPath = dirname(__DIR__);
+        $this->devMode = (bool) getenv('DEV_MODE');
 
-        static::$devMode = (bool) getenv('DEV_MODE');
+        $this->rootPath = dirname(__DIR__);
 
-        static::$rootPath = $rootPath;
+        $this->publicPath = $this->rootPath . '/public';
 
-        static::$publicPath = $rootPath . '/public';
-
-        static::$pathToStorageDirectory = $rootPath . '/storage';
+        $this->pathToStorageDirectory = $this->rootPath . '/storage';
 
         /** @phpstan-ignore-next-line */
-        static::$stripePublishableKey = (string) getenv(
+        $this->stripePublishableKey = (string) getenv(
             'STRIPE_PUBLISHABLE_KEY'
         );
 
         /** @phpstan-ignore-next-line */
-        static::$stripeSecretKey = (string) getenv('STRIPE_SECRET_KEY');
+        $this->stripeSecretKey = (string) getenv('STRIPE_SECRET_KEY');
 
         /** @phpstan-ignore-next-line */
-        static::$stripeCheckoutSessionCompletedSigningSecret = (string) getenv(
+        $this->stripeCheckoutSessionCompletedSigningSecret = (string) getenv(
             'STRIPE_CHECKOUT_SESSION_COMPLETED_SIGNING_SECRET',
         );
 
@@ -61,47 +58,90 @@ class General extends SimpleModel
 
             assert(is_string($siteUrl));
 
-            static::$siteUrl = $siteUrl;
+            $this->siteUrl = $siteUrl;
         }
 
         if (
-            ! static::$devMode ||
+            ! $this->devMode() ||
             ! (bool) getenv('USE_DYNAMIC_SITE_URL') ||
             ! isset($_SERVER['HTTP_HOST'])
         ) {
             return;
         }
 
-        static::$siteUrl = 'https://' . ((string) $_SERVER['HTTP_HOST']);
+        $this->siteUrl = 'https://' . ((string) $_SERVER['HTTP_HOST']);
     }
 
-    public static bool $devMode = false;
+    public function devMode(): bool
+    {
+        return $this->devMode;
+    }
 
-    public static string $rootPath = '';
+    public function rootPath(): string
+    {
+        return $this->rootPath;
+    }
 
-    public static string $publicPath = '';
+    public function publicPath(): string
+    {
+        return $this->publicPath;
+    }
 
-    public static string $pathToStorageDirectory = '';
+    public function pathToStorageDirectory(): string
+    {
+        return $this->pathToStorageDirectory;
+    }
 
-    public static string $siteUrl = 'https://www.buzzingpixel.com';
+    public function stripePublishableKey(): string
+    {
+        return $this->stripePublishableKey;
+    }
 
-    public static string $siteName = 'BuzzingPixel';
+    public function stripeSecretKey(): string
+    {
+        return $this->stripeSecretKey;
+    }
 
-    public static string $systemEmailSenderAddress = 'info@buzzingpixel.com';
+    public function stripeCheckoutSessionCompletedSigningSecret(): string
+    {
+        return $this->stripeCheckoutSessionCompletedSigningSecret;
+    }
 
-    public static string $systemEmailSenderName = 'BuzzingPixel';
+    public function siteUrl(): string
+    {
+        return $this->siteUrl;
+    }
 
-    public static string $stripePublishableKey = '';
+    public function siteName(): string
+    {
+        return $this->siteName;
+    }
 
-    public static string $stripeSecretKey = '';
+    public function systemEmailSenderAddress(): string
+    {
+        return $this->systemEmailSenderAddress;
+    }
 
-    public static string $stripeCheckoutSessionCompletedSigningSecret = '';
+    public function systemEmailSenderName(): string
+    {
+        return $this->systemEmailSenderName;
+    }
 
-    /** @var string[] */
-    public static array $stylesheets = [];
+    /**
+     * @return string[]
+     */
+    public function stylesheets(): array
+    {
+        return $this->stylesheets;
+    }
 
-    /** @var string[] */
-    public static array $jsFiles = ['https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js'];
+    /**
+     * @return string[]
+     */
+    public function jsFiles(): array
+    {
+        return $this->jsFiles;
+    }
 
     /** @var array<string, array<string, string|bool>> */
     public static array $accountMenu = [
@@ -238,17 +278,21 @@ class General extends SimpleModel
         return $menu;
     }
 
-    /** @var mixed[] */
-    public static array $siteBanner = [
-        'siteBanner' => 'filler',
-        'explanation' => 'Keep PHPCS from complaining when items commented out',
-        // 'content' => 'This is a test of the emergency broadcasting system',
-        // 'mobileContent' => 'Do stuff',
-        // 'link' => [
-        //     'href' => '#todo',
-        //     'content' => 'Go Here',
-        // ],
-    ];
+    /**
+     * @return mixed[]
+     */
+    public function siteBanner(): array
+    {
+        return [
+            'siteBanner' => 'filler',
+            'content-disabled' => 'This is a test of the emergency broadcasting system',
+            'mobileContent-disabled' => 'Do stuff',
+            'link-disabled' => [
+                'href' => '#todo',
+                'content' => 'Go Here',
+            ],
+        ];
+    }
 
     /** @phpstan-ignore-next-line  */
     public function contactFormRecipients(): EmailRecipientCollection
