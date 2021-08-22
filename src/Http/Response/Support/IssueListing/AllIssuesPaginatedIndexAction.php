@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Response\Support\IssueListing;
 
-use App\Context\Issues\Entities\FetchParams;
-use App\Context\Issues\IssuesApi;
 use App\Context\Users\Entities\LoggedInUser;
 use App\Http\Entities\Pagination;
+use App\Http\Response\Support\IssueListing\Factories\IssueResultFactory;
 use App\Http\Response\Support\IssueListing\Factories\MetaFactory;
 use App\Http\Response\Support\IssueListing\Factories\PaginatedIndexResponderFactory;
 use App\Http\Utilities\General\PageNumberUtil;
@@ -21,10 +20,10 @@ class AllIssuesPaginatedIndexAction
 
     public function __construct(
         private General $config,
-        private IssuesApi $issuesApi,
         private MetaFactory $metaFactory,
         private LoggedInUser $loggedInUser,
         private PageNumberUtil $pageNumberUtil,
+        private IssueResultFactory $issueResultFactory,
         private PaginatedIndexResponderFactory $responderFactory,
     ) {
     }
@@ -41,12 +40,10 @@ class AllIssuesPaginatedIndexAction
             incoming: $pageNumString,
         );
 
-        $issuesResult = $this->issuesApi->fetchAllPlusPrivateIssue(
-            user: $this->loggedInUser->user(),
-            fetchParams: new FetchParams(
-                limit: self::PER_PAGE,
-                offset: ($pageNumber * self::PER_PAGE) - self::PER_PAGE,
-            ),
+        $issuesResult = $this->issueResultFactory->getIssueResult(
+            loggedInUser: $this->loggedInUser,
+            pageNumber: $pageNumber,
+            perPage: self::PER_PAGE,
         );
 
         $pagination = (new Pagination())
