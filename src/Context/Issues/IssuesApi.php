@@ -16,6 +16,7 @@ use App\Context\Issues\Services\FetchTotalIssues;
 use App\Context\Issues\Services\FetchUsersIssues;
 use App\Context\Issues\Services\SaveIssue;
 use App\Context\Issues\Services\SearchIssues\SearchPublicIssues;
+use App\Context\Issues\Services\SearchIssues\SearchPublicPlusUsersIssues;
 use App\Context\Issues\Services\SearchIssues\SearchUserIssues;
 use App\Context\Users\Entities\User;
 use App\Payload\Payload;
@@ -32,6 +33,7 @@ class IssuesApi
         private SearchUserIssues $searchUserIssues,
         private FetchPublicIssues $fetchPublicIssues,
         private SearchPublicIssues $searchPublicIssues,
+        private SearchPublicPlusUsersIssues $searchPublicPlusUsersIssues,
         private FetchPublicPlusUsersPrivateIssues $fetchPublicPlusUsersPrivateIssues,
     ) {
     }
@@ -103,6 +105,18 @@ class IssuesApi
     ): IssuesResult {
         return $this->searchPublicIssues->search(
             searchString: $searchString,
+            fetchParams: $fetchParams,
+        );
+    }
+
+    public function searchPublicPlusUsersIssues(
+        string $searchString,
+        User $user,
+        ?FetchParams $fetchParams = null,
+    ): IssuesResult {
+        return $this->searchPublicPlusUsersIssues->search(
+            searchString: $searchString,
+            user: $user,
             fetchParams: $fetchParams,
         );
     }
