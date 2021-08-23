@@ -97,9 +97,13 @@ class IssuesApi
         );
     }
 
-    /** @phpstan-ignore-next-line */
-    public function searchPublicIssues(string $searchString): IssueCollection
-    {
-        return $this->searchPublicIssues->search(searchString: $searchString);
+    public function searchPublicIssues(
+        string $searchString,
+        ?FetchParams $fetchParams = null,
+    ): IssuesResult {
+        return $this->searchPublicIssues->search(
+            searchString: $searchString,
+            fetchParams: $fetchParams,
+        );
     }
 }

@@ -8,7 +8,7 @@ use App\Context\Issues\Entities\FetchParams;
 use App\Context\Issues\Entities\Issue;
 use App\Context\Issues\Entities\IssueCollection;
 use App\Context\Issues\Entities\IssuesResult;
-use App\Context\Issues\Services\SearchIssues\Contracts\SearchUserIssuesResultBuilderContract;
+use App\Context\Issues\Services\SearchIssues\Contracts\SearchIssuesResultBuilderContract;
 use App\Persistence\Entities\Issues\IssueRecord;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
@@ -16,7 +16,7 @@ use Doctrine\ORM\NoResultException;
 
 use function array_map;
 
-class SearchIssueBuilder implements SearchUserIssuesResultBuilderContract
+class SearchIssueBuilder implements SearchIssuesResultBuilderContract
 {
     public function __construct(private EntityManager $entityManager)
     {
@@ -64,11 +64,15 @@ class SearchIssueBuilder implements SearchUserIssuesResultBuilderContract
         $finalCollection = new IssueCollection();
 
         foreach ($resultIds as $id) {
-            $finalCollection->add(
-                $intermediateCollection->filter(
-                    static fn (Issue $i) => $i->id() === $id,
-                )->first(),
+            $collection = $intermediateCollection->filter(
+                static fn (Issue $i) => $i->id() === $id,
             );
+
+            if ($collection->count() < 1) {
+                continue;
+            }
+
+            $finalCollection->add($collection->first());
         }
 
         return new IssuesResult(

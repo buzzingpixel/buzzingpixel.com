@@ -7,7 +7,7 @@ namespace App\Context\Issues\Services\SearchIssues\Contracts;
 use App\Context\Issues\Entities\FetchParams;
 use App\Context\Issues\Entities\IssuesResult;
 
-interface SearchUserIssuesResultBuilderContract
+interface SearchIssuesResultBuilderContract
 {
     /**
      * @param string[] $resultIds

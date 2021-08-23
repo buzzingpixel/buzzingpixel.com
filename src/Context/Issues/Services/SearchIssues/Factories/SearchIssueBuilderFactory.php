@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Issues\Services\SearchIssues\Factories;
 
-use App\Context\Issues\Services\SearchIssues\Contracts\SearchUserIssuesResultBuilderContract;
+use App\Context\Issues\Services\SearchIssues\Contracts\SearchIssuesResultBuilderContract;
 use App\Context\Issues\Services\SearchIssues\ResultBuilders\SearchIssueBuilder;
 use App\Context\Issues\Services\SearchIssues\ResultBuilders\SearchIssueResultBuilderNoResults;
 
@@ -21,7 +21,7 @@ class SearchIssueBuilderFactory
     /** @param string[] $resultIds */
     public function getSearchIssueBuilder(
         array $resultIds
-    ): SearchUserIssuesResultBuilderContract {
+    ): SearchIssuesResultBuilderContract {
         if (count($resultIds) < 1) {
             return $this->builderNoResults;
         }

@@ -7,9 +7,9 @@ namespace App\Context\Issues\Services\SearchIssues\ResultBuilders;
 use App\Context\Issues\Entities\FetchParams;
 use App\Context\Issues\Entities\IssueCollection;
 use App\Context\Issues\Entities\IssuesResult;
-use App\Context\Issues\Services\SearchIssues\Contracts\SearchUserIssuesResultBuilderContract;
+use App\Context\Issues\Services\SearchIssues\Contracts\SearchIssuesResultBuilderContract;
 
-class SearchIssueResultBuilderNoResults implements SearchUserIssuesResultBuilderContract
+class SearchIssueResultBuilderNoResults implements SearchIssuesResultBuilderContract
 {
     /**
      * @inheritDoc
