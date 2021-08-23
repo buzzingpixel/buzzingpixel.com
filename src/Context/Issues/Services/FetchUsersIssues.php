@@ -33,7 +33,7 @@ class FetchUsersIssues
         try {
             return $this->innerFetch(
                 user: $user,
-                fetchParams: $fetchParams ??= new FetchParams()
+                fetchParams: $fetchParams ?? new FetchParams(),
             );
         } catch (Throwable $exception) {
             return new IssuesResult(

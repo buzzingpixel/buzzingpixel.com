@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Context\Issues\Services\SearchIssues\Contracts;
 
-use App\Context\Issues\Entities\IssueCollection;
+use App\Context\Issues\Entities\FetchParams;
+use App\Context\Issues\Entities\IssuesResult;
 
 interface SearchUserIssuesResultBuilderContract
 {
     /**
      * @param string[] $resultIds
-     *
-     * @phpstan-ignore-next-line
      */
-    public function buildResult(array $resultIds): IssueCollection;
+    public function buildResult(
+        array $resultIds,
+        FetchParams $fetchParams,
+    ): IssuesResult;
 }

@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\Context\Issues\Services\SearchIssues\ResultBuilders;
 
+use App\Context\Issues\Entities\FetchParams;
 use App\Context\Issues\Entities\Issue;
 use App\Context\Issues\Entities\IssueCollection;
+use App\Context\Issues\Entities\IssuesResult;
 use App\Context\Issues\Services\SearchIssues\Contracts\SearchUserIssuesResultBuilderContract;
 use App\Persistence\Entities\Issues\IssueRecord;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 
 use function array_map;
-use function assert;
-use function is_array;
 
 class SearchIssueBuilder implements SearchUserIssuesResultBuilderContract
 {
@@ -21,20 +23,34 @@ class SearchIssueBuilder implements SearchUserIssuesResultBuilderContract
     }
 
     /**
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     *
      * @inheritDoc
-     * @phpstan-ignore-next-line
      */
-    public function buildResult(array $resultIds): IssueCollection
-    {
+    public function buildResult(
+        array $resultIds,
+        FetchParams $fetchParams,
+    ): IssuesResult {
+        $absoluteTotal = (int) $this->entityManager
+            ->getRepository(IssueRecord::class)
+            ->createQueryBuilder('i')
+            ->where('i.id IN (:ids)')
+            ->setParameter('ids', $resultIds)
+            ->select('count(i.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        /** @var IssueRecord[] $records */
         $records = $this->entityManager
             ->getRepository(IssueRecord::class)
             ->createQueryBuilder('i')
             ->where('i.id IN (:ids)')
             ->setParameter('ids', $resultIds)
+            ->setMaxResults($fetchParams->limit())
+            ->setFirstResult($fetchParams->offset())
             ->getQuery()
             ->getResult();
-
-        assert(is_array($records));
 
         $intermediateCollection = new IssueCollection(
             array_map(
@@ -55,6 +71,9 @@ class SearchIssueBuilder implements SearchUserIssuesResultBuilderContract
             );
         }
 
-        return $finalCollection;
+        return new IssuesResult(
+            absoluteTotal: $absoluteTotal,
+            issueCollection: $finalCollection,
+        );
     }
 }

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Context\Issues\Services\SearchIssues;
 
-use App\Context\Issues\Entities\IssueCollection;
+use App\Context\Issues\Entities\FetchParams;
+use App\Context\Issues\Entities\IssuesResult;
 use App\Context\Issues\Services\SearchIssues\Factories\SearchIssueBuilderFactory;
 use App\Context\Users\Entities\User;
 use Elasticsearch\Client;
@@ -21,9 +22,11 @@ class SearchUserIssues
     ) {
     }
 
-    /** @phpstan-ignore-next-line */
-    public function search(string $searchString, User $user): IssueCollection
-    {
+    public function search(
+        string $searchString,
+        User $user,
+        ?FetchParams $fetchParams = null,
+    ): IssuesResult {
         $esSearchResults = $this->client->search([
             'index' => 'issues',
             'body' => [
@@ -67,6 +70,9 @@ class SearchUserIssues
 
         return $this->searchIssueBuilderFactory
             ->getSearchIssueBuilder(resultIds: $resultIds)
-            ->buildResult(resultIds: $resultIds);
+            ->buildResult(
+                resultIds: $resultIds,
+                fetchParams: $fetchParams ?? new FetchParams(),
+            );
     }
 }

@@ -85,14 +85,15 @@ class IssuesApi
         );
     }
 
-    /** @phpstan-ignore-next-line  */
     public function searchUserIssues(
         string $searchString,
-        User $user
-    ): IssueCollection {
+        User $user,
+        ?FetchParams $fetchParams = null,
+    ): IssuesResult {
         return $this->searchUserIssues->search(
             searchString: $searchString,
             user: $user,
+            fetchParams: $fetchParams,
         );
     }
 
