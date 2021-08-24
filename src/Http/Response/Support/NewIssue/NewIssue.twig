@@ -1,0 +1,25 @@
+{% extends '@app/Http/Response/Support/Templates/_SupportLayout.twig' %}
+
+{% set headline = headline ?? '' %}
+{% set formConfig = formConfig ?? [] %}
+
+{% block supportContent %}
+    <div
+        class="flex-1 relative focus:outline-none"
+        tabindex="0"
+        xmlns:x-bind="http://www.w3.org/1999/xhtml"
+    >
+        <div class="py-6">
+            <div class="px-4 sm:px-6 md:px-0 mb-4">
+                <h1 class="text-2xl font-semibold text-gray-900">
+                    {{ headline|smartypants }}
+                </h1>
+            </div>
+            <div class="px-4 sm:px-6 md:px-0">
+                {# Content #}
+                {% include 'Http/_Infrastructure/Forms/LabelsOnLeftForm.twig' with formConfig only %}
+                {# /EndContent #}
+            </div>
+        </div>
+    </div>
+{% endblock %}

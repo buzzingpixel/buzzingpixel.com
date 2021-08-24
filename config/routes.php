@@ -124,6 +124,7 @@ use App\Http\Response\Stripe\Webhook\PostCheckoutSessionCompletedAction;
 use App\Http\Response\Support\Dashboard\DashboardAction;
 use App\Http\Response\Support\IssueListing\AllIssuesPaginatedIndexAction;
 use App\Http\Response\Support\IssueListing\MyIssuesPaginatedIndexAction;
+use App\Http\Response\Support\NewIssue\NewIssueAction;
 use App\Http\Response\Support\Search\SearchPublicPlusUsersIssuesAction;
 use App\Http\RouteMiddleware\Admin\RequireAdminAction;
 use App\Http\RouteMiddleware\LogIn\RequireLogInAction;
@@ -367,5 +368,8 @@ return static function (App $app): void {
     $app->get('/support/search[/page/{pageNum:\d+}]', SearchPublicPlusUsersIssuesAction::class);
     $app->redirect('/support/log-in', '/support')
         ->setArguments(['heading' => 'Log in to view your issues or open a new one'])
+        ->add(RequireLogInAction::class);
+    $app->get('/support/new-issue', NewIssueAction::class)
+        ->setArguments(['heading' => 'Log in to create a new issue'])
         ->add(RequireLogInAction::class);
 };
