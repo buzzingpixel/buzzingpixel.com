@@ -15,6 +15,7 @@
     {% include '@app/Http/Response/Support/Templates/IssueDisplay.twig' with {
         issues: issues,
         pagination: pagination,
+        searchValue: searchValue,
         heading: meta.pageHeading,
         searchAction: searchAction,
         subHeading: meta.pageSubHeading,

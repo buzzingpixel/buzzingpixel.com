@@ -2,19 +2,53 @@
 
 {% extends '@app/Http/Response/Support/Templates/_SupportLayout.twig' %}
 
+{% set searchValue = searchValue ?? '' %}
+{% set searchAction = searchAction ?? '' %}
+{% set searchPlaceholder = searchPlaceholder ?? 'Search' %}
+
 {% block supportContent %}
     <div class="pt-10 pb-10 px-4 sm:px-6 lg:pb-16 lg:px-8 max-w-screen-xl mx-auto">
+        {% if searchAction %}
+            <div class="relative z-10 flex-shrink-0 h-16 bg-gray-50 border-b border-gray-200 flex mb-6">
+                <div class="flex-1 flex justify-between px-4 md:px-0">
+                    <div class="flex-1 flex">
+                        <form
+                            class="w-full flex md:ml-0"
+                            action="{{ searchAction }}"
+                            method="GET"
+                        >
+                            <label for="search_field" class="sr-only">Search</label>
+                            <div class="relative w-full text-gray-400 focus-within:text-gray-600">
+                                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center">
+                                    {% include 'Http/_Infrastructure/Svg/SolidSearch.twig' with {
+                                        classes: 'h-5 w-5',
+                                    } only %}
+                                </div>
+                                <input
+                                    id="search_field"
+                                    class="block h-full w-full border-transparent py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent sm:text-sm bg-gray-50"
+                                    placeholder="{{ searchPlaceholder }}"
+                                    type="search"
+                                    name="query"
+                                    value="{{ searchValue }}"
+                                >
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
         <div class="relative{# divide-y-2 divide-gray-200 #}">
             {% if meta.pageHeading or meta.pageSubHeading %}
                 <div>
                     {% if meta.pageHeading %}
                         <h2 class="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl">
-                            {{ meta.pageHeading|smartypants }}
+                            {{ meta.pageHeading }}
                         </h2>
                     {% endif %}
                     {% if meta.pageSubHeading %}
                         <p class="{% if meta.pageSubHeading %}mt-3{% endif %} text-xl text-gray-500 sm:mt-4">
-                            {{ meta.pageSubHeading|smartypants }}
+                            {{ meta.pageSubHeading }}
                         </p>
                     {% endif %}
                 </div>

@@ -28,7 +28,7 @@ class PaginatedIndexResponderFactory
         ServerRequestInterface $request,
     ): PaginatedIndexResponderContract {
         if ($pageNumber === null || ($pageNumber > 1 && $issues->count() < 1)) {
-            return new PaginatedIndexResponderInvalid($request);
+            return new PaginatedIndexResponderInvalid(request: $request);
         }
 
         if ($issues->count() < 1) {
