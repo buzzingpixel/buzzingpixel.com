@@ -365,4 +365,7 @@ return static function (App $app): void {
         ->setArguments(['heading' => 'Log in to view your issues'])
         ->add(RequireLogInAction::class);
     $app->get('/support/search[/page/{pageNum:\d+}]', SearchPublicPlusUsersIssuesAction::class);
+    $app->redirect('/support/log-in', '/support')
+        ->setArguments(['heading' => 'Log in to view your issues or open a new one'])
+        ->add(RequireLogInAction::class);
 };
