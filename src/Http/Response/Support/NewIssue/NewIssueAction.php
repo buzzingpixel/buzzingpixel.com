@@ -10,16 +10,21 @@ use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Flash\Messages as FlashMessages;
 use Twig\Environment as TwigEnvironment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+
+use function assert;
+use function is_array;
 
 class NewIssueAction
 {
     public function __construct(
         private General $config,
         private TwigEnvironment $twig,
+        private FlashMessages $flashMessages,
         private ResponseFactoryInterface $responseFactory,
         private IssueInputConfigFactory $inputConfigFactory,
     ) {
@@ -32,6 +37,17 @@ class NewIssueAction
      */
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
+        $message = $this->flashMessages->getMessage('IssueMessage');
+
+        assert($message === null || is_array($message));
+
+        if ($message !== null) {
+            /** @psalm-suppress MixedAssignment */
+            $message = $message[0];
+
+            assert(is_array($message));
+        }
+
         /** @var string[] $queryParams */
         $queryParams = $request->getQueryParams();
 
@@ -61,6 +77,7 @@ class NewIssueAction
                     ['content' => 'Create Issue'],
                 ],
                 'supportMenu' => $this->config->supportMenu(),
+                'issueMessage' => $message,
                 'headline' => 'Create a new issue',
                 'formConfig' => [
                     'hideTopButtons' => true,
@@ -68,6 +85,7 @@ class NewIssueAction
                     'formAction' => '/support/new-issue',
                     'inputs' => $this->inputConfigFactory->getInputConfig(
                         type: $type,
+                        message: $message,
                     ),
                 ],
             ],

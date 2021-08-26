@@ -2,6 +2,7 @@
 
 {% set headline = headline ?? '' %}
 {% set formConfig = formConfig ?? [] %}
+{% set issueMessage = issueMessage ?? [] %}
 
 {% block supportContent %}
     <div
@@ -10,6 +11,14 @@
         xmlns:x-bind="http://www.w3.org/1999/xhtml"
     >
         <div class="py-6">
+            {% if issueMessage %}
+                <div class="pb-6 px-4 sm:px-6 md:px-0">
+                    {% include 'Http/Components/Alert.twig' with {
+                        content: issueMessage.message,
+                        type: issueMessage.status == 'SUCCESSFUL' ? 'success' : 'error',
+                    } only %}
+                </div>
+            {% endif %}
             <div class="px-4 sm:px-6 md:px-0 mb-4">
                 <h1 class="text-2xl font-semibold text-gray-900">
                     {{ headline|smartypants }}

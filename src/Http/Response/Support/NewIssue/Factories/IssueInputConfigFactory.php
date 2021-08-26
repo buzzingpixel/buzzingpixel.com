@@ -6,6 +6,9 @@ namespace App\Http\Response\Support\NewIssue\Factories;
 
 use App\Context\Software\SoftwareApi;
 
+use function assert;
+use function is_array;
+
 class IssueInputConfigFactory
 {
     public function __construct(
@@ -14,51 +17,81 @@ class IssueInputConfigFactory
     }
 
     /**
+     * @param mixed[] $message
+     *
      * @return mixed[]
      */
     public function getInputConfig(
         string $type = 'public',
+        ?array $message = null,
     ): array {
+        $inputValues = $message['inputValues'] ?? [];
+
+        assert(is_array($inputValues));
+
+        $isPublic = $type === 'public';
+
+        if (isset($inputValues['is_public'])) {
+            $isPublic = ((string) $inputValues['is_public']) === '1';
+        }
+
+        $errorMessages = $message['errorMessages'] ?? [];
+
+        assert(is_array($errorMessages));
+
         return [
             [
                 'template' => 'Toggle',
                 'label' => 'Public?',
-                'name' => 'public',
-                'value' => $type === 'public',
+                'name' => 'is_public',
+                'value' => $isPublic,
+                'errorMessage' => (string) ($errorMessages['is_public'] ?? ''),
             ],
             [
                 'template' => 'Select',
                 'label' => 'Software',
                 'labelSmall' => '(required)',
-                'name' => 'public_private',
-                'options' => $this->softwareApi->fetchSoftwareAsOptionsArray(),
+                'name' => 'software',
+                'options' => $this->softwareApi->fetchSoftwareAsIdOptionsArray(),
+                'value' => (string) ($inputValues['software'] ?? ''),
+                'errorMessage' => (string) ($errorMessages['software'] ?? ''),
             ],
             [
                 'label' => 'Software Version',
                 'labelSmall' => '(required)',
                 'name' => 'software_version',
                 'attrs' => ['placeholder' => 'e.g. 2.0.1'],
+                'value' => (string) ($inputValues['software_version'] ?? ''),
+                'errorMessage' => (string) ($errorMessages['software_version'] ?? ''),
             ],
             [
                 'label' => 'Short Description',
                 'labelSmall' => '(required)',
                 'name' => 'short_description',
                 'attrs' => ['placeholder' => 'e.g. Ansel causes the server to explode when submitting an entry'],
+                'value' => (string) ($inputValues['short_description'] ?? ''),
+                'errorMessage' => (string) ($errorMessages['short_description'] ?? ''),
             ],
             [
                 'label' => 'CMS Version',
                 'name' => 'cms_version',
                 'attrs' => ['placeholder' => 'e.g. EE 3.5.3'],
+                'value' => (string) ($inputValues['cms_version'] ?? ''),
+                'errorMessage' => (string) ($errorMessages['cms_version'] ?? ''),
             ],
             [
                 'label' => 'PHP Version',
                 'name' => 'php_version',
                 'attrs' => ['placeholder' => 'e.g. 8.0.1'],
+                'value' => (string) ($inputValues['php_version'] ?? ''),
+                'errorMessage' => (string) ($errorMessages['php_version'] ?? ''),
             ],
             [
                 'label' => 'MySQL Version',
                 'name' => 'mysql_version',
                 'attrs' => ['placeholder' => 'e.g. MySQL 5.7.12 or MariaDB 10.1.21'],
+                'value' => (string) ($inputValues['mysql_version'] ?? ''),
+                'errorMessage' => (string) ($errorMessages['mysql_version'] ?? ''),
             ],
             [
                 'template' => 'TextArea',
@@ -67,6 +100,8 @@ class IssueInputConfigFactory
                 'subHeading' => 'use Markdown for formatting',
                 'name' => 'additional_env_details',
                 'attrs' => ['rows' => 5],
+                'value' => (string) ($inputValues['additional_env_details'] ?? ''),
+                'errorMessage' => (string) ($errorMessages['additional_env_details'] ?? ''),
             ],
             [
                 'template' => 'TextArea',
@@ -76,6 +111,8 @@ class IssueInputConfigFactory
                 'subHeading' => 'use Markdown for formatting',
                 'name' => 'message',
                 'attrs' => ['rows' => 16],
+                'value' => (string) ($inputValues['message'] ?? ''),
+                'errorMessage' => (string) ($errorMessages['message'] ?? ''),
             ],
             [
                 'template' => 'TextArea',
@@ -84,6 +121,8 @@ class IssueInputConfigFactory
                 'subHeading' => 'this info will only ever be shown to you and admins<br>use Markdown for formatting',
                 'name' => 'private_info',
                 'attrs' => ['rows' => 5],
+                'value' => (string) ($inputValues['private_info'] ?? ''),
+                'errorMessage' => (string) ($errorMessages['private_info'] ?? ''),
             ],
         ];
     }

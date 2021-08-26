@@ -125,6 +125,7 @@ use App\Http\Response\Support\Dashboard\DashboardAction;
 use App\Http\Response\Support\IssueListing\AllIssuesPaginatedIndexAction;
 use App\Http\Response\Support\IssueListing\MyIssuesPaginatedIndexAction;
 use App\Http\Response\Support\NewIssue\NewIssueAction;
+use App\Http\Response\Support\NewIssue\PostNewIssueAction;
 use App\Http\Response\Support\Search\SearchPublicPlusUsersIssuesAction;
 use App\Http\RouteMiddleware\Admin\RequireAdminAction;
 use App\Http\RouteMiddleware\LogIn\RequireLogInAction;
@@ -370,6 +371,10 @@ return static function (App $app): void {
         ->setArguments(['heading' => 'Log in to view your issues or open a new one'])
         ->add(RequireLogInAction::class);
     $app->get('/support/new-issue', NewIssueAction::class)
+        ->setName('CreateNewIssue')
+        ->setArguments(['heading' => 'Log in to create a new issue'])
+        ->add(RequireLogInAction::class);
+    $app->post('/support/new-issue', PostNewIssueAction::class)
         ->setArguments(['heading' => 'Log in to create a new issue'])
         ->add(RequireLogInAction::class);
 };
