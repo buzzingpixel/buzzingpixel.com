@@ -13,6 +13,7 @@ use App\Context\Software\Services\DeleteSoftwareVersion;
 use App\Context\Software\Services\FetchOneSoftware;
 use App\Context\Software\Services\FetchOneSoftwareVersion;
 use App\Context\Software\Services\FetchSoftware;
+use App\Context\Software\Services\FetchSoftwareAsIdOptionsArray;
 use App\Context\Software\Services\FetchSoftwareAsOptionsArray;
 use App\Context\Software\Services\FetchSoftwareByStripePriceId;
 use App\Context\Software\Services\FetchSoftwareVersions;
@@ -33,6 +34,7 @@ class SoftwareApi
         private FetchOneSoftwareVersion $fetchOneSoftwareVersion,
         private FetchSoftwareAsOptionsArray $fetchSoftwareAsOptionsArray,
         private FetchSoftwareByStripePriceId $fetchSoftwareByStripePriceId,
+        private FetchSoftwareAsIdOptionsArray $fetchSoftwareAsIdOptionsArray,
     ) {
     }
 
@@ -55,6 +57,17 @@ class SoftwareApi
         ?SoftwareQueryBuilder $queryBuilder = null
     ): array {
         return $this->fetchSoftwareAsOptionsArray->fetch(
+            queryBuilder: $queryBuilder
+        );
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function fetchSoftwareAsIdOptionsArray(
+        ?SoftwareQueryBuilder $queryBuilder = null
+    ): array {
+        return $this->fetchSoftwareAsIdOptionsArray->fetch(
             queryBuilder: $queryBuilder
         );
     }
