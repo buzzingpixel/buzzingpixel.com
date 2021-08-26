@@ -89,6 +89,11 @@
                                         >
                                             {% include 'Http/_Infrastructure/Forms/Inputs/' ~ inputTemplate ~ '.twig' with input only %}
                                         </div>
+                                        {% if input.errorMessage is defined and input.errorMessage %}
+                                            <div class="text-red text-sm">
+                                                {{ input.errorMessage|smartypants }}
+                                            </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                         {% endswitch %}

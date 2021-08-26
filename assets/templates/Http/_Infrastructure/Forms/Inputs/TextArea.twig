@@ -3,10 +3,16 @@
 {% set value = value ?? '' %}
 {% set attrs = attrs ?? [] %}
 
+{% set borderClass = 'border-gray-200' %}
+
+{% if errorMessage %}
+    {% set borderClass = 'border-red' %}
+{% endif %}
+
 <textarea
     name="{{ name }}"
     id="{{ id }}"
-    class="block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:text-sm border-gray-300 rounded-md"
+    class="block w-full shadow-sm focus:ring-meteor focus:border-meteor sm:text-sm rounded-md {{ borderClass }}"
     {% for attrKey, attrVal in attrs %}
     {{ attrKey }}="{{ attrVal }}"
     {% endfor %}

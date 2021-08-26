@@ -4,26 +4,35 @@
 {% set value = value ?? '' %}
 {% set attrs = attrs ?? [] %}
 {% set option = options ?? [] %}
+{% set errorMessage = errorMessage ?? '' %}
+
+{% set borderClass = 'border-gray-200' %}
+
+{% if errorMessage %}
+    {% set borderClass = 'border-red' %}
+{% endif %}
 
 <div class="relative">
-    <select
-        id="{{ id }}"
-        name="{{ name }}"
-        class="block focus:ring-meteor focus:border-meteor w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-        {% for attrKey, attrVal in attrs %}
-        {{ attrKey }}="{{ attrVal }}"
-        {% endfor %}
-        ref="select"
-    >
-        {% for option in options %}
-            <option
-                value="{{ option.value }}"
-                {% if option.value == value %}
-                selected
-                {% endif %}
-            >
-                {{ (option.label ?? option.value)|raw }}
-            </option>
-        {% endfor %}
-    </select>
+    <div class="focus:ring-meteor focus:border-meteor w-full sm:max-w-xs sm:text-sm rounded-md border {{ borderClass }}">
+        <select
+            id="{{ id }}"
+            name="{{ name }}"
+            class="block w-full"
+            {% for attrKey, attrVal in attrs %}
+            {{ attrKey }}="{{ attrVal }}"
+            {% endfor %}
+            ref="select"
+        >
+            {% for option in options %}
+                <option
+                    value="{{ option.value }}"
+                    {% if option.value == value %}
+                    selected
+                    {% endif %}
+                >
+                    {{ (option.label ?? option.value)|raw }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
 </div>
