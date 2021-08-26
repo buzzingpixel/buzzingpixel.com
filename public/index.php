@@ -45,6 +45,7 @@ $request = ServerRequestCreatorFactory::create()
     ->createServerRequestFromGlobals();
 
 Globals::setRequest($request);
+Globals::setApp($app);
 
 // Register error handlers if Whoops does not exist
 if (! class_exists(WhoopsRun::class)) {

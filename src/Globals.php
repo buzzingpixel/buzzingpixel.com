@@ -7,6 +7,7 @@ namespace App;
 use Exception;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\App;
 use Slim\Factory\ServerRequestCreatorFactory;
 use Throwable;
 
@@ -15,6 +16,7 @@ class Globals
     private static bool $hasInitialized = false;
     private static ContainerInterface $di;
     private static ?ServerRequestInterface $request = null;
+    private static App $app;
 
     /**
      * @throws Throwable
@@ -46,5 +48,15 @@ class Globals
     {
         return self::$request ?? ServerRequestCreatorFactory::create()
                 ->createServerRequestFromGlobals();
+    }
+
+    public static function setApp(App $app): void
+    {
+        self::$app = $app;
+    }
+
+    public static function getApp(): App
+    {
+        return self::$app;
     }
 }
