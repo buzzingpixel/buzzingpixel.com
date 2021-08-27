@@ -13,6 +13,11 @@ trait IsEnabled
         return $this->isEnabled;
     }
 
+    public function isNotEnabled(): bool
+    {
+        return ! $this->isEnabled;
+    }
+
     /**
      * @return $this
      */
