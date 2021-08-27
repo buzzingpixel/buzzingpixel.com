@@ -411,6 +411,9 @@ class Issue
         return $clone;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getIndexArray(): array
     {
         $software = $this->software();
@@ -433,5 +436,15 @@ class Issue
             'softwareId' => $software !== null ? $software->id() : '',
             'softwareName' => $software !== null ? $software->name() : '',
         ];
+    }
+
+    public function isDuplicate(): bool
+    {
+        return $this->status() === self::STATUS_DUPLICATE;
+    }
+
+    public function isNotDuplicate(): bool
+    {
+        return ! $this->isDuplicate();
     }
 }
