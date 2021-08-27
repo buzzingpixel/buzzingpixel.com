@@ -2,29 +2,29 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Support\NewIssue\Responders;
+namespace App\Http\Response\Support\EditIssue\Responders;
 
+use App\Http\Response\Support\EditIssue\Contracts\PostIssueEditResponderContract;
 use App\Http\Response\Support\Entities\IssueFormValues;
-use App\Http\Response\Support\NewIssue\Contracts\PostCreateNewIssueResponderContract;
 use App\Payload\Payload;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Flash\Messages as FlashMessages;
-use Slim\Interfaces\RouteParserInterface;
 
 use function assert;
 
-class PostCreateNewIssueResponderInvalid implements PostCreateNewIssueResponderContract
+class PostIssueEditResponderInvalid implements PostIssueEditResponderContract
 {
     public function __construct(
         private FlashMessages $flashMessages,
-        private RouteParserInterface $routeParser,
         private ResponseFactoryInterface $responseFactory,
     ) {
     }
 
-    public function respond(Payload $payload): ResponseInterface
-    {
+    public function respond(
+        Payload $payload,
+        int $issueNumber,
+    ): ResponseInterface {
         $formValues = $payload->getResult()['formValues'];
 
         assert($formValues instanceof IssueFormValues);
@@ -42,9 +42,7 @@ class PostCreateNewIssueResponderInvalid implements PostCreateNewIssueResponderC
         return $this->responseFactory->createResponse(303)
             ->withHeader(
                 'Location',
-                $this->routeParser->urlFor(
-                    'CreateNewIssue',
-                ),
+                '/support/issue/' . $issueNumber . '/edit',
             );
     }
 }

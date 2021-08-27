@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Support\NewIssue\Entities;
+namespace App\Http\Response\Support\Entities;
 
 use App\Context\Software\Entities\Software;
 use App\Context\Software\SoftwareApi;
@@ -16,7 +16,7 @@ use Throwable;
 
 use function count;
 
-class FormValues
+class IssueFormValues
 {
     /** @var array<string, string> */
     private array $errorMessages = [];
@@ -50,6 +50,15 @@ class FormValues
 
     /** @psalm-suppress PropertyNotSetInConstructor */
     private StringValue $privateInfo;
+
+    /** @psalm-suppress PropertyNotSetInConstructor */
+    private StringValue $solution;
+
+    /** @psalm-suppress PropertyNotSetInConstructor */
+    private StringValue $status;
+
+    /** @psalm-suppress PropertyNotSetInConstructor */
+    private StringValue $legacySolutionFile;
 
     /**
      * @param mixed[] $post
@@ -85,6 +94,9 @@ class FormValues
             additionalEnvDetails: (string) ($post['additional_env_details'] ?? ''),
             message: (string) ($post['message'] ?? ''),
             privateInfo: (string) ($post['private_info'] ?? ''),
+            solution: (string) ($post['solution'] ?? ''),
+            status: (string) ($post['status'] ?? ''),
+            legacySolutionFile: (string) ($post['legacy_solution_file'] ?? ''),
         );
     }
 
@@ -99,6 +111,9 @@ class FormValues
         string $additionalEnvDetails,
         string $message,
         string $privateInfo,
+        string $solution,
+        string $status,
+        string $legacySolutionFile,
     ) {
         $this->isPublic = new BooleanValue($isPublic);
 
@@ -142,6 +157,14 @@ class FormValues
         }
 
         $this->privateInfo = StringValue::fromString(value: $privateInfo);
+
+        $this->solution = StringValue::fromString(value: $solution);
+
+        $this->status = StringValue::fromString(value: $status);
+
+        $this->legacySolutionFile = StringValue::fromString(
+            value: $legacySolutionFile
+        );
     }
 
     public function isValid(): bool
@@ -212,6 +235,21 @@ class FormValues
         return $this->privateInfo;
     }
 
+    public function solution(): StringValue
+    {
+        return $this->solution;
+    }
+
+    public function status(): StringValue
+    {
+        return $this->status;
+    }
+
+    public function legacySolutionFile(): StringValue
+    {
+        return $this->legacySolutionFile;
+    }
+
     /**
      * @return mixed[]
      *
@@ -233,11 +271,15 @@ class FormValues
             'cms_version' => $this->cmsVersion()->toString(),
             'php_version' => $this->phpVersion()->toString(),
             'mysql_version' => $this->mySqlVersion()->toString(),
-            'additional_env_details' => $this->additionalEnvDetails()->toString(),
+            'additional_env_details' => $this->additionalEnvDetails()
+                ->toString(),
             'message' => isset($this->message) ?
                 $this->message->toString() :
                 '',
             'private_info' => $this->privateInfo()->toString(),
+            'solution' => $this->solution()->toString(),
+            'status' => $this->status()->toString(),
+            'legacy_solution_file' => $this->legacySolutionFile()->toString(),
         ];
     }
 }

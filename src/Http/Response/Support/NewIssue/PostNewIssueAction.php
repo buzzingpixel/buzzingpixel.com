@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Response\Support\NewIssue;
 
 use App\Context\Software\SoftwareApi;
-use App\Http\Response\Support\NewIssue\Entities\FormValues;
+use App\Http\Response\Support\Entities\IssueFormValues;
 use App\Http\Response\Support\NewIssue\Factories\CreateNewIssueFactory;
 use App\Http\Response\Support\NewIssue\Factories\PostCreateNewIssueResponderFactory;
 use Psr\Http\Message\ResponseInterface;
@@ -29,7 +29,7 @@ class PostNewIssueAction
 
         assert(is_array($post));
 
-        $formValues = FormValues::fromPostArray(
+        $formValues = IssueFormValues::fromPostArray(
             post: $post,
             softwareApi: $this->softwareApi,
         );

@@ -8,8 +8,8 @@ use App\Context\Issues\Entities\Issue;
 use App\Context\Issues\Entities\IssueMessage;
 use App\Context\Issues\IssuesApi;
 use App\Context\Users\Entities\LoggedInUser;
+use App\Http\Response\Support\Entities\IssueFormValues;
 use App\Http\Response\Support\NewIssue\Contracts\CreateNewIssueContract;
-use App\Http\Response\Support\NewIssue\Entities\FormValues;
 use App\Payload\Payload;
 
 class CreateNewIssue implements CreateNewIssueContract
@@ -20,7 +20,7 @@ class CreateNewIssue implements CreateNewIssueContract
     ) {
     }
 
-    public function createNewIssue(FormValues $formValues): Payload
+    public function createNewIssue(IssueFormValues $formValues): Payload
     {
         return $this->issuesApi->saveIssue(issue: (new Issue(
             shortDescription: $formValues->shortDescription()->toString(),
