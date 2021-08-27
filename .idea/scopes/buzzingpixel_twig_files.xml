@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="buzzingpixel-twig-files" pattern="file[buzzingpixel.com]:assets//*||file[buzzingpixel.com]:src//*" />
+</component>

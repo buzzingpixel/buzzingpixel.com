@@ -31,6 +31,14 @@
                 "match": "assets\\/js\\/.*?\\.js$|assets\\\\js\\\\.*?\\.js$",
                 "cmd": "${workspaceRoot}/node_modules/.bin/eslint --fix ${file}",
             },
+            {
+                "match": "assets\\/js\\/.*?\\.js$|assets\\\\js\\\\.*?\\.js$",
+                "cmd": "yarn javascript",
+            },
+            {
+                "match": "assets\\/.*?\\.twig|assets\\\\.*?\\.twig|src\\/.*?\\.twig|src\\\\.*?\\.twig$",
+                "cmd": "yarn css",
+            },
         ],
     },
 }
