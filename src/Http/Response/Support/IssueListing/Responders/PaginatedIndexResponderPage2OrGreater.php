@@ -54,7 +54,7 @@ class PaginatedIndexResponderPage2OrGreater implements PaginatedIndexResponderCo
                 'issueLinkResolver' => $this->issueLinkResolver,
                 'breadcrumbSingle' => [
                     'content' => 'All Issues Page 1',
-                    'uri' => '/news',
+                    'uri' => '/support',
                 ],
                 'breadcrumbTrail' => [
                     [

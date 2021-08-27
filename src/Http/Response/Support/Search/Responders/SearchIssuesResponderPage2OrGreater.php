@@ -56,7 +56,7 @@ class SearchIssuesResponderPage2OrGreater implements SearchIssuesResponderContra
                 'issueLinkResolver' => $this->issueLinkResolver,
                 'breadcrumbSingle' => [
                     'content' => 'Search Results Page 1',
-                    'uri' => '/news',
+                    'uri' => '/support',
                 ],
                 'breadcrumbTrail' => [
                     [
