@@ -13,6 +13,16 @@ trait IsPublic
         return $this->isPublic;
     }
 
+    public function isNotPublic(): bool
+    {
+        return ! $this->isPublic;
+    }
+
+    public function isPrivate(): bool
+    {
+        return ! $this->isPublic;
+    }
+
     /**
      * @return $this
      */
