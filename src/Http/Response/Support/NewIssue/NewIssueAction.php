@@ -44,7 +44,7 @@ class NewIssueAction
         $response = $this->responseFactory->createResponse();
 
         $response->getBody()->write($this->twig->render(
-            '@app/Http/Response/Support/NewIssue/NewIssue.twig',
+            '@app/Http/Response/Support/Templates/EditIssue.twig',
             [
                 'meta' => new Meta(
                     metaTitle: 'Create new issue',
