@@ -122,6 +122,7 @@ use App\Http\Response\Software\Treasury\TreasuryChangelogAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogItemAction;
 use App\Http\Response\Stripe\Webhook\PostCheckoutSessionCompletedAction;
 use App\Http\Response\Support\Dashboard\DashboardAction;
+use App\Http\Response\Support\IssueDisplay\IssueDisplayAction;
 use App\Http\Response\Support\IssueListing\AllIssuesPaginatedIndexAction;
 use App\Http\Response\Support\IssueListing\MyIssuesPaginatedIndexAction;
 use App\Http\Response\Support\NewIssue\NewIssueAction;
@@ -377,4 +378,6 @@ return static function (App $app): void {
     $app->post('/support/new-issue', PostNewIssueAction::class)
         ->setArguments(['heading' => 'Log in to create a new issue'])
         ->add(RequireLogInAction::class);
+    $app->get('/support/issue/{issueNumber}', IssueDisplayAction::class)
+        ->setName('IssueDisplay');
 };

@@ -1,0 +1,389 @@
+{# @var \Config\General GeneralConfig #}
+{# @var \App\Context\Issues\Entities\Issue $issue #}
+{# @var \App\Context\Users\Entities\LoggedInUser LoggedInUser #}
+{# @var \App\Context\Issues\Entities\IssueMessage issueDescription #}
+{# @var \App\Context\Issues\Entities\IssueMessageCollection issueReplies #}
+
+{% extends '@app/Http/Response/Support/Templates/_SupportLayout.twig' %}
+
+{% set issueMessage = issueMessage ?? [] %}
+{% set isEditable = isEditable ?? false %}
+{% set isSubscribable = isSubscribable ?? false %}
+
+{# @var \DateTimeImmutable createdAtLocalized #}
+{% set createdAtLocalized = issue.createdAt.setTimezone(LoggedInUser.hasUser ? LoggedInUser.user.timezone : GeneralConfig.systemTimeZone) %}
+
+{# @var \DateTimeImmutable updatedAtLocalized #}
+{% set updatedAtLocalized = issue.updatedAt.setTimezone(LoggedInUser.hasUser ? LoggedInUser.user.timezone : GeneralConfig.systemTimeZone) %}
+
+{% set sidebarContent %}
+    <div class="flex items-center space-x-2">
+        {# <svg class="h-5 w-5 text-green-500" x-description="Heroicon name: solid/lock-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z"></path>
+        </svg>
+        <span class="text-green-700 text-sm font-medium">Open Issue</span> #}
+        <div class="flex-shrink-0 flex">
+            {% switch issue.statusColor %}
+            {% case 'yellow' %}
+                {% set statusColorClasses = 'bg-yellow-100 text-yellow-800' %}
+            {% case 'green' %}
+                {% set statusColorClasses = 'bg-green-100 text-green-800' %}
+            {% default %}
+                {% set statusColorClasses = 'bg-gray-100 text-gray-800' %}
+            {% endswitch %}
+            <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full border shadow-sm {{ statusColorClasses }}">
+                {{ issue.humanReadableStatus }}
+            </p>
+        </div>
+    </div>
+    {% if issueReplies.count > 0 %}
+        <div class="flex items-center space-x-2">
+            <svg class="h-5 w-5 text-gray-400" x-description="Heroicon name: solid/chat-alt" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-gray-900 text-sm font-medium">
+                {{ issueReplies.count }} {% if issueReplies.count > 1 %}replies{% else %}reply{% endif %}
+            </span>
+        </div>
+    {% endif %}
+    {% if issueReplies.count > 0 and issueReplies.last.user.supportProfile.displayName %}
+        <div class="flex items-center space-x-2">
+            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
+                <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
+            </svg>
+            <span class="text-gray-900 text-sm font-medium">
+                Last reply by {{ issueReplies.last.user.supportProfile.displayName }}
+            </span>
+        </div>
+    {% endif %}
+    <div class="flex items-center space-x-2">
+        <svg class="h-5 w-5 text-gray-400" x-description="Heroicon name: solid/calendar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+        </svg>
+        <span class="text-gray-900 text-sm font-medium">
+            Created <time datetime="{{ createdAtLocalized.format('Y-m-d') }}">{{ createdAtLocalized.format('n/j/Y g:i A') }}</time>
+        </span>
+    </div>
+    {% if updatedAtLocalized != createdAtLocalized %}
+        <div class="flex items-center space-x-2">
+            <svg class="h-5 w-5 text-gray-400" x-description="Heroicon name: solid/calendar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-gray-900 text-sm font-medium">
+                Updated <time datetime="{{ updatedAtLocalized.format('Y-m-d') }}">{{ updatedAtLocalized.format('n/j/Y g:i A') }}</time>
+            </span>
+        </div>
+    {% endif %}
+    {% if issue.software or issue.softwareVersion %}
+        <div class="flex items-center space-x-2">
+            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+            </svg>
+            <a href="{{ issue.software.pageLink }}" class="text-gray-900 text-sm font-medium">
+                {% if issue.software %}{{ issue.software.name|smartypants }} {% elseif issue.softwareVersion %}<span class="font-bold">Version:</span> {% endif %}{% if issue.softwareVersion %}<span class="font-light text-gray-500">{{ issue.softwareVersion }}</span>{% endif %}
+            </a>
+        </div>
+    {% endif %}
+    {% if issue.cmsVersion %}
+        <div class="flex items-center space-x-2">
+            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
+            </svg>
+            <span class="text-gray-900 text-sm font-medium">
+                <span class="font-bold">CMS Version:</span> {{ issue.cmsVersion }}
+            </span>
+        </div>
+    {% endif %}
+    {% if issue.phpVersion %}
+        <div class="flex items-center space-x-2">
+            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm14 1a1 1 0 11-2 0 1 1 0 012 0zM2 13a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zm14 1a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-gray-900 text-sm font-medium">
+                <span class="font-bold">PHP Version:</span> {{ issue.phpVersion }}
+            </span>
+        </div>
+    {% endif %}
+    {% if issue.mySqlVersion %}
+        <div class="flex items-center space-x-2">
+            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z" />
+                <path d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z" />
+                <path d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z" />
+            </svg>
+            <span class="text-gray-900 text-sm font-medium">
+                <span class="font-bold">MySQL Version:</span> {{ issue.mySqlVersion }}
+            </span>
+        </div>
+    {% endif %}
+    {% if issue.additionalEnvDetails %}
+        <div>
+            <span class="text-gray-900 text-sm font-medium">
+                <span class="font-bold">Additional Environment Details:</span>
+            </span>
+            <div class="prose max-w-none">
+                {{ issue.additionalEnvDetails|escape|markdownParse }}
+            </div>
+        </div>
+    {% endif %}
+    {% if LoggedInUser.hasUser and LoggedInUser.user.isAdmin %}
+        <div class="border-t border-gray-300 pt-6 mt-6">
+            <span class="block text-gray-900 text-sm font-bold mb-2">
+                Admin Controls
+            </span>
+            <div>
+                <a
+                    href="/support/issue/{{ issue.issueNumber }}/add-solution"
+                    type="button"
+                    class="inline-flex justify-center px-4 py-2 mb-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                >
+                    <svg class="-ml-1 mr-2 h-5 w-5 text-gray-400" x-description="Heroicon name: solid/pencil" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                    </svg>
+                    <span>Add Solution</span>
+                </a>
+                <a
+                    href="/support/issue/{{ issue.issueNumber }}/{{ issue.isEnabled ? 'disable' : 'enable' }}"
+                    type="button"
+                    class="inline-flex justify-center px-4 py-2 mb-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                >
+                    <svg class="-ml-1 mr-2 h-5 w-5 text-gray-400" x-description="Heroicon name: solid/pencil" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                    </svg>
+                    <span>{{ issue.isEnabled ? 'Disable' : 'Enable' }}</span>
+                </a>
+            </div>
+        </div>
+    {% endif %}
+{% endset %}
+
+{% block supportContent %}
+    <div class="flex-1 relative overflow-y-auto focus:outline-none">
+        {% if issueMessage %}
+            <div class="pt-6 xl:pt-10">
+                <div class="px-4 sm:px-6 lg:px-8">
+                    {% include 'Http/Components/Alert.twig' with {
+                        content: issueMessage.message,
+                        type: issueMessage.status == 'SUCCESSFUL' ? 'success' : 'error',
+                    } only %}
+                </div>
+            </div>
+        {% endif %}
+        <div class="py-10 xl:py-14">
+            <div class="px-4 sm:px-6 lg:px-8 xl:grid xl:grid-cols-3">
+                <div class="xl:col-span-2 xl:pr-8 xl:border-r xl:border-gray-200">
+                    <div>
+                        <div>
+                            <div class="lg:flex lg:items-center lg:justify-between lg:space-x-4 xl:border-b xl:pb-6">
+                                <div>
+                                    <h1 class="text-2xl font-bold text-gray-900">
+                                        {{ issue.shortDescription }}
+                                    </h1>
+                                    <p class="mt-2 text-sm text-gray-500">
+                                        #{{ issue.issueNumber}}
+                                        {% if issue.user.supportProfile.displayName %}
+                                        opened by
+                                        <span class="font-medium text-gray-900">{{ issue.user.supportProfile.displayName }}</span>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                                {% if isEditable or isSubscriber %}
+                                    <div class="mt-4 flex space-x-3 lg:mt-0">
+                                        {% if isEditable %}
+                                            <a
+                                                href="/support/issue/{{ issue.issueNumber }}/edit"
+                                                type="button"
+                                                class="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                                            >
+                                                <svg class="-ml-1 mr-2 h-5 w-5 text-gray-400" x-description="Heroicon name: solid/pencil" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                                                </svg>
+                                                <span>Edit</span>
+                                            </a>
+                                        {% endif %}
+                                        {% if isSubscribable %}
+                                            {# TODO: Subscribe/Unsubscribe state #}
+                                            <a
+                                                href="/support/issue/{{ issue.issueNumber }}/subscribe"
+                                                type="button"
+                                                class="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                                            >
+                                                <svg class="-ml-1 mr-2 h-5 w-5 text-gray-400" x-description="Heroicon name: solid/bell" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
+                                                </svg>
+                                                <span>Subscribe</span>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <aside class="mt-8 xl:hidden border-b border-gray-200 pb-6 space-b-8">
+                                <h2 class="sr-only">Details</h2>
+                                <div class="space-y-5">
+                                    {{ sidebarContent }}
+                                </div>
+                            </aside>
+                            <div class="py-3 xl:pt-6 xl:pb-0">
+                                <h2 class="sr-only">Description</h2>
+                                <div class="prose max-w-none">
+                                    {% if issue.solution %}
+                                        <div class="border border-gray-300 rounded-md px-4 my-8 bg-white shadow-md">
+                                            <p class="font-bold text-xl">
+                                                <span class="inline-block align-middle">
+                                                    <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                                        <svg class="w-5 h-5 text-white" x-description="Heroicon name: solid/check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <span class="inline-block align-middle ml-1">
+                                                    Solution:
+                                                </span>
+                                            </p>
+                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, hic? Commodi cumque similique id tempora molestiae deserunt at suscipit, dolor voluptatem, numquam, harum consequatur laboriosam voluptas tempore aut voluptatum alias?</p>
+                                        </div>
+                                    {% endif %}
+                                    {{ issueDescription.message|escape|markdownParse }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <section aria-labelledby="activity-title" class="mt-8 xl:mt-10">
+                        <div>
+                            <div class="divide-y divide-gray-200">
+                                <div class="pb-4">
+                                    <h2 id="activity-title" class="text-lg font-medium text-gray-900">Replies</h2>
+                                </div>
+                                <div class="pt-6">
+                                    <div class="flow-root">
+                                        {% if issueReplies.count > 0 %}
+                                            <ul role="list" class="-mb-8">
+                                                {% for reply in issueReplies.toArray %}
+                                                    {% set replyCreatedAtLocalized = reply.createdAt.setTimezone(LoggedInUser.hasUser ? LoggedInUser.user.timezone : GeneralConfig.systemTimeZone) %}
+                                                    {% set updatedAtLocalized = reply.updatedAt.setTimezone(LoggedInUser.hasUser ? LoggedInUser.user.timezone : GeneralConfig.systemTimeZone) %}
+                                                    <li>
+                                                        <div class="relative pb-8{% if not loop.last %} mb-8{% endif %}">
+                                                            {% if not loop.last %}
+                                                                <span
+                                                                    class="absolute top-7 -ml-px h-full w-0.5 bg-gray-200"
+                                                                    aria-hidden="true"
+                                                                    style="left: 0.65rem"
+                                                                ></span>
+                                                            {% endif %}
+                                                            <div class="relative flex items-start space-x-3">
+                                                                <div class="relative">
+                                                                    {# <img class="h-10 w-10 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white" src="https://images.unsplash.com/photo-1520785643438-5bf77931f493?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80" alt=""> #}
+                                                                    <span
+                                                                        class="{# absolute -bottom-0.5 -right-1 bg-white rounded-tl px-0.5 py-px #}block"
+                                                                        style="padding-top: 0.05rem"
+                                                                    >
+                                                                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                                            <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
+                                                                        </svg>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="min-w-0 flex-1">
+                                                                    <div>
+                                                                        <div class="text-sm">
+                                                                            <span class="font-medium text-gray-900">
+                                                                                {{ reply.user.supportProfile.displayName }}
+                                                                            </span>
+                                                                        </div>
+                                                                        <p class="mt-0.5 text-xs text-gray-500">
+                                                                            Replied {{ replyCreatedAtLocalized.format('n/j/Y g:i A') }}{% if replyCreatedAtLocalized != updatedAtLocalized %}, Edited {{ updatedAtLocalized.format('n/j/Y g:i A') }}{% endif %}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="mt-2 text-sm text-gray-700">
+                                                                        {{ reply.message|escape|markdownParse }}
+                                                                    </div>
+                                                                    {% if LoggedInUser.hasUser %}
+                                                                        {% if LoggedInUser.user.isAdmin or LoggedInUser.user.id == reply.user.id %}
+                                                                            <div class="mt-4">
+                                                                                <a
+                                                                                    href="/support/issue/{{ issue.issueNumber }}/edit-reply/{{ reply.id }}"
+                                                                                    class="text-xs text-gray-500"
+                                                                                >
+                                                                                    <span class="inline-block align-middle">
+                                                                                        <svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                                                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                                                                        </svg>
+                                                                                    </span>
+                                                                                    <span class="inline-block align-middle" style="margin-left: 0.1rem">
+                                                                                        Edit
+                                                                                    </span>
+                                                                                </a>
+                                                                            </div>
+                                                                        {% endif %}
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </div>
+                                    <div class="mt-6">
+                                        <div class="flex space-x-3">
+                                            {# <div class="flex-shrink-0">
+                                                <div class="relative">
+                                                    <img class="h-10 w-10 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white" src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=8&amp;w=256&amp;h=256&amp;q=80" alt="">
+                                                    <span class="absolute -bottom-0.5 -right-1 bg-white rounded-tl px-0.5 py-px">
+                                                        <svg class="h-5 w-5 text-gray-400" x-description="Heroicon name: solid/chat-alt" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                            <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"></path>
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                            </div> #}
+                                            <div class="min-w-0 flex-1">
+                                                <div class="pb-2 pt-6">
+                                                    <h3 id="activity-title" class="text-sm font-medium text-gray-900">Use <a href="https://daringfireball.net/projects/markdown/syntax">Markdown</a> for formatting</h3>
+                                                </div>
+                                                <form
+                                                    action="/support/issue/{{ issue.issueNumber }}/add-reply"
+                                                    method="POST"
+                                                >
+                                                    <div>
+                                                        <label for="comment" class="sr-only">Reply</label>
+                                                        <textarea
+                                                            id="comment"
+                                                            name="comment"
+                                                            rows="10"
+                                                            class="shadow-sm block w-full focus:ring-gray-900 focus:border-gray-900 sm:text-sm border border-gray-300 rounded-md"
+                                                            placeholder="Leave a reply"
+                                                        ></textarea>
+                                                    </div>
+                                                    <div class="mt-6 flex items-center justify-end space-x-4">
+                                                        {# TODO: close/open issue logic #}
+                                                        {# {% if LoggedInUser.hasUser and LoggedInUser.user.isAdmin %}
+                                                            <button type="button" class="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
+                                                                <svg class="-ml-1 mr-2 h-5 w-5 text-green-500" x-description="Heroicon name: solid/check-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                                                </svg>
+                                                                <span>Close issue</span>
+                                                            </button>
+                                                        {% endif %} #}
+                                                        <button type="submit" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-900 hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
+                                                            Reply
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <aside class="hidden xl:block xl:pl-8">
+                    <h2 class="sr-only">Details</h2>
+                    <div class="space-y-5">
+                        {{ sidebarContent }}
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+{% endblock %}
