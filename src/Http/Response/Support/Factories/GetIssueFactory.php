@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Support\IssueDisplay\Factory;
+namespace App\Http\Response\Support\Factories;
 
 use App\Context\Issues\IssuesApi;
 use App\Context\Users\Entities\User;
-use App\Http\Response\Support\IssueDisplay\Entities\GetIssueResults;
+use App\Http\Response\Support\Entities\GetIssueResults;
 use App\Persistence\QueryBuilders\Support\IssueQueryBuilder;
 
 class GetIssueFactory

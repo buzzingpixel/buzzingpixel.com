@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Response\Support\NewIssue;
 
 use App\Http\Entities\Meta;
+use App\Http\Response\Support\Factories\IssueInputConfigFactory;
 use App\Http\Response\Support\Factories\IssueMessageFactory;
-use App\Http\Response\Support\NewIssue\Factories\IssueInputConfigFactory;
 use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;

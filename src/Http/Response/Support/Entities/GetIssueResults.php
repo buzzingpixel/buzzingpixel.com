@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Support\IssueDisplay\Entities;
+namespace App\Http\Response\Support\Entities;
 
 use App\Context\Issues\Entities\Issue;
 

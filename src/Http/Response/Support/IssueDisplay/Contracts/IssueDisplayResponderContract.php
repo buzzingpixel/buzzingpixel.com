@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Response\Support\IssueDisplay\Contracts;
 
-use App\Http\Response\Support\IssueDisplay\Entities\GetIssueResults;
+use App\Http\Response\Support\Entities\GetIssueResults;
 use Psr\Http\Message\ResponseInterface;
 
 interface IssueDisplayResponderContract

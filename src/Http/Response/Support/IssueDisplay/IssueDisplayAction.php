@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Response\Support\IssueDisplay;
 
 use App\Context\Users\Entities\LoggedInUser;
-use App\Http\Response\Support\IssueDisplay\Factory\GetIssueFactory;
+use App\Http\Response\Support\Factories\GetIssueFactory;
 use App\Http\Response\Support\IssueDisplay\Factory\IssueDisplayResponderFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

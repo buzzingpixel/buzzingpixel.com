@@ -6,9 +6,9 @@ namespace App\Http\Response\Support\IssueDisplay\Responders;
 
 use App\Context\Users\Entities\LoggedInUser;
 use App\Http\Entities\Meta;
+use App\Http\Response\Support\Entities\GetIssueResults;
 use App\Http\Response\Support\Factories\IssueMessageFactory;
 use App\Http\Response\Support\IssueDisplay\Contracts\IssueDisplayResponderContract;
-use App\Http\Response\Support\IssueDisplay\Entities\GetIssueResults;
 use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;

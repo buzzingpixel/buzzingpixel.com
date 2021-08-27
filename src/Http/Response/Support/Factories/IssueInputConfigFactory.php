@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Support\NewIssue\Factories;
+namespace App\Http\Response\Support\Factories;
 
 use App\Context\Software\SoftwareApi;
 
