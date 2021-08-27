@@ -108,6 +108,28 @@ class Issue
     use LastCommentAt;
     use LastCommentUserType;
 
+    /**
+     * @return mixed[]
+     */
+    public static function statusSelectOptionsArray(): array
+    {
+        $options = [
+            [
+                'value' => '',
+                'label' => '--',
+            ],
+        ];
+
+        foreach (self::HUMAN_READABLE_STATUS_MAP as $status => $humanReadable) {
+            $options[] = [
+                'value' => $status,
+                'label' => $humanReadable,
+            ];
+        }
+
+        return $options;
+    }
+
     public function humanReadableStatus(): string
     {
         return self::HUMAN_READABLE_STATUS_MAP[$this->status];

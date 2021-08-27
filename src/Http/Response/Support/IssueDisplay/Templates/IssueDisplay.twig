@@ -188,7 +188,7 @@
                                         {% endif %}
                                     </p>
                                 </div>
-                                {% if isEditable or isSubscriber %}
+                                {% if isEditable or isSubscribable %}
                                     <div class="mt-4 flex space-x-3 lg:mt-0">
                                         {% if isEditable %}
                                             <a
@@ -241,7 +241,7 @@
                                                     Solution:
                                                 </span>
                                             </p>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, hic? Commodi cumque similique id tempora molestiae deserunt at suscipit, dolor voluptatem, numquam, harum consequatur laboriosam voluptas tempore aut voluptatum alias?</p>
+                                            {{ issue.solution|escape|markdownParse }}
                                         </div>
                                     {% endif %}
                                     {{ issueDescription.message|escape|markdownParse }}

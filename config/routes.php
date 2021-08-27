@@ -122,6 +122,7 @@ use App\Http\Response\Software\Treasury\TreasuryChangelogAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogItemAction;
 use App\Http\Response\Stripe\Webhook\PostCheckoutSessionCompletedAction;
 use App\Http\Response\Support\Dashboard\DashboardAction;
+use App\Http\Response\Support\EditIssue\EditIssueAction;
 use App\Http\Response\Support\IssueDisplay\IssueDisplayAction;
 use App\Http\Response\Support\IssueListing\AllIssuesPaginatedIndexAction;
 use App\Http\Response\Support\IssueListing\MyIssuesPaginatedIndexAction;
@@ -380,4 +381,7 @@ return static function (App $app): void {
         ->add(RequireLogInAction::class);
     $app->get('/support/issue/{issueNumber}', IssueDisplayAction::class)
         ->setName('IssueDisplay');
+    $app->get('/support/issue/{issueNumber}/edit', EditIssueAction::class)
+        ->add(RequireLogInAction::class)
+        ->setName('IssueEdit');
 };
