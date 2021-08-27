@@ -17,7 +17,7 @@ class IssueLinkResolver implements IssueLinkResolverContract
     public function resolveLinkToIssue(Issue $issue): string
     {
         return $this->siteUrl->siteUrl(
-            uri: '/support/issues/' . $issue->issueNumber(),
+            uri: '/support/issue/' . $issue->issueNumber(),
         );
     }
 }
