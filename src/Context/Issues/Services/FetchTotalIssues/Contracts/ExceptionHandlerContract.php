@@ -8,6 +8,5 @@ use Throwable;
 
 interface ExceptionHandlerContract
 {
-    /** @phpstan-ignore-next-line  */
     public function handle(Throwable $exception): int;
 }

@@ -7,7 +7,7 @@ namespace App\Http\Response\Support\Factories;
 use App\Context\Issues\IssuesApi;
 use App\Context\Users\Entities\User;
 use App\Http\Response\Support\Entities\GetIssueResults;
-use App\Persistence\QueryBuilders\Support\IssueQueryBuilder;
+use App\Persistence\QueryBuilders\Issues\IssueQueryBuilder;
 
 class GetIssueFactory
 {

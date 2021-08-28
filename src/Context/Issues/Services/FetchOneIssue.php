@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Context\Issues\Services;
 
 use App\Context\Issues\Entities\Issue;
-use App\Persistence\QueryBuilders\Support\IssueQueryBuilder;
+use App\Persistence\QueryBuilders\Issues\IssueQueryBuilder;
 
 class FetchOneIssue
 {

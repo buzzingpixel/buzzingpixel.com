@@ -8,7 +8,7 @@ use App\Context\ElasticSearch\Services\IndexAllIssues\Services\DeleteIndexedIssu
 use App\Context\ElasticSearch\Services\IndexIssue\IndexIssue;
 use App\Context\Issues\Entities\Issue;
 use App\Context\Issues\IssuesApi;
-use App\Persistence\QueryBuilders\Support\IssueQueryBuilder;
+use App\Persistence\QueryBuilders\Issues\IssueQueryBuilder;
 use Elasticsearch\Client;
 
 use function array_map;

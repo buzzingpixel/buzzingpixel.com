@@ -6,7 +6,7 @@ namespace App\Context\Issues\Services;
 
 use App\Context\Issues\Services\FetchTotalIssues\Factories\ExceptionHandlerFactory;
 use App\Context\Issues\Services\FetchTotalIssues\Factories\FetchTotalIssuesQueryBuilderFactory;
-use App\Persistence\QueryBuilders\Support\IssueQueryBuilder;
+use App\Persistence\QueryBuilders\Issues\IssueQueryBuilder;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;

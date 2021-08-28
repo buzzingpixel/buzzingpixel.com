@@ -11,7 +11,7 @@ use App\Http\Entities\Meta;
 use App\Http\Response\Support\Dashboard\Contracts\DashboardResponderContract;
 use App\Http\Response\Support\Dashboard\Services\SupportArticleLinkResolver;
 use App\Http\Response\Support\IssueListing\Services\IssueLinkResolver;
-use App\Persistence\QueryBuilders\Support\IssueQueryBuilder;
+use App\Persistence\QueryBuilders\Issues\IssueQueryBuilder;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment as TwigEnvironment;

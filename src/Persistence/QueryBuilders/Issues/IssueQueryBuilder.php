@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Persistence\QueryBuilders\Support;
+namespace App\Persistence\QueryBuilders\Issues;
 
 use App\Persistence\Entities\Issues\IssueRecord;
 use App\Persistence\QueryBuilders\QueryBuilder;

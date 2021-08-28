@@ -20,7 +20,7 @@ use App\Context\Issues\Services\SearchIssues\SearchPublicPlusUsersIssues;
 use App\Context\Issues\Services\SearchIssues\SearchUserIssues;
 use App\Context\Users\Entities\User;
 use App\Payload\Payload;
-use App\Persistence\QueryBuilders\Support\IssueQueryBuilder;
+use App\Persistence\QueryBuilders\Issues\IssueMessageQueryBuilder;
 
 class IssuesApi
 {
