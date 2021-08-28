@@ -127,7 +127,7 @@
         </div>
     {% endif %}
     {% if issue.additionalEnvDetails %}
-        <div>
+        <div class="border-t border-gray-300 pt-6 mt-6">
             <span class="text-gray-900 text-sm font-medium">
                 <span class="font-bold">Additional Environment Details:</span>
             </span>
@@ -135,6 +135,19 @@
                 {{ issue.additionalEnvDetails|escape|markdownParse }}
             </div>
         </div>
+    {% endif %}
+    {% if LoggedInUser.hasUser %}
+        {% if issue.privateInfo and (LoggedInUser.user.isAdmin or LoggedInUser.user.id == issue.user.id) %}
+            <div class="border-t border-gray-300 pt-6 mt-6">
+                <span class="text-gray-900 text-sm font-medium">
+                    <span class="font-bold">Private Info:</span><br>
+                    <span class="font-light text-xs">(visible only to you)</span>
+                </span>
+                <div class="prose max-w-none">
+                    {{ issue.privateInfo|escape|markdownParse }}
+                </div>
+            </div>
+        {% endif %}
     {% endif %}
     {#{% if LoggedInUser.hasUser and LoggedInUser.user.isAdmin %}
         <div class="border-t border-gray-300 pt-6 mt-6">
@@ -249,7 +262,7 @@
                                     {% if issue.solution or issue.legacySolutionFile %}
                                         <div class="border border-gray-300 rounded-md p-4 mt-2 mb-12 bg-white shadow-md md:p-8">
                                             <div class="prose max-w-none">
-                                                <p class="font-bold text-xl">
+                                                <p class="font-bold text-xl mb-4">
                                                     <span class="inline-block align-middle">
                                                         <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
                                                             <svg class="w-5 h-5 text-white" x-description="Heroicon name: solid/check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
