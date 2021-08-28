@@ -191,7 +191,7 @@
         {% endif %}
         <div class="py-10 xl:py-14">
             <div class="px-4 sm:px-6 lg:px-8 xl:grid xl:grid-cols-3">
-                <div class="xl:col-span-2 xl:pr-8 xl:border-r xl:border-gray-200">
+                <div class="xl:col-span-2 xl:pr-8 xl:border-r xl:border-gray-200 issue-display__container">
                     <div>
                         <div>
                             <div class="lg:flex lg:items-center lg:justify-between lg:space-x-4 xl:border-b xl:pb-6">
@@ -245,22 +245,38 @@
                             </aside>
                             <div class="py-3 xl:pt-6 xl:pb-0">
                                 <h2 class="sr-only">Description</h2>
-                                <div class="prose max-w-none">
-                                    {% if issue.solution %}
-                                        <div class="border border-gray-300 rounded-md px-4 my-8 bg-white shadow-md">
-                                            <p class="font-bold text-xl">
-                                                <span class="inline-block align-middle">
-                                                    <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
-                                                        <svg class="w-5 h-5 text-white" x-description="Heroicon name: solid/check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                                        </svg>
+                                <div class="max-w-none">
+                                    {% if issue.solution or issue.legacySolutionFile %}
+                                        <div class="border border-gray-300 rounded-md p-4 mt-2 mb-12 bg-white shadow-md md:p-8">
+                                            <div class="prose max-w-none">
+                                                <p class="font-bold text-xl">
+                                                    <span class="inline-block align-middle">
+                                                        <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                                            <svg class="w-5 h-5 text-white" x-description="Heroicon name: solid/check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                                            </svg>
+                                                        </span>
                                                     </span>
-                                                </span>
-                                                <span class="inline-block align-middle ml-1">
-                                                    Solution:
-                                                </span>
-                                            </p>
-                                            {{ issue.solution|escape|markdownParse }}
+                                                    <span class="inline-block align-middle ml-1">
+                                                        Solution:
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            <div class="prose max-w-none">
+                                                {% if issue.solution %}
+                                                    {{ issue.solution|escape|markdownParse }}
+                                                {% endif %}
+                                            </div>
+                                            {% if issue.legacySolutionFile %}
+                                                <p class="mt-4">
+                                                    {% include 'Http/_Infrastructure/Buttons/ActionButton.twig' with {
+                                                        href: issue.legacySolutionFile,
+                                                        content: 'Download Solution Attachment',
+                                                        download: true,
+                                                    } only %}
+                                                </p>
+                                            {% endif %}
+                                            <p></p>
                                         </div>
                                     {% endif %}
                                     {{ issueDescription.message|escape|markdownParse }}
@@ -313,7 +329,7 @@
                                                                             Replied {{ replyCreatedAtLocalized.format('n/j/Y g:i A') }}{% if replyCreatedAtLocalized != updatedAtLocalized %}, Edited {{ updatedAtLocalized.format('n/j/Y g:i A') }}{% endif %}
                                                                         </p>
                                                                     </div>
-                                                                    <div class="mt-2 text-sm text-gray-700 prose">
+                                                                    <div class="mt-2 text-sm text-gray-700 prose max-w-none">
                                                                         {{ reply.message|escape|markdownParse }}
                                                                     </div>
                                                                     {% if LoggedInUser.hasUser %}

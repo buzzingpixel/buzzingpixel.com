@@ -4,6 +4,7 @@
 {% set additionalClasses = additionalClasses ?? '' %}
 {% set ref = ref ?? block('ref') ?? null %}
 {% set data = data ?? {} %}
+{% set download = download ?? false %}
 
 {% switch colorType %}
     {% case 'danger' %}
@@ -23,6 +24,9 @@
     {% for key,item in data %}
     data-{{ key }}="{{ item }}"
     {% endfor %}
+    {% if download %}
+    download
+    {% endif %}
 >
     {{ content|smartypants }}
 </a>
