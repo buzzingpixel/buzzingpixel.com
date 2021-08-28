@@ -47,7 +47,6 @@ class DashboardResponderLoggedIn implements DashboardResponderContract
             queryBuilder: (new IssueQueryBuilder())
                 ->withIsEnabled()
                 ->withUserId(value: $this->loggedInUser->user()->id())
-                ->withOrderBy(column: 'lastCommentUserType', direction: 'asc')
                 ->withOrderBy(column: 'lastCommentAt', direction:'desc')
                 ->withLimit(limit: 6),
         );
