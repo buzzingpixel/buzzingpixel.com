@@ -71,7 +71,6 @@ class IssueEditResponderAdmin implements IssueEditResponderContract
                 'issueMessage' => $message,
                 'headline' => 'Edit issue: ' . $issue->shortDescription(),
                 'formConfig' => [
-                    'hideTopButtons' => true,
                     'submitContent' => 'Submit edits',
                     'formAction' => '/support/issue/' .
                         $issue->issueNumber() .

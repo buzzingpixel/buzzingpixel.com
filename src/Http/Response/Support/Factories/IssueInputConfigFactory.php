@@ -180,6 +180,17 @@ class IssueInputConfigFactory
         }
 
         return array_merge(
+            [
+
+                [
+                    'template' => 'Select',
+                    'label' => 'Status',
+                    'name' => 'status',
+                    'options' => Issue::statusSelectOptionsArray(),
+                    'value' => (string) ($inputValues['status'] ?? $issue->status()),
+                    'errorMessage' => (string) ($errorMessages['status'] ?? ''),
+                ],
+            ],
             $userConfig,
             [
                 [
@@ -191,14 +202,6 @@ class IssueInputConfigFactory
                     'attrs' => ['rows' => 16],
                     'value' => (string) ($inputValues['solution'] ?? $issue->solution()),
                     'errorMessage' => (string) ($errorMessages['solution'] ?? ''),
-                ],
-                [
-                    'template' => 'Select',
-                    'label' => 'Status',
-                    'name' => 'status',
-                    'options' => Issue::statusSelectOptionsArray(),
-                    'value' => (string) ($inputValues['status'] ?? $issue->status()),
-                    'errorMessage' => (string) ($errorMessages['status'] ?? ''),
                 ],
                 [
                     'label' => 'Solution File',
