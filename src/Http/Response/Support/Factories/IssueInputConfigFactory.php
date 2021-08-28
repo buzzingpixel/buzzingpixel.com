@@ -181,7 +181,6 @@ class IssueInputConfigFactory
 
         return array_merge(
             [
-
                 [
                     'template' => 'Select',
                     'label' => 'Status',
@@ -189,6 +188,12 @@ class IssueInputConfigFactory
                     'options' => Issue::statusSelectOptionsArray(),
                     'value' => (string) ($inputValues['status'] ?? $issue->status()),
                     'errorMessage' => (string) ($errorMessages['status'] ?? ''),
+                ],
+                [
+                    'template' => 'Toggle',
+                    'label' => 'Enabled?',
+                    'name' => 'is_enabled',
+                    'value' => $issue->isEnabled(),
                 ],
             ],
             $userConfig,

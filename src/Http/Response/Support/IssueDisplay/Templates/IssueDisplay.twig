@@ -179,6 +179,16 @@
                 </div>
             </div>
         {% endif %}
+        {% if issue.isNotEnabled %}
+            <div class="pt-6 xl:pt-10">
+                <div class="px-4 sm:px-6 lg:px-8">
+                    {% include 'Http/Components/Alert.twig' with {
+                        content: 'Issue is disabled',
+                        type: 'error',
+                    } only %}
+                </div>
+            </div>
+        {% endif %}
         <div class="py-10 xl:py-14">
             <div class="px-4 sm:px-6 lg:px-8 xl:grid xl:grid-cols-3">
                 <div class="xl:col-span-2 xl:pr-8 xl:border-r xl:border-gray-200">

@@ -54,7 +54,8 @@ class SaveIssueEditsAdmin implements SaveIssueEditsContract
                 ->withLegacySolutionFile(
                     legacySolutionFile: $formValues->legacySolutionFile()
                         ->toString(),
-                ),
+                )
+                ->withIsEnabled(isEnabled: $formValues->isEnabled()->value()),
         );
     }
 }

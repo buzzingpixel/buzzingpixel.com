@@ -60,6 +60,9 @@ class IssueFormValues
     /** @psalm-suppress PropertyNotSetInConstructor */
     private StringValue $legacySolutionFile;
 
+    /** @psalm-suppress PropertyNotSetInConstructor */
+    private BooleanValue $isEnabled;
+
     /**
      * @param mixed[] $post
      */
@@ -97,6 +100,7 @@ class IssueFormValues
             solution: (string) ($post['solution'] ?? ''),
             status: (string) ($post['status'] ?? ''),
             legacySolutionFile: (string) ($post['legacy_solution_file'] ?? ''),
+            isEnabled: (bool) ($post['is_enabled'] ?? '1'),
         );
     }
 
@@ -114,11 +118,15 @@ class IssueFormValues
         string $solution,
         string $status,
         string $legacySolutionFile,
+        bool $isEnabled,
     ) {
         $this->isPublic = new BooleanValue($isPublic);
 
         try {
-            /** @phpstan-ignore-next-line */
+            /**
+             * @phpstan-ignore-next-line
+             * @psalm-suppress PossiblyNullArgument
+             */
             $this->software = new SoftwareNotNull(software: $software);
         } catch (Throwable) {
             $this->errorMessages['software'] = 'Valid software must be provided';
@@ -165,6 +173,8 @@ class IssueFormValues
         $this->legacySolutionFile = StringValue::fromString(
             value: $legacySolutionFile
         );
+
+        $this->isEnabled = new BooleanValue($isEnabled);
     }
 
     public function isValid(): bool
@@ -250,6 +260,11 @@ class IssueFormValues
         return $this->legacySolutionFile;
     }
 
+    public function isEnabled(): BooleanValue
+    {
+        return $this->isEnabled;
+    }
+
     /**
      * @return mixed[]
      *
@@ -280,6 +295,7 @@ class IssueFormValues
             'solution' => $this->solution()->toString(),
             'status' => $this->status()->toString(),
             'legacy_solution_file' => $this->legacySolutionFile()->toString(),
+            'is_enabled' => $this->isEnabled()->toString(),
         ];
     }
 }
