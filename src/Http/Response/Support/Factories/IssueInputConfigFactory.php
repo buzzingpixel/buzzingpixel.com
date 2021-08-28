@@ -209,6 +209,7 @@ class IssueInputConfigFactory
                     'errorMessage' => (string) ($errorMessages['solution'] ?? ''),
                 ],
                 [
+                    'limitedWidth' => false,
                     'label' => 'Solution File',
                     'name' => 'legacy_solution_file',
                     'attrs' => ['placeholder' => 'https://somestorageprovider.com/somefile'],

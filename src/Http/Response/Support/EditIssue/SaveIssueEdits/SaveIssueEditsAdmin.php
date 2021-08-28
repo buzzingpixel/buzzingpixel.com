@@ -20,8 +20,18 @@ class SaveIssueEditsAdmin implements SaveIssueEditsContract
         IssueFormValues $formValues,
         GetIssueResults $getIssueResults,
     ): Payload {
+        $issue = $getIssueResults->issue();
+
+        $firstReply = $issue->issueMessages()->first()
+            ->withMessage($formValues->message()->toString());
+
+        $issue->issueMessages()->replaceWhereMatch(
+            'id',
+            $firstReply,
+        );
+
         return $this->issuesApi->saveIssue(
-            issue: $getIssueResults->issue()
+            issue: $issue
                 ->withShortDescription(
                     shortDescription: $formValues->shortDescription()
                         ->toString(),

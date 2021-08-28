@@ -40,8 +40,6 @@ class PostEditIssueAction
 
         assert(is_array($post));
 
-        $post['message'] = 'unused';
-
         $formValues = IssueFormValues::fromPostArray(
             post: $post,
             softwareApi: $this->softwareApi,
