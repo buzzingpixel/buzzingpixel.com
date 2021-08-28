@@ -13,6 +13,7 @@ use App\Context\Issues\Services\FetchOneIssue;
 use App\Context\Issues\Services\FetchPublicIssues;
 use App\Context\Issues\Services\FetchPublicPlusUsersPrivateIssues;
 use App\Context\Issues\Services\FetchTotalIssues;
+use App\Context\Issues\Services\FetchTotalReplies\FetchTotalReplies;
 use App\Context\Issues\Services\FetchUsersIssues;
 use App\Context\Issues\Services\SaveIssue;
 use App\Context\Issues\Services\SearchIssues\SearchPublicIssues;
@@ -21,6 +22,7 @@ use App\Context\Issues\Services\SearchIssues\SearchUserIssues;
 use App\Context\Users\Entities\User;
 use App\Payload\Payload;
 use App\Persistence\QueryBuilders\Issues\IssueMessageQueryBuilder;
+use App\Persistence\QueryBuilders\Issues\IssueQueryBuilder;
 
 class IssuesApi
 {
@@ -32,6 +34,7 @@ class IssuesApi
         private FetchUsersIssues $fetchUsersIssues,
         private SearchUserIssues $searchUserIssues,
         private FetchPublicIssues $fetchPublicIssues,
+        private FetchTotalReplies $fetchTotalReplies,
         private SearchPublicIssues $searchPublicIssues,
         private SearchPublicPlusUsersIssues $searchPublicPlusUsersIssues,
         private FetchPublicPlusUsersPrivateIssues $fetchPublicPlusUsersPrivateIssues,
@@ -59,6 +62,12 @@ class IssuesApi
         ?IssueQueryBuilder $queryBuilder = null
     ): int {
         return $this->fetchTotalIssues->fetch(queryBuilder: $queryBuilder);
+    }
+
+    public function fetchTotalReplies(
+        ?IssueMessageQueryBuilder $queryBuilder = null
+    ): int {
+        return $this->fetchTotalReplies->fetch(queryBuilder: $queryBuilder);
     }
 
     public function fetchPublicPlusUsersPrivateIssues(
