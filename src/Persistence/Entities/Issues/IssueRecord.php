@@ -77,7 +77,7 @@ class IssueRecord
      *     mappedBy="issue",
      *     cascade={"persist", "remove"},
      * )
-     * @Mapping\OrderBy({"createdAt" = "desc"})
+     * @Mapping\OrderBy({"createdAt" = "asc"})
      */
     private Collection $issueMessages;
 

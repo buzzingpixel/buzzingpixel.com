@@ -129,6 +129,7 @@ use App\Http\Response\Support\IssueListing\AllIssuesPaginatedIndexAction;
 use App\Http\Response\Support\IssueListing\MyIssuesPaginatedIndexAction;
 use App\Http\Response\Support\NewIssue\NewIssueAction;
 use App\Http\Response\Support\NewIssue\PostNewIssueAction;
+use App\Http\Response\Support\Replies\PostAddReplyAction;
 use App\Http\Response\Support\Search\SearchPublicPlusUsersIssuesAction;
 use App\Http\RouteMiddleware\Admin\RequireAdminAction;
 use App\Http\RouteMiddleware\LogIn\RequireLogInAction;
@@ -393,4 +394,8 @@ return static function (App $app): void {
         ->add(RequireLogInAction::class)
         ->add(RequireDisplayName::class)
         ->setName('PostIssueEdit');
+    $app->post('/support/issue/{issueNumber}/add-reply', PostAddReplyAction::class)
+        ->add(RequireLogInAction::class)
+        ->add(RequireDisplayName::class)
+        ->setName('PostAddIssueReply');
 };
