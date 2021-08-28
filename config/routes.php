@@ -129,6 +129,7 @@ use App\Http\Response\Support\IssueListing\AllIssuesPaginatedIndexAction;
 use App\Http\Response\Support\IssueListing\MyIssuesPaginatedIndexAction;
 use App\Http\Response\Support\NewIssue\NewIssueAction;
 use App\Http\Response\Support\NewIssue\PostNewIssueAction;
+use App\Http\Response\Support\Replies\EditReplyAction;
 use App\Http\Response\Support\Replies\PostAddReplyAction;
 use App\Http\Response\Support\Search\SearchPublicPlusUsersIssuesAction;
 use App\Http\RouteMiddleware\Admin\RequireAdminAction;
@@ -387,15 +388,19 @@ return static function (App $app): void {
     $app->get('/support/issue/{issueNumber}', IssueDisplayAction::class)
         ->setName('IssueDisplay');
     $app->get('/support/issue/{issueNumber}/edit', EditIssueAction::class)
-        ->add(RequireLogInAction::class)
         ->add(RequireDisplayName::class)
+        ->add(RequireLogInAction::class)
         ->setName('IssueEdit');
     $app->post('/support/issue/{issueNumber}/edit', PostEditIssueAction::class)
-        ->add(RequireLogInAction::class)
         ->add(RequireDisplayName::class)
+        ->add(RequireLogInAction::class)
         ->setName('PostIssueEdit');
     $app->post('/support/issue/{issueNumber}/add-reply', PostAddReplyAction::class)
-        ->add(RequireLogInAction::class)
         ->add(RequireDisplayName::class)
+        ->add(RequireLogInAction::class)
         ->setName('PostAddIssueReply');
+    $app->get('/support/issue/{issueNumber}/edit-reply/{replyId}', EditReplyAction::class)
+        ->add(RequireDisplayName::class)
+        ->add(RequireLogInAction::class)
+        ->setName('EditIssueReply');
 };
