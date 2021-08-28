@@ -22,6 +22,17 @@ trait UpdatedAt
     /**
      * @return $this
      */
+    public function withUpdatedNow(): self
+    {
+        return $this->withUpdatedAt(
+            updatedAt: (new DateTimeImmutable())
+                ->setTimezone(new DateTimeZone('UTC')),
+        );
+    }
+
+    /**
+     * @return $this
+     */
     public function withUpdatedAt(string | DateTimeInterface $updatedAt): self
     {
         $clone = clone $this;

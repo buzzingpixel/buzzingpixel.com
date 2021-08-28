@@ -131,6 +131,7 @@ use App\Http\Response\Support\NewIssue\NewIssueAction;
 use App\Http\Response\Support\NewIssue\PostNewIssueAction;
 use App\Http\Response\Support\Replies\EditReplyAction;
 use App\Http\Response\Support\Replies\PostAddReplyAction;
+use App\Http\Response\Support\Replies\PostEditReplyAction;
 use App\Http\Response\Support\Search\SearchPublicPlusUsersIssuesAction;
 use App\Http\RouteMiddleware\Admin\RequireAdminAction;
 use App\Http\RouteMiddleware\LogIn\RequireLogInAction;
@@ -403,4 +404,8 @@ return static function (App $app): void {
         ->add(RequireDisplayName::class)
         ->add(RequireLogInAction::class)
         ->setName('EditIssueReply');
+    $app->post('/support/issue/{issueNumber}/edit-reply/{replyId}', PostEditReplyAction::class)
+        ->add(RequireDisplayName::class)
+        ->add(RequireLogInAction::class)
+        ->setName('PostEditIssueReply');
 };
