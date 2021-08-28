@@ -132,6 +132,7 @@ use App\Http\Response\Support\NewIssue\PostNewIssueAction;
 use App\Http\Response\Support\Search\SearchPublicPlusUsersIssuesAction;
 use App\Http\RouteMiddleware\Admin\RequireAdminAction;
 use App\Http\RouteMiddleware\LogIn\RequireLogInAction;
+use App\Http\RouteMiddleware\Support\RequireDisplayName\RequireDisplayName;
 use Config\NoOp;
 use Config\Tinker;
 use Slim\App;
@@ -376,16 +377,20 @@ return static function (App $app): void {
     $app->get('/support/new-issue', NewIssueAction::class)
         ->setName('CreateNewIssue')
         ->setArguments(['heading' => 'Log in to create a new issue'])
+        ->add(RequireDisplayName::class)
         ->add(RequireLogInAction::class);
     $app->post('/support/new-issue', PostNewIssueAction::class)
         ->setArguments(['heading' => 'Log in to create a new issue'])
+        ->add(RequireDisplayName::class)
         ->add(RequireLogInAction::class);
     $app->get('/support/issue/{issueNumber}', IssueDisplayAction::class)
         ->setName('IssueDisplay');
     $app->get('/support/issue/{issueNumber}/edit', EditIssueAction::class)
         ->add(RequireLogInAction::class)
+        ->add(RequireDisplayName::class)
         ->setName('IssueEdit');
     $app->post('/support/issue/{issueNumber}/edit', PostEditIssueAction::class)
         ->add(RequireLogInAction::class)
+        ->add(RequireDisplayName::class)
         ->setName('PostIssueEdit');
 };
