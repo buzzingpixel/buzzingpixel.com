@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Response\Account\Profile;
 
+use App\Context\Issues\IssuesApi;
 use App\Context\Users\Entities\LoggedInUser;
 use App\Context\Users\UserApi;
+use App\Payload\Payload;
+use App\Persistence\QueryBuilders\Issues\IssueMessageQueryBuilder;
 use DateTimeZone;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,8 +20,9 @@ use function is_array;
 class PostAccountProfileAction
 {
     public function __construct(
-        private LoggedInUser $loggedInUser,
         private UserApi $userApi,
+        private IssuesApi $issuesApi,
+        private LoggedInUser $loggedInUser,
         private PostAccountProfileResponder $responder,
     ) {
     }
@@ -40,9 +44,26 @@ class PostAccountProfileAction
         } catch (Throwable) {
         }
 
+        $displayName = (string) ($postData['display_name'] ?? '');
+
+        $userReplyCount = $this->issuesApi->fetchTotalReplies(
+            queryBuilder: (new IssueMessageQueryBuilder())
+                ->withUserId($user->id()),
+        );
+
+        if ($userReplyCount > 0 && $displayName === '') {
+            return $this->responder->respond(
+                new Payload(
+                    status: Payload::STATUS_NOT_VALID,
+                    result: ['message' => 'Since you have posted issues, your display name is required'],
+                ),
+                '/account/profile',
+            );
+        }
+
         $user = $user->withSupportProfile(
             $user->supportProfile()->withDisplayName(
-                (string) ($postData['display_name'] ?? ''),
+                displayName: $displayName,
             ),
         );
 
