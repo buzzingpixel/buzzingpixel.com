@@ -56,8 +56,8 @@ class FetchPublicPlusUsersPrivateIssues
         $absoluteTotal = (int) $this->entityManager
             ->getRepository(IssueRecord::class)
             ->createQueryBuilder('i')
-            ->where('i.isPublic = true')
-            ->orWhere('i.user = :user')
+            ->where('i.isEnabled = true')
+            ->andWhere('i.isPublic = true OR i.user = :user')
             ->setParameter('user', $user->id())
             ->select('count(i.id)')
             ->getQuery()
@@ -67,8 +67,8 @@ class FetchPublicPlusUsersPrivateIssues
         $issueRecords = $this->entityManager
             ->getRepository(IssueRecord::class)
             ->createQueryBuilder('i')
-            ->where('i.isPublic = true')
-            ->orWhere('i.user = :user')
+            ->where('i.isEnabled = true')
+            ->andWhere('i.isPublic = true OR i.user = :user')
             ->setParameter('user', $user->id())
             ->orderBy('i.lastCommentAt', 'desc')
             ->setMaxResults($fetchParams->limit())

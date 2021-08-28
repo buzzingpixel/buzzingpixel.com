@@ -56,7 +56,8 @@ class FetchUsersIssues
         $absoluteTotal = (int) $this->entityManager
             ->getRepository(IssueRecord::class)
             ->createQueryBuilder('i')
-            ->where('i.user = :user')
+            ->where('i.isEnabled = true')
+            ->andWhere('i.user = :user')
             ->setParameter('user', $user->id())
             ->select('count(i.id)')
             ->getQuery()
@@ -66,7 +67,8 @@ class FetchUsersIssues
         $issueRecords = $this->entityManager
             ->getRepository(IssueRecord::class)
             ->createQueryBuilder('i')
-            ->where('i.user = :user')
+            ->where('i.isEnabled = true')
+            ->andWhere('i.user = :user')
             ->setParameter('user', $user->id())
             ->orderBy('i.lastCommentAt', 'desc')
             ->setMaxResults($fetchParams->limit())
