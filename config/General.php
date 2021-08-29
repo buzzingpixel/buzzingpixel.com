@@ -22,10 +22,11 @@ class General
     private string $stripePublishableKey;
     private string $stripeSecretKey;
     private string $stripeCheckoutSessionCompletedSigningSecret;
-    private string $siteUrl                  = 'https://www.buzzingpixel.com';
-    private string $siteName                 = 'BuzzingPixel';
-    private string $systemEmailSenderAddress = 'info@buzzingpixel.com';
-    private string $systemEmailSenderName    = 'BuzzingPixel';
+    private string $siteUrl                   = 'https://www.buzzingpixel.com';
+    private string $siteName                  = 'BuzzingPixel';
+    private string $systemEmailSenderAddress  = 'info@buzzingpixel.com';
+    private string $systemEmailSenderName     = 'BuzzingPixel';
+    private string $systemEmailNoReplyAddress = 'noreply@buzzingpixel.com';
     /** @var string[] */
     private array $stylesheets = [];
     /** @var string[] */
@@ -132,6 +133,11 @@ class General
     public function systemEmailSenderName(): string
     {
         return $this->systemEmailSenderName;
+    }
+
+    public function systemEmailNoReplyAddress(): string
+    {
+        return $this->systemEmailNoReplyAddress;
     }
 
     /**
@@ -309,8 +315,16 @@ class General
         ]);
     }
 
+    public function noReplyRecipient(): EmailRecipient
+    {
+        return new EmailRecipient(
+            emailAddress: $this->systemEmailNoReplyAddress(),
+            name: $this->systemEmailSenderName(),
+        );
+    }
+
     public function systemTimeZone(): DateTimeZone
     {
-        return new DateTimeZone('US/Central');
+        return new DateTimeZone($this->systemTimeZone);
     }
 }
