@@ -14,10 +14,11 @@ class SaveIssueBeforeSaveSetNewIssueNumber
     ) {
     }
 
-    public function onBeforeValidate(SaveIssueBeforeValidate $beforeValidate): void
-    {
+    public function onBeforeValidate(
+        SaveIssueBeforeValidate $beforeValidate
+    ): void {
         $beforeValidate->issue = $this->setNewIssueNumberFactory
-            ->getSetNewIssueNumber($beforeValidate)
-            ->setIssueNumber($beforeValidate->issue);
+            ->getSetNewIssueNumber(beforeValidate: $beforeValidate)
+            ->setIssueNumber(issue: $beforeValidate->issue);
     }
 }

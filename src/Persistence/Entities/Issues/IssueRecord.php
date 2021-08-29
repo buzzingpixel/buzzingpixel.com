@@ -6,6 +6,7 @@ namespace App\Persistence\Entities\Issues;
 
 use App\Context\Issues\Entities\Issue;
 use App\Context\Issues\Entities\IssueMessage;
+use App\Context\Issues\Entities\IssueSubscriber;
 use App\Context\Users\Entities\User;
 use App\Persistence\Entities\Software\SoftwareRecord;
 use App\Persistence\Entities\Users\UserRecord;
@@ -65,7 +66,8 @@ class IssueRecord
 
     public function __construct()
     {
-        $this->issueMessages = new ArrayCollection();
+        $this->issueMessages    = new ArrayCollection();
+        $this->issueSubscribers = new ArrayCollection();
     }
 
     /**
@@ -95,6 +97,34 @@ class IssueRecord
     public function setIssueMessages(Collection $issueMessages): void
     {
         $this->issueMessages = $issueMessages;
+    }
+
+    /**
+     * One queue has many queue items. This is the inverse side.
+     *
+     * @var Collection<int, IssueSubscriberRecord>
+     * @Mapping\OneToMany(
+     *     targetEntity="IssueSubscriberRecord",
+     *     mappedBy="issue",
+     *     cascade={"persist", "remove"},
+     * )
+     */
+    private Collection $issueSubscribers;
+
+    /**
+     * @return Collection<int, IssueSubscriberRecord>
+     */
+    public function getIssueSubscribers(): Collection
+    {
+        return $this->issueSubscribers;
+    }
+
+    /**
+     * @param Collection<int, IssueSubscriberRecord> $issueSubscribers
+     */
+    public function setIssueSubscribers(Collection $issueSubscribers): void
+    {
+        $this->issueSubscribers = $issueSubscribers;
     }
 
     /**
@@ -215,6 +245,34 @@ class IssueRecord
 
                     return $iRecord->hydrateFromEntity(
                         entity: $iM,
+                        entityManager: $entityManager,
+                        issueRecord: $this,
+                    );
+                },
+            ),
+        ));
+
+        $this->setIssueSubscribers(issueSubscribers: new ArrayCollection(
+            $entity->issueSubscribers()->mapToArray(
+                function (IssueSubscriber $iS) use (
+                    $entityManager,
+                ): IssueSubscriberRecord {
+                    $iRecord = $this->getIssueSubscribers()->filter(
+                        static fn (
+                            IssueSubscriberRecord $r
+                        ) => $r->getId()->toString() === $iS->id(),
+                    )->first();
+
+                    $isInstance = $iRecord instanceof IssueSubscriberRecord;
+
+                    if (! $isInstance) {
+                        $iRecord = new IssueSubscriberRecord();
+                    }
+
+                    assert($iRecord instanceof IssueSubscriberRecord);
+
+                    return $iRecord->hydrateFromEntity(
+                        entity: $iS,
                         entityManager: $entityManager,
                         issueRecord: $this,
                     );

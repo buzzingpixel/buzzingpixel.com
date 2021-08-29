@@ -72,7 +72,8 @@ class IssueDisplayResponder implements IssueDisplayResponderContract
                 'isEditable' => ($user?->isAdmin() ||
                     $user?->id() === $issue->userGuarantee()->id()) &&
                     $issue->isNotDuplicate(),
-                'isSubscribable' => $issue->user() !== null,
+                'isSubscribable' => $this->loggedInUser->hasNoUser() ||
+                    $this->loggedInUser->user()->isNotAdmin(),
             ],
         ));
 

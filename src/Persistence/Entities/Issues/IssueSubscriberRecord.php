@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace App\Persistence\Entities\Issues;
 
-use App\Context\Issues\Entities\IssueMessage;
+use App\Context\Issues\Entities\IssueSubscriber;
 use App\Context\Users\Entities\User;
 use App\Persistence\Entities\Users\UserRecord;
-use App\Persistence\PropertyTraits\CreatedAt;
 use App\Persistence\PropertyTraits\Id;
-use App\Persistence\PropertyTraits\Message;
-use App\Persistence\PropertyTraits\UpdatedAt;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Mapping;
@@ -22,14 +19,11 @@ use function assert;
 /**
  * @Mapping\Entity
  * @Mapping\HasLifecycleCallbacks
- * @Mapping\Table(name="issue_messages")
+ * @Mapping\Table(name="issue_subscribers")
  */
-class IssueMessageRecord
+class IssueSubscriberRecord
 {
     use Id;
-    use Message;
-    use CreatedAt;
-    use UpdatedAt;
 
     /**
      * @Mapping\ManyToOne(
@@ -134,7 +128,7 @@ class IssueMessageRecord
     }
 
     public function hydrateFromEntity(
-        IssueMessage $entity,
+        IssueSubscriber $entity,
         EntityManager $entityManager,
         ?IssueRecord $issueRecord = null,
     ): self {
@@ -143,9 +137,6 @@ class IssueMessageRecord
         }
 
         $this->setId(id: Uuid::fromString(uuid: $entity->id()));
-        $this->setMessage(message: $entity->message());
-        $this->setCreatedAt(createdAt: $entity->createdAt());
-        $this->setUpdatedAt(updatedAt: $entity->updatedAt());
 
         $user = $entity->user();
 

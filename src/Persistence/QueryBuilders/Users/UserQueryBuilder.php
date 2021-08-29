@@ -49,7 +49,7 @@ class UserQueryBuilder extends QueryBuilder
     }
 
     public function withIsAdmin(
-        bool $value,
+        bool $value = true,
         string $comparison = '=',
         string $concat = 'AND',
     ): self {

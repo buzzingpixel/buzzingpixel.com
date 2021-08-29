@@ -31,6 +31,7 @@ use App\EntityPropertyTraits\User;
 use App\EntityValueObjects\Id as IdValue;
 use App\Persistence\Entities\Issues\IssueMessageRecord;
 use App\Persistence\Entities\Issues\IssueRecord;
+use App\Persistence\Entities\Issues\IssueSubscriberRecord;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
@@ -108,6 +109,12 @@ class Issue
     use LastCommentAt;
     use LastCommentUserType;
 
+    /** @phpstan-ignore-next-line */
+    private IssueMessageCollection $issueMessages;
+
+    /** @phpstan-ignore-next-line */
+    private IssueSubscriberCollection $issueSubscribers;
+
     /**
      * @return mixed[]
      */
@@ -139,9 +146,6 @@ class Issue
     {
         return self::STATUS_COLOR_MAP[$this->status];
     }
-
-    /** @phpstan-ignore-next-line */
-    private IssueMessageCollection $issueMessages;
 
     public static function fromRecord(IssueRecord $record): self
     {
@@ -178,7 +182,8 @@ class Issue
             updatedAt: $record->getUpdatedAt(),
             lastCommentAt: $record->getLastCommentAt(),
             lastCommentUserType: $record->getLastCommentUserType(),
-        ))->withIssueMessagesFromRecord($record);
+        ))->withIssueMessagesFromRecord(record: $record)
+            ->withIssueSubscribersFromRecord(record: $record);
     }
 
     /** @phpstan-ignore-next-line */
@@ -205,6 +210,7 @@ class Issue
         ?UserEntity $user = null,
         ?SoftwareEntity $software = null,
         null | array | IssueMessageCollection $issueMessages = null,
+        null | array | IssueSubscriberCollection $issueSubscribers = null,
         null | string | UuidInterface $id = null,
     ) {
         if ($this->isInitialized) {
@@ -351,6 +357,17 @@ class Issue
             $this->issueMessages = $issueMessages;
         }
 
+        if ($issueSubscribers === null) {
+            $this->issueSubscribers = new IssueSubscriberCollection();
+        } elseif (is_array($issueSubscribers)) {
+            /** @psalm-suppress MixedArgumentTypeCoercion */
+            $this->issueSubscribers = new IssueSubscriberCollection(
+                $issueSubscribers
+            );
+        } else {
+            $this->issueSubscribers = $issueSubscribers;
+        }
+
         $this->isInitialized = true;
     }
 
@@ -416,7 +433,7 @@ class Issue
         return $clone;
     }
 
-    public function withIssueMessageFromIssueMessasgeRecord(
+    public function withIssueMessageFromIssueMessageRecord(
         IssueMessageRecord $record,
     ): self {
         $clone = clone $this;
@@ -426,6 +443,84 @@ class Issue
         );
 
         $issueMessages->add(IssueMessage::fromRecord(
+            record: $record,
+            issue: $clone,
+        ));
+
+        return $clone;
+    }
+
+    /** @phpstan-ignore-next-line */
+    public function issueSubscribers(): IssueSubscriberCollection
+    {
+        return $this->issueSubscribers;
+    }
+
+    /** @phpstan-ignore-next-line */
+    public function withIssueSubscribers(
+        array | IssueSubscriberCollection $issueSubscribers
+    ): self {
+        $clone = clone $this;
+
+        if (! is_array($issueSubscribers)) {
+            $issueSubscribers = $issueSubscribers->toArray();
+        }
+
+        $clone->issueSubscribers = new IssueSubscriberCollection(array_map(
+            static fn (IssueSubscriber $i) => $i->withIssue(
+                $clone,
+            ),
+            array_values($issueSubscribers),
+        ));
+
+        return $clone;
+    }
+
+    public function withAddedIssueSubscriber(
+        IssueSubscriber $newIssueSubscriber
+    ): self {
+        $clone = clone $this;
+
+        $clone->issueSubscribers = new IssueSubscriberCollection(array_map(
+            static fn (IssueSubscriber $i) => $i->withIssue(
+                $clone,
+            ),
+            array_merge(
+                $this->issueSubscribers->toArray(),
+                [$newIssueSubscriber],
+            ),
+        ));
+
+        return $clone;
+    }
+
+    public function withIssueSubscribersFromRecord(IssueRecord $record): self
+    {
+        $clone = clone $this;
+
+        $clone->issueSubscribers = new IssueSubscriberCollection(array_map(
+            static fn (
+                IssueSubscriberRecord $record,
+            ) => IssueSubscriber::fromRecord(
+                record: $record,
+                issue: $clone,
+            ),
+            $record->getIssueSubscribers()->toArray(),
+        ));
+
+        return $clone;
+    }
+
+    public function withIssueSubscriberFromIssueSubscriberRecord(
+        IssueSubscriberRecord $record,
+    ): self {
+        $clone = clone $this;
+
+        $issueSubscribers = new IssueSubscriberCollection(
+            $this->issueSubscribers->toArray(),
+        );
+
+        $issueSubscribers->add(IssueSubscriber::fromRecord(
             record: $record,
             issue: $clone,
         ));
