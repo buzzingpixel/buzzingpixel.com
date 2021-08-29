@@ -289,10 +289,11 @@
                                                     } only %}
                                                 </p>
                                             {% endif %}
-                                            <p></p>
                                         </div>
                                     {% endif %}
-                                    {{ issueDescription.message|escape|markdownParse }}
+                                    <div class="prose max-w-none">
+                                        {{ issueDescription.message|escape|markdownParse }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
