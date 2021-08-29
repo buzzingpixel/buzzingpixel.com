@@ -13,6 +13,7 @@ class SaveIssueAfterSave extends StoppableEvent
     public function __construct(
         public Issue $issue,
         public Payload $payload,
+        public bool $wasNew = false,
     ) {
     }
 }

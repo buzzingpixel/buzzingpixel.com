@@ -58,6 +58,7 @@ class SaveIssueNew implements SaveIssueContract
         $afterSave = new SaveIssueAfterSave(
             issue: $issue,
             payload: $payload,
+            wasNew: true,
         );
 
         $this->eventDispatcher->dispatch($afterSave);

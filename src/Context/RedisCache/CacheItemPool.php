@@ -91,6 +91,9 @@ class CacheItemPool implements CacheItemPoolInterface
         return $this->redis->del($key) === 1;
     }
 
+    /**
+     * @param string[] $keys
+     */
     public function deleteItems(array $keys): bool
     {
         return $this->redis->del($keys) > 1;
@@ -126,6 +129,7 @@ class CacheItemPool implements CacheItemPoolInterface
         );
     }
 
+    /** @var mixed[] */
     private array $deferred = [];
 
     public function saveDeferred(CacheItemInterface $item): bool
@@ -143,5 +147,7 @@ class CacheItemPool implements CacheItemPoolInterface
         );
 
         $this->deferred = [];
+
+        return true;
     }
 }

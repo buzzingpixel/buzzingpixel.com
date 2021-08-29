@@ -1,0 +1,15 @@
+{# @var bool wasNew #}
+{# @var \App\Context\Issues\Entities\Issue issue #}
+{# @var \App\Http\Response\Support\IssueListing\Services\IssueLinkResolver linkResolver #}
+
+{% if wasNew %}
+A new issue has been posted: "{{ issue.shortDescription }}." To view this issue, visit:
+
+{{ linkResolver.resolveLinkToIssue(issue) }}
+{% else %}
+The issue, "{{ issue.shortDescription }}," has been updated. To view this issue, visit:
+
+{{ linkResolver.resolveLinkToIssue(issue) }}#{{ issue.issueMessages.last.id() }}
+{% endif %}
+
+If you would like to stop receiving notifications about this issue, please visit the link above, log in if you are not logged in, and click the "Unsubscribe" button.

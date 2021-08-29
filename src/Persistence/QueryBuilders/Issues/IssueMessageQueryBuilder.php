@@ -38,6 +38,22 @@ class IssueMessageQueryBuilder extends QueryBuilder
     /**
      * @return $this
      */
+    public function withIssueId(
+        string $value,
+        string $comparison = '=',
+        string $concat = 'AND',
+    ): self {
+        return $this->withWhere(
+            'issue',
+            $value,
+            $comparison,
+            $concat,
+        );
+    }
+
+    /**
+     * @return $this
+     */
     public function withMessage(
         string $value,
         string $comparison = '=',
