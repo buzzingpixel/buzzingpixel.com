@@ -48,6 +48,12 @@ class GetIssueFactory
             );
         }
 
+        if ($user !== null && $user->isAdmin()) {
+            return new GetIssueResults(
+                issue: $issue,
+            );
+        }
+
         if ($user === null || $issue->userGuarantee()->id() !== $user->id()) {
             return new GetIssueResults(
                 issue: null,
