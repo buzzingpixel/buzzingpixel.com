@@ -15,9 +15,6 @@ use App\Context\Users\Entities\LoggedInUser;
 use App\Http\Response\Support\IssueListing\Services\IssueLinkResolver;
 use Config\General;
 use Twig\Environment as TwigEnvironment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 class SendNotifications implements SendNotificationsContract
 {
@@ -30,46 +27,53 @@ class SendNotifications implements SendNotificationsContract
     ) {
     }
 
-    /**
-     * @throws RuntimeError
-     * @throws SyntaxError
-     * @throws LoaderError
-     */
     public function send(Issue $issue, bool $wasNew = false): void
     {
-        $desc = $issue->shortDescription();
-
         $loggedInId = $this->loggedInUser->user()->id();
 
-        $subscribersToSend = $issue->issueSubscribers()->filter(
-            static fn (
-                IssueSubscriber $i,
-            ) => $i->userGuarantee()->id() !== $loggedInId,
-        );
+        $subscribersToSend = $issue->issueSubscribers()
+            ->filter(
+                static fn (
+                    IssueSubscriber $i,
+                ) => $i->userGuarantee()->id() !== $loggedInId,
+            )
+            ->filter(
+                static fn (
+                    IssueSubscriber $i
+                ) => $i->isActive() === true,
+            );
 
-        /** @psalm-suppress MixedArgumentTypeCoercion */
-        $this->emailApi->queueEmail(
-            email: new Email(
-                subject: 'BuzzingPixel Issue Update - ' . $desc,
-                recipients: new EmailRecipientCollection(
-                    $subscribersToSend->mapToArray(
-                        static fn (
-                            IssueSubscriber $i,
-                        ) => new EmailRecipient(
-                            emailAddress: $i->userGuarantee()->emailAddress(),
+        $subscribersToSend->map(
+            function (IssueSubscriber $subscriber) use (
+                $issue,
+                $wasNew,
+            ): void {
+                $desc = $issue->shortDescription();
+
+                $this->emailApi->queueEmail(
+                    email: new Email(
+                        subject: 'BuzzingPixel Issue Update - ' . $desc,
+                        recipients: new EmailRecipientCollection(
+                            [
+                                new EmailRecipient(
+                                    $subscriber
+                                        ->userGuarantee()
+                                        ->emailAddress(),
+                                ),
+                            ],
+                        ),
+                        from: $this->config->noReplyRecipient(),
+                        plaintext: $this->twig->render(
+                            '@app/Context/Issues/Services/SaveIssueAfterSaveSendNotifications/Templates/IssueNotification.twig',
+                            [
+                                'issue' => $issue,
+                                'wasNew' => $wasNew,
+                                'linkResolver' => $this->issueLinkResolver,
+                            ],
                         ),
                     ),
-                ),
-                from: $this->config->noReplyRecipient(),
-                plaintext: $this->twig->render(
-                    '@app/Context/Issues/Services/SaveIssueAfterSaveSendNotifications/Templates/IssueNotification.twig',
-                    [
-                        'issue' => $issue,
-                        'wasNew' => $wasNew,
-                        'linkResolver' => $this->issueLinkResolver,
-                    ],
-                ),
-            ),
+                );
+            }
         );
     }
 }
