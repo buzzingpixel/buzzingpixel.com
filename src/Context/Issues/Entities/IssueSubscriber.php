@@ -6,6 +6,7 @@ namespace App\Context\Issues\Entities;
 
 use App\Context\Users\Entities\User as UserEntity;
 use App\EntityPropertyTraits\Id;
+use App\EntityPropertyTraits\IsActive;
 use App\EntityPropertyTraits\User;
 use App\EntityValueObjects\Id as IdValue;
 use App\Persistence\Entities\Issues\IssueRecord;
@@ -21,6 +22,7 @@ class IssueSubscriber
 {
     use Id;
     use User;
+    use IsActive;
 
     /** @psalm-suppress PropertyNotSetInConstructor */
     private Issue $issue;
@@ -43,12 +45,14 @@ class IssueSubscriber
         return new self(
             id: $record->getId(),
             user: $user,
+            isActive: $record->getIsActive(),
             issue: $issue,
         );
     }
 
     public function __construct(
         ?UserEntity $user = null,
+        bool $isActive = true,
         ?Issue $issue = null,
         null | string | UuidInterface $id = null,
     ) {
@@ -67,6 +71,8 @@ class IssueSubscriber
         }
 
         $this->user = $user;
+
+        $this->isActive = $isActive;
 
         if ($issue !== null) {
             $this->issue = $issue;

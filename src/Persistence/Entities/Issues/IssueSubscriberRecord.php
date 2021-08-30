@@ -8,6 +8,7 @@ use App\Context\Issues\Entities\IssueSubscriber;
 use App\Context\Users\Entities\User;
 use App\Persistence\Entities\Users\UserRecord;
 use App\Persistence\PropertyTraits\Id;
+use App\Persistence\PropertyTraits\IsActive;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Mapping;
@@ -24,6 +25,7 @@ use function assert;
 class IssueSubscriberRecord
 {
     use Id;
+    use IsActive;
 
     /**
      * @Mapping\ManyToOne(
@@ -137,6 +139,7 @@ class IssueSubscriberRecord
         }
 
         $this->setId(id: Uuid::fromString(uuid: $entity->id()));
+        $this->setIsActive($entity->isActive());
 
         $user = $entity->user();
 
