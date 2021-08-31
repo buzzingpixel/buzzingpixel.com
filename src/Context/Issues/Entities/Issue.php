@@ -564,4 +564,23 @@ class Issue
     {
         return ! $this->isDuplicate();
     }
+
+    public function isUserSubscribed(?UserEntity $user = null): bool
+    {
+        if ($user === null) {
+            return false;
+        }
+
+        $userSub = $this->issueSubscribers()->filter(
+            static fn (
+                IssueSubscriber $i
+            ) => $i->userGuarantee()->id() === $user->id(),
+        )->firstOrNull();
+
+        if ($userSub === null) {
+            return false;
+        }
+
+        return $userSub->isActive();
+    }
 }

@@ -247,16 +247,21 @@
                                             </a>
                                         {% endif %}
                                         {% if isSubscribable %}
-                                            {# TODO: Subscribe/Unsubscribe state #}
+                                            {% set subscribeText = 'Subscribe' %}
+                                            {% set subscribeLink = '/support/issue/' ~ issue.issueNumber ~ '/subscribe' %}
+                                            {% if issue.isUserSubscribed(LoggedInUser.userOrNull) %}
+                                                {% set subscribeText = 'Unsubscribe' %}
+                                                {% set subscribeLink = '/support/issue/' ~ issue.issueNumber ~ '/unsubscribe' %}
+                                            {% endif %}
                                             <a
-                                                href="/support/issue/{{ issue.issueNumber }}/subscribe"
+                                                href="{{ subscribeLink }}"
                                                 type="button"
                                                 class="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
                                             >
                                                 <svg class="-ml-1 mr-2 h-5 w-5 text-gray-400" x-description="Heroicon name: solid/bell" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                     <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
                                                 </svg>
-                                                <span>Subscribe</span>
+                                                <span>{{ subscribeText }}</span>
                                             </a>
                                         {% endif %}
                                     </div>
