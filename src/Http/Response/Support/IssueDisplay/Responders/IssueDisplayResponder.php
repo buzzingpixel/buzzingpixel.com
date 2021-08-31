@@ -13,6 +13,9 @@ use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment as TwigEnvironment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class IssueDisplayResponder implements IssueDisplayResponderContract
 {
@@ -25,6 +28,11 @@ class IssueDisplayResponder implements IssueDisplayResponderContract
     ) {
     }
 
+    /**
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function respond(
         GetIssueResults $getIssueResults,
     ): ResponseInterface {

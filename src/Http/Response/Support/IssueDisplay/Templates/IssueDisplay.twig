@@ -1,5 +1,5 @@
 {# @var \Config\General GeneralConfig #}
-{# @var \App\Context\Issues\Entities\Issue $issue #}
+{# @var \App\Context\Issues\Entities\Issue issue #}
 {# @var \App\Context\Users\Entities\LoggedInUser LoggedInUser #}
 {# @var \App\Context\Issues\Entities\IssueMessage issueDescription #}
 {# @var \App\Context\Issues\Entities\IssueMessageCollection issueReplies #}
@@ -24,15 +24,27 @@
         <span class="text-green-700 text-sm font-medium">Open Issue</span> #}
         <div class="flex-shrink-0 flex">
             {% switch issue.statusColor %}
-            {% case 'yellow' %}
-                {% set statusColorClasses = 'bg-yellow-100 text-yellow-800' %}
-            {% case 'green' %}
-                {% set statusColorClasses = 'bg-green-100 text-green-800' %}
-            {% default %}
-                {% set statusColorClasses = 'bg-gray-100 text-gray-800' %}
+                {% case 'yellow' %}
+                    {% set statusColorClasses = 'bg-yellow-100 text-yellow-800' %}
+                {% case 'green' %}
+                    {% set statusColorClasses = 'bg-green-100 text-green-800' %}
+                {% default %}
+                    {% set statusColorClasses = 'bg-gray-100 text-gray-800' %}
             {% endswitch %}
             <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full border shadow-sm {{ statusColorClasses }}">
                 {{ issue.humanReadableStatus }}
+            </p>
+        </div>
+    </div>
+    <div class="flex items-center space-x-2">
+        <div class="flex-shrink-0 flex">
+            {% if issue.isPublic %}
+                {% set publicPrivateColorClasses = 'bg-green-100 text-green-800' %}
+            {% else %}
+                {% set publicPrivateColorClasses = 'bg-lightest-red text-red' %}
+            {% endif %}
+            <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full border shadow-sm {{ publicPrivateColorClasses }}">
+                {% if issue.isPublic %}Public Issue{% else %}Private Issue{% endif %}
             </p>
         </div>
     </div>
