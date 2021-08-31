@@ -7,7 +7,7 @@ namespace App\Http\Response\Support\Subscribe\Contracts;
 use App\Context\Users\Entities\User;
 use App\Http\Response\Support\Entities\GetIssueResults;
 
-interface UnsubscribeContract
+interface SubscribeContract
 {
-    public function unsubscribeUser(User $user, GetIssueResults $results): void;
+    public function subscribeUser(User $user, GetIssueResults $results): void;
 }

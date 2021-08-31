@@ -10,9 +10,7 @@ use App\Http\Response\Support\Subscribe\Contracts\UnsubscribeContract;
 
 class UnsubscribeNoOp implements UnsubscribeContract
 {
-    public function unsubscribeUser(
-        User $user,
-        GetIssueResults $results,
-    ): void {
+    public function unsubscribeUser(User $user, GetIssueResults $results,): void
+    {
     }
 }

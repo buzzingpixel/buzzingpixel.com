@@ -133,6 +133,7 @@ use App\Http\Response\Support\Replies\EditReplyAction;
 use App\Http\Response\Support\Replies\PostAddReplyAction;
 use App\Http\Response\Support\Replies\PostEditReplyAction;
 use App\Http\Response\Support\Search\SearchPublicPlusUsersIssuesAction;
+use App\Http\Response\Support\Subscribe\SubscribeAction;
 use App\Http\Response\Support\Subscribe\UnsubscribeAction;
 use App\Http\RouteMiddleware\Admin\RequireAdminAction;
 use App\Http\RouteMiddleware\LogIn\RequireLogInAction;
@@ -413,4 +414,8 @@ return static function (App $app): void {
         ->setArguments(['heading' => 'Log in to unsubscribe'])
         ->add(RequireLogInAction::class)
         ->setName('IssueUnsubscribe');
+    $app->get('/support/issue/{issueNumber}/subscribe', SubscribeAction::class)
+        ->setArguments(['heading' => 'Log in to subscribe'])
+        ->add(RequireLogInAction::class)
+        ->setName('IssueSubscribe');
 };
