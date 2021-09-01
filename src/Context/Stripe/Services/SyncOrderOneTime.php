@@ -102,6 +102,9 @@ class SyncOrderOneTime implements SyncOrder
             ->withMajorVersion(
                 majorVersion: $software->versions()->first()->majorVersion(),
             )
+            ->withMaxVersion(
+                maxVersion: $software->versions()->first()->version(),
+            )
             ->withUser(user: $user)
             ->withSoftware(software: $software);
 

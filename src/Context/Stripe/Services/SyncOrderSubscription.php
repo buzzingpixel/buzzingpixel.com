@@ -151,6 +151,9 @@ class SyncOrderSubscription implements SyncOrderContract
             ->withMajorVersion(
                 majorVersion: $software->versions()->first()->majorVersion(),
             )
+            ->withMaxVersion(
+                maxVersion: $software->versions()->first()->version(),
+            )
             ->withExpiresAt(expiresAt: $expiresAt)
             ->withUser(user: $user)
             ->withSoftware(software: $software)

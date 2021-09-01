@@ -16,6 +16,7 @@ use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\IsDisabled;
 use App\Persistence\PropertyTraits\LicenseKey;
 use App\Persistence\PropertyTraits\MajorVersion;
+use App\Persistence\PropertyTraits\MaxVersion;
 use App\Persistence\PropertyTraits\StripeCanceledAt;
 use App\Persistence\PropertyTraits\StripeStatus;
 use App\Persistence\PropertyTraits\StripeSubscriptionAmount;
@@ -37,6 +38,7 @@ class LicenseRecord
     use Id;
     use IsDisabled;
     use MajorVersion;
+    use MaxVersion;
     use LicenseKey;
     use UserNotes;
     use AdminNotes;
@@ -97,6 +99,7 @@ class LicenseRecord
         $this->setId(Uuid::fromString(uuid: $entity->id()));
         $this->setIsDisabled(isDisabled: $entity->isDisabled());
         $this->setMajorVersion(majorVersion: $entity->majorVersion());
+        $this->setMaxVersion(maxVersion: $entity->maxVersion());
         $this->setLicenseKey(licenseKey: $entity->licenseKey());
         $this->setUserNotes(userNotes: $entity->userNotes());
         $this->setAdminNotes(adminNotes: $entity->adminNotes());

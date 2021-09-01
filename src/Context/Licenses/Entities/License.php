@@ -13,6 +13,7 @@ use App\EntityPropertyTraits\Id;
 use App\EntityPropertyTraits\IsDisabled;
 use App\EntityPropertyTraits\LicenseKey;
 use App\EntityPropertyTraits\MajorVersion;
+use App\EntityPropertyTraits\MaxVersion;
 use App\EntityPropertyTraits\Software;
 use App\EntityPropertyTraits\StripeCanceledAt;
 use App\EntityPropertyTraits\StripeStatus;
@@ -48,6 +49,7 @@ class License
     use Id;
     use IsDisabled;
     use MajorVersion;
+    use MaxVersion;
     use LicenseKey;
     use UserNotes;
     use AdminNotes;
@@ -68,6 +70,7 @@ class License
             id: $record->getId(),
             isDisabled: $record->getIsDisabled(),
             majorVersion: $record->getMajorVersion(),
+            maxVersion: $record->getMaxVersion(),
             licenseKey: $record->getLicenseKey(),
             userNotes: $record->getUserNotes(),
             adminNotes: $record->getAdminNotes(),
@@ -89,6 +92,7 @@ class License
     public function __construct(
         bool $isDisabled = false,
         string $majorVersion = '',
+        string $maxVersion = '',
         string $licenseKey = '',
         string $userNotes = '',
         string $adminNotes = '',
@@ -120,6 +124,8 @@ class License
         $this->isDisabled = $isDisabled;
 
         $this->majorVersion = $majorVersion;
+
+        $this->maxVersion = $maxVersion;
 
         $this->licenseKey = $licenseKey;
 
