@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Persistence\Entities\Software;
 
 use App\Context\Software\Entities\Software;
+use App\Persistence\PropertyTraits\BundledSoftware;
 use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\IsForSale;
 use App\Persistence\PropertyTraits\IsSubscription;
@@ -31,16 +32,18 @@ class SoftwareRecord
     use Price;
     use RenewalPrice;
     use IsSubscription;
+    use BundledSoftware;
 
     public function hydrateFromEntity(Software $entity): self
     {
-        $this->setId(Uuid::fromString($entity->id()));
-        $this->setSlug($entity->slug());
-        $this->setName($entity->name());
-        $this->setIsForSale($entity->isForSale());
-        $this->setPrice($entity->priceAsInt());
-        $this->setRenewalPrice($entity->renewalPriceAsInt());
-        $this->setIsSubscription($entity->isSubscription());
+        $this->setId(id: Uuid::fromString($entity->id()));
+        $this->setSlug(slug: $entity->slug());
+        $this->setName(name: $entity->name());
+        $this->setIsForSale(isForSale: $entity->isForSale());
+        $this->setPrice(price: $entity->priceAsInt());
+        $this->setRenewalPrice(renewalPrice: $entity->renewalPriceAsInt());
+        $this->setIsSubscription(isSubscription: $entity->isSubscription());
+        $this->setBundledSoftware(bundledSoftware: $entity->bundledSoftware());
 
         return $this;
     }

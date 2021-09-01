@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Software\Entities;
 
+use App\EntityPropertyTraits\BundledSoftware;
 use App\EntityPropertyTraits\Id;
 use App\EntityPropertyTraits\IsForSale;
 use App\EntityPropertyTraits\IsSubscription;
@@ -35,6 +36,7 @@ class Software
     use Price;
     use RenewalPrice;
     use IsSubscription;
+    use BundledSoftware;
 
     /** @phpstan-ignore-next-line */
     private SoftwareVersionCollection $versions;
@@ -49,10 +51,15 @@ class Software
             price: $record->getPrice(),
             renewalPrice: $record->getRenewalPrice(),
             isSubscription: $record->getIsSubscription(),
+            bundledSoftware: $record->getBundledSoftware(),
         ))->withVersionsFromRecord($record);
     }
 
-    /** @phpstan-ignore-next-line  */
+    /**
+     * @param string[] $bundledSoftware
+     *
+     * @phpstan-ignore-next-line
+     */
     public function __construct(
         string $slug = '',
         string $name = '',
@@ -60,6 +67,7 @@ class Software
         int | Money $price = 0,
         int | Money $renewalPrice = 0,
         bool $isSubscription = false,
+        array $bundledSoftware = [],
         null | array | SoftwareVersionCollection $versions = null,
         null | string | UuidInterface $id = null,
     ) {
@@ -102,6 +110,8 @@ class Software
         }
 
         $this->isSubscription = $isSubscription;
+
+        $this->bundledSoftware = $bundledSoftware;
 
         if ($versions === null) {
             $this->versions = new SoftwareVersionCollection();
