@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query;
 
 use function implode;
+use function is_array;
 use function is_string;
 use function mb_strtolower;
 
@@ -191,11 +192,19 @@ abstract class QueryBuilder implements IQueryBuilder
                 continue;
             }
 
-            $predicates = implode(' ', [
-                $a . '.' . $clause->property(),
-                $clause->comparison(),
-                ':' . $paramKey,
-            ]);
+            if (is_array($clause->value())) {
+                $predicates = implode(' ', [
+                    $a . '.' . $clause->property(),
+                    $clause->comparison(),
+                    '(:' . $paramKey . ')',
+                ]);
+            } else {
+                $predicates = implode(' ', [
+                    $a . '.' . $clause->property(),
+                    $clause->comparison(),
+                    ':' . $paramKey,
+                ]);
+            }
 
             if ($clause->concat() === 'AND') {
                 $queryBuilder->andWhere($predicates);

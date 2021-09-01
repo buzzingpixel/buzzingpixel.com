@@ -55,6 +55,23 @@ class SoftwareQueryBuilder extends QueryBuilder
     }
 
     /**
+     * @param string[] $value
+     *
+     * @return $this
+     */
+    public function withSlugsIn(
+        array $value,
+        string $concat = 'AND',
+    ): self {
+        return $this->withWhere(
+            'slug',
+            $value,
+            'IN',
+            $concat,
+        );
+    }
+
+    /**
      * @return $this
      */
     public function withName(
