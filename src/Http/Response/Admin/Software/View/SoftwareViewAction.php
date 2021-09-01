@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Response\Admin\Software\View;
 
+use App\Context\Software\Entities\SoftwareCollection;
 use App\Context\Software\Entities\SoftwareVersion;
 use App\Context\Software\SoftwareApi;
 use App\Http\Entities\Meta;
@@ -18,13 +19,15 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
+use function array_map;
+
 class SoftwareViewAction
 {
     public function __construct(
-        private ResponseFactoryInterface $responseFactory,
-        private TwigEnvironment $twig,
         private General $config,
+        private TwigEnvironment $twig,
         private SoftwareApi $softwareApi,
+        private ResponseFactoryInterface $responseFactory,
     ) {
     }
 
@@ -51,8 +54,16 @@ class SoftwareViewAction
 
         $adminMenu = $this->config->adminMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $adminMenu['software']['isActive'] = true;
+
+        $bundledSoftware = new SoftwareCollection();
+
+        if ($software->bundledSoftware() > 0) {
+            $bundledSoftware = $this->softwareApi->fetchSoftware(
+                queryBuilder: (new SoftwareQueryBuilder())
+                    ->withSlugsIn(value: $software->bundledSoftware()),
+            );
+        }
 
         $response->getBody()->write($this->twig->render(
             '@app/Http/Response/Admin/AdminKeyValuePage.twig',
@@ -137,6 +148,23 @@ class SoftwareViewAction
                                             ],
                                         ];
                                     },
+                                ),
+                            ],
+                        ],
+                        [
+                            'template' => 'Http/_Infrastructure/Display/SimpleTableList.twig',
+                            'key' => 'Bundled Software',
+                            'value' => [
+                                'items' => array_map(
+                                    static fn (
+                                        string $softwareSlug,
+                                    ) => [
+                                        'content' => $bundledSoftware->where(
+                                            'slug',
+                                            $softwareSlug
+                                        )->first()->name(),
+                                    ],
+                                    $software->bundledSoftware()
                                 ),
                             ],
                         ],

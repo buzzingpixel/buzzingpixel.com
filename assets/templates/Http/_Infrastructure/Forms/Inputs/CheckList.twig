@@ -1,0 +1,41 @@
+{% set label = label ?? '' %}
+{% set name = name ?? '' %}
+{% set id = id ?? name %}
+{% set value = value ?? [] %}
+{% set listItems = listItems ?? [] %}
+
+<fieldset class="space-y-2">
+    <legend class="sr-only">{{ label }}</legend>
+    {% for item in listItems %}
+        {% set itemName = item['name'] ?? '' %}
+        {% set itemId = id ~ '-' ~ item['id'] ?? itemName %}
+        <div class="relative flex items-start">
+            <div class="flex items-center h-5">
+                <input
+                    id="{{ itemId }}"
+                    aria-describedby="comments-description"
+                    name="{{ name }}[]"
+                    type="checkbox"
+                    class="focus:ring-meteor h-4 w-4 text-meteor border-gray-300 rounded"
+                    value="{{ itemName }}"
+                    {% if itemName in value %}
+                    checked
+                    {% endif %}
+                >
+            </div>
+            <div class="ml-3 text-sm">
+                <label for="{{ itemId }}">
+                    <span class="font-medium text-gray-700">
+                        {{ item.label }}
+                    </span>
+                    <span
+                        id="comments-description"
+                        class="text-gray-500"
+                    >
+                        <span class="sr-only">{{ item.label }} </span>{% if item['subLabel'] is defined %}{{ item.subLabel }}{% endif %}
+                    </span>
+                </label>
+            </div>
+        </div>
+    {% endfor %}
+</fieldset>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Response\Admin\Software\Create;
 
+use App\Context\Software\SoftwareApi;
 use App\Http\Entities\Meta;
 use App\Http\Response\Admin\Software\SoftwareConfig;
 use Config\General;
@@ -18,10 +19,11 @@ use Twig\Error\SyntaxError;
 class AdminSoftwareCreateAction
 {
     public function __construct(
-        private ResponseFactoryInterface $responseFactory,
-        private TwigEnvironment $twig,
         private General $config,
         private Messages $flash,
+        private TwigEnvironment $twig,
+        private SoftwareApi $softwareApi,
+        private ResponseFactoryInterface $responseFactory,
     ) {
     }
 
@@ -39,7 +41,6 @@ class AdminSoftwareCreateAction
 
         $adminMenu = $this->config->adminMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $adminMenu['software']['isActive'] = true;
 
         $response->getBody()->write($this->twig->render(
@@ -70,7 +71,8 @@ class AdminSoftwareCreateAction
                     'cancelAction' => '/admin/software',
                     'formAction' => '/admin/software/create',
                     'inputs' => SoftwareConfig::getCreateEditFormConfigInputs(
-                        $postData,
+                        postData: $postData,
+                        softwareApi: $this->softwareApi,
                     ),
                 ],
             ],

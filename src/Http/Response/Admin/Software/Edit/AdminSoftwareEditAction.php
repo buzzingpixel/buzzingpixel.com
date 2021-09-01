@@ -22,11 +22,11 @@ use Twig\Error\SyntaxError;
 class AdminSoftwareEditAction
 {
     public function __construct(
-        private ResponseFactoryInterface $responseFactory,
-        private TwigEnvironment $twig,
         private General $config,
         private Messages $flash,
+        private TwigEnvironment $twig,
         private SoftwareApi $softwareApi,
+        private ResponseFactoryInterface $responseFactory,
     ) {
     }
 
@@ -56,7 +56,6 @@ class AdminSoftwareEditAction
 
         $adminMenu = $this->config->adminMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $adminMenu['software']['isActive'] = true;
 
         $response->getBody()->write($this->twig->render(
@@ -91,8 +90,9 @@ class AdminSoftwareEditAction
                     'cancelAction' => $software->adminBaseLink(),
                     'formAction' => $software->adminEditLink(),
                     'inputs' => SoftwareConfig::getCreateEditFormConfigInputs(
-                        $postData,
-                        $software,
+                        postData: $postData,
+                        softwareApi: $this->softwareApi,
+                        software: $software,
                     ),
                 ],
             ],

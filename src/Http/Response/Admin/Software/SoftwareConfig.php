@@ -6,7 +6,9 @@ namespace App\Http\Response\Admin\Software;
 
 use App\Context\Software\Entities\Software;
 use App\Context\Software\Entities\SoftwareVersion;
+use App\Context\Software\SoftwareApi;
 use App\Context\Users\Entities\User;
+use App\Persistence\QueryBuilders\Software\SoftwareQueryBuilder;
 use App\Utilities\DateTimeUtility;
 use DateTimeImmutable;
 
@@ -21,6 +23,7 @@ class SoftwareConfig
      */
     public static function getCreateEditFormConfigInputs(
         array $postData,
+        SoftwareApi $softwareApi,
         ?Software $software = null,
     ): array {
         $hasPostData = count($postData) > 0;
@@ -75,6 +78,21 @@ class SoftwareConfig
                 'value' => $hasPostData ?
                     (bool) ($postData['is_subscription'] ?? '0') :
                     $software->isSubscription(),
+            ],
+            [
+                'template' => 'CheckList',
+                'label' => 'Bundled Software',
+                'name' => 'bundled_software',
+                'listItems' => $softwareApi->fetchSoftware(
+                    queryBuilder: (new SoftwareQueryBuilder())
+                    ->withOrderBy(column: 'name', direction: 'asc'),
+                )->mapToArray(static fn (Software $s) => [
+                    'label' => $s->name(),
+                    'name' => $s->slug(),
+                ]),
+                'value' => $hasPostData ?
+                    (array) ($postData['bundled_software'] ?? []) :
+                    $software->bundledSoftware(),
             ],
         ];
     }

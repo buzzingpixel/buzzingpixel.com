@@ -27,6 +27,9 @@ class PostAdminSoftwareCreateAction
 
         assert(is_array($postData));
 
+        /** @var string[] $bundledSoftware */
+        $bundledSoftware = (array) ($postData['bundled_software'] ?? []);
+
         $payload = $this->softwareApi->saveSoftware(new Software(
             slug: (string) ($postData['slug'] ?? ''),
             name: (string) ($postData['name'] ?? ''),
@@ -34,6 +37,7 @@ class PostAdminSoftwareCreateAction
             price: (int) ((float) ($postData['price'] ?? '0') * 100),
             renewalPrice: (int) ((float) ($postData['renewal_price'] ?? '0') * 100),
             isSubscription: (bool) ($postData['is_subscription'] ?? '0'),
+            bundledSoftware: $bundledSoftware,
         ));
 
         $redirect = '/admin/software/create';
