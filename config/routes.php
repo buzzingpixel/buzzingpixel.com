@@ -64,6 +64,7 @@ use App\Http\Response\Admin\Users\View\ViewUserPurchasesAction;
 use App\Http\Response\Ajax\FileUpload\FileUploadAction;
 use App\Http\Response\Ajax\PostAnalyticPageView\PostAnalyticPageViewAction;
 use App\Http\Response\Ajax\User\GetUserPayloadAction;
+use App\Http\Response\Api\CheckLicense\CheckLicenseAction;
 use App\Http\Response\Contact\ContactAction;
 use App\Http\Response\Contact\PostContactAction;
 use App\Http\Response\HealthCheck\HealthCheckAction;
@@ -418,4 +419,10 @@ return static function (App $app): void {
         ->setArguments(['heading' => 'Log in to subscribe'])
         ->add(RequireLogInAction::class)
         ->setName('IssueSubscribe');
+
+    /**
+     * API
+     */
+    $app->post('/api/v1/check-license', CheckLicenseAction::class)
+        ->setName('ApiCheckLicense');
 };

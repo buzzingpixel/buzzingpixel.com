@@ -1,0 +1,36 @@
+POST https://buzzingpixel.localtest.me/api/v1/check-license
+Content-type: application/x-www-form-urlencoded
+
+app=ansel-ee&domain=buzzingpixel.test&license=
+
+###
+
+POST https://buzzingpixel.localtest.me/api/v1/check-license
+Content-Type: application/x-www-form-urlencoded
+
+app=ansel-ee&license=2453fa90-37ca-4c87-abf0-176eb87fc3d8&domain=www.buzzingpixel.com
+
+###
+
+POST https://buzzingpixel.localtest.me/api/v1/check-license
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="app";
+
+ansel-ee
+
+--boundary
+Content-Disposition: form-data; name="license";
+
+2453fa90-37ca-4c87-abf0-176eb87fc3d8
+
+--boundary
+Content-Disposition: form-data; name="domain";
+
+www.test3.com
+
+--boundary
+Content-Disposition: form-data; name="version";
+
+1.0.0
