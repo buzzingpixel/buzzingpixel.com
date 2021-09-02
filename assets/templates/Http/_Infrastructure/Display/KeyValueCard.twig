@@ -50,7 +50,7 @@
                                 {% endif %}
                             </dt>
                             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                {% if item.template is defined %}
+                                {% if item.template is defined and item.template %}
                                     {% include item.template with item.value only %}
                                 {% else %}
                                     {{ item.value|smartypants }}

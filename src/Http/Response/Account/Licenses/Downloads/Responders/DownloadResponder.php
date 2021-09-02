@@ -27,7 +27,7 @@ class DownloadResponder implements DownloadResponderContract
 
         return $this->softwareFileDownload->download(
             version: $version,
-            request: $request
+            request: $request,
         );
     }
 }

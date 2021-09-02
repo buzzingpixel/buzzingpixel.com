@@ -52,7 +52,6 @@ class SoftwareViewVersionAction
 
         $versionSlug = (string) $request->getAttribute('versionSlug');
 
-        /** @psalm-suppress MixedArgumentTypeCoercion */
         $version = $software->versions()->filter(
             static fn (SoftwareVersion $v) => $v->version() === $versionSlug
         )->firstOrNull();
@@ -65,7 +64,6 @@ class SoftwareViewVersionAction
 
         $adminMenu = $this->config->adminMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $adminMenu['software']['isActive'] = true;
 
         $releasedOnFormatted = $version->releasedOn()
@@ -122,9 +120,15 @@ class SoftwareViewVersionAction
                             'value' => $version->version(),
                         ],
                         [
+                            'template' => $version->downloadFile() !== '' ?
+                                'Http/_Infrastructure/Display/ActionButton.twig' :
+                                null,
                             'key' => 'Download File',
-                            // TODO: make this downloadable
-                            'value' => $version->downloadFileName(),
+                            'value' => $version->downloadFile() !== '' ? [
+                                'content' => $version->downloadFileName(),
+                                'href' => '/admin/software/' . $softwareSlug . '/version/' . $versionSlug . '/download',
+                                'download' => true,
+                            ] : '',
                         ],
                         [
                             'key' => 'Upgrade Price',

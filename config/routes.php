@@ -36,6 +36,7 @@ use App\Http\Response\Admin\Software\CreateVersion\AdminCreateSoftwareVersionAct
 use App\Http\Response\Admin\Software\CreateVersion\PostAdminCreateSoftwareVersionAction;
 use App\Http\Response\Admin\Software\Delete\DeleteSoftwareAction;
 use App\Http\Response\Admin\Software\DeleteVersion\DeleteVersionAction;
+use App\Http\Response\Admin\Software\DownloadVersion\DownloadVersionAction;
 use App\Http\Response\Admin\Software\Edit\AdminSoftwareEditAction;
 use App\Http\Response\Admin\Software\Edit\PostAdminSoftwareEditAction;
 use App\Http\Response\Admin\Software\EditVersion\AdminEditVersionAction;
@@ -198,6 +199,7 @@ return static function (App $app): void {
         $r->get('/software/{softwareSlug}/version/{versionSlug}/edit', AdminEditVersionAction::class);
         $r->post('/software/{softwareSlug}/version/{versionSlug}/edit', PostAdminEditVersionAction::class);
         $r->any('/software/{softwareSlug}/version/{versionSlug}/delete', DeleteVersionAction::class);
+        $r->get('/software/{softwareSlug}/version/{versionSlug}/download', DownloadVersionAction::class);
 
         /** Users */
         $r->get('/users', UsersAction::class);
