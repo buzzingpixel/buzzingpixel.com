@@ -42,7 +42,9 @@ class UpdateMaxVersionOnLicenses
 
             assert($version instanceof SoftwareVersionRecord);
 
-            $record->setMaxVersion($version->getVersion());
+            $record->setMajorVersion(majorVersion: $version->getMajorVersion());
+
+            $record->setMaxVersion(maxVersion: $version->getVersion());
 
             $this->entityManager->persist($record);
 
