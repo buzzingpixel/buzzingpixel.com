@@ -7,6 +7,7 @@ namespace App\Http\Response\Account\Licenses;
 use App\Context\Licenses\Entities\License;
 use App\Context\Licenses\LicenseApi;
 use App\Context\Software\Entities\Software;
+use App\Context\Software\Entities\SoftwareVersion;
 use App\Context\Users\Entities\LoggedInUser;
 use App\Http\Entities\Meta;
 use App\Persistence\QueryBuilders\LicenseQueryBuilder\LicenseQueryBuilder;
@@ -52,7 +53,6 @@ class AccountLicensesDetailAction
 
         $accountMenu = $this->config->accountMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $accountMenu['licenses']['isActive'] = true;
 
         $response = $this->responseFactory->createResponse();
@@ -73,6 +73,12 @@ class AccountLicensesDetailAction
                 'key' => 'Software Version',
                 'value' => $license->majorVersion(),
             ];
+        }
+
+        $downloadValue = $this->getDownloadKeyValueItem(license: $license);
+
+        if ($downloadValue !== null) {
+            $keyValueItems[] = $downloadValue;
         }
 
         $keyValueSubHeadline = '';
@@ -242,5 +248,63 @@ class AccountLicensesDetailAction
         ));
 
         return $response;
+    }
+
+    /**
+     * @return mixed[]|null
+     */
+    private function getDownloadKeyValueItem(
+        License $license,
+    ): ?array {
+        $software = $license->softwareGuarantee();
+
+        $mostRecentVersion = $software->versions()->first();
+
+        if ($license->isNotSubscription() || $license->isNotExpired()) {
+            if ($mostRecentVersion->downloadFile() === '') {
+                return null;
+            }
+
+            return $this->getDownloadKeyValueItemActual(
+                license: $license,
+                version: $mostRecentVersion,
+            );
+        }
+
+        $maxVersion = $software->versions()->where(
+            'version',
+            $license->maxVersion(),
+        )->firstOrNull();
+
+        if ($maxVersion === null || $maxVersion->downloadFile() === '') {
+            return null;
+        }
+
+        return $this->getDownloadKeyValueItemActual(
+            license: $license,
+            version: $maxVersion,
+        );
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function getDownloadKeyValueItemActual(
+        License $license,
+        SoftwareVersion $version,
+    ): array {
+        $name = $version->softwareGuarantee()->name();
+
+        $versionStr = $version->version();
+
+        return [
+            'template' => 'Http/_Infrastructure/Display/ActionButton.twig',
+            'key' => 'Download',
+            'value' => [
+                'content' => 'Download ' . $name . ' ' . $versionStr,
+                'href' => '/account/licenses/' . $license->licenseKey() . '/download',
+                'download' => true,
+            ],
+        ];
     }
 }

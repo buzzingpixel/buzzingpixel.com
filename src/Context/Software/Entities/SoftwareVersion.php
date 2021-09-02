@@ -138,6 +138,15 @@ class SoftwareVersion
         return $this->software;
     }
 
+    public function softwareGuarantee(): Software
+    {
+        $software = $this->software();
+
+        assert($software instanceof Software);
+
+        return $software;
+    }
+
     public function withSoftware(Software $software): self
     {
         $clone = clone $this;
