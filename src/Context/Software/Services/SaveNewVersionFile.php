@@ -53,7 +53,7 @@ class SaveNewVersionFile
 
         $this->filesystem->createDirectory($targetPath);
 
-        $targetFileName = $software->name() . '-' . $version->version() . '.' . $ext;
+        $targetFileName = $software->slug() . '-' . $version->version() . '.' . $ext;
 
         $targetFullPath = $targetPath . '/' . $targetFileName;
 
