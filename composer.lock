@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8930f5573fb41c7c6d5d35e1a9ab5fd8",
+    "content-hash": "ab3f7ec837337e3ca0a47096c74c6227",
     "packages": [
         {
             "name": "awurth/slim-validation",
@@ -939,6 +939,52 @@
                 "source": "https://github.com/Crell/Tukio/tree/1.2.0"
             },
             "time": "2020-11-10T22:36:07+00:00"
+        },
+        {
+            "name": "daverandom/resume",
+            "version": "v0.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DaveRandom/Resume.git",
+                "reference": "3d1c11b6c4315dd8d25d6f567c5ea392c7c60edb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DaveRandom/Resume/zipball/3d1c11b6c4315dd8d25d6f567c5ea392c7c60edb",
+                "reference": "3d1c11b6c4315dd8d25d6f567c5ea392c7c60edb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DaveRandom\\Resume\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "mit"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Wright",
+                    "email": "me@daverandom.com"
+                }
+            ],
+            "description": "Tiny library to facilitate resumable downloads",
+            "support": {
+                "issues": "https://github.com/DaveRandom/Resume/issues",
+                "source": "https://github.com/DaveRandom/Resume/tree/master"
+            },
+            "time": "2018-01-28T03:18:55+00:00"
         },
         {
             "name": "doctrine/annotations",

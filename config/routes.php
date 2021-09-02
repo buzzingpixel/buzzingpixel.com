@@ -14,6 +14,7 @@ use App\Http\Response\Account\Licenses\AccountLicenseResumeSubscriptionAction;
 use App\Http\Response\Account\Licenses\AccountLicensesAction;
 use App\Http\Response\Account\Licenses\AccountLicensesDetailAction;
 use App\Http\Response\Account\Licenses\AccountLicenseStartNewSubscriptionAction;
+use App\Http\Response\Account\Licenses\Downloads\DownloadAction;
 use App\Http\Response\Account\Licenses\PostAccountLicenseCancelSubscriptionAction;
 use App\Http\Response\Account\Licenses\PostAccountLicenseEditNotesAction;
 use App\Http\Response\Account\Licenses\PostAccountLicensesAddAuthorizedDomainAction;
@@ -262,6 +263,7 @@ return static function (App $app): void {
         $r->post('/licenses/{licenseKey}/cancel-subscription', PostAccountLicenseCancelSubscriptionAction::class);
         $r->get('/licenses/{licenseKey}/resume-subscription', AccountLicenseResumeSubscriptionAction::class);
         $r->get('/licenses/{licenseKey}/start-new-subscription', AccountLicenseStartNewSubscriptionAction::class);
+        $r->get('/licenses/{licenseKey}/download', DownloadAction::class);
 
         $r->get('/purchases', AccountPurchasesAction::class);
         $r->get('/purchases/{orderId}', AccountPurchasesDetailAction::class);
