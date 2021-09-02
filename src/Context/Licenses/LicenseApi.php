@@ -7,6 +7,8 @@ namespace App\Context\Licenses;
 use App\Context\Licenses\Entities\License;
 use App\Context\Licenses\Entities\LicenseCollection;
 use App\Context\Licenses\Services\CancelSubscription;
+use App\Context\Licenses\Services\CheckLicenseStatus\CheckLicenseStatus;
+use App\Context\Licenses\Services\CheckLicenseStatus\Entities\CheckLicenseResult;
 use App\Context\Licenses\Services\FetchLicenses;
 use App\Context\Licenses\Services\FetchOneLicense;
 use App\Context\Licenses\Services\GenerateLicenseKey;
@@ -24,6 +26,7 @@ class LicenseApi
         private CancelSubscription $cancelSubscription,
         private ResumeSubscription $resumeSubscription,
         private GenerateLicenseKey $generateLicenseKey,
+        private CheckLicenseStatus $checkLicenseStatus,
     ) {
     }
 
@@ -60,5 +63,19 @@ class LicenseApi
     public function generateLicenseKey(): string
     {
         return $this->generateLicenseKey->generate();
+    }
+
+    public function checkLicenseStatus(
+        string $slug,
+        string $domain,
+        string $license,
+        string $version = '',
+    ): CheckLicenseResult {
+        return $this->checkLicenseStatus->check(
+            slug: $slug,
+            domain: $domain,
+            license: $license,
+            version: $version,
+        );
     }
 }

@@ -327,4 +327,31 @@ class General
     {
         return new DateTimeZone($this->systemTimeZone);
     }
+
+    /** @var string[] */
+    public static array $devSubDomains = [
+        'acc',
+        'acceptance',
+        'demo',
+        'dev',
+        'example',
+        'invalid',
+        'loc',
+        'local',
+        'localhost',
+        'sandbox',
+        'stage',
+        'staging',
+        'test',
+        'testing',
+        'ddev',
+    ];
+
+    /**
+     * @return string[]
+     */
+    public function devSubDomains(): array
+    {
+        return self::$devSubDomains;
+    }
 }
