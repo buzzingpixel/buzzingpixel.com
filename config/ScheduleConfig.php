@@ -6,6 +6,7 @@ namespace Config;
 
 use App\Context\DatabaseCache\Schedule\PruneExpiredCache;
 use App\Context\ElasticSearch\Schedule\SetUpIndicesSchedule;
+use App\Context\Licenses\Schedule\UpdateMaxVersionOnLicensesSchedule;
 use App\Context\Queue\Schedule\CleanDeadQueues;
 use App\Context\Queue\Schedule\CleanOldQueues;
 use App\Context\Schedule\Entities\ScheduleConfigItemCollection;
@@ -26,6 +27,7 @@ class ScheduleConfig
             PruneExpiredCache::getScheduleConfig(),
             SetUpIndicesSchedule::getScheduleConfig(),
             StripeSyncEveryNight::getScheduleConfig(),
+            UpdateMaxVersionOnLicensesSchedule::getScheduleConfig(),
             UserResetTokenGarbageCollection::getScheduleConfig(),
             UserSessionGarbageCollection::getScheduleConfig(),
         ]);
