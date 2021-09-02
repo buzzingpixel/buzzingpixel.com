@@ -39,6 +39,7 @@
         "jawira/case-converter": "^3.4",
         "league/flysystem": "^2.0",
         "league/iso3166": "^3.0",
+        "league/uri": "^6.5",
         "mailersend/mailersend": "^0.2.0",
         "mjerwin/parseachangelog": "^0.9.4",
         "moneyphp/money": "^3.3",
