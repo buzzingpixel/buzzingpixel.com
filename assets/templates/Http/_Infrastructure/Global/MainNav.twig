@@ -4,12 +4,46 @@
     {
         href: siteUrl('/software'),
         content: 'Software',
-        subItems: [],
+        subItems: [
+            {
+                href: siteUrl('/software/ansel-craft'),
+                content: 'Ansel for Craft',
+            },
+            {
+                href: siteUrl('/software/ansel-ee'),
+                content: 'Ansel for EE',
+            },
+            {
+                href: siteUrl('/software/treasury'),
+                content: 'Treasury',
+            },
+            {
+                href: siteUrl('/software/construct'),
+                content: 'Construct',
+            },
+            {
+                href: siteUrl('/software/category-construct'),
+                content: 'Category Construct',
+            },
+        ],
     },
     {
         href: siteUrl('/support'),
         content: 'Support',
-        subItems: [],
+        subItems: [
+            {
+                href: siteUrl('/support'),
+                content: 'Dashboard (open an issue here)',
+            },
+            {
+                href: siteUrl('/support/all-issues'),
+                content: 'All Issues',
+            },
+            {
+                href: siteUrl('/support/my-issues'),
+                content: 'My Issues',
+            },
+        ],
     },
     {
         href: siteUrl('/news'),
@@ -37,7 +71,7 @@
             accountMenuIsActive: false,
         }
     }"
->
+    xmlns:x-bind="http://www.w3.org/1999/xhtml">
     <div class="relative pt-6 pb-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
             <nav class="relative flex items-center justify-between sm:h-10 md:justify-center" aria-label="Global">
@@ -68,12 +102,76 @@
                 </div>
                 <div class="hidden md:flex md:space-x-10">
                     {% for item in mainMenu %}
-                        <a
-                            href="{{ item.href }}"
-                            class="font-medium text-gray-700 hover:text-black"
-                        >
-                            {{ item.content|smartypants }}
-                        </a>
+                        {% if item.subItems is defined and item.subItems %}
+                            <div
+                                class="relative"
+                                x-data="{
+                                    subData: {
+                                        subMenuIsActive: false,
+                                    }
+                                }"
+                            >
+                                <!-- Item active: "text-gray-900", Item inactive: "text-gray-500" -->
+                                <button
+                                    type="button"
+                                    class="text-gray-700 hover:text-black group bg-transparent rounded-md inline-flex items-center text-base font-medium focus:outline-none"
+                                    @click="subData.subMenuIsActive = !subData.subMenuIsActive"
+                                    x-bind:aria-expanded="subData.subMenuIsActive"
+                                    :class="{'text-black-important': subData.subMenuIsActive}"
+                                >
+                                    <span>{{ item.content|smartypants }}</span>
+                                    {#
+                                      Heroicon name: solid/chevron-down
+
+                                      Item active: "text-gray-600", Item inactive: "text-gray-400"
+                                    #}
+                                    <svg class="text-gray-700 ml-2 h-5 w-5 group-hover:text-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                                <div
+                                    class="absolute z-10 -ml-4 mt-3 transform w-screen max-w-xs -translate-x-1/2 left-1/2{# max-w-md lg:max-w-2xl lg:ml-0 lg:left-1/2 lg:-translate-x-1/2 #} rounded-lg shadow-lg z-50"
+                                    x-show="subData.subMenuIsActive"
+                                    x-transition:enter="transition ease-out duration-150"
+                                    x-transition:enter-start="opacity-0 translate-y-1"
+                                    x-transition:enter-end="opacity-100 translate-y-0"
+                                    x-transition:leave="duration-100 ease-in"
+                                    x-transition:leave-start="opacity-100 translate-y-0"
+                                    x-transition:leave-end="opacity-0 translate-y-1"
+                                    style="display: none;"
+                                    @click.away="subData.subMenuIsActive = false"
+                                >
+                                    <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                                        <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8{# lg:grid-cols-2#}">
+                                            {% for subItem in item.subItems %}
+                                                <a
+                                                    href="{{ subItem.href }}"
+                                                    class="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-100"
+                                                >
+                                                    <div>
+                                                        <p class="text-base font-medium text-gray-900">
+                                                            {{ subItem.content|smartypants }}
+                                                        </p>
+                                                        {% if subItem.subContent is defined and subItem.subContent %}
+                                                            <p class="mt-1 text-sm text-gray-500">
+                                                                {{ subItem.subContent|smartypants }}
+                                                            </p>
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <a
+                                href="{{ item.href }}"
+                                class="font-medium text-gray-700 hover:text-black"
+                            >
+                                {{ item.content|smartypants }}
+                            </a>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 <div
@@ -102,9 +200,9 @@
                                     type="button"
                                     class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100"
                                     id="options-menu"
-                                    aria-expanded="true"
                                     aria-haspopup="true"
                                     @click="data.accountMenuIsActive = !data.accountMenuIsActive"
+                                    x-bind:aria-expanded="data.accountMenuIsActive"
                                 >
                                     Account
                                     {% include('Http/_Infrastructure/Svg/SolidChevronDown.twig') with {
@@ -125,6 +223,7 @@
                                 x-transition:leave-start="opacity-100 scale-100"
                                 x-transition:leave-end="opacity-0 scale-95"
                                 style="display: none;"
+                                @click.away="data.accountMenuIsActive = false"
                             >
                                 <div class="px-4 py-3" role="none">
                                     <p
@@ -219,6 +318,19 @@
                             >
                                 {{ item.content|smartypants }}
                             </a>
+                            {% if item.subItems is defined and item.subItems %}
+                                <div class="ml-4">
+                                    {% for subItem in item.subItems %}
+                                        <a
+                                            href="{{ subItem.href }}"
+                                            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+                                            role="menuitem"
+                                        >
+                                            {{ subItem.content|smartypants }}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
                     <div

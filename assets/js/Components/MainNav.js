@@ -1,12 +1,4 @@
 const run = (data) => {
-    document.body.addEventListener('click', (e) => {
-        if (e.target.closest('[data-name="AccountMenu"]') !== null) {
-            return;
-        }
-
-        data.accountMenuIsActive = false;
-    });
-
     window.axios.get('/ajax/user/payload')
         .then((obj) => {
             data.userIsLoggedIn = obj.data.userIsLoggedIn;

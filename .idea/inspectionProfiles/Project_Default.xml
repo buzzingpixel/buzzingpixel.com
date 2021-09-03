@@ -6,7 +6,7 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="21">
+          <list size="23">
             <item index="0" class="java.lang.String" itemvalue="x-show" />
             <item index="1" class="java.lang.String" itemvalue="x-data" />
             <item index="2" class="java.lang.String" itemvalue="@click" />
@@ -28,6 +28,8 @@
             <item index="18" class="java.lang.String" itemvalue="x-bind:value" />
             <item index="19" class="java.lang.String" itemvalue="x-model" />
             <item index="20" class="java.lang.String" itemvalue="@keyup" />
+            <item index="21" class="java.lang.String" itemvalue="x-bind:aria-expanded" />
+            <item index="22" class="java.lang.String" itemvalue="@click.away" />
           </list>
         </value>
       </option>
