@@ -123,6 +123,7 @@ use App\Http\Response\Software\Treasury\Documentation\V1\TreasuryV1DocTemplateTa
 use App\Http\Response\Software\Treasury\TreasuryAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogAction;
 use App\Http\Response\Software\Treasury\TreasuryChangelogItemAction;
+use App\Http\Response\StandardPage\StandardPageAction;
 use App\Http\Response\Stripe\Webhook\PostCheckoutSessionCompletedAction;
 use App\Http\Response\Support\Dashboard\DashboardAction;
 use App\Http\Response\Support\EditIssue\EditIssueAction;
@@ -429,4 +430,23 @@ return static function (App $app): void {
      */
     $app->post('/api/v1/check-license', CheckLicenseAction::class)
         ->setName('ApiCheckLicense');
+
+    /**
+     * Pages
+     */
+    $app->get('/cookies', StandardPageAction::class)
+        ->setArgument(
+            'contentPath',
+            'content/pages/cookie-policy.md'
+        );
+    $app->get('/privacy', StandardPageAction::class)
+        ->setArgument(
+            'contentPath',
+            'content/pages/privacy-policy.md'
+        );
+    $app->get('/terms', StandardPageAction::class)
+        ->setArgument(
+            'contentPath',
+            'content/pages/terms-of-service.md'
+        );
 };
