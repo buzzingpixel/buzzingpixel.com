@@ -95,6 +95,7 @@ use App\Http\Response\Software\AnselCraft\Documentation\V2\AnselCraftDocTemplati
 use App\Http\Response\Software\AnselEE\AnselEEAction;
 use App\Http\Response\Software\AnselEE\AnselEEChangelogAction;
 use App\Http\Response\Software\AnselEE\AnselEEChangelogItemAction;
+use App\Http\Response\Software\AnselEE\AnselEEDownloadAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2DocIndexAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2DocTemplatingAction;
 use App\Http\Response\Software\AnselEE\Documentation\V2\AnselEEV2FieldTypeSettingsAction;
@@ -313,6 +314,7 @@ return static function (App $app): void {
     $app->get('/software/ansel-ee', AnselEEAction::class);
     $app->get('/software/ansel-ee/changelog', AnselEEChangelogAction::class);
     $app->get('/software/ansel-ee/changelog/{slug:[^\/]+}', AnselEEChangelogItemAction::class);
+    $app->get('/software/ansel-ee/download', AnselEEDownloadAction::class);
 
     // Ansel for EE Current Docs
     $app->get('/software/ansel-ee/documentation', AnselEEV2DocIndexAction::class);
