@@ -2,7 +2,6 @@
 
 {% block content %}
     {# Hero #}
-    {# TODO: Image sizes here #}
     {% embed 'Http/Components/Hero.twig' with {
         image: {
             src: siteUrl('/assets/img/ansel-craft-desktop-2x.jpg'),
@@ -251,10 +250,10 @@
             </div>
             <div class="mt-6 prose prose-indigo prose-lg text-gray-500 mx-auto">
                 <figure>
-                    {# TODO: Real images here #}
                     <img
                         class="w-full rounded-lg"
-                        src="{{ siteUrl('/assets/img/me-desktop-2x.jpg') }}"
+                        src="{{ siteUrl('/assets/img/me-desktop.jpg') }}"
+                        srcset="{{ siteUrl('/assets/img/me-desktop.jpg') }} 1x, {{ siteUrl('/assets/img/me-desktop-2x.jpg') }} 2x"
                         alt=""
                         width="1310"
                         height="873"

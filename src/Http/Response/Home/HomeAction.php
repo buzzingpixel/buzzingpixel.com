@@ -16,9 +16,9 @@ use Twig\Error\SyntaxError;
 class HomeAction
 {
     public function __construct(
-        private ResponseFactoryInterface $responseFactory,
-        private TwigEnvironment $twig,
         private SiteUrl $siteUrl,
+        private TwigEnvironment $twig,
+        private ResponseFactoryInterface $responseFactory,
     ) {
     }
 
@@ -41,12 +41,16 @@ class HomeAction
                     ),
                     'ctas' => [
                         [
-                            'href' => $this->siteUrl->siteUrl('/software/ansel-ee'),
+                            'href' => $this->siteUrl->siteUrl(
+                                uri: '/software/ansel-ee'
+                            ),
                             'content' => 'Ansel for EE',
                             'type' => 'primary',
                         ],
                         [
-                            'href' => $this->siteUrl->siteUrl('/software/ansel-craft'),
+                            'href' => $this->siteUrl->siteUrl(
+                                uri: '/software/ansel-craft'
+                            ),
                             'content' => 'Ansel for Craft',
                             'type' => 'primary',
                         ],
