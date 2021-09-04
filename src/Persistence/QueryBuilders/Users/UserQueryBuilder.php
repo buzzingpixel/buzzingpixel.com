@@ -74,6 +74,21 @@ class UserQueryBuilder extends QueryBuilder
         );
     }
 
+    /**
+     * @param string[] $value
+     */
+    public function withEmailAddressIn(
+        array $value,
+        string $concat = 'AND',
+    ): self {
+        return $this->withWhere(
+            'emailAddress',
+            $value,
+            'IN',
+            $concat,
+        );
+    }
+
     public function withIsActive(
         bool $value,
         string $comparison = '=',

@@ -56,8 +56,6 @@ class SoftwareQueryBuilder extends QueryBuilder
 
     /**
      * @param string[] $value
-     *
-     * @return $this
      */
     public function withSlugsIn(
         array $value,
