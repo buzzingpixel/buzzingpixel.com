@@ -5,28 +5,27 @@ declare(strict_types=1);
 namespace App\Context\Content\Services;
 
 use App\Context\Content\ContentApi;
-use App\Context\Content\Entities\ContentItemCollection;
-use App\Context\Content\Services\Internal\Factories\ContentItemFromDirectoryFactory;
+use App\Context\Content\Entities\ContentItem;
+use App\Context\Content\Services\Internal\Factories\ContentItemFromFileFactory;
 use App\Context\Path\Entities\Path;
 use Psr\Cache\CacheItemPoolInterface;
 
-class ContentItemsFromDirectory
+class ContentItemFromFilePath
 {
     public function __construct(
-        private CacheItemPoolInterface $cacheItemPool,
-        private ContentItemFromDirectoryFactory $factory,
+        private CacheItemPoolInterface $cache,
+        private ContentItemFromFileFactory $factory,
     ) {
     }
 
-    /** @phpstan-ignore-next-line */
-    public function get(Path $path): ContentItemCollection
+    public function get(Path $path): ContentItem
     {
         $cacheKey = ContentApi::cacheKeyWithPrefix(
-            key: 'items.path.' . $path->getPath(),
+            key: 'singleItems.path.' . $path->getPath(),
         );
 
         /** @noinspection PhpUnhandledExceptionInspection */
-        $hasCache = $this->cacheItemPool->hasItem(key: $cacheKey);
+        $hasCache = $this->cache->hasItem(key: $cacheKey);
 
         return $this->factory
             ->create(hasCache: $hasCache)

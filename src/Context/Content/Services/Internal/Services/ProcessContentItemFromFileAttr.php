@@ -7,6 +7,7 @@ namespace App\Context\Content\Services\Internal\Services;
 use App\Context\Content\Entities\ContentItem;
 use App\Context\Content\Services\Internal\Factories\YamlFrontMatterDocumentFactory;
 use cebe\markdown\GithubMarkdown;
+use DateTimeImmutable;
 use League\Flysystem\FileAttributes;
 use League\Flysystem\Filesystem;
 
@@ -34,10 +35,13 @@ class ProcessContentItemFromFileAttr
         assert(is_array($matter));
 
         return new ContentItem(
-            title: (string) $matter['title'],
-            slug: (string) $matter['slug'],
+            title: (string) ($matter['title'] ?? ''),
+            slug: (string) ($matter['slug'] ?? ''),
             author: (string) ($matter['author'] ?? 'TJ Draper'),
-            dateString: (string) $matter['date'],
+            dateString: (string) (
+                $matter['date'] ??
+                (new DateTimeImmutable())->format('Y-m-d g:i A')
+            ),
             rawBody: $yamlDoc->body(),
             body: $this->markdown->parse($yamlDoc->body()),
         );

@@ -40,7 +40,10 @@ class ContentItemsFromDirectoryFetchAndCache implements ContentItemsFromDirector
             ),
         );
 
-        $collection = $collection->sort('dateString', 'desc');
+        $collection = $collection->sort(
+            'dateString',
+            'desc',
+        );
 
         $this->cacheItemPool->save(new CacheItem(
             key: $cacheKey,
