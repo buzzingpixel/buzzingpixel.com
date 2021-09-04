@@ -53,7 +53,6 @@ class AccountLicenseAddAuthorizedDomainAction
 
         $accountMenu = $this->config->accountMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $accountMenu['licenses']['isActive'] = true;
 
         $software = $license->software();

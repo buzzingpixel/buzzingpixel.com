@@ -32,7 +32,6 @@ class QueueIndexAction
     {
         $adminMenu = $this->config->adminMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $adminMenu['queue']['isActive'] = true;
 
         $upcomingQueues = $this->queueApi->fetchNextXQueues();

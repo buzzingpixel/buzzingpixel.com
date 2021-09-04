@@ -30,20 +30,19 @@ class AccountPurchasesAction
 
         $accountMenu = $this->config->accountMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $accountMenu['purchases']['isActive'] = true;
 
         $orders = $this->orderApi->fetchOrders(
-            (new OrderQueryBuilder())
+            queryBuilder: (new OrderQueryBuilder())
                 ->withUserId($this->loggedInUser->user()->id())
                 ->withOrderBy('orderDate', 'desc'),
         );
 
         /** @noinspection PhpUnhandledExceptionInspection */
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@app/Http/Response/Account/Purchases/AccountPurchases.twig',
-                context: [
+            $this->twig->render(
+                '@app/Http/Response/Account/Purchases/AccountPurchases.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Purchases | Account',
                     ),

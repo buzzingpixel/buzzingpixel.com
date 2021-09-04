@@ -31,12 +31,12 @@ class AnselCraftDocTemplatingAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value: 'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@software/AnselCraft/Documentation/V2/AnselCraftDocTemplating.twig',
-                context: [
+            $this->twig->render(
+                '@software/AnselCraft/Documentation/V2/AnselCraftDocTemplating.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Templating With Ansel for Craft',
                     ),

@@ -37,7 +37,6 @@ class AdminSoftwareAction
 
         $adminMenu = $this->config->adminMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $adminMenu['software']['isActive'] = true;
 
         $response->getBody()->write($this->twig->render(

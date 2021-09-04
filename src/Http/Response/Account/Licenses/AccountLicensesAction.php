@@ -38,7 +38,6 @@ class AccountLicensesAction
 
         $accountMenu = $this->config->accountMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $accountMenu['licenses']['isActive'] = true;
 
         $licenses = $this->licenseApi->fetchLicenses(
@@ -47,9 +46,9 @@ class AccountLicensesAction
                 ->withOrderBy('id', 'desc'),
         );
 
-        $response->getBody()->write(string: $this->twig->render(
-            name: '@app/Http/Response/Account/Licenses/AccountLicenses.twig',
-            context: [
+        $response->getBody()->write($this->twig->render(
+            '@app/Http/Response/Account/Licenses/AccountLicenses.twig',
+            [
                 'meta' => new Meta(
                     metaTitle: 'Licenses | Account',
                 ),

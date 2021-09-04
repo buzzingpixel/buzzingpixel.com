@@ -43,7 +43,7 @@ class AdminCreateSoftwareVersionAction
         $softwareSlug = (string) $request->getAttribute('softwareSlug');
 
         $software = $this->softwareApi->fetchOneSoftware(
-            (new SoftwareQueryBuilder())
+            queryBuilder: (new SoftwareQueryBuilder())
                 ->withSlug($softwareSlug),
         );
 
@@ -58,7 +58,6 @@ class AdminCreateSoftwareVersionAction
 
         $adminMenu = $this->config->adminMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $adminMenu['software']['isActive'] = true;
 
         $response->getBody()->write($this->twig->render(

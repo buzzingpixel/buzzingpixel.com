@@ -31,12 +31,12 @@ class ConstructV2ExtensionHookAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value: 'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@software/Construct/Documentation/V2/ConstructV2ExtensionHook.twig',
-                context: [
+            $this->twig->render(
+                '@software/Construct/Documentation/V2/ConstructV2ExtensionHook.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Construct Extension Hooks',
                     ),

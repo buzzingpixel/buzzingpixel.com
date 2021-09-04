@@ -43,7 +43,6 @@ class PaginatedOrdersResponder implements PaginatedOrdersResponderContract
     ): ResponseInterface {
         $adminMenu = $this->config->adminMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $adminMenu['orders']['isActive'] = true;
 
         $response = $this->responseFactory->createResponse();

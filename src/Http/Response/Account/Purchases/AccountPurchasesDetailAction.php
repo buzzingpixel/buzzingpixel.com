@@ -35,7 +35,7 @@ class AccountPurchasesDetailAction
         $orderId = (string) $request->getAttribute('orderId');
 
         $order = $this->orderApi->fetchOneOrder(
-            (new OrderQueryBuilder())
+            queryBuilder: (new OrderQueryBuilder())
                 ->withUserId($this->loggedInUser->user()->id())
                 ->withId($orderId),
         );
@@ -47,7 +47,6 @@ class AccountPurchasesDetailAction
 
         $accountMenu = $this->config->accountMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $accountMenu['purchases']['isActive'] = true;
 
         $response = $this->responseFactory->createResponse();

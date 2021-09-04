@@ -30,12 +30,12 @@ class CategoryConstructAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value: 'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@software/CategoryConstruct/CategoryConstruct.twig',
-                context: [
+            $this->twig->render(
+                '@software/CategoryConstruct/CategoryConstruct.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Category Construct for ExpressionEngine',
                     ),

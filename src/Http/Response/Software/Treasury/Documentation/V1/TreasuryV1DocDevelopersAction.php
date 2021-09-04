@@ -31,12 +31,12 @@ class TreasuryV1DocDevelopersAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value: 'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@software/Treasury/Documentation/V1/TreasuryV1DocDevelopers.twig',
-                context: [
+            $this->twig->render(
+                '@software/Treasury/Documentation/V1/TreasuryV1DocDevelopers.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Treasury for Developers',
                     ),

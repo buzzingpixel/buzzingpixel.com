@@ -31,12 +31,12 @@ class ConstructV2DocTemplateTagsAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value: 'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@software/Construct/Documentation/V2/ConstructV2DocTemplateTags.twig',
-                context: [
+            $this->twig->render(
+                '@software/Construct/Documentation/V2/ConstructV2DocTemplateTags.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: "Using Construct's Template Tags",
                     ),

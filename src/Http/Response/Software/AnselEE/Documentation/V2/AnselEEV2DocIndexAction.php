@@ -31,12 +31,12 @@ class AnselEEV2DocIndexAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value: 'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@software/AnselEE/Documentation/V2/AnselEEV2DocIndex.twig',
-                context: [
+            $this->twig->render(
+                '@software/AnselEE/Documentation/V2/AnselEEV2DocIndex.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Getting Started With Ansel for ExpressionEngine',
                     ),

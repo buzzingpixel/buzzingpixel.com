@@ -34,7 +34,7 @@ class AccountLicenseEditNotesAction
         $licenseKey = (string) $request->getAttribute('licenseKey');
 
         $license = $this->licenseApi->fetchOneLicense(
-            (new LicenseQueryBuilder())
+            queryBuilder: (new LicenseQueryBuilder())
                 ->withUserId($this->loggedInUser->user()->id())
                 ->withLicenseKey($licenseKey),
         );
@@ -48,7 +48,6 @@ class AccountLicenseEditNotesAction
 
         $accountMenu = $this->config->accountMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $accountMenu['licenses']['isActive'] = true;
 
         $software = $license->software();

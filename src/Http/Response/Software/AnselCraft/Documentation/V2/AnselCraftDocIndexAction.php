@@ -31,12 +31,12 @@ class AnselCraftDocIndexAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value: 'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@software/AnselCraft/Documentation/V2/AnselCraftDocIndex.twig',
-                context: [
+            $this->twig->render(
+                '@software/AnselCraft/Documentation/V2/AnselCraftDocIndex.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Getting Started With Ansel for Craft',
                     ),

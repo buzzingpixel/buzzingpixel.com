@@ -32,12 +32,12 @@ class TreasuryChangelogAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value:'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
             $this->twig->render(
-                name: 'Http/Changelog/ChangelogTemplate.twig',
-                context: [
+                'Http/Changelog/ChangelogTemplate.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Treasury for ExpressionEngine Changelog',
                     ),

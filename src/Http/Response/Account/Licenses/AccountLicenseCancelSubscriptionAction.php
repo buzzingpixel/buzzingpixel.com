@@ -39,7 +39,7 @@ class AccountLicenseCancelSubscriptionAction
         $licenseKey = (string) $request->getAttribute('licenseKey');
 
         $license = $this->licenseApi->fetchOneLicense(
-            (new LicenseQueryBuilder())
+            queryBuilder: (new LicenseQueryBuilder())
                 ->withUserId($this->loggedInUser->user()->id())
                 ->withLicenseKey($licenseKey),
         );
@@ -55,7 +55,6 @@ class AccountLicenseCancelSubscriptionAction
 
         $accountMenu = $this->config->accountMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $accountMenu['licenses']['isActive'] = true;
 
         $software = $license->software();
@@ -147,9 +146,9 @@ class AccountLicenseCancelSubscriptionAction
 
         /** @noinspection PhpUnhandledExceptionInspection */
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@app/Http/Response/Account/AccountConfirmationForm.twig',
-                context: [
+            $this->twig->render(
+                '@app/Http/Response/Account/AccountConfirmationForm.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Confirm Subscription Cancellation | Licenses | Account',
                     ),

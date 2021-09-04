@@ -36,8 +36,8 @@ class CreateCacheFromResponse
         $cacheItem->body = $response->getBody()->__toString();
 
         $this->filesystem->write(
-            location: ($this->getCachePathFromRequest)($request),
-            contents: serialize($cacheItem),
+            ($this->getCachePathFromRequest)($request),
+            serialize($cacheItem),
         );
     }
 }

@@ -31,12 +31,12 @@ class AnselCraftDocFieldTypeUseAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value: 'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@software/AnselCraft/Documentation/V2/AnselCraftDocFieldTypeUse.twig',
-                context: [
+            $this->twig->render(
+                '@software/AnselCraft/Documentation/V2/AnselCraftDocFieldTypeUse.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Ansel for Craft Field Type Usage',
                     ),

@@ -34,13 +34,12 @@ class AccountProfileAction
 
         $accountMenu = $this->config->accountMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $accountMenu['profile']['isActive'] = true;
 
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@app/Http/Response/Account/Profile/AccountProfile.twig',
-                context: [
+            $this->twig->render(
+                '@app/Http/Response/Account/Profile/AccountProfile.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Profile | Account',
                     ),

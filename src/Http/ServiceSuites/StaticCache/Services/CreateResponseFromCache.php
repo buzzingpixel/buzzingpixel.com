@@ -37,10 +37,10 @@ class CreateResponseFromCache
         assert(assertion: $cacheItem instanceof CacheItem);
 
         $response = $this->responseFactory->createResponse(
-            code: $cacheItem->statusCode,
-            reasonPhrase: $cacheItem->reasonPhrase
+            $cacheItem->statusCode,
+            $cacheItem->reasonPhrase
         )
-            ->withProtocolVersion(version: $cacheItem->protocolVersion);
+            ->withProtocolVersion($cacheItem->protocolVersion);
 
         /**
          * @psalm-suppress MixedAssignment
@@ -55,13 +55,13 @@ class CreateResponseFromCache
                  * @psalm-suppress MixedArgumentTypeCoercion
                  */
                 $response = $response->withHeader(
-                    name: $key,
-                    value: $headerVal
+                    $key,
+                    $headerVal
                 );
             }
         }
 
-        $response->getBody()->write(string: $cacheItem->body);
+        $response->getBody()->write($cacheItem->body);
 
         return $response;
     }

@@ -33,7 +33,6 @@ class NewLicenseAction
     {
         $adminMenu = $this->config->adminMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $adminMenu['addNewLicense']['isActive'] = true;
 
         $response = $this->responseFactory->createResponse();

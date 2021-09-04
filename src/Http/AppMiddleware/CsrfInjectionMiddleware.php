@@ -29,7 +29,7 @@ class CsrfInjectionMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface {
-        $response = $handler->handle(request: $request);
+        $response = $handler->handle($request);
 
         $bodyString = $response->getBody()->__toString();
 
@@ -59,8 +59,8 @@ class CsrfInjectionMiddleware implements MiddlewareInterface
 
         $body = $this->streamFactory->make();
 
-        $body->write(string: $bodyString);
+        $body->write($bodyString);
 
-        return $response->withBody(body: $body);
+        return $response->withBody($body);
     }
 }

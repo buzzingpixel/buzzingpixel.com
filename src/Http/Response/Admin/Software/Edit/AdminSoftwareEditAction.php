@@ -41,7 +41,7 @@ class AdminSoftwareEditAction
         $slug = (string) $request->getAttribute('slug');
 
         $software = $this->softwareApi->fetchOneSoftware(
-            (new SoftwareQueryBuilder())
+            queryBuilder: (new SoftwareQueryBuilder())
                 ->withSlug($slug),
         );
 

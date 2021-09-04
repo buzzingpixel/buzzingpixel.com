@@ -31,12 +31,12 @@ class AnselEEV2DocTemplatingAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value: 'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@software/AnselEE/Documentation/V2/AnselEEV2DocTemplating.twig',
-                context: [
+            $this->twig->render(
+                '@software/AnselEE/Documentation/V2/AnselEEV2DocTemplating.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Templating With Ansel for ExpressionEngine',
                     ),

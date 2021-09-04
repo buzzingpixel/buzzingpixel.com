@@ -9,6 +9,9 @@ use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment as TwigEnvironment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class ChangePasswordAction
 {
@@ -19,19 +22,23 @@ class ChangePasswordAction
     ) {
     }
 
+    /**
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse();
 
         $accountMenu = $this->config->accountMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $accountMenu['change-password']['isActive'] = true;
 
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@app/Http/Response/Account/ChangePassword/ChangePassword.twig',
-                context: [
+            $this->twig->render(
+                '@app/Http/Response/Account/ChangePassword/ChangePassword.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Change Password',
                     ),

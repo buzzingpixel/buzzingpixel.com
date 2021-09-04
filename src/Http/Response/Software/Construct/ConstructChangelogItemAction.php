@@ -37,19 +37,19 @@ class ConstructChangelogItemAction
      */
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
-        $slug = (string) $request->getAttribute(name: 'slug');
+        $slug = (string) $request->getAttribute('slug');
 
         $changelog = $this->parseChangelogFromMarkdownFile->parse(
-            location: $this->generalConfig->rootPath() . '/src/Http/Response/Software/Construct/ConstructChangelog.md',
+            $this->generalConfig->rootPath() . '/src/Http/Response/Software/Construct/ConstructChangelog.md',
         );
 
         $release = null;
 
         foreach ($changelog->getReleases() as $loopRelease) {
             $loopSlug = str_replace(
-                search: '.',
-                replace: '-',
-                subject: $loopRelease->getVersion()
+                '.',
+                '-',
+                $loopRelease->getVersion()
             );
 
             if ($loopSlug !== $slug) {
@@ -60,16 +60,16 @@ class ConstructChangelogItemAction
         }
 
         if ($release === null) {
-            throw new HttpNotFoundException(request: $request);
+            throw new HttpNotFoundException($request);
         }
 
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value:'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
             $this->twig->render(
-                name: 'Http/Changelog/ChangelogTemplate.twig',
-                context: [
+                'Http/Changelog/ChangelogTemplate.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Construct for ExpressionEngine Changelog: ' . $release->getVersion(),
                     ),

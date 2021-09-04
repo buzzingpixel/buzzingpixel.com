@@ -39,7 +39,6 @@ class AnalyticsViewResponder
     ): ResponseInterface {
         $adminMenu = $this->config->adminMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $adminMenu['analytics']['isActive'] = true;
 
         $response = $this->responseFactory->createResponse();

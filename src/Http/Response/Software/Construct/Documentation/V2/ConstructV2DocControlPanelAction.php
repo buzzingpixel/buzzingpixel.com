@@ -31,12 +31,12 @@ class ConstructV2DocControlPanelAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value: 'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@software/Construct/Documentation/V2/ConstructV2DocControlPanel.twig',
-                context: [
+            $this->twig->render(
+                '@software/Construct/Documentation/V2/ConstructV2DocControlPanel.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Construct Control Panel',
                     ),

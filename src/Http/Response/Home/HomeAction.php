@@ -30,12 +30,12 @@ class HomeAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value: 'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@home/HomeTemplate.twig',
-                context: [
+            $this->twig->render(
+                '@home/HomeTemplate.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Specializing in Fine Web Software',
                     ),

@@ -31,12 +31,12 @@ class CategoryConstructV2DocIndexAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value: 'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@software/CategoryConstruct/Documentation/V2/CategoryConstructV2DocIndex.twig',
-                context: [
+            $this->twig->render(
+                '@software/CategoryConstruct/Documentation/V2/CategoryConstructV2DocIndex.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Getting Started With Category Construct',
                     ),

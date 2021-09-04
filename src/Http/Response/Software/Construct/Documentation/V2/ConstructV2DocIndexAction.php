@@ -31,12 +31,12 @@ class ConstructV2DocIndexAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value: 'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@software/Construct/Documentation/V2/ConstructV2DocIndex.twig',
-                context: [
+            $this->twig->render(
+                '@software/Construct/Documentation/V2/ConstructV2DocIndex.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Getting Started With Construct',
                     ),

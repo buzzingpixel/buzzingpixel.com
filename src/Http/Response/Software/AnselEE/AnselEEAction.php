@@ -30,12 +30,12 @@ class AnselEEAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value: 'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@software/AnselEE/AnselEETemplate.twig',
-                context: [
+            $this->twig->render(
+                '@software/AnselEE/AnselEETemplate.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Ansel Image Field Type for ExpressionEngine',
                     ),

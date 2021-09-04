@@ -30,7 +30,7 @@ class AnselCraftChangelogAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value:'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
             $this->twig->render(

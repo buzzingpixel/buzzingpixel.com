@@ -30,12 +30,12 @@ class ConstructAction
     public function __invoke(): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()
-            ->withHeader(name: 'EnableStaticCache', value: 'true');
+            ->withHeader('EnableStaticCache', 'true');
 
         $response->getBody()->write(
-            string: $this->twig->render(
-                name: '@software/Construct/Construct.twig',
-                context: [
+            $this->twig->render(
+                '@software/Construct/Construct.twig',
+                [
                     'meta' => new Meta(
                         metaTitle: 'Construct for ExpressionEngine',
                     ),
