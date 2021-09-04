@@ -10,10 +10,9 @@
     } only %}
 
     {# Hero #}
-    {# TODO: Image sizes here #}
     {% embed 'Http/Components/Hero.twig' with {
         image: {
-            src: siteUrl('/assets/img/ansel-craft-desktop-2x.jpg'),
+            src: siteUrl('/assets/img/construct-screen-shot-tablet-desktop-2x.png'),
             alt: 'Treasury Screenshot',
         },
         ctas: ctas,
@@ -29,10 +28,9 @@
         {% endblock %}
     {% endembed %}
 
-    {# TODO: Image sizes here #}
     {% embed 'Http/Components/FeatureLeftContentRightImage.twig' with {
         image: {
-            src: siteUrl('/assets/img/ansel2-field-type-tablet-desktop-2x.png'),
+            src: siteUrl('/assets/img/construct-node-tablet-desktop-2x.png'),
             alt: 'Ansel for Craft Field Type',
         }
     } only %}
@@ -54,7 +52,6 @@
         {% endblock %}
     {% endembed %}
 
-    {# TODO: Image sizes here #}
     <div class="relative py-16 bg-gray-200 overflow-hidden">
         <div class="relative px-4 sm:px-6 lg:px-8">
             <div class="text-lg max-w-prose mx-auto">
@@ -74,14 +71,13 @@
             <div class="mt-6 prose prose-indigo prose-lg text-gray-500 mx-auto">
                 <img
                     class="w-full rounded-lg border shadow-lg"
-                    src="{{ siteUrl('/assets/img/ansel-field-settings-2x.jpg') }}"
+                    src="{{ siteUrl('/assets/img/construct-tree-settings-mobile-2x.png') }}"
                     alt="Ansel for Craft Field Settings"
                 >
             </div>
         </div>
     </div>
 
-    {# TODO: Image sizes here #}
     <div class="relative py-16 overflow-hidden">
         <div class="relative px-4 sm:px-6 lg:px-8">
             <div class="text-lg max-w-prose mx-auto">
@@ -101,7 +97,7 @@
             <div class="mt-6 prose prose-indigo prose-lg text-gray-500 mx-auto">
                 <img
                     class="w-full rounded-lg border shadow-lg"
-                    src="{{ siteUrl('/assets/img/ansel-field-settings-2x.jpg') }}"
+                    src="{{ siteUrl('/assets/img/construct-tags-tablet-desktop-2x.png') }}"
                     alt="Ansel for Craft Field Settings"
                 >
             </div>
