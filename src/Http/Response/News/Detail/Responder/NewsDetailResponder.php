@@ -6,10 +6,12 @@ namespace App\Http\Response\News\Detail\Responder;
 
 use App\Context\Content\Entities\ContentItem;
 use App\Http\Entities\Meta;
-use App\Http\Response\News\ItemLinkResolver;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment as TwigEnvironment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 use function assert;
 
@@ -17,11 +19,15 @@ class NewsDetailResponder implements NewsDetailResponderContract
 {
     public function __construct(
         private TwigEnvironment $twig,
-        private ItemLinkResolver $itemLinkResolver,
         private ResponseFactoryInterface $responseFactory,
     ) {
     }
 
+    /**
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function respond(?ContentItem $newsItem): ResponseInterface
     {
         assert($newsItem instanceof ContentItem);
@@ -34,7 +40,6 @@ class NewsDetailResponder implements NewsDetailResponderContract
                 'meta' => new Meta(
                     metaTitle: $newsItem->title() . ' | News',
                 ),
-                'itemLinkResolver' => $this->itemLinkResolver,
                 'breadcrumbSingle' => [
                     'content' => 'News',
                     'uri' => '/news',

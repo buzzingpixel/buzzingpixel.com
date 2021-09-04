@@ -1,9 +1,10 @@
 {# @var \App\Http\Entities\Meta $meta #}
-{# @var \App\Context\Content\Contracts\ItemLinkResolverContract itemLinkResolver #}
 {# @var \App\Context\Content\Entities\ContentItem contentItem #}
 
 {% set breadcrumbTrail = breadcrumbTrail ?? [] %}
 {% set breadcrumbSingle = breadcrumbSingle ?? {} %}
+{% set showDate = showDate ?? true %}
+{% set showByLine = showByLine ?? true %}
 
 {% extends 'Http/_Infrastructure/_Layout.twig' %}
 
@@ -45,15 +46,19 @@
         <div class="relative px-4 sm:px-6 lg:px-8">
             <div class="text-lg max-w-prose mx-auto">
                 <h1>
-                    <span class="block text-base text-meteor font-semibold tracking-wide uppercase">
-                        {{ contentItem.date.format('l, F jS, Y') }}
-                    </span>
+                    {% if showDate %}
+                        <span class="block text-base text-meteor font-semibold tracking-wide uppercase">
+                            {{ contentItem.date.format('l, F jS, Y') }}
+                        </span>
+                    {% endif %}
                     <span class="mt-1 block text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                         {{ contentItem.title|smartypants|widont }}
                     </span>
-                    <span class="mt-1 block text-sm text-meteor font-semibold tracking-wide uppercase">
-                        {{ ('by ' ~ contentItem.author)|smartypants }}
-                    </span>
+                    {% if showByLine %}
+                        <span class="mt-1 block text-sm text-meteor font-semibold tracking-wide uppercase">
+                            {{ ('by ' ~ contentItem.author)|smartypants }}
+                        </span>
+                    {% endif %}
                 </h1>
                 {#<p class="mt-8 text-xl text-gray-500 leading-8">Aliquet nec orci mattis amet quisque ullamcorper neque, nibh sem. At arcu, sit dui mi, nibh dui, diam eget aliquam. Quisque id at vitae feugiat egestas ac. Diam nulla orci at in viverra scelerisque eget. Eleifend egestas fringilla sapien.</p>#}
             </div>
