@@ -71,7 +71,7 @@ class AnselCraftChangelogItemAction
                     'meta' => new Meta(
                         metaTitle: 'Ansel for Craft CMS Changelog: ' . $release->getVersion(),
                     ),
-                    'heading' => 'Ansel for EE Changelog: ' . $release->getVersion(),
+                    'heading' => 'Ansel for Craft CMS Changelog: ' . $release->getVersion(),
                     'navItems' => AnselCraftVariables::NAV,
                     'changelog' => new ChangelogPayload([$release]),
                     'baseUri' => AnselCraftVariables::CHANGELOG_BASE_URI,

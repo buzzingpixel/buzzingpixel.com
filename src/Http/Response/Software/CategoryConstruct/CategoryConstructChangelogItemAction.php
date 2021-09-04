@@ -71,9 +71,9 @@ class CategoryConstructChangelogItemAction
                 name: 'Http/Changelog/ChangelogTemplate.twig',
                 context: [
                     'meta' => new Meta(
-                        metaTitle: 'Construct for ExpressionEngine Changelog: ' . $release->getVersion(),
+                        metaTitle: 'Category Construct for ExpressionEngine Changelog: ' . $release->getVersion(),
                     ),
-                    'heading' => 'Construct Changelog: ' . $release->getVersion(),
+                    'heading' => 'Category Construct Changelog: ' . $release->getVersion(),
                     'navItems' => CategoryConstructVariables::NAV,
                     'changelog' => new ChangelogPayload([$release]),
                     'baseUri' => CategoryConstructVariables::CHANGELOG_BASE_URI,
