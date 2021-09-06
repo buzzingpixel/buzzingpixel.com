@@ -161,4 +161,9 @@ class IssueMessage
             Issue::USER_TYPE_ADMIN :
             Issue::USER_TYPE_USER;
     }
+
+    public function createdAtTimeStamp(): int
+    {
+        return $this->createdAt()->getTimestamp();
+    }
 }
