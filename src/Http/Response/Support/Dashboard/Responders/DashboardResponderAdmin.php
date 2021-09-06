@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Response\Support\Dashboard\Responders;
 
 use App\Context\Content\Entities\ContentItemCollection;
-use App\Context\Issues\Entities\Issue;
 use App\Context\Issues\IssuesApi;
 use App\Http\Entities\Meta;
 use App\Http\Response\Support\Dashboard\Contracts\DashboardResponderContract;
@@ -43,7 +42,6 @@ class DashboardResponderAdmin implements DashboardResponderContract
         $issues = $this->issuesApi->fetchIssues(
             queryBuilder: (new IssueQueryBuilder())
                 ->withIsEnabled()
-                ->withLastCommentUserType(value: Issue::USER_TYPE_USER)
                 ->withOrderBy(column: 'lastCommentAt', direction:'desc')
                 ->withLimit(limit: 100),
         );
