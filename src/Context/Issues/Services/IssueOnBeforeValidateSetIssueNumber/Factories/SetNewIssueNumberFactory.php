@@ -20,7 +20,7 @@ class SetNewIssueNumberFactory
     public function getSetNewIssueNumber(
         SaveIssueBeforeValidate $beforeValidate
     ): SetNewIssueNumberContract {
-        if ($beforeValidate->isNew) {
+        if ($beforeValidate->isNew && $beforeValidate->setNewIssueNumber) {
             return $this->setNewIssueNumber;
         }
 

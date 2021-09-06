@@ -28,6 +28,7 @@ class SaveIssueNew implements SaveIssueContract
         Issue $issue,
         ?IssueRecord $record,
         ValidityContract $validity,
+        bool $sendNotifications = true,
     ): Payload {
         $this->logger->info('Creating new Issue record');
 
@@ -59,6 +60,7 @@ class SaveIssueNew implements SaveIssueContract
             issue: $issue,
             payload: $payload,
             wasNew: true,
+            sendNotifications: $sendNotifications,
         );
 
         $this->eventDispatcher->dispatch($afterSave);

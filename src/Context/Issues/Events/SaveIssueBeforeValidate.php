@@ -9,7 +9,10 @@ use App\Events\StoppableEvent;
 
 class SaveIssueBeforeValidate extends StoppableEvent
 {
-    public function __construct(public Issue $issue, public bool $isNew)
-    {
+    public function __construct(
+        public Issue $issue,
+        public bool $isNew,
+        public bool $setNewIssueNumber = true,
+    ) {
     }
 }

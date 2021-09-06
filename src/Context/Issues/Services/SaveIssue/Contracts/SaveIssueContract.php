@@ -14,5 +14,6 @@ interface SaveIssueContract
         Issue $issue,
         ?IssueRecord $record,
         ValidityContract $validity,
+        bool $sendNotifications = true,
     ): Payload;
 }

@@ -30,6 +30,7 @@ class SaveIssueExisting implements SaveIssueContract
         Issue $issue,
         ?IssueRecord $record,
         ValidityContract $validity,
+        bool $sendNotifications = true,
     ): Payload {
         assert($record instanceof IssueRecord);
 
@@ -60,6 +61,7 @@ class SaveIssueExisting implements SaveIssueContract
         $afterSave = new SaveIssueAfterSave(
             issue: $issue,
             payload: $payload,
+            sendNotifications: $sendNotifications,
         );
 
         $this->eventDispatcher->dispatch($afterSave);

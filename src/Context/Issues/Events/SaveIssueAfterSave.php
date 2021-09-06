@@ -14,6 +14,7 @@ class SaveIssueAfterSave extends StoppableEvent
         public Issue $issue,
         public Payload $payload,
         public bool $wasNew = false,
+        public bool $sendNotifications = true,
     ) {
     }
 }

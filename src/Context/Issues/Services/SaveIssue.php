@@ -32,10 +32,19 @@ class SaveIssue
     ) {
     }
 
-    public function save(Issue $issue): Payload
-    {
+    public function save(
+        Issue $issue,
+        bool $setUpdatedAt = true,
+        bool $setNewIssueNumber = true,
+        bool $sendNotifications = true,
+    ): Payload {
         try {
-            return $this->innerSave(issue: $issue);
+            return $this->innerSave(
+                issue: $issue,
+                setUpdatedAt: $setUpdatedAt,
+                setNewIssueNumber: $setNewIssueNumber,
+                sendNotifications: $sendNotifications,
+            );
         } catch (Throwable $exception) {
             return $this->exceptionHandlerFactory->getExceptionHandler()
                 ->handle(issue: $issue, exception: $exception);
@@ -48,21 +57,28 @@ class SaveIssue
      * @throws ORMException
      * @throws Exception
      */
-    public function innerSave(Issue $issue): Payload
-    {
+    private function innerSave(
+        Issue $issue,
+        bool $setUpdatedAt,
+        bool $setNewIssueNumber,
+        bool $sendNotifications,
+    ): Payload {
         $lastMessage = $issue->issueMessages()
             ->sort('createdAt', 'desc')
             ->first();
 
         $issue = $issue
-            ->withUpdatedAt(updatedAt: new DateTimeImmutable(
-                'now',
-                new DateTimeZone('UTC'),
-            ))
             ->withLastCommentAt(lastCommentAt: $lastMessage->createdAt())
             ->withLastCommentUserType(
                 lastCommentUserType: $lastMessage->getCommentUserType(),
             );
+
+        if ($setUpdatedAt) {
+            $issue = $issue->withUpdatedAt(updatedAt: new DateTimeImmutable(
+                'now',
+                new DateTimeZone('UTC'),
+            ));
+        }
 
         $record = $this->entityManager->find(
             IssueRecord::class,
@@ -72,6 +88,7 @@ class SaveIssue
         $beforeValidate = new SaveIssueBeforeValidate(
             issue: $issue,
             isNew: $record === null,
+            setNewIssueNumber: $setNewIssueNumber,
         );
 
         $this->eventDispatcher->dispatch($beforeValidate);
@@ -85,6 +102,11 @@ class SaveIssue
         return $this->saveIssueFactory->getSaveIssue(
             record: $record,
             validity: $validity,
-        )->save(issue: $issue, record: $record, validity: $validity);
+        )->save(
+            issue: $issue,
+            record: $record,
+            validity: $validity,
+            sendNotifications: $sendNotifications,
+        );
     }
 }

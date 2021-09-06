@@ -21,13 +21,16 @@ class SendNotificationsFactory
         int $previousReplyAmount,
         SaveIssueAfterSave $afterSave,
     ): SendNotificationsContract {
-        if ($afterSave->wasNew) {
+        if ($afterSave->wasNew && $afterSave->sendNotifications) {
             return $this->send;
         }
 
         $messageAmount = $afterSave->issue->issueMessages()->count();
 
-        if ($previousReplyAmount < $messageAmount) {
+        if (
+            $previousReplyAmount < $messageAmount
+            && $afterSave->sendNotifications
+        ) {
             return $this->send;
         }
 

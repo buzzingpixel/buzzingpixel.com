@@ -41,9 +41,18 @@ class IssuesApi
     ) {
     }
 
-    public function saveIssue(Issue $issue): Payload
-    {
-        return $this->saveIssue->save(issue: $issue);
+    public function saveIssue(
+        Issue $issue,
+        bool $setUpdatedAt = true,
+        bool $setNewIssueNumber = true,
+        bool $sendNotifications = true,
+    ): Payload {
+        return $this->saveIssue->save(
+            issue: $issue,
+            setUpdatedAt: $setUpdatedAt,
+            setNewIssueNumber: $setNewIssueNumber,
+            sendNotifications: $sendNotifications,
+        );
     }
 
     /** @phpstan-ignore-next-line */
