@@ -32,6 +32,8 @@ class General
     /** @var string[] */
     private array $jsFiles         = ['https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js'];
     private string $systemTimeZone = 'US/Central';
+    private string $oldSiteUrl;
+    private string $oldSiteTransferKey;
 
     public function __construct()
     {
@@ -68,6 +70,12 @@ class General
         if (is_string($systemTimeZone) && $systemTimeZone !== '') {
             $this->systemTimeZone = $systemTimeZone;
         }
+
+        /** @phpstan-ignore-next-line */
+        $this->oldSiteUrl = (string) getenv('OLD_SITE_URL');
+
+        /** @phpstan-ignore-next-line */
+        $this->oldSiteTransferKey = (string) getenv('OLD_SITE_TRANSFER_KEY');
 
         if (
             ! $this->devMode() ||
@@ -353,5 +361,15 @@ class General
     public function devSubDomains(): array
     {
         return self::$devSubDomains;
+    }
+
+    public function oldSiteUrl(string $uri = ''): string
+    {
+        return $this->oldSiteUrl . $uri;
+    }
+
+    public function oldSiteTransferKey(): string
+    {
+        return $this->oldSiteTransferKey;
     }
 }
