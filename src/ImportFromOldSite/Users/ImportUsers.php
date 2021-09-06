@@ -32,10 +32,10 @@ class ImportUsers
     /**
      * @throws GuzzleException
      */
-    public function importUser(): void
+    public function import(): void
     {
         $request = $this->guzzle->get(
-            $this->config->oldSiteUrl('/new-site-transfer/users'),
+            $this->config->oldSiteUrl(uri: '/new-site-transfer/users'),
             [
                 'query' => ['key' => $this->config->oldSiteTransferKey()],
             ],
