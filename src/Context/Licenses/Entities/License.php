@@ -9,8 +9,10 @@ use App\Context\Users\Entities\User as UserEntity;
 use App\EntityPropertyTraits\AdminNotes;
 use App\EntityPropertyTraits\AuthorizedDomains;
 use App\EntityPropertyTraits\ExpiresAt;
+use App\EntityPropertyTraits\HasBeenUpgraded;
 use App\EntityPropertyTraits\Id;
 use App\EntityPropertyTraits\IsDisabled;
+use App\EntityPropertyTraits\IsUpgrade;
 use App\EntityPropertyTraits\LicenseKey;
 use App\EntityPropertyTraits\MajorVersion;
 use App\EntityPropertyTraits\MaxVersion;
@@ -62,6 +64,8 @@ class License
     use StripeSubscriptionItemId;
     use StripeCanceledAt;
     use StripeSubscriptionAmount;
+    use IsUpgrade;
+    use HasBeenUpgraded;
 
     public static function fromRecord(LicenseRecord $record): self
     {
@@ -83,6 +87,8 @@ class License
             stripeSubscriptionItemId: $record->getStripeSubscriptionItemId(),
             stripeCanceledAt: $record->getStripeCanceledAt(),
             stripeSubscriptionAmount: $record->getStripeSubscriptionAmount(),
+            isUpgrade: $record->getIsUpgrade(),
+            hasBeenUpgraded: $record->getHasBeenUpgraded(),
         );
     }
 
@@ -104,6 +110,8 @@ class License
         string $stripeSubscriptionId = '',
         string $stripeSubscriptionItemId = '',
         int | Money $stripeSubscriptionAmount = 0,
+        bool $isUpgrade = false,
+        bool $hasBeenUpgraded = false,
         null | string | DateTimeInterface $stripeCanceledAt = null,
         null | string | UuidInterface $id = null,
     ) {
@@ -148,6 +156,10 @@ class License
         $this->stripeSubscriptionId = $stripeSubscriptionId;
 
         $this->stripeSubscriptionItemId = $stripeSubscriptionItemId;
+
+        $this->isUpgrade = $isUpgrade;
+
+        $this->hasBeenUpgraded = $hasBeenUpgraded;
 
         $this->stripeCanceledAt = DateTimeUtility::createDateTimeImmutableOrNull(
             $stripeCanceledAt,

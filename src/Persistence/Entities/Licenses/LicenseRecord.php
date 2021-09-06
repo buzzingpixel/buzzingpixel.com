@@ -12,8 +12,10 @@ use App\Persistence\Entities\Users\UserRecord;
 use App\Persistence\PropertyTraits\AdminNotes;
 use App\Persistence\PropertyTraits\AuthorizedDomains;
 use App\Persistence\PropertyTraits\ExpiresAt;
+use App\Persistence\PropertyTraits\HasBeenUpgraded;
 use App\Persistence\PropertyTraits\Id;
 use App\Persistence\PropertyTraits\IsDisabled;
+use App\Persistence\PropertyTraits\IsUpgrade;
 use App\Persistence\PropertyTraits\LicenseKey;
 use App\Persistence\PropertyTraits\MajorVersion;
 use App\Persistence\PropertyTraits\MaxVersion;
@@ -49,6 +51,8 @@ class LicenseRecord
     use StripeSubscriptionItemId;
     use StripeCanceledAt;
     use StripeSubscriptionAmount;
+    use IsUpgrade;
+    use HasBeenUpgraded;
 
     /**
      * @Mapping\ManyToOne(
@@ -103,13 +107,27 @@ class LicenseRecord
         $this->setLicenseKey(licenseKey: $entity->licenseKey());
         $this->setUserNotes(userNotes: $entity->userNotes());
         $this->setAdminNotes(adminNotes: $entity->adminNotes());
-        $this->setAuthorizedDomains(authorizedDomains: $entity->authorizedDomains());
+        $this->setAuthorizedDomains(
+            authorizedDomains: $entity->authorizedDomains(),
+        );
         $this->setExpiresAt(expiresAt: $entity->expiresAt());
         $this->setStripeStatus(stripeStatus: $entity->stripeStatus());
-        $this->setStripeSubscriptionId(stripeSubscriptionId: $entity->stripeSubscriptionId());
-        $this->setStripeSubscriptionItemId(stripeSubscriptionItemId: $entity->stripeSubscriptionItemId());
-        $this->setStripeCanceledAt(stripeCanceledAt: $entity->stripeCanceledAt());
-        $this->setStripeSubscriptionAmount(stripeSubscriptionAmount: $entity->stripeSubscriptionAmountAsInt());
+        $this->setStripeSubscriptionId(
+            stripeSubscriptionId: $entity->stripeSubscriptionId(),
+        );
+        $this->setStripeSubscriptionItemId(
+            stripeSubscriptionItemId: $entity->stripeSubscriptionItemId(),
+        );
+        $this->setStripeCanceledAt(
+            stripeCanceledAt: $entity->stripeCanceledAt()
+        );
+        $this->setStripeSubscriptionAmount(
+            stripeSubscriptionAmount: $entity->stripeSubscriptionAmountAsInt(),
+        );
+        $this->setIsUpgrade(isUpgrade: $entity->isUpgrade());
+        $this->setHasBeenUpgraded(
+            hasBeenUpgraded: $entity->hasBeenUpgraded(),
+        );
 
         $user = $entity->user();
 
