@@ -33,7 +33,6 @@ class StripeSyncEveryNight
                 ->withAddedQueueItem(
                     newQueueItem: new QueueItem(
                         className: SyncAllStripeItemsQueueAction::class,
-                        methodName: 'sync',
                     ),
                 ),
         );

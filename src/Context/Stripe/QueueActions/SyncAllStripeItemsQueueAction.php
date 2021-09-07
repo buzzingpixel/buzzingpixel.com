@@ -12,7 +12,7 @@ class SyncAllStripeItemsQueueAction
     {
     }
 
-    public function sync(): void
+    public function __invoke(): void
     {
         $this->stripeApi->syncCustomers();
         $this->stripeApi->syncProducts();
