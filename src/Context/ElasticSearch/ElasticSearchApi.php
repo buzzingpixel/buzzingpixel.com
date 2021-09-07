@@ -25,7 +25,7 @@ class ElasticSearchApi
 
     public function indexIssue(Issue $issue): void
     {
-        $this->indexIssue->indexIssue($issue);
+        $this->indexIssue->indexIssue(issue: $issue);
     }
 
     public function indexAllIssues(): void

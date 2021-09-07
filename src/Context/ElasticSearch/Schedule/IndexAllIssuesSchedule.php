@@ -33,7 +33,6 @@ class IndexAllIssuesSchedule
                 ->withAddedQueueItem(
                     newQueueItem: new QueueItem(
                         className: IndexAllIssuesQueueAction::class,
-                        methodName: 'sync',
                     ),
                 ),
         );
