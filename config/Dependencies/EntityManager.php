@@ -8,7 +8,8 @@ use App\Persistence\Types\UtcDateTimeTzImmutableType;
 use App\Persistence\Types\UtcDateTimeTzType;
 use Config\Db;
 use Config\General;
-use Doctrine\Common\Cache\PhpFileCache;
+use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Cache\RedisCache;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
@@ -51,11 +52,19 @@ return [
 
         $proxyDir = $storageDir . '/doctrine/proxy';
 
-        $cache = $generalConfig->devMode() ?
-            null :
-            new PhpFileCache(
-                directory: $storageDir . '/doctrine/cache',
-            );
+        $devMode = $generalConfig->devMode();
+
+        if ($devMode) {
+            $cache = new ArrayCache();
+        } else {
+            $cache = new RedisCache();
+
+            $redis = $di->get(Redis::class);
+
+            assert($redis instanceof Redis);
+
+            $cache->setRedis($redis);
+        }
 
         return EntityManager::create(
             connection: [
@@ -69,7 +78,7 @@ return [
             ],
             config: Setup::createAnnotationMetadataConfiguration(
                 paths: [$dbConfig->entitiesPath()],
-                isDevMode: $generalConfig->devMode(),
+                isDevMode: $devMode,
                 proxyDir: $proxyDir,
                 cache: $cache,
                 useSimpleAnnotationReader: false,
