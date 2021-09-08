@@ -21,6 +21,7 @@ use Config\General;
 use DateTimeImmutable;
 use DateTimeInterface;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 use function array_map;
 use function assert;
@@ -38,6 +39,9 @@ class Issues
     ) {
     }
 
+    /**
+     * @throws GuzzleException
+     */
     public function import(): void
     {
         $request = $this->guzzle->get(
