@@ -102,11 +102,11 @@
                                 <div class="mt-2 sm:flex sm:justify-between">
                                     <div class="sm:flex">
                                         <p class="flex items-center text-sm text-gray-500">
-                                            Last message by {{ lastMessage.user.supportProfile.displayName }}
+                                            Opened by {{ issue.user.supportProfile.displayName }}<br>Last message by {{ lastMessage.user.supportProfile.displayName }}
                                         </p>
                                     </div>
-                                    <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                                        <p>{{ lastMessage.createdAt.setTimezone(
+                                    <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 text-right">
+                                        <p>Last message at<br>{{ lastMessage.createdAt.setTimezone(
                                                 LoggedInUser.hasUser ? LoggedInUser.user.timezone : GeneralConfig.systemTimeZone
                                             ).format('n/j/Y g:i A') }}</p>
                                     </div>
