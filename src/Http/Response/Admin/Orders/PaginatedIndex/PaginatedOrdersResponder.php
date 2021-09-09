@@ -65,11 +65,14 @@ class PaginatedOrdersResponder implements PaginatedOrdersResponderContract
                             return [
                                 'href' => $order->adminBaseLink(),
                                 'column1Headline' => $order->id(),
-                                'column1SubHeadline' => $date === null ? '' :
-                                    $date->setTimezone(
-                                        $this->loggedInUser->user()
-                                            ->timezone(),
-                                    )->format('F j, Y'),
+                                'column1SubHeadline' =>
+                                    $order->userGuarantee()->emailAddress() .
+                                    ($date === null ? '' : ', ' .
+                                        $date->setTimezone(
+                                            $this->loggedInUser
+                                                ->user()
+                                                ->timezone(),
+                                        )->format('F j, Y')),
                                 'column2Headline' => $order->totalFormatted(),
                                 'column2SubHeadline' => implode(
                                     ', ',
