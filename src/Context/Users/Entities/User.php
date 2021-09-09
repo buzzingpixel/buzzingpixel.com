@@ -207,6 +207,17 @@ class User
         );
     }
 
+    public function adminLogInAsLink(): string
+    {
+        return implode(
+            '/',
+            [
+                $this->adminBaseLink(),
+                'log-in-as',
+            ]
+        );
+    }
+
     public function adminDeleteLink(): string
     {
         return implode(

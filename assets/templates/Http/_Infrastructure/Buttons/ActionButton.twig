@@ -8,15 +8,17 @@
 
 {% switch colorType %}
     {% case 'danger' %}
-        {% set colorClasses = 'text-white bg-light-red hover:bg-red focus:ring-light-red' %}
+        {% set colorClasses = 'text-white bg-light-red hover:bg-red focus:ring-light-red border-transparent' %}
+    {% case 'hollow' %}
+        {% set colorClasses = 'text-gray-700 bg-white border-gray-300 hover:bg-gray-50 focus:ring-gray-900' %}
     {% default %}
-        {% set colorClasses = 'text-white bg-meteor hover:bg-pumpkin-skin focus:ring-whiskey' %}
+        {% set colorClasses = 'text-white bg-meteor hover:bg-pumpkin-skin focus:ring-whiskey border-transparent' %}
 {% endswitch %}
 
 <a
     href="{{ href }}"
     type="button"
-    class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm
+    class="inline-flex items-center px-4 py-2 border text-base font-medium rounded-md shadow-sm
     focus:outline-none focus:ring-2 focus:ring-offset-2 {{ colorClasses }} {{ additionalClasses }}"
     {% if ref %}
     ref="{{ ref }}"

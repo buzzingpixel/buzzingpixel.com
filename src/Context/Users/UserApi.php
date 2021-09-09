@@ -16,6 +16,7 @@ use App\Context\Users\Services\FetchUserByResetToken;
 use App\Context\Users\Services\FetchUsers;
 use App\Context\Users\Services\GeneratePasswordResetToken;
 use App\Context\Users\Services\LogCurrentUserOut;
+use App\Context\Users\Services\LogInAsUser;
 use App\Context\Users\Services\LogUserIn;
 use App\Context\Users\Services\RequestPasswordResetEmail;
 use App\Context\Users\Services\ResetPasswordByToken;
@@ -28,27 +29,30 @@ class UserApi
 {
     public function __construct(
         private SaveUser $saveUser,
-        private FetchTotalUsers $fetchTotalUsers,
-        private FetchUsers $fetchUsers,
-        private FetchOneUser $fetchOneUser,
-        private ValidateUserPassword $validateUserPassword,
         private LogUserIn $logUserIn,
         private DeleteUser $deleteUser,
+        private FetchUsers $fetchUsers,
+        private LogInAsUser $logInAsUser,
+        private FetchOneUser $fetchOneUser,
+        private FetchTotalUsers $fetchTotalUsers,
         private FetchLoggedInUser $fetchLoggedInUser,
-        private GeneratePasswordResetToken $generatePasswordResetToken,
-        private RequestPasswordResetEmail $requestPasswordResetEmail,
-        private FetchTotalUserResetTokens $fetchTotalUserResetTokens,
-        private FetchUserByResetToken $fetchUserByResetToken,
         private LogCurrentUserOut $logCurrentUserOut,
         private ResetPasswordByToken $resetPasswordByToken,
+        private ValidateUserPassword $validateUserPassword,
+        private FetchUserByResetToken $fetchUserByResetToken,
+        private FetchTotalUserResetTokens $fetchTotalUserResetTokens,
+        private RequestPasswordResetEmail $requestPasswordResetEmail,
+        private GeneratePasswordResetToken $generatePasswordResetToken,
     ) {
     }
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function saveUser(User $user): Payload
     {
         return $this->saveUser->save($user);
     }
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function fetchTotalUsers(?UserQueryBuilder $queryBuilder = null): int
     {
         return $this->fetchTotalUsers->fetch($queryBuilder);
@@ -56,6 +60,7 @@ class UserApi
 
     /**
      * @phpstan-ignore-next-line
+     * @noinspection PhpUnhandledExceptionInspection
      */
     public function fetchUsers(UserQueryBuilder $queryBuilder): UserCollection
     {
@@ -91,6 +96,12 @@ class UserApi
         return $this->logUserIn->logUserIn($user, $password);
     }
 
+    public function logInAsUser(User $user): Payload
+    {
+        return $this->logInAsUser->logInAsUser(user: $user);
+    }
+
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function deleteUser(User $user): Payload
     {
         return $this->deleteUser->delete($user);
@@ -111,11 +122,13 @@ class UserApi
         $this->requestPasswordResetEmail->request($user);
     }
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function fetchTotalUserResetTokens(User $user): int
     {
         return $this->fetchTotalUserResetTokens->fetch($user);
     }
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function fetchUserByResetToken(string $token): ?User
     {
         return $this->fetchUserByResetToken->fetch($token);
@@ -126,6 +139,7 @@ class UserApi
         return $this->logCurrentUserOut->logOut();
     }
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function resetPasswordByToken(
         string $token,
         string $newPassword

@@ -51,7 +51,6 @@ class ViewUserProfileAction
 
         $adminMenu = $this->config->adminMenu();
 
-        /** @psalm-suppress MixedArrayAssignment */
         $adminMenu['users']['isActive'] = true;
 
         $response->getBody()->write($this->twig->render(
@@ -82,6 +81,11 @@ class ViewUserProfileAction
                 ],
                 'keyValueCard' => [
                     'actionButtons' => [
+                        [
+                            'colorType' => 'hollow',
+                            'href' => $user->adminLogInAsLink(),
+                            'content' => 'Log In As',
+                        ],
                         [
                             'colorType' => 'danger',
                             'href' => $user->adminDeleteLink(),

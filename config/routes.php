@@ -48,6 +48,7 @@ use App\Http\Response\Admin\Users\Create\PostCreateUserAction;
 use App\Http\Response\Admin\Users\Delete\DeleteUserAction;
 use App\Http\Response\Admin\Users\Edit\EditUserAction;
 use App\Http\Response\Admin\Users\Edit\PostEditUserAction;
+use App\Http\Response\Admin\Users\LogInAs\LogInAsAction;
 use App\Http\Response\Admin\Users\UsersAction;
 use App\Http\Response\Admin\Users\View\PostUserAddAuthorizedDomainAction;
 use App\Http\Response\Admin\Users\View\PostUserLicenseEditAdminNotesAction;
@@ -208,6 +209,7 @@ return static function (App $app): void {
         $r->get('/users/create', CreateUserAction::class);
         $r->post('/users/create', PostCreateUserAction::class);
         $r->get('/users/{emailAddress}', ViewUserProfileAction::class);
+        $r->get('/users/{emailAddress}/log-in-as', LogInAsAction::class);
         $r->get('/users/{emailAddress}/edit', EditUserAction::class);
         $r->post('/users/{emailAddress}/edit', PostEditUserAction::class);
         $r->any('/users/{emailAddress}/delete', DeleteUserAction::class);
