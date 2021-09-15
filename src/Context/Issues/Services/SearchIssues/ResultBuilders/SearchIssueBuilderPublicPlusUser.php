@@ -9,14 +9,16 @@ use App\Context\Issues\Entities\Issue;
 use App\Context\Issues\Entities\IssueCollection;
 use App\Context\Issues\Entities\IssuesResult;
 use App\Context\Issues\Services\SearchIssues\Contracts\SearchIssuesResultBuilderContract;
+use App\Context\Users\Entities\User;
 use App\Persistence\Entities\Issues\IssueRecord;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 
 use function array_map;
+use function assert;
 
-class SearchIssueBuilder implements SearchIssuesResultBuilderContract
+class SearchIssueBuilderPublicPlusUser implements SearchIssuesResultBuilderContract
 {
     public function __construct(private EntityManager $entityManager)
     {
@@ -31,12 +33,17 @@ class SearchIssueBuilder implements SearchIssuesResultBuilderContract
     public function buildResult(
         array $resultIds,
         FetchParams $fetchParams,
+        ?User $user = null,
     ): IssuesResult {
+        assert($user instanceof User);
+
         $absoluteTotal = (int) $this->entityManager
             ->getRepository(IssueRecord::class)
             ->createQueryBuilder('i')
             ->where('i.id IN (:ids)')
             ->setParameter('ids', $resultIds)
+            ->andWhere('i.isPublic = true OR i.user = :userId')
+            ->setParameter('userId', $user->id())
             ->select('count(i.id)')
             ->getQuery()
             ->getSingleScalarResult();
@@ -47,6 +54,8 @@ class SearchIssueBuilder implements SearchIssuesResultBuilderContract
             ->createQueryBuilder('i')
             ->where('i.id IN (:ids)')
             ->setParameter('ids', $resultIds)
+            ->andWhere('i.isPublic = true OR i.user = :userId')
+            ->setParameter('userId', $user->id())
             ->setMaxResults($fetchParams->limit())
             ->setFirstResult($fetchParams->offset())
             ->getQuery()

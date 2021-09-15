@@ -8,6 +8,7 @@ use App\Context\Issues\Entities\FetchParams;
 use App\Context\Issues\Entities\IssueCollection;
 use App\Context\Issues\Entities\IssuesResult;
 use App\Context\Issues\Services\SearchIssues\Contracts\SearchIssuesResultBuilderContract;
+use App\Context\Users\Entities\User;
 
 class SearchIssueResultBuilderNoResults implements SearchIssuesResultBuilderContract
 {
@@ -17,6 +18,7 @@ class SearchIssueResultBuilderNoResults implements SearchIssuesResultBuilderCont
     public function buildResult(
         array $resultIds,
         FetchParams $fetchParams,
+        ?User $user = null,
     ): IssuesResult {
         return new IssuesResult(
             absoluteTotal: 0,

@@ -34,7 +34,10 @@ class IndexAllIssues
             static fn (Issue $i) => $i->id(),
         );
 
-        $index = $this->client->search(['index' => 'issues']);
+        $index = $this->client->search([
+            'index' => 'issues',
+            'body' => ['size' => 10000],
+        ]);
 
         /**
          * @psalm-suppress MixedArgument

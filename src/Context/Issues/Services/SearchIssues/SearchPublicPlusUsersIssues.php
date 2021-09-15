@@ -30,17 +30,10 @@ class SearchPublicPlusUsersIssues
         $esSearchResults = $this->client->search([
             'index' => 'issues',
             'body' => [
+                'size' => 10000,
                 'query' => [
                     'bool' => [
                         'must' => [
-                            [
-                                'bool' => [
-                                    'should' => [
-                                        ['match' => ['isPublic' => true]],
-                                        ['match' => ['userId' => '']],
-                                    ],
-                                ],
-                            ],
                             [
                                 'simple_query_string' => [
                                     'fields' => [
@@ -74,10 +67,14 @@ class SearchPublicPlusUsersIssues
         );
 
         return $this->searchIssueBuilderFactory
-            ->getSearchIssueBuilder(resultIds: $resultIds)
+            ->getSearchIssueBuilder(
+                resultIds: $resultIds,
+                mode: 'publicPlusUser',
+            )
             ->buildResult(
                 resultIds: $resultIds,
                 fetchParams: $fetchParams ?? new FetchParams(),
+                user: $user,
             );
     }
 }

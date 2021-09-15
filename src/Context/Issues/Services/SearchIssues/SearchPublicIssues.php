@@ -28,12 +28,10 @@ class SearchPublicIssues
         $esSearchResults = $this->client->search([
             'index' => 'issues',
             'body' => [
+                'size' => 10000,
                 'query' => [
                     'bool' => [
                         'must' => [
-                            [
-                                'match' => ['isPublic' => true],
-                            ],
                             [
                                 'simple_query_string' => [
                                     'fields' => [
@@ -67,7 +65,10 @@ class SearchPublicIssues
         );
 
         return $this->searchIssueBuilderFactory
-            ->getSearchIssueBuilder(resultIds: $resultIds)
+            ->getSearchIssueBuilder(
+                resultIds: $resultIds,
+                mode: 'public',
+            )
             ->buildResult(
                 resultIds: $resultIds,
                 fetchParams: $fetchParams ?? new FetchParams(),

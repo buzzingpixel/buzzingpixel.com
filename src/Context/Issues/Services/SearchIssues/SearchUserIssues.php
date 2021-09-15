@@ -30,12 +30,10 @@ class SearchUserIssues
         $esSearchResults = $this->client->search([
             'index' => 'issues',
             'body' => [
+                'size' => 10000,
                 'query' => [
                     'bool' => [
                         'must' => [
-                            [
-                                'match' => ['userId' => $user->id()],
-                            ],
                             [
                                 'simple_query_string' => [
                                     'fields' => [
@@ -69,10 +67,14 @@ class SearchUserIssues
         );
 
         return $this->searchIssueBuilderFactory
-            ->getSearchIssueBuilder(resultIds: $resultIds)
+            ->getSearchIssueBuilder(
+                resultIds: $resultIds,
+                mode: 'user',
+            )
             ->buildResult(
                 resultIds: $resultIds,
                 fetchParams: $fetchParams ?? new FetchParams(),
+                user: $user,
             );
     }
 }
