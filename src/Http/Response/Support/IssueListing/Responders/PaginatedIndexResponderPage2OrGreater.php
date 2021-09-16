@@ -53,8 +53,8 @@ class PaginatedIndexResponderPage2OrGreater implements PaginatedIndexResponderCo
                 'searchPlaceholder' => 'Search all issues',
                 'issueLinkResolver' => $this->issueLinkResolver,
                 'breadcrumbSingle' => [
-                    'content' => 'All Issues Page 1',
-                    'uri' => '/support',
+                    'content' => 'Page 1',
+                    'uri' => '/support/all-issues',
                 ],
                 'breadcrumbTrail' => [
                     [
@@ -62,8 +62,8 @@ class PaginatedIndexResponderPage2OrGreater implements PaginatedIndexResponderCo
                         'uri' => '/',
                     ],
                     [
-                        'content' => 'All Issues Page 1',
-                        'uri' => '/support/all-issues',
+                        'content' => 'Page 1',
+                        'uri' => $pagination->base(),
                     ],
                     ['content' => 'Pagination'],
                 ],

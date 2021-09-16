@@ -37,7 +37,8 @@ class SearchIssuesResponderNoResults implements SearchIssuesResponderContract
         Pagination $pagination,
         Meta $meta,
         string $searchQuery,
-        string $searchAction = '/support/search'
+        string $searchAction = '/support/search',
+        array $statusFilter = [],
     ): ResponseInterface {
         $response = $this->responseFactory->createResponse();
 
@@ -49,6 +50,21 @@ class SearchIssuesResponderNoResults implements SearchIssuesResponderContract
                 'searchValue' => $searchQuery,
                 'searchAction' => $searchAction,
                 'searchPlaceholder' => 'Search all issues',
+                'breadcrumbSingle' => [
+                    'content' => 'All Issues',
+                    'uri' => '/support/all-issues',
+                ],
+                'breadcrumbTrail' => [
+                    [
+                        'content' => 'Home',
+                        'uri' => '/',
+                    ],
+                    [
+                        'content' => 'Issues',
+                        'uri' => '/support/all-issues',
+                    ],
+                    ['content' => 'No Results'],
+                ],
             ],
         ));
 

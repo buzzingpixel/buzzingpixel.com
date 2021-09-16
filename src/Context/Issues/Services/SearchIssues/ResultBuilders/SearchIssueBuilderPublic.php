@@ -16,6 +16,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 
 use function array_map;
+use function count;
 
 class SearchIssueBuilderPublic implements SearchIssuesResultBuilderContract
 {
@@ -34,23 +35,45 @@ class SearchIssueBuilderPublic implements SearchIssuesResultBuilderContract
         FetchParams $fetchParams,
         ?User $user = null,
     ): IssuesResult {
-        $absoluteTotal = (int) $this->entityManager
+        $absoluteTotalQuery = $this->entityManager
             ->getRepository(IssueRecord::class)
             ->createQueryBuilder('i')
             ->where('i.id IN (:ids)')
             ->setParameter('ids', $resultIds)
-            ->andWhere('i.isPublic = true')
+            ->andWhere('i.isPublic = true');
+
+        if (count($fetchParams->statusFilter()) > 0) {
+            $absoluteTotalQuery = $absoluteTotalQuery
+                ->andWhere('i.status IN (:statuses)')
+                ->setParameter(
+                    'statuses',
+                    $fetchParams->statusFilter()
+                );
+        }
+
+        $absoluteTotal = (int) $absoluteTotalQuery
             ->select('count(i.id)')
             ->getQuery()
             ->getSingleScalarResult();
 
-        /** @var IssueRecord[] $records */
-        $records = $this->entityManager
+        $recordsQuery = $this->entityManager
             ->getRepository(IssueRecord::class)
             ->createQueryBuilder('i')
             ->where('i.id IN (:ids)')
             ->setParameter('ids', $resultIds)
-            ->andWhere('i.isPublic = true')
+            ->andWhere('i.isPublic = true');
+
+        if (count($fetchParams->statusFilter()) > 0) {
+            $recordsQuery = $recordsQuery
+                ->andWhere('i.status IN (:statuses)')
+                ->setParameter(
+                    'statuses',
+                    $fetchParams->statusFilter()
+                );
+        }
+
+        /** @var IssueRecord[] $records */
+        $records = $recordsQuery
             ->setMaxResults($fetchParams->limit())
             ->setFirstResult($fetchParams->offset())
             ->getQuery()

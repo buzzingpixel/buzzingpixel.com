@@ -39,7 +39,8 @@ class SearchIssuesResponderPage2OrGreater implements SearchIssuesResponderContra
         Pagination $pagination,
         Meta $meta,
         string $searchQuery,
-        string $searchAction = '/support/search'
+        string $searchAction = '/support/search',
+        array $statusFilter = [],
     ): ResponseInterface {
         $response = $this->responseFactory->createResponse();
 
@@ -52,11 +53,12 @@ class SearchIssuesResponderPage2OrGreater implements SearchIssuesResponderContra
                 'supportMenu' => $supportMenu,
                 'searchValue' => $searchQuery,
                 'searchAction' => $searchAction,
+                'statusFilter' => $statusFilter,
                 'searchPlaceholder' => 'Search all issues',
                 'issueLinkResolver' => $this->issueLinkResolver,
                 'breadcrumbSingle' => [
-                    'content' => 'Search Results Page 1',
-                    'uri' => '/support',
+                    'content' => 'Page 1',
+                    'uri' => '/support/search?query=' . $searchQuery,
                 ],
                 'breadcrumbTrail' => [
                     [
@@ -64,7 +66,11 @@ class SearchIssuesResponderPage2OrGreater implements SearchIssuesResponderContra
                         'uri' => '/',
                     ],
                     [
-                        'content' => 'Search Results Page 1',
+                        'content' => 'Issues',
+                        'uri' => '/support/all-issues',
+                    ],
+                    [
+                        'content' => 'Search',
                         'uri' => '/support/search?query=' . $searchQuery,
                     ],
                     ['content' => 'Pagination'],

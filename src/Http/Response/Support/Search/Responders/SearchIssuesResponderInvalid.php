@@ -31,7 +31,8 @@ class SearchIssuesResponderInvalid implements SearchIssuesResponderContract
         Pagination $pagination,
         Meta $meta,
         string $searchQuery = '',
-        string $searchAction = '/support/search'
+        string $searchAction = '/support/search',
+        array $statusFilter = [],
     ): ResponseInterface {
         throw new HttpNotFoundException($this->request);
     }

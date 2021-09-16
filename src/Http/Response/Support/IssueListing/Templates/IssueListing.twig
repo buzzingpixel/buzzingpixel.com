@@ -7,6 +7,7 @@
 
 {% set searchValue = searchValue ?? '' %}
 {% set searchAction = searchAction ?? '' %}
+{% set statusFilter = statusFilter ?? [] %}
 {% set searchPlaceholder = searchPlaceholder ?? 'Search' %}
 
 {% extends '@app/Http/Response/Support/Templates/_SupportLayout.twig' %}
@@ -18,6 +19,7 @@
         searchValue: searchValue,
         heading: meta.pageHeading,
         searchAction: searchAction,
+        statusFilter: statusFilter,
         subHeading: meta.pageSubHeading,
         issueLinkResolver: issueLinkResolver,
         searchPlaceholder: searchPlaceholder,

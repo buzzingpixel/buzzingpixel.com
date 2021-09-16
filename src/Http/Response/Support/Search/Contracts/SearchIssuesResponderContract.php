@@ -13,6 +13,7 @@ interface SearchIssuesResponderContract
 {
     /**
      * @param array<string, array<string, string|bool>> $supportMenu
+     * @param string[]                                  $statusFilter
      *
      * @phpstan-ignore-next-line
      */
@@ -23,5 +24,6 @@ interface SearchIssuesResponderContract
         Meta $meta,
         string $searchQuery,
         string $searchAction = '/support/search',
+        array $statusFilter = [],
     ): ResponseInterface;
 }

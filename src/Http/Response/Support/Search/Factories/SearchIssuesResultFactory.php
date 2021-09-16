@@ -11,19 +11,25 @@ use App\Context\Issues\IssuesApi;
 use App\Context\Users\Entities\LoggedInUser;
 use App\Http\Response\Support\Search\Entities\SearchIssuesResult;
 
+use function count;
+
 class SearchIssuesResultFactory
 {
     public function __construct(private IssuesApi $issuesApi)
     {
     }
 
+    /**
+     * @param string[] $statusFilter
+     */
     public function getSearchResults(
         string $query,
         LoggedInUser $loggedInUser,
         int $pageNumber,
         int $perPage,
+        array $statusFilter,
     ): SearchIssuesResult {
-        if ($query === '') {
+        if ($query === '' && count($statusFilter) < 1) {
             return new SearchIssuesResult(
                 isValid: false,
                 issuesResult: new IssuesResult(
@@ -36,6 +42,7 @@ class SearchIssuesResultFactory
         $fetchParams = new FetchParams(
             limit: $perPage,
             offset: ($pageNumber * $perPage) - $perPage,
+            statusFilter: $statusFilter,
         );
 
         if ($loggedInUser->hasUser()) {

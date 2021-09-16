@@ -35,6 +35,9 @@ class SearchPublicPlusUsersIssuesAction
 
         $query = ($queryParams['query'] ?? '');
 
+        /** @var string[] $statusFilter */
+        $statusFilter = ($queryParams['status'] ?? []);
+
         $pageNumString = (string) $request->getAttribute('pageNum');
 
         $pageNumber = $this->pageNumberUtil->pageNumberFromString(
@@ -50,6 +53,7 @@ class SearchPublicPlusUsersIssuesAction
             loggedInUser: $this->loggedInUser,
             pageNumber: $pageNumber,
             perPage: self::PER_PAGE,
+            statusFilter: $statusFilter,
         );
 
         $pagination = (new Pagination())
@@ -71,9 +75,10 @@ class SearchPublicPlusUsersIssuesAction
             pagination: $pagination,
             meta: $this->metaFactory->getMeta(
                 pageNumber: $pageNumber,
-                baseTitle: 'Search for "' . $query . '"',
+                baseTitle: 'Search Results',
             ),
             searchQuery: $query,
+            statusFilter: $statusFilter,
         );
     }
 }

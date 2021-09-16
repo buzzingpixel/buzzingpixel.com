@@ -17,6 +17,7 @@ use Doctrine\ORM\NoResultException;
 
 use function array_map;
 use function assert;
+use function count;
 
 class SearchIssueBuilderUser implements SearchIssuesResultBuilderContract
 {
@@ -37,25 +38,47 @@ class SearchIssueBuilderUser implements SearchIssuesResultBuilderContract
     ): IssuesResult {
         assert($user instanceof User);
 
-        $absoluteTotal = (int) $this->entityManager
+        $absoluteTotalQuery = $this->entityManager
             ->getRepository(IssueRecord::class)
             ->createQueryBuilder('i')
             ->where('i.id IN (:ids)')
             ->setParameter('ids', $resultIds)
             ->andWhere('i.user = :userId')
-            ->setParameter('userId', $user->id())
+            ->setParameter('userId', $user->id());
+
+        if (count($fetchParams->statusFilter()) > 0) {
+            $absoluteTotalQuery = $absoluteTotalQuery
+                ->andWhere('i.status IN (:statuses)')
+                ->setParameter(
+                    'statuses',
+                    $fetchParams->statusFilter()
+                );
+        }
+
+        $absoluteTotal = (int) $absoluteTotalQuery
             ->select('count(i.id)')
             ->getQuery()
             ->getSingleScalarResult();
 
-        /** @var IssueRecord[] $records */
-        $records = $this->entityManager
+        $recordsQuery = $this->entityManager
             ->getRepository(IssueRecord::class)
             ->createQueryBuilder('i')
             ->where('i.id IN (:ids)')
             ->setParameter('ids', $resultIds)
             ->andWhere('i.user = :userId')
-            ->setParameter('userId', $user->id())
+            ->setParameter('userId', $user->id());
+
+        if (count($fetchParams->statusFilter()) > 0) {
+            $recordsQuery = $recordsQuery
+                ->andWhere('i.status IN (:statuses)')
+                ->setParameter(
+                    'statuses',
+                    $fetchParams->statusFilter()
+                );
+        }
+
+        /** @var IssueRecord[] $records */
+        $records = $recordsQuery
             ->setMaxResults($fetchParams->limit())
             ->setFirstResult($fetchParams->offset())
             ->getQuery()

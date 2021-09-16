@@ -27,29 +27,32 @@ class SearchPublicPlusUsersIssues
         User $user,
         ?FetchParams $fetchParams = null,
     ): IssuesResult {
-        $esSearchResults = $this->client->search([
-            'index' => 'issues',
-            'body' => [
-                'size' => 10000,
-                'query' => [
-                    'bool' => [
-                        'must' => [
-                            [
-                                'simple_query_string' => [
-                                    'fields' => [
-                                        'solution',
-                                        'messagesText',
-                                        'softwareName',
-                                        'shortDescription',
-                                        'additionalEnvDetails',
-                                    ],
-                                    'query' => $searchString,
+        $body = ['size' => 10000];
+
+        if ($searchString !== '') {
+            $body['query'] = [
+                'bool' => [
+                    'must' => [
+                        [
+                            'simple_query_string' => [
+                                'fields' => [
+                                    'solution',
+                                    'messagesText',
+                                    'softwareName',
+                                    'shortDescription',
+                                    'additionalEnvDetails',
                                 ],
+                                'query' => $searchString,
                             ],
                         ],
                     ],
                 ],
-            ],
+            ];
+        }
+
+        $esSearchResults = $this->client->search([
+            'index' => 'issues',
+            'body' => $body,
         ]);
 
         /** @psalm-suppress MixedArrayAccess */

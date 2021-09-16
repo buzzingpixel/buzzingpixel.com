@@ -15,7 +15,7 @@ class MetaFactory
         if ($pageNumber > 1) {
             return new Meta(
                 metaTitle: 'Page ' . $pageNumber . ' | ' . $baseTitle,
-                pageHeading: $baseTitle . ', Page' . $pageNumber,
+                pageHeading: $baseTitle . ', Page ' . $pageNumber,
             );
         }
 
