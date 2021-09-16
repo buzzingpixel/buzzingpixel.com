@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Context\ElasticSearch;
 
-use App\Context\ElasticSearch\Services\IndexAllIssues\IndexAllIssues;
 use App\Context\ElasticSearch\Services\IndexIssue\IndexIssue;
+use App\Context\ElasticSearch\Services\IndexIssues\IndexIssues;
 use App\Context\ElasticSearch\Services\SetUpIndices;
 use App\Context\Issues\Entities\Issue;
 
@@ -14,7 +14,7 @@ class ElasticSearchApi
     public function __construct(
         private IndexIssue $indexIssue,
         private SetUpIndices $setUpIndices,
-        private IndexAllIssues $indexAllIssues,
+        private IndexIssues $indexAllIssues,
     ) {
     }
 
@@ -28,8 +28,8 @@ class ElasticSearchApi
         $this->indexIssue->indexIssue(issue: $issue);
     }
 
-    public function indexAllIssues(): void
+    public function indexIssues(): void
     {
-        $this->indexAllIssues->indexAllIssues();
+        $this->indexAllIssues->indexIssues();
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Context\ElasticSearch\Services\IndexAllIssues\Services;
+namespace App\Context\ElasticSearch\Services\IndexIssues\Services;
 
 use Elasticsearch\Client;
 

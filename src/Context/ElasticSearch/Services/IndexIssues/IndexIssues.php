@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Context\ElasticSearch\Services\IndexAllIssues;
+namespace App\Context\ElasticSearch\Services\IndexIssues;
 
-use App\Context\ElasticSearch\Services\IndexAllIssues\Services\DeleteIndexedIssuesNotPresentInIssues;
 use App\Context\ElasticSearch\Services\IndexIssue\IndexIssue;
+use App\Context\ElasticSearch\Services\IndexIssues\Services\DeleteIndexedIssuesNotPresentInIssues;
 use App\Context\Issues\Entities\Issue;
 use App\Context\Issues\IssuesApi;
 use App\Persistence\QueryBuilders\Issues\IssueQueryBuilder;
@@ -13,7 +13,7 @@ use Elasticsearch\Client;
 
 use function array_map;
 
-class IndexAllIssues
+class IndexIssues
 {
     public function __construct(
         private Client $client,
@@ -23,7 +23,7 @@ class IndexAllIssues
     ) {
     }
 
-    public function indexAllIssues(): void
+    public function indexIssues(): void
     {
         $issues = $this->issuesApi->fetchIssues(
             queryBuilder: (new IssueQueryBuilder())

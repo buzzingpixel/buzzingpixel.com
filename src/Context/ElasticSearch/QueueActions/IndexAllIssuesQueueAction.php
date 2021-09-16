@@ -14,6 +14,6 @@ class IndexAllIssuesQueueAction
 
     public function __invoke(): void
     {
-        $this->elasticSearchApi->indexAllIssues();
+        $this->elasticSearchApi->indexIssues();
     }
 }

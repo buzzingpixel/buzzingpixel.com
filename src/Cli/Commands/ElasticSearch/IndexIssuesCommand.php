@@ -13,7 +13,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class IndexAllIssuesCommand extends Command
+class IndexIssuesCommand extends Command
 {
     public function __construct(
         private QueueApi $queueApi,
@@ -24,7 +24,7 @@ class IndexAllIssuesCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('elastic-search:index-all-issues');
+        $this->setName('elastic-search:index-issues');
 
         $this->addOption(
             'enqueue',
@@ -62,7 +62,7 @@ class IndexAllIssuesCommand extends Command
 
         $output->writeln(messages: '<fg=yellow>Indexing issues...</>');
 
-        $this->elasticSearchApi->indexAllIssues();
+        $this->elasticSearchApi->indexIssues();
 
         $output->writeln(messages: '<fg=green>Finished indexing issues.</>');
 
