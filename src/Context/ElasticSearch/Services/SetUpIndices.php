@@ -22,5 +22,29 @@ class SetUpIndices
                 ['index' => 'issues']
             );
         }
+
+        try {
+            $this->client->indices()->get(['index' => 'users']);
+        } catch (Throwable) {
+            $this->client->indices()->create(
+                ['index' => 'users']
+            );
+        }
+
+        try {
+            $this->client->indices()->get(['index' => 'orders']);
+        } catch (Throwable) {
+            $this->client->indices()->create(
+                ['index' => 'orders']
+            );
+        }
+
+        try {
+            $this->client->indices()->get(['index' => 'licenses']);
+        } catch (Throwable) {
+            $this->client->indices()->create(
+                ['index' => 'licenses']
+            );
+        }
     }
 }
