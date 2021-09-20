@@ -256,4 +256,28 @@ class User
 
         return $clone;
     }
+
+    /**
+     * @return mixed[]
+     */
+    public function getIndexArray(): array
+    {
+        return [
+            'isAdmin' => $this->isAdmin(),
+            'emailAddress' => $this->emailAddress(),
+            'isActive' => $this->isActive(),
+            'timezone' => $this->timezone()->getName(),
+            'displayName' => $this->supportProfile()->displayName(),
+            'billingName' => $this->billingProfile()->billingName(),
+            'billingCompany' => $this->billingProfile()->billingCompany(),
+            'billingPhone' => $this->billingProfile()->billingPhone(),
+            'billingCountryRegion' => $this->billingProfile()->billingCountryRegion(),
+            'billingCountryRegionName' => $this->billingProfile()->billingCountryRegionName(),
+            'billingAddress' => $this->billingProfile()->billingAddress(),
+            'billingAddressContinued' => $this->billingProfile()->billingAddressContinued(),
+            'billingCity' => $this->billingProfile()->billingCity(),
+            'billingStateProvince' => $this->billingProfile()->billingStateProvince(),
+            'billingPostalCode' => $this->billingProfile()->billingPostalCode(),
+        ];
+    }
 }

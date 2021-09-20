@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\ElasticSearch\Schedule;
 
-use App\Context\ElasticSearch\QueueActions\IndexAllIssuesQueueAction;
+use App\Context\ElasticSearch\QueueActions\IndexIssuesQueueAction;
 use App\Context\Queue\Entities\Queue;
 use App\Context\Queue\Entities\QueueItem;
 use App\Context\Queue\QueueApi;
@@ -32,7 +32,7 @@ class IndexAllIssuesSchedule
                 ->withHandle(handle: 'index-all-issues')
                 ->withAddedQueueItem(
                     newQueueItem: new QueueItem(
-                        className: IndexAllIssuesQueueAction::class,
+                        className: IndexIssuesQueueAction::class,
                     ),
                 ),
         );

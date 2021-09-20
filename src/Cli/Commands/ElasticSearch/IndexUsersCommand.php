@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Cli\Commands\ElasticSearch;
 
 use App\Context\ElasticSearch\ElasticSearchApi;
-use App\Context\ElasticSearch\QueueActions\IndexIssuesQueueAction;
+use App\Context\ElasticSearch\QueueActions\IndexUsersQueueAction;
 use App\Context\Queue\Entities\Queue;
 use App\Context\Queue\Entities\QueueItem;
 use App\Context\Queue\QueueApi;
@@ -13,7 +13,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class IndexIssuesCommand extends Command
+class IndexUsersCommand extends Command
 {
     public function __construct(
         private QueueApi $queueApi,
@@ -24,13 +24,13 @@ class IndexIssuesCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('elastic-search:index-issues');
+        $this->setName('elastic-search:index-users');
 
         $this->addOption(
             'enqueue',
             'e',
             null,
-            'Enqueue issue indexing instead of processing inline',
+            'Enqueue user indexing instead of processing inline',
         );
     }
 
@@ -40,31 +40,31 @@ class IndexIssuesCommand extends Command
     ): int {
         if ($input->getOption('enqueue') === true) {
             $output->writeln(
-                messages: '<fg=yellow>Enqueuing issue indexing...</>',
+                messages: '<fg=yellow>Enqueuing user indexing...</>',
             );
 
             $this->queueApi->addToQueue(
                 queue: (new Queue())
-                    ->withHandle(handle: 'index-issues')
+                    ->withHandle(handle: 'index-users')
                     ->withAddedQueueItem(
                         newQueueItem: new QueueItem(
-                            className: IndexIssuesQueueAction::class,
+                            className: IndexUsersQueueAction::class,
                         ),
                     ),
             );
 
             $output->writeln(
-                messages: '<fg=green>Issue indexing added to queue</>',
+                messages: '<fg=green>User indexing added to queue</>',
             );
 
             return 0;
         }
 
-        $output->writeln(messages: '<fg=yellow>Indexing issues...</>');
+        $output->writeln(messages: '<fg=yellow>Indexing users...</>');
 
-        $this->elasticSearchApi->indexIssues();
+        $this->elasticSearchApi->indexUsers();
 
-        $output->writeln(messages: '<fg=green>Finished indexing issues.</>');
+        $output->writeln(messages: '<fg=green>Finished indexing users.</>');
 
         return 0;
     }

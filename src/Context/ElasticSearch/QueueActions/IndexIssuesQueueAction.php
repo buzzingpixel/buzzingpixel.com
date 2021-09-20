@@ -6,7 +6,7 @@ namespace App\Context\ElasticSearch\QueueActions;
 
 use App\Context\ElasticSearch\ElasticSearchApi;
 
-class IndexAllIssuesQueueAction
+class IndexIssuesQueueAction
 {
     public function __construct(private ElasticSearchApi $elasticSearchApi)
     {

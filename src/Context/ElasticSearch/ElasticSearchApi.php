@@ -6,15 +6,20 @@ namespace App\Context\ElasticSearch;
 
 use App\Context\ElasticSearch\Services\IndexIssue\IndexIssue;
 use App\Context\ElasticSearch\Services\IndexIssues\IndexIssues;
+use App\Context\ElasticSearch\Services\IndexUser\IndexUser;
+use App\Context\ElasticSearch\Services\IndexUsers\IndexUsers;
 use App\Context\ElasticSearch\Services\SetUpIndices;
 use App\Context\Issues\Entities\Issue;
+use App\Context\Users\Entities\User;
 
 class ElasticSearchApi
 {
     public function __construct(
         private IndexIssue $indexIssue,
         private SetUpIndices $setUpIndices,
-        private IndexIssues $indexAllIssues,
+        private IndexIssues $indexIssues,
+        private IndexUser $indexUser,
+        private IndexUsers $indexUsers,
     ) {
     }
 
@@ -30,6 +35,16 @@ class ElasticSearchApi
 
     public function indexIssues(): void
     {
-        $this->indexAllIssues->indexIssues();
+        $this->indexIssues->indexIssues();
+    }
+
+    public function indexUser(User $user): void
+    {
+        $this->indexUser->indexUser(user: $user);
+    }
+
+    public function indexUsers(): void
+    {
+        $this->indexUsers->indexUsers();
     }
 }
