@@ -2,27 +2,31 @@
 
 declare(strict_types=1);
 
-namespace App\Context\Orders\Services\SearchOrders\Services;
+namespace App\Context\Users\Services\SearchUsers\Services;
 
-use App\Context\Orders\Entities\Order;
-use App\Context\Orders\Entities\OrderCollection;
-use App\Context\Orders\Entities\OrderResult;
-use App\Context\Orders\Entities\SearchParams;
-use App\Context\Orders\Services\SearchOrders\Contracts\SearchOrdersResultBuilderContract;
-use App\Persistence\Entities\Orders\OrderRecord;
+use App\Context\Users\Entities\SearchParams;
+use App\Context\Users\Entities\User;
+use App\Context\Users\Entities\UserCollection;
+use App\Context\Users\Entities\UserResult;
+use App\Context\Users\Exceptions\InvalidEmailAddress;
+use App\Context\Users\Exceptions\InvalidPassword;
+use App\Context\Users\Services\SearchUsers\Contracts\SearchUsersResultBuilderContract;
+use App\Persistence\Entities\Users\UserRecord;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 
 use function array_map;
 
-class SearchOrdersResultBuilder implements SearchOrdersResultBuilderContract
+class SearchUsersResultBuilder implements SearchUsersResultBuilderContract
 {
     public function __construct(private EntityManager $entityManager)
     {
     }
 
     /**
+     * @throws InvalidEmailAddress
+     * @throws InvalidPassword
      * @throws NoResultException
      * @throws NonUniqueResultException
      *
@@ -31,41 +35,41 @@ class SearchOrdersResultBuilder implements SearchOrdersResultBuilderContract
     public function buildResult(
         array $resultIds,
         SearchParams $searchParams,
-    ): OrderResult {
+    ): UserResult {
         $absoluteTotal = (int) $this->entityManager
-            ->getRepository(OrderRecord::class)
-            ->createQueryBuilder('o')
-            ->where('o.id IN (:ids)')
+            ->getRepository(UserRecord::class)
+            ->createQueryBuilder('u')
+            ->where('u.id IN (:ids)')
             ->setParameter('ids', $resultIds)
-            ->select('count(o.id)')
+            ->select('count(u.id)')
             ->getQuery()
             ->getSingleScalarResult();
 
-        /** @var OrderRecord[] $records */
+        /** @var UserRecord[] $records */
         $records = $this->entityManager
-            ->getRepository(OrderRecord::class)
-            ->createQueryBuilder('o')
-            ->where('o.id IN (:ids)')
+            ->getRepository(UserRecord::class)
+            ->createQueryBuilder('u')
+            ->where('u.id IN (:ids)')
             ->setParameter('ids', $resultIds)
             ->setMaxResults($searchParams->limit())
             ->setFirstResult($searchParams->offset())
             ->getQuery()
             ->getResult();
 
-        $intermediateCollection = new OrderCollection(
+        $intermediateCollection = new UserCollection(
             array_map(
-                static fn (OrderRecord $r) => Order::fromRecord(
+                static fn (UserRecord $r) => User::fromRecord(
                     record: $r,
                 ),
                 $records,
             ),
         );
 
-        $finalCollection = new OrderCollection();
+        $finalCollection = new UserCollection();
 
         foreach ($resultIds as $id) {
             $collection = $intermediateCollection->filter(
-                static fn (Order $o) => $o->id() === $id,
+                static fn (User $u) => $u->id() === $id,
             );
 
             if ($collection->count() < 1) {
@@ -75,9 +79,9 @@ class SearchOrdersResultBuilder implements SearchOrdersResultBuilderContract
             $finalCollection->add($collection->first());
         }
 
-        return new OrderResult(
+        return new UserResult(
             absoluteTotal: $absoluteTotal,
-            orders: $finalCollection,
+            users: $finalCollection,
         );
     }
 }

@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Response\Admin\Orders\PaginatedIndex;
+namespace App\Http\Response\Admin\Users\PaginatedIndex;
 
-use App\Context\Orders\Entities\SearchParams;
-use App\Context\Orders\OrderApi;
+use App\Context\Users\Entities\SearchParams;
+use App\Context\Users\UserApi;
 use App\Http\Entities\Pagination;
-use App\Persistence\QueryBuilders\Orders\OrderQueryBuilder;
+use App\Persistence\QueryBuilders\Users\UserQueryBuilder;
 
-class OrderResultFactory
+class UserResultFactory
 {
     private const LIMIT = 20;
 
-    public function __construct(private OrderApi $orderApi)
+    public function __construct(private UserApi $userApi)
     {
     }
 
     /**
      * @param string[] $queryParams
      */
-    public function make(array $queryParams): OrderResult
+    public function make(array $queryParams): UserResult
     {
         $pageNum = (int) ($queryParams['page'] ?? 1);
         $pageNum = $pageNum < 1 ? 1 : $pageNum;
@@ -30,50 +30,46 @@ class OrderResultFactory
         $searchTerm = ($queryParams['search'] ?? '');
 
         if ($searchTerm === '') {
-            $queryBuilder = (new OrderQueryBuilder())
-                ->withOrderBy('orderDate', 'desc')
+            $queryBuilder = (new UserQueryBuilder())
+                ->withOrderBy('emailAddress', 'asc')
                 ->withOffset($offset)
                 ->withLimit(self::LIMIT);
 
-            $absoluteTotal = $this->orderApi->fetchTotalOrders(
+            $absoluteTotal = $this->userApi->fetchTotalUsers(
                 queryBuilder: $queryBuilder,
             );
 
-            return new OrderResult(
+            return new UserResult(
                 absoluteTotal: $absoluteTotal,
-                orders: $this->orderApi->fetchOrders(
+                users: $this->userApi->fetchUsers(
                     queryBuilder: $queryBuilder,
                 ),
                 searchTerm: $searchTerm,
                 pagination: (new Pagination())
                     ->withQueryStringBased(queryStringBased: true)
-                    ->withBase(val: '/admin/orders')
-                    ->withQueryStringFromArray(val:$queryParams)
+                    ->withBase(val: '/admin/users')
+                    ->withQueryStringFromArray(val: $queryParams)
                     ->withCurrentPage(val: $pageNum)
                     ->withPerPage(val: self::LIMIT)
                     ->withTotalResults(val: $absoluteTotal),
             );
         }
 
-        $orderApiResult = $this->orderApi->searchOrders(
-            searchParams: new SearchParams(
-                search: $searchTerm,
-                limit: self::LIMIT,
-                offset: $offset,
-            )
+        $apiResult = $this->userApi->searchUsers(
+            searchParams: new SearchParams(search: $searchTerm),
         );
 
-        return new OrderResult(
-            absoluteTotal: $orderApiResult->absoluteTotal(),
-            orders: $orderApiResult->orders(),
+        return new UserResult(
+            absoluteTotal: $apiResult->absoluteTotal(),
+            users: $apiResult->users(),
             searchTerm: $searchTerm,
             pagination: (new Pagination())
                 ->withQueryStringBased(queryStringBased: true)
-                ->withBase(val: '/admin/orders')
-                ->withQueryStringFromArray(val:$queryParams)
+                ->withBase(val: '/admin/users')
+                ->withQueryStringFromArray(val: $queryParams)
                 ->withCurrentPage(val: $pageNum)
                 ->withPerPage(val: self::LIMIT)
-                ->withTotalResults(val: $orderApiResult->absoluteTotal())
+                ->withTotalResults(val: $apiResult->absoluteTotal()),
         );
     }
 }

@@ -49,7 +49,7 @@ use App\Http\Response\Admin\Users\Delete\DeleteUserAction;
 use App\Http\Response\Admin\Users\Edit\EditUserAction;
 use App\Http\Response\Admin\Users\Edit\PostEditUserAction;
 use App\Http\Response\Admin\Users\LogInAs\LogInAsAction;
-use App\Http\Response\Admin\Users\UsersAction;
+use App\Http\Response\Admin\Users\PaginatedIndex\PaginatedUsersAction;
 use App\Http\Response\Admin\Users\View\PostUserAddAuthorizedDomainAction;
 use App\Http\Response\Admin\Users\View\PostUserLicenseEditAdminNotesAction;
 use App\Http\Response\Admin\Users\View\UserCancelLicenseSubscriptionAction;
@@ -205,7 +205,7 @@ return static function (App $app): void {
         $r->get('/software/{softwareSlug}/version/{versionSlug}/download', DownloadVersionAction::class);
 
         /** Users */
-        $r->get('/users', UsersAction::class);
+        $r->get('/users', PaginatedUsersAction::class);
         $r->get('/users/create', CreateUserAction::class);
         $r->post('/users/create', PostCreateUserAction::class);
         $r->get('/users/{emailAddress}', ViewUserProfileAction::class);

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Context\Users;
 
+use App\Context\Users\Entities\SearchParams;
 use App\Context\Users\Entities\User;
 use App\Context\Users\Entities\UserCollection;
 use App\Context\Users\Entities\UserPasswordResetToken;
+use App\Context\Users\Entities\UserResult;
 use App\Context\Users\Services\DeleteUser;
 use App\Context\Users\Services\FetchLoggedInUser;
 use App\Context\Users\Services\FetchOneUser;
@@ -21,6 +23,7 @@ use App\Context\Users\Services\LogUserIn;
 use App\Context\Users\Services\RequestPasswordResetEmail;
 use App\Context\Users\Services\ResetPasswordByToken;
 use App\Context\Users\Services\SaveUser;
+use App\Context\Users\Services\SearchUsers\SearchUsers;
 use App\Context\Users\Services\ValidateUserPassword;
 use App\Payload\Payload;
 use App\Persistence\QueryBuilders\Users\UserQueryBuilder;
@@ -43,6 +46,7 @@ class UserApi
         private FetchTotalUserResetTokens $fetchTotalUserResetTokens,
         private RequestPasswordResetEmail $requestPasswordResetEmail,
         private GeneratePasswordResetToken $generatePasswordResetToken,
+        private SearchUsers $searchUsers,
     ) {
     }
 
@@ -148,5 +152,10 @@ class UserApi
             $token,
             $newPassword
         );
+    }
+
+    public function searchUsers(SearchParams $searchParams): UserResult
+    {
+        return $this->searchUsers->search(searchParams: $searchParams);
     }
 }
