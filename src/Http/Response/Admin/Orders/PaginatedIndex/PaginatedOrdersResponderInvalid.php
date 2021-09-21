@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Response\Admin\Orders\PaginatedIndex;
 
-use App\Context\Orders\Entities\OrderCollection;
-use App\Http\Entities\Pagination;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpNotFoundException;
@@ -19,13 +17,9 @@ class PaginatedOrdersResponderInvalid implements PaginatedOrdersResponderContrac
 
     /**
      * @throws HttpNotFoundException
-     *
-     * @phpstan-ignore-next-line
      */
-    public function respond(
-        Pagination $pagination,
-        OrderCollection $orders,
-    ): ResponseInterface {
+    public function respond(): ResponseInterface
+    {
         throw new HttpNotFoundException($this->request);
     }
 }

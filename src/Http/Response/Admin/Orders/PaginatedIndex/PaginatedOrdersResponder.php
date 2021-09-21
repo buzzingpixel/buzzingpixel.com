@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Response\Admin\Orders\PaginatedIndex;
 
 use App\Context\Orders\Entities\Order;
-use App\Context\Orders\Entities\OrderCollection;
 use App\Context\Orders\Entities\OrderItem;
 use App\Context\Users\Entities\LoggedInUser;
 use App\Http\Entities\Meta;
-use App\Http\Entities\Pagination;
 use Config\General;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -25,6 +23,7 @@ class PaginatedOrdersResponder implements PaginatedOrdersResponderContract
     public function __construct(
         private General $config,
         private TwigEnvironment $twig,
+        private OrderResult $orderResult,
         private LoggedInUser $loggedInUser,
         private ResponseFactoryInterface $responseFactory,
     ) {
@@ -34,13 +33,9 @@ class PaginatedOrdersResponder implements PaginatedOrdersResponderContract
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
-     *
-     * @phpstan-ignore-next-line
      */
-    public function respond(
-        Pagination $pagination,
-        OrderCollection $orders,
-    ): ResponseInterface {
+    public function respond(): ResponseInterface
+    {
         $adminMenu = $this->config->adminMenu();
 
         $adminMenu['orders']['isActive'] = true;
@@ -55,10 +50,13 @@ class PaginatedOrdersResponder implements PaginatedOrdersResponderContract
                 ),
                 'accountMenu' => $adminMenu,
                 'stackedListTwoColumnConfig' => [
-                    'pagination' => $pagination,
+                    'pagination' => $this->orderResult->pagination(),
                     'headline' => 'Orders',
-                    'noResultsContent' => 'There are no orders yet.',
-                    'items' => $orders->mapToArray(
+                    'searchAction' => '/admin/orders',
+                    'noResultsContent' => 'No results.',
+                    'searchPlaceholder' => 'Search orders',
+                    'searchValue' => $this->orderResult->searchTerm(),
+                    'items' => $this->orderResult->orders()->mapToArray(
                         function (Order $order): array {
                             $date = $order->orderDate();
 
