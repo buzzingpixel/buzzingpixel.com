@@ -404,4 +404,27 @@ class License
     {
         return $this->stripeCanceledAt() === null;
     }
+
+    /**
+     * @return mixed[]
+     */
+    public function getIndexArray(): array
+    {
+        return [
+            'isDisabled' => $this->isDisabled(),
+            'majorVersion' => $this->majorVersion(),
+            'maxVersion' => $this->maxVersion(),
+            'licenseKey' => $this->licenseKey(),
+            'userNotes' => $this->userNotes(),
+            'adminNotes' => $this->adminNotes(),
+            'authorizedDomains' => $this->authorizedDomains(),
+            'userId' => $this->userGuarantee()->id(),
+            'userEmailAddress' => $this->userGuarantee()->emailAddress(),
+            'userDisplayName' => $this->userGuarantee()
+                ->supportProfile()
+                ->displayName(),
+            'software' => $this->softwareGuarantee()->name(),
+            'softwareSlug' => $this->softwareGuarantee()->slug(),
+        ];
+    }
 }

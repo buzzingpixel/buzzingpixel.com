@@ -12,6 +12,7 @@ class IndexAllCommand extends Command
 {
     public function __construct(
         private IndexIssuesCommand $indexIssues,
+        private IndexLicensesCommand $indexLicenses,
         private IndexOrdersCommand $indexOrders,
         private IndexUsersCommand $indexUsers,
     ) {
@@ -35,6 +36,8 @@ class IndexAllCommand extends Command
         OutputInterface $output,
     ): int {
         $this->indexIssues->execute(input: $input, output: $output);
+
+        $this->indexLicenses->execute(input: $input, output: $output);
 
         $this->indexOrders->execute(input: $input, output: $output);
 
