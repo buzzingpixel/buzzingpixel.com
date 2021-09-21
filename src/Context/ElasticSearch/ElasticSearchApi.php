@@ -6,10 +6,13 @@ namespace App\Context\ElasticSearch;
 
 use App\Context\ElasticSearch\Services\IndexIssue\IndexIssue;
 use App\Context\ElasticSearch\Services\IndexIssues\IndexIssues;
+use App\Context\ElasticSearch\Services\IndexOrder\IndexOrder;
+use App\Context\ElasticSearch\Services\IndexOrders\IndexOrders;
 use App\Context\ElasticSearch\Services\IndexUser\IndexUser;
 use App\Context\ElasticSearch\Services\IndexUsers\IndexUsers;
 use App\Context\ElasticSearch\Services\SetUpIndices;
 use App\Context\Issues\Entities\Issue;
+use App\Context\Orders\Entities\Order;
 use App\Context\Users\Entities\User;
 
 class ElasticSearchApi
@@ -20,6 +23,8 @@ class ElasticSearchApi
         private IndexIssues $indexIssues,
         private IndexUser $indexUser,
         private IndexUsers $indexUsers,
+        private IndexOrder $indexOrder,
+        private IndexOrders $indexOrders,
     ) {
     }
 
@@ -46,5 +51,15 @@ class ElasticSearchApi
     public function indexUsers(): void
     {
         $this->indexUsers->indexUsers();
+    }
+
+    public function indexOrder(Order $order): void
+    {
+        $this->indexOrder->indexOrder(order: $order);
+    }
+
+    public function indexOrders(): void
+    {
+        $this->indexOrders->indexOrders();
     }
 }

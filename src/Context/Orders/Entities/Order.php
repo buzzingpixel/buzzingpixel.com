@@ -32,6 +32,7 @@ use App\EntityValueObjects\Id as IdValue;
 use App\Persistence\Entities\Orders\OrderItemRecord;
 use App\Persistence\Entities\Orders\OrderRecord;
 use App\Utilities\DateTimeUtility;
+use DateTimeImmutable;
 use DateTimeInterface;
 use LogicException;
 use Money\Currency;
@@ -40,6 +41,7 @@ use Ramsey\Uuid\UuidInterface;
 
 use function array_map;
 use function array_merge;
+use function assert;
 use function implode;
 use function is_array;
 
@@ -298,5 +300,44 @@ class Order
                 $this->id(),
             ],
         );
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getIndexArray(): array
+    {
+        $orderDate = $this->orderDate();
+
+        assert($orderDate instanceof DateTimeImmutable);
+
+        return [
+            'oldOrderNumber' => $this->oldOrderNumber(),
+            'stripeId' => $this->stripeId(),
+            'stripeAmount' => $this->stripeAmount(),
+            'stripeBalanceTransaction' => $this->stripeBalanceTransaction(),
+            'stripeCaptured' => $this->stripeCaptured(),
+            'stripeCreated' => $this->stripeCreated(),
+            'stripeCurrency' => $this->stripeCurrency(),
+            'stripePaid' => $this->stripePaid(),
+            'subTotal' => $this->subTotalFormatted(),
+            'tax' => $this->taxFormatted(),
+            'total' => $this->totalFormatted(),
+            'billingName' => $this->billingName(),
+            'billingCompany' => $this->billingCompany(),
+            'billingPhone' => $this->billingPhone(),
+            'billingCountryRegion' => $this->billingCountryRegion(),
+            'billingAddress' => $this->billingAddress(),
+            'billingAddressContinued' => $this->billingAddressContinued(),
+            'billingCity' => $this->billingCity(),
+            'billingStateProvince' => $this->billingStateProvince(),
+            'billingPostalCode' => $this->billingPostalCode(),
+            'orderDate' => $orderDate->format(DateTimeInterface::ATOM),
+            'userId' => $this->userGuarantee()->id(),
+            'userEmailAddress' => $this->userGuarantee()->emailAddress(),
+            'userDisplayName' => $this->userGuarantee()
+                ->supportProfile()
+                ->displayName(),
+        ];
     }
 }

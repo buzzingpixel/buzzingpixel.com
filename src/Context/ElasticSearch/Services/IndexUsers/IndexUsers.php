@@ -54,10 +54,8 @@ class IndexUsers
             indexedIds: $indexedIds,
         );
 
-        $users->map(
-            function (User $user): void {
-                $this->indexUser->indexUser($user);
-            }
-        );
+        $users->map(function (User $user): void {
+            $this->indexUser->indexUser(user: $user);
+        });
     }
 }
