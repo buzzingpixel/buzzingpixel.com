@@ -6,10 +6,13 @@ namespace App\Context\Orders;
 
 use App\Context\Orders\Entities\Order;
 use App\Context\Orders\Entities\OrderCollection;
+use App\Context\Orders\Entities\OrderResult;
+use App\Context\Orders\Entities\SearchParams;
 use App\Context\Orders\Services\FetchOneOrder;
 use App\Context\Orders\Services\FetchOrders;
 use App\Context\Orders\Services\FetchTotalOrders;
 use App\Context\Orders\Services\SaveOrder;
+use App\Context\Orders\Services\SearchOrders\SearchOrders;
 use App\Payload\Payload;
 use App\Persistence\QueryBuilders\Orders\OrderQueryBuilder;
 
@@ -20,6 +23,7 @@ class OrderApi
         private FetchOrders $fetchOrders,
         private FetchOneOrder $fetchOneOrder,
         private FetchTotalOrders $fetchTotalOrders,
+        private SearchOrders $searchOrders,
     ) {
     }
 
@@ -48,5 +52,10 @@ class OrderApi
         OrderQueryBuilder $queryBuilder
     ): ?Order {
         return $this->fetchOneOrder->fetch($queryBuilder);
+    }
+
+    public function searchOrders(SearchParams $searchParams): OrderResult
+    {
+        return $this->searchOrders->search(searchParams: $searchParams);
     }
 }

@@ -311,6 +311,16 @@ class Order
 
         assert($orderDate instanceof DateTimeImmutable);
 
+        $softwareNames = [];
+
+        $softwareSlugs = [];
+
+        foreach ($this->orderItems()->toArray() as $item) {
+            $softwareNames[] = $item->software()->name();
+
+            $softwareSlugs[] = $item->software()->slug();
+        }
+
         return [
             'oldOrderNumber' => $this->oldOrderNumber(),
             'stripeId' => $this->stripeId(),
@@ -338,6 +348,8 @@ class Order
             'userDisplayName' => $this->userGuarantee()
                 ->supportProfile()
                 ->displayName(),
+            'softwareNames' => implode(' ', $softwareNames),
+            'softwareSlugs' => implode(' ', $softwareSlugs),
         ];
     }
 }
