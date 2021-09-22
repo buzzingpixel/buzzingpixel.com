@@ -6,6 +6,8 @@ namespace App\Context\Licenses;
 
 use App\Context\Licenses\Entities\License;
 use App\Context\Licenses\Entities\LicenseCollection;
+use App\Context\Licenses\Entities\LicenseResult;
+use App\Context\Licenses\Entities\SearchParams;
 use App\Context\Licenses\Services\CancelSubscription;
 use App\Context\Licenses\Services\CheckLicenseStatus\CheckLicenseStatus;
 use App\Context\Licenses\Services\CheckLicenseStatus\Entities\CheckLicenseResult;
@@ -14,6 +16,7 @@ use App\Context\Licenses\Services\FetchOneLicense;
 use App\Context\Licenses\Services\GenerateLicenseKey;
 use App\Context\Licenses\Services\ResumeSubscription;
 use App\Context\Licenses\Services\SaveLicense;
+use App\Context\Licenses\Services\SearchLicenses\SearchLicenses;
 use App\Payload\Payload;
 use App\Persistence\QueryBuilders\LicenseQueryBuilder\LicenseQueryBuilder;
 
@@ -27,6 +30,7 @@ class LicenseApi
         private ResumeSubscription $resumeSubscription,
         private GenerateLicenseKey $generateLicenseKey,
         private CheckLicenseStatus $checkLicenseStatus,
+        private SearchLicenses $searchLicenses,
     ) {
     }
 
@@ -77,5 +81,10 @@ class LicenseApi
             license: $license,
             version: $version,
         );
+    }
+
+    public function searchLicenses(SearchParams $searchParams): LicenseResult
+    {
+        return $this->searchLicenses->search(searchParams: $searchParams);
     }
 }
