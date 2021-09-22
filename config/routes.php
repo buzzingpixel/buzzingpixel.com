@@ -25,6 +25,7 @@ use App\Http\Response\Account\Purchases\AccountPurchasesAction;
 use App\Http\Response\Account\Purchases\AccountPurchasesDetailAction;
 use App\Http\Response\Admin\AdminIndexAction;
 use App\Http\Response\Admin\Analytics\AnalyticsViewAction;
+use App\Http\Response\Admin\Licenses\LicenseListing\LicenseListingAction;
 use App\Http\Response\Admin\NewLicense\NewLicenseIndex\NewLicenseAction;
 use App\Http\Response\Admin\NewLicense\NewLicenseIndex\PostNewLicenseAction;
 use App\Http\Response\Admin\Orders\PaginatedIndex\PaginatedOrdersAction;
@@ -229,6 +230,9 @@ return static function (App $app): void {
 
         /** Orders */
         $r->get('/orders', PaginatedOrdersAction::class);
+
+        /** Licenses */
+        $r->get('/licenses', LicenseListingAction::class);
 
         /** New License */
         $r->get('/new-license', NewLicenseAction::class);

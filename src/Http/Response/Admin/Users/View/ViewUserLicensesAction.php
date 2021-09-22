@@ -6,7 +6,6 @@ namespace App\Http\Response\Admin\Users\View;
 
 use App\Context\Licenses\Entities\License;
 use App\Context\Licenses\LicenseApi;
-use App\Context\Software\Entities\Software;
 use App\Context\Users\Entities\LoggedInUser;
 use App\Context\Users\UserApi;
 use App\Http\Entities\Meta;
@@ -19,10 +18,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpNotFoundException;
 use Twig\Environment as TwigEnvironment;
-
-use function assert;
-use function count;
-use function implode;
 
 class ViewUserLicensesAction
 {
@@ -97,45 +92,9 @@ class ViewUserLicensesAction
                             ->withOrderBy('id', 'desc'),
                     )->mapToArray(
                         function (License $license): array {
-                            $software = $license->software();
-
-                            assert($software instanceof Software);
-
-                            $authorizedDomains = $license->authorizedDomains();
-
-                            $subscriptionSubHeadline = '';
-
-                            $renewalDate = $license->renewalDate();
-
-                            if (
-                                $license->isSubscription() &&
-                                $license->isNotCanceled() &&
-                                $renewalDate !== null
-                            ) {
-                                $subscriptionSubHeadline = 'Subscription renews on ' .
-                                    $renewalDate->setTimezone(
-                                        $this->loggedInUser->user()->timezone()
-                                    )->format('F j, Y');
-                            } elseif ($license->isSubscription()) {
-                                if ($license->isNotExpired()) {
-                                    $subscriptionSubHeadline = 'Subscription is not active. Updates will expire at the end of the period.';
-                                } else {
-                                    $subscriptionSubHeadline = 'Subscription has expired.';
-                                }
-                            }
-
-                            return [
-                                'href' => $license->adminLink(),
-                                'column1Headline' => $software->name(),
-                                'column1SubHeadline' => 'Version: ' .
-                                    $license->majorVersion() .
-                                    '<br>' .
-                                    'License Key: ' . $license->licenseKey(),
-                                'column2Headline' => count($authorizedDomains) > 0 ?
-                                    implode('<br>', $authorizedDomains) :
-                                    'No authorized domains configured',
-                                'column2SubHeadline' => $subscriptionSubHeadline,
-                            ];
+                            return $license->getStackedListTwoColumn(
+                                loggedInUser: $this->loggedInUser,
+                            );
                         }
                     ),
                 ],

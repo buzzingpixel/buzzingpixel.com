@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Context\Licenses\Entities;
 
 use App\Context\Software\Entities\Software as SoftwareEntity;
+use App\Context\Users\Entities\LoggedInUser;
 use App\Context\Users\Entities\User as UserEntity;
 use App\EntityPropertyTraits\AdminNotes;
 use App\EntityPropertyTraits\AuthorizedDomains;
@@ -34,6 +35,7 @@ use Money\Currency;
 use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 
+use function count;
 use function implode;
 
 // phpcs:disable SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue.NullabilitySymbolRequired
@@ -425,6 +427,49 @@ class License
                 ->displayName(),
             'software' => $this->softwareGuarantee()->name(),
             'softwareSlug' => $this->softwareGuarantee()->slug(),
+        ];
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getStackedListTwoColumn(LoggedInUser $loggedInUser): array
+    {
+        $authorizedDomains = $this->authorizedDomains();
+
+        $subscriptionSubHeadline = '';
+
+        $renewalDate = $this->renewalDate();
+
+        if (
+            $this->isSubscription() &&
+            $this->isNotCanceled() &&
+            $renewalDate !== null
+        ) {
+            $subscriptionSubHeadline = 'Subscription renews on ' .
+                $renewalDate->setTimezone(
+                    $loggedInUser->user()->timezone()
+                )->format('F j, Y');
+        } elseif ($this->isSubscription()) {
+            if ($this->isNotExpired()) {
+                $subscriptionSubHeadline = 'Subscription is not active.' .
+                    'Updates will expire at the end of the period.';
+            } else {
+                $subscriptionSubHeadline = 'Subscription has expired.';
+            }
+        }
+
+        return [
+            'href' => $this->adminLink(),
+            'column1Headline' => $this->softwareGuarantee()->name(),
+            'column1SubHeadline' => 'Version: ' .
+                $this->majorVersion() .
+                '<br>' .
+                'License Key: ' . $this->licenseKey(),
+            'column2Headline' => count($authorizedDomains) > 0 ?
+                implode('<br>', $authorizedDomains) :
+                'No authorized domains configured',
+            'column2SubHeadline' => $subscriptionSubHeadline,
         ];
     }
 }

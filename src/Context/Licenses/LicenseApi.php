@@ -13,6 +13,7 @@ use App\Context\Licenses\Services\CheckLicenseStatus\CheckLicenseStatus;
 use App\Context\Licenses\Services\CheckLicenseStatus\Entities\CheckLicenseResult;
 use App\Context\Licenses\Services\FetchLicenses;
 use App\Context\Licenses\Services\FetchOneLicense;
+use App\Context\Licenses\Services\FetchTotalLicenses;
 use App\Context\Licenses\Services\GenerateLicenseKey;
 use App\Context\Licenses\Services\ResumeSubscription;
 use App\Context\Licenses\Services\SaveLicense;
@@ -31,6 +32,7 @@ class LicenseApi
         private GenerateLicenseKey $generateLicenseKey,
         private CheckLicenseStatus $checkLicenseStatus,
         private SearchLicenses $searchLicenses,
+        private FetchTotalLicenses $fetchTotalLicenses,
     ) {
     }
 
@@ -52,6 +54,13 @@ class LicenseApi
         LicenseQueryBuilder $queryBuilder,
     ): ?License {
         return $this->fetchOneLicense->fetch($queryBuilder);
+    }
+
+    public function fetchTotalLicenses(
+        ?LicenseQueryBuilder $queryBuilder = null
+    ): int {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        return $this->fetchTotalLicenses->fetch(queryBuilder: $queryBuilder);
     }
 
     public function cancelSubscription(License $license): void

@@ -266,6 +266,11 @@ class General
             'content' => 'Orders',
             'isActive' => false,
         ],
+        'licenses' => [
+            'href' => '/admin/licenses',
+            'content' => 'Licenses',
+            'isActive' => false,
+        ],
         'addNewLicense' => [
             'href' => '/admin/new-license',
             'content' => 'New License',
