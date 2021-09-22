@@ -36,6 +36,7 @@ class AccountLicenseAddAuthorizedDomainAction
         $license = $this->licenseApi->fetchOneLicense(
             (new LicenseQueryBuilder())
                 ->withUserId($this->loggedInUser->user()->id())
+                ->withHasBeenUpgraded(false)
                 ->withLicenseKey($licenseKey),
         );
 

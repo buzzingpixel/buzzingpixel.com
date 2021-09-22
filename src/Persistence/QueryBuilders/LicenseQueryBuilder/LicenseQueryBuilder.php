@@ -151,4 +151,20 @@ class LicenseQueryBuilder extends QueryBuilder
             $concat,
         );
     }
+
+    /**
+     * @return $this
+     */
+    public function withHasBeenUpgraded(
+        bool $value,
+        string $comparison = '=',
+        string $concat = 'AND',
+    ): self {
+        return $this->withWhere(
+            'hasBeenUpgraded',
+            $value,
+            $comparison,
+            $concat,
+        );
+    }
 }

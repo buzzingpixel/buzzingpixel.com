@@ -43,6 +43,7 @@ class AccountLicensesAction
         $licenses = $this->licenseApi->fetchLicenses(
             (new LicenseQueryBuilder())
                 ->withUserId($this->loggedInUser->user()->id())
+                ->withHasBeenUpgraded(false)
                 ->withOrderBy('id', 'desc'),
         );
 
