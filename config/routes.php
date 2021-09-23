@@ -14,6 +14,7 @@ use App\Http\Response\Account\Licenses\AccountLicenseResumeSubscriptionAction;
 use App\Http\Response\Account\Licenses\AccountLicensesAction;
 use App\Http\Response\Account\Licenses\AccountLicensesDetailAction;
 use App\Http\Response\Account\Licenses\AccountLicenseStartNewSubscriptionAction;
+use App\Http\Response\Account\Licenses\DownloadBundles\DownloadBundleAction;
 use App\Http\Response\Account\Licenses\Downloads\DownloadAction;
 use App\Http\Response\Account\Licenses\PostAccountLicenseCancelSubscriptionAction;
 use App\Http\Response\Account\Licenses\PostAccountLicenseEditNotesAction;
@@ -274,6 +275,7 @@ return static function (App $app): void {
         $r->get('/licenses/{licenseKey}/resume-subscription', AccountLicenseResumeSubscriptionAction::class);
         $r->get('/licenses/{licenseKey}/start-new-subscription', AccountLicenseStartNewSubscriptionAction::class);
         $r->get('/licenses/{licenseKey}/download', DownloadAction::class);
+        $r->get('/licenses/{licenseKey}/download/{softwareSlug}', DownloadBundleAction::class);
 
         $r->get('/purchases', AccountPurchasesAction::class);
         $r->get('/purchases/{orderId}', AccountPurchasesDetailAction::class);
