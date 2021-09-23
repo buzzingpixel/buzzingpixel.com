@@ -18,6 +18,7 @@ use App\Context\Licenses\Services\GenerateLicenseKey;
 use App\Context\Licenses\Services\ResumeSubscription;
 use App\Context\Licenses\Services\SaveLicense;
 use App\Context\Licenses\Services\SearchLicenses\SearchLicenses;
+use App\Context\Licenses\Services\UpdateMaxVersionOnLicenses\UpdateMaxVersionOnLicenses;
 use App\Payload\Payload;
 use App\Persistence\QueryBuilders\LicenseQueryBuilder\LicenseQueryBuilder;
 
@@ -33,6 +34,7 @@ class LicenseApi
         private CheckLicenseStatus $checkLicenseStatus,
         private SearchLicenses $searchLicenses,
         private FetchTotalLicenses $fetchTotalLicenses,
+        private UpdateMaxVersionOnLicenses $updateMaxVersionOnLicenses,
     ) {
     }
 
@@ -95,5 +97,10 @@ class LicenseApi
     public function searchLicenses(SearchParams $searchParams): LicenseResult
     {
         return $this->searchLicenses->search(searchParams: $searchParams);
+    }
+
+    public function updateMaxVersionOnLicenses(): void
+    {
+        $this->updateMaxVersionOnLicenses->update();
     }
 }

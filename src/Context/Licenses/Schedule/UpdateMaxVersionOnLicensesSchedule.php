@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Context\Licenses\Schedule;
 
-use App\Context\Licenses\Services\UpdateMaxVersionOnLicenses\UpdateMaxVersionOnLicenses;
+use App\Context\Licenses\LicenseApi;
 use App\Context\Schedule\Entities\ScheduleConfigItem;
 use App\Context\Schedule\Frequency;
 
@@ -18,13 +18,12 @@ class UpdateMaxVersionOnLicensesSchedule
         );
     }
 
-    public function __construct(
-        private UpdateMaxVersionOnLicenses $updateMaxVersionOnLicenses
-    ) {
+    public function __construct(private LicenseApi $licenseApi)
+    {
     }
 
     public function __invoke(): void
     {
-        $this->updateMaxVersionOnLicenses->update();
+        $this->licenseApi->updateMaxVersionOnLicenses();
     }
 }
