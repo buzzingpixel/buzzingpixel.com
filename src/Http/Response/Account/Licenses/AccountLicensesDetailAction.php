@@ -8,10 +8,12 @@ use App\Context\Licenses\Entities\License;
 use App\Context\Licenses\LicenseApi;
 use App\Context\Software\Entities\Software;
 use App\Context\Software\Entities\SoftwareVersion;
+use App\Context\Software\SoftwareApi;
 use App\Context\Users\Entities\LoggedInUser;
 use App\Http\Entities\Meta;
 use App\Http\Response\Account\Licenses\Downloads\Factories\VersionFromLicenseFactory;
 use App\Persistence\QueryBuilders\LicenseQueryBuilder\LicenseQueryBuilder;
+use App\Persistence\QueryBuilders\Software\SoftwareQueryBuilder;
 use cebe\markdown\GithubMarkdown;
 use Config\General;
 use DateTimeImmutable;
@@ -22,8 +24,10 @@ use Slim\Exception\HttpNotFoundException;
 use Twig\Environment as TwigEnvironment;
 
 use function array_map;
+use function array_merge;
 use function assert;
 use function floatval;
+use function implode;
 use function version_compare;
 
 class AccountLicensesDetailAction
@@ -33,6 +37,7 @@ class AccountLicensesDetailAction
         private TwigEnvironment $twig,
         private LicenseApi $licenseApi,
         private GithubMarkdown $markdown,
+        private SoftwareApi $softwareApi,
         private LoggedInUser $loggedInUser,
         private ResponseFactoryInterface $responseFactory,
         private VersionFromLicenseFactory $versionFromLicenseFactory,
@@ -81,7 +86,10 @@ class AccountLicensesDetailAction
         $downloadValue = $this->getDownloadKeyValueItem(license: $license);
 
         if ($downloadValue !== null) {
-            $keyValueItems[] = $downloadValue;
+            $keyValueItems = array_merge(
+                $keyValueItems,
+                $downloadValue,
+            );
         }
 
         $keyValueSubHeadline = '';
@@ -292,6 +300,49 @@ class AccountLicensesDetailAction
     private function getDownloadKeyValueItem(
         License $license,
     ): ?array {
+        if ($license->softwareGuarantee()->isBundle()) {
+            return array_map(
+                function (string $slug) use ($license): array {
+                    $software = $this->softwareApi->fetchOneSoftware(
+                        queryBuilder: (new SoftwareQueryBuilder())
+                            ->withSlug($slug),
+                    );
+
+                    assert($software instanceof Software);
+
+                    $version = $software->versions()->filter(
+                        static fn (
+                            SoftwareVersion $v
+                        ) => $v->downloadFile() !== '',
+                    )->first();
+
+                    $name = $version->softwareGuarantee()->name();
+
+                    $versionStr = $version->version();
+
+                    return [
+                        'template' => 'Http/_Infrastructure/Display/ActionButton.twig',
+                        'key' => 'Download ' . $name,
+                        'value' => [
+                            'content' => 'Download ' . $name . ' ' . $versionStr,
+                            'href' => '/' . implode(
+                                '/',
+                                [
+                                    'account',
+                                    'licenses',
+                                    $license->licenseKey(),
+                                    'download',
+                                    $slug,
+                                ],
+                            ),
+                            'download' => true,
+                        ],
+                    ];
+                },
+                $license->softwareGuarantee()->bundledSoftware(),
+            );
+        }
+
         $version = $this->versionFromLicenseFactory->getVersion(
             $license,
         );
@@ -300,10 +351,12 @@ class AccountLicensesDetailAction
             return null;
         }
 
-        return $this->getDownloadKeyValueItemActual(
-            license: $license,
-            version: $version,
-        );
+        return [
+            $this->getDownloadKeyValueItemActual(
+                license: $license,
+                version: $version,
+            ),
+        ];
     }
 
     /**
