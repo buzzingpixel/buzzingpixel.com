@@ -23,6 +23,7 @@ use Twig\Environment as TwigEnvironment;
 use function array_map;
 use function assert;
 use function floatval;
+use function version_compare;
 
 class AccountLicensesDetailAction
 {
@@ -164,6 +165,37 @@ class AccountLicensesDetailAction
                         floatval($software->renewalPriceFormattedNoSymbol()) .
                         '/yr)',
                 ];
+            }
+
+            // Not a subscription
+        } else {
+            $software = $license->softwareGuarantee();
+
+            if ($software->isSubscription()) {
+                $softwareVersion = $software
+                    ->versions()
+                    ->first()
+                    ->majorVersion();
+
+                $versionIsOutdated = version_compare(
+                    $license->majorVersion(),
+                    $softwareVersion,
+                    '<',
+                );
+
+                $renewalPrice = $software->renewalPriceFormattedNoSymbol();
+
+                if ($versionIsOutdated) {
+                    $keyValueSubHeadline = 'In order to update to the newest ' .
+                        'major version, click the "start subscription" button.';
+
+                    $actionButtons[] = [
+                        'href' => $license->accountStartNewSubscriptionLink(),
+                        'content' => 'Start Subscription ($' .
+                            floatval($renewalPrice) .
+                            '/yr)',
+                    ];
+                }
             }
         }
 
