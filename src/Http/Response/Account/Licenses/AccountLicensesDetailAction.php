@@ -10,6 +10,7 @@ use App\Context\Software\Entities\Software;
 use App\Context\Software\Entities\SoftwareVersion;
 use App\Context\Users\Entities\LoggedInUser;
 use App\Http\Entities\Meta;
+use App\Http\Response\Account\Licenses\Downloads\Factories\VersionFromLicenseFactory;
 use App\Persistence\QueryBuilders\LicenseQueryBuilder\LicenseQueryBuilder;
 use cebe\markdown\GithubMarkdown;
 use Config\General;
@@ -34,6 +35,7 @@ class AccountLicensesDetailAction
         private GithubMarkdown $markdown,
         private LoggedInUser $loggedInUser,
         private ResponseFactoryInterface $responseFactory,
+        private VersionFromLicenseFactory $versionFromLicenseFactory,
     ) {
     }
 
@@ -187,7 +189,9 @@ class AccountLicensesDetailAction
 
                 if ($versionIsOutdated) {
                     $keyValueSubHeadline = 'In order to update to the newest ' .
-                        'major version, click the "start subscription" button.';
+                        'major version (' .
+                        $software->versions()->first()->version() .
+                        '), click the "start subscription" button.';
 
                     $actionButtons[] = [
                         'href' => $license->accountStartNewSubscriptionLink(),
@@ -288,33 +292,17 @@ class AccountLicensesDetailAction
     private function getDownloadKeyValueItem(
         License $license,
     ): ?array {
-        $software = $license->softwareGuarantee();
+        $version = $this->versionFromLicenseFactory->getVersion(
+            $license,
+        );
 
-        $mostRecentVersion = $software->versions()->first();
-
-        if ($license->isNotSubscription() || $license->isNotExpired()) {
-            if ($mostRecentVersion->downloadFile() === '') {
-                return null;
-            }
-
-            return $this->getDownloadKeyValueItemActual(
-                license: $license,
-                version: $mostRecentVersion,
-            );
-        }
-
-        $maxVersion = $software->versions()->where(
-            'version',
-            $license->maxVersion(),
-        )->firstOrNull();
-
-        if ($maxVersion === null || $maxVersion->downloadFile() === '') {
+        if ($version === null) {
             return null;
         }
 
         return $this->getDownloadKeyValueItemActual(
             license: $license,
-            version: $maxVersion,
+            version: $version,
         );
     }
 

@@ -11,7 +11,7 @@ class VersionFromLicenseFactory
 {
     public function getVersion(?License $license): ?SoftwareVersion
     {
-        if ($license === null) {
+        if ($license === null || $license->maxVersion() === '') {
             return null;
         }
 
@@ -19,7 +19,11 @@ class VersionFromLicenseFactory
 
         $mostRecentVersion = $software->versions()->first();
 
-        if ($license->isNotSubscription() || $license->isNotExpired()) {
+        if ($license->isSubscription() && $license->isNotExpired()) {
+            if ($mostRecentVersion->downloadFile() === '') {
+                return null;
+            }
+
             return $mostRecentVersion;
         }
 
