@@ -12,9 +12,9 @@ return [
     CliQuestion::class => static function (ContainerInterface $di): CliQuestion {
         /** @psalm-suppress MixedArgument */
         return new CliQuestion(
-            questionHelper: $di->get(QuestionHelper::class),
-            consoleInput: $di->get(ArgvInput::class),
-            consoleOutput: $di->get(ConsoleOutput::class),
+            $di->get(QuestionHelper::class),
+            $di->get(ArgvInput::class),
+            $di->get(ConsoleOutput::class),
         );
     },
 ];

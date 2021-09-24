@@ -18,26 +18,26 @@ use Ramsey\Uuid\Doctrine\UuidType;
 
 return [
     EntityManager::class => static function (ContainerInterface $di): EntityManager {
-        Type::addType(name: 'uuid', className:  UuidType::class);
+        Type::addType('uuid', UuidType::class);
 
         Type::overrideType(
-            name: 'datetime',
-            className: UtcDateTimeType::class
+            'datetime',
+            UtcDateTimeType::class
         );
 
         Type::overrideType(
-            name: 'datetimetz',
-            className: UtcDateTimeTzType::class
+            'datetimetz',
+            UtcDateTimeTzType::class
         );
 
         Type::overrideType(
-            name: 'datetime_immutable',
-            className: UtcDateTimeImmutableType::class
+            'datetime_immutable',
+            UtcDateTimeImmutableType::class
         );
 
         Type::overrideType(
-            name: 'datetimetz_immutable',
-            className: UtcDateTimeTzImmutableType::class
+            'datetimetz_immutable',
+            UtcDateTimeTzImmutableType::class
         );
 
         $dbConfig = $di->get(Db::class);
@@ -67,7 +67,7 @@ return [
         }
 
         return EntityManager::create(
-            connection: [
+            [
                 'driver' => 'pdo_pgsql',
                 'user' => $dbConfig->dbUser(),
                 'password' => $dbConfig->dbPassword(),
@@ -76,12 +76,12 @@ return [
                 'dbname' => $dbConfig->dbDatabase(),
                 'charset'  => 'utf8',
             ],
-            config: Setup::createAnnotationMetadataConfiguration(
-                paths: [$dbConfig->entitiesPath()],
-                isDevMode: $devMode,
-                proxyDir: $proxyDir,
-                cache: $cache,
-                useSimpleAnnotationReader: false,
+            Setup::createAnnotationMetadataConfiguration(
+                [$dbConfig->entitiesPath()],
+                $devMode,
+                $proxyDir,
+                $cache,
+                false,
             ),
         );
     },
