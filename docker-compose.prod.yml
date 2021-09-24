@@ -19,6 +19,11 @@ services:
     volumes:
       - log-volume:/var/log
       - storage-volume:/opt/project/storage
+    networks:
+      default:
+        aliases:
+          - buzzingpixel.com
+          - www.buzzingpixel.com
 
   db:
     restart: always
@@ -28,3 +33,7 @@ services:
   redis:
     restart: always
 
+networks:
+  default:
+    external:
+      name: proxy
