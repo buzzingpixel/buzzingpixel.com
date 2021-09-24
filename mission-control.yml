@@ -1,0 +1,55 @@
+runBeforeEveryItem: |
+  DATE_STAMP={{time 'YmdHis'}};
+  PROJECT_DIR=/root/build-projects/buzzingpixel.com;
+  RELEASES_DIR=${PROJECT_DIR}/releases;
+  THIS_RELEASE_DIR=${RELEASES_DIR}/${DATE_STAMP};
+pipelineItems:
+  - description: "Copy repo contents to release"
+    script: |
+      cp -R ${PROJECT_DIR}/repo ${THIS_RELEASE_DIR};
+  - description: "Build Docker Images"
+    script: |
+      cd ${THIS_RELEASE_DIR};
+      ./dev docker-build;
+  - description: "Push Images to Registry"
+    script: |
+      docker push registry.digitalocean.com/buzzingpixel/buzzingpixel.com-app;
+  - description: "Pull Images"
+    script: |
+      docker pull registry.digitalocean.com/buzzingpixel/buzzingpixel.com-app;
+    runOnServers:
+      - buzzingpixel-do-buzzingpixel-docker
+  - description: "Stop old containers"
+    script: |
+      cd /root/buzzingpixel.com;
+      docker kill buzzingpixel-utility;
+      docker-compose -f docker-compose.yml -f docker-compose.prod.yml -p buzzingpixel down || printf "\n";
+      docker-compose -f docker-compose.yml -f docker-compose.prod.yml -p buzzingpixel kill || printf "\n";
+    runOnServers:
+      - buzzingpixel-do-buzzingpixel-docker
+  - description: "Copy Files"
+    script: |
+      docker run --name tmp registry.digitalocean.com/buzzingpixel/buzzingpixel.com-app /bin/true;
+      mkdir -p /root/buzzingpixel.com/docker/utility;
+      docker cp tmp:/opt/project/docker/utility/prod.sh /root/buzzingpixel.com/docker/utility/prod.sh;
+      docker cp tmp:/opt/project/.env /root/buzzingpixel.com/.env;
+      docker cp tmp:/opt/project/docker-compose.prod.yml /root/buzzingpixel.com/docker-compose.prod.yml;
+      docker cp tmp:/opt/project/docker-compose.yml /root/buzzingpixel.com/docker-compose.yml;
+      docker rm tmp;
+      cat /root/buzzingpixel.com/.env.local >> /root/buzzingpixel.com/.env
+    runOnServers:
+      - buzzingpixel-do-buzzingpixel-docker
+  - description: "Start new containers from new images"
+    script: |
+      cd /root/buzzingpixel.com;
+      docker-compose -f docker-compose.yml -f docker-compose.prod.yml -p buzzingpixel up -d --remove-orphans --no-color;
+    runOnServers:
+      - buzzingpixel-do-buzzingpixel-docker
+  - description: "Restart the proxy server"
+    script: |
+      cd /root/nginx-master;
+      docker kill certbot-master;
+      docker-compose down;
+      docker-compose up -d;
+    runOnServers:
+      - buzzingpixel-do-buzzingpixel-docker
