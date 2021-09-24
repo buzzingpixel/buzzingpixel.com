@@ -48,10 +48,7 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 COPY docker/application/build-scripts /build-scripts
 RUN chmod +x /build-scripts/download-s6-overlay-to-tmp.sh && /build-scripts/download-s6-overlay-to-tmp.sh $TARGETPLATFORM $S6_VERSION
 # Verify GPG signature - "Just Containers <just-containers@jrjrtech.com>"
-RUN curl https://keybase.io/justcontainers/key.asc | gpg --import \
-    && gpg --verify /tmp/s6-overlay.tar.gz.sig /tmp/s6-overlay.tar.gz \
-    # Install
-    && tar xvfz /tmp/s6-overlay.tar.gz -C / && rm /tmp/s6-overlay.tar.gz
+RUN tar xvfz /tmp/s6-overlay.tar.gz -C / && rm /tmp/s6-overlay.tar.gz
 
 #
 # Additional PHP extensions and configuration
