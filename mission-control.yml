@@ -3,22 +3,35 @@ runBeforeEveryItem: |
   PROJECT_DIR=/root/build-projects/buzzingpixel.com;
   RELEASES_DIR=${PROJECT_DIR}/releases;
   THIS_RELEASE_DIR=${RELEASES_DIR}/${DATE_STAMP};
+
 pipelineItems:
   - description: "Copy repo contents to release"
     script: |
       cp -R ${PROJECT_DIR}/repo ${THIS_RELEASE_DIR};
+
   - description: "Build Docker Images"
     script: |
       cd ${THIS_RELEASE_DIR};
       ./dev docker-build;
+
   - description: "Push Images to Registry"
     script: |
       docker push registry.digitalocean.com/buzzingpixel/buzzingpixel.com-app;
+
   - description: "Pull Images"
     script: |
       docker pull registry.digitalocean.com/buzzingpixel/buzzingpixel.com-app;
     runOnServers:
       - buzzingpixel-do-buzzingpixel-docker
+
+  - description: "Disable scheduler and queue runners"
+    script: |
+      cd /root/buzzingpixel.com;
+      echo "" > /root/buzzingpixel.com/disableSchedule;
+      ./dev supervisor-stop-queue
+    runOnServers:
+      - buzzingpixel-do-buzzingpixel-docker
+
   - description: "Stop old containers"
     script: |
       cd /root/buzzingpixel.com;
@@ -27,6 +40,7 @@ pipelineItems:
       docker-compose -f docker-compose.yml -f docker-compose.prod.yml -p buzzingpixel kill || printf "\n";
     runOnServers:
       - buzzingpixel-do-buzzingpixel-docker
+
   - description: "Copy Files"
     script: |
       docker run --name tmp registry.digitalocean.com/buzzingpixel/buzzingpixel.com-app /bin/true;
@@ -35,21 +49,46 @@ pipelineItems:
       docker cp tmp:/opt/project/.env /root/buzzingpixel.com/.env;
       docker cp tmp:/opt/project/docker-compose.prod.yml /root/buzzingpixel.com/docker-compose.prod.yml;
       docker cp tmp:/opt/project/docker-compose.yml /root/buzzingpixel.com/docker-compose.yml;
+      docker cp tmp:/opt/project/queueRunner.sh /root/buzzingpixel.com/queueRunner.sh;
+      chmod +x /root/buzzingpixel.com/queueRunner.sh;
+      docker cp tmp:/opt/project/scheduleRunner.sh /root/buzzingpixel.com/scheduleRunner.sh;
+      chmod +x /root/buzzingpixel.com/scheduleRunner.sh;
       docker rm tmp;
       cat /root/buzzingpixel.com/.env.local >> /root/buzzingpixel.com/.env
     runOnServers:
       - buzzingpixel-do-buzzingpixel-docker
+
   - description: "Start new containers from new images"
     script: |
       cd /root/buzzingpixel.com;
       docker-compose -f docker-compose.yml -f docker-compose.prod.yml -p buzzingpixel up -d --remove-orphans --no-color;
     runOnServers:
       - buzzingpixel-do-buzzingpixel-docker
+
   - description: "Restart the proxy server"
     script: |
       cd /root/nginx-master;
       docker kill certbot-master;
       docker-compose down;
       docker-compose up -d;
+    runOnServers:
+      - buzzingpixel-do-buzzingpixel-docker
+
+  - description: "Run various after scripts"
+    script: |
+      cd /root/buzzingpixel.com;
+      ./dev container-app php cli migrations:migrate --no-ansi --no-interaction;
+      ./dev container-app php cli cache:clear --no-ansi --no-interaction;
+      ./dev container-app php cli orm:generate-proxies --no-ansi --no-interaction;
+      ./dev container-app php cli elastic-search:set-up-indices --no-ansi --no-interaction;
+      ./dev container-app php cli elastic-search:index-all --enqueue --no-ansi --no-interaction;
+    runOnServers:
+      - buzzingpixel-do-buzzingpixel-docker
+
+  - description: "Enable scheduler and queue runners"
+    script: |
+      cd /root/buzzingpixel.com;
+      echo "" > /root/buzzingpixel.com/disableSchedule;
+      ./dev supervisor-start-queue
     runOnServers:
       - buzzingpixel-do-buzzingpixel-docker
