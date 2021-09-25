@@ -108,7 +108,7 @@ class QueueIndexAction
      */
     private function formatDisplay(Queue $queue): array
     {
-        $dateFormat = 'F jS, Y, g:is a';
+        $dateFormat = 'F jS, Y, g:i:s a';
 
         $finishedAt = $queue->finishedAt();
 
