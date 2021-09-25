@@ -1,0 +1,71 @@
+#POST https://www.buzzingpixel.com/stripe/webhook/checkout-session-completed
+POST https://buzzingpixel.localtest.me/stripe/webhook/checkout-session-completed
+Content-type: application/json
+
+{
+  "id": "evt_1JdewLGxmRRwOX9JrvDr8kKo",
+  "object": "event",
+  "api_version": "2020-08-27",
+  "created": 1632591932,
+  "data": {
+    "object": {
+      "id": "cs_live_b1m6B0jCEhWItdudpiFyiwznDqPS7SPI339oJNNlRMw7Sko5qC25dpnSt5",
+      "object": "checkout.session",
+      "after_expiration": null,
+      "allow_promotion_codes": null,
+      "amount_subtotal": 7900,
+      "amount_total": 7900,
+      "automatic_tax": {
+        "enabled": false,
+        "status": null
+      },
+      "billing_address_collection": null,
+      "cancel_url": "https://www.buzzingpixel.com/software/ansel-ee",
+      "client_reference_id": null,
+      "consent": null,
+      "consent_collection": null,
+      "currency": "usd",
+      "customer": "cus_KIE5PAv60O5q2l",
+      "customer_details": {
+        "email": "test@test.test",
+        "tax_exempt": "none",
+        "tax_ids": [
+        ]
+      },
+      "customer_email": null,
+      "expires_at": 1632678308,
+      "livemode": true,
+      "locale": null,
+      "metadata": {
+      },
+      "mode": "subscription",
+      "payment_intent": null,
+      "payment_method_options": {
+      },
+      "payment_method_types": [
+        "card"
+      ],
+      "payment_status": "paid",
+      "recovered_from": null,
+      "setup_intent": null,
+      "shipping": null,
+      "shipping_address_collection": null,
+      "submit_type": null,
+      "subscription": "sub_1JdewGGxmRRwOX9JnxfsBpAQ",
+      "success_url": "https://www.buzzingpixel.com/account/post-checkout",
+      "total_details": {
+        "amount_discount": 0,
+        "amount_shipping": 0,
+        "amount_tax": 0
+      },
+      "url": null
+    }
+  },
+  "livemode": true,
+  "pending_webhooks": 1,
+  "request": {
+    "id": "req_LPLB8gSgX6LQfV",
+    "idempotency_key": "f8aa693a-9f9c-43ac-ba8d-25a975f704aa"
+  },
+  "type": "checkout.session.completed"
+}
