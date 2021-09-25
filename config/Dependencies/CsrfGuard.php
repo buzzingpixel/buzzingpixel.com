@@ -14,9 +14,12 @@ return [
 
         assert($responseFactory instanceof ResponseFactoryInterface);
 
-        $guard = new CsrfGuard($responseFactory);
+        $storage = null;
 
-        $guard->setFailureHandler(
+        return new CsrfGuard(
+            $responseFactory,
+            'csrf',
+            $storage,
             static function (
                 ServerRequestInterface $request
             ): void {
@@ -24,9 +27,10 @@ return [
                     $request,
                     'Invalid CSRF Token'
                 );
-            }
+            },
+            200,
+            16,
+            true,
         );
-
-        return $guard;
     },
 ];
