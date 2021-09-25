@@ -5,6 +5,12 @@ function container-db-restore-from-backup-help() {
 }
 
 function container-db-restore-from-backup() {
+    if [ -t 0 ]; then
+        interactiveArgs='-it';
+    else
+        interactiveArgs='';
+    fi
+
     if [[ -z "${secondArg}" ]]; then
         printf "${Red}You must provide the backup name as the second argument${Reset}\n";
 
@@ -19,9 +25,9 @@ function container-db-restore-from-backup() {
 
     docker cp docker/localStorage/dbBackups/${secondArg} buzzingpixel-db:/dump.psql;
 
-    docker exec -it buzzingpixel-db bash -c 'PGPASSWORD="${DB_PASSWORD}"; pg_restore --clean -U "${DB_USER}" -d "${DB_DATABASE}" -v < "/dump.psql"';
+    docker exec ${interactiveArgs} buzzingpixel-db bash -c 'PGPASSWORD="${DB_PASSWORD}"; pg_restore --clean -U "${DB_USER}" -d "${DB_DATABASE}" -v < "/dump.psql"';
 
-    docker exec -it buzzingpixel-db bash -c "rm /dump.psql";
+    docker exec ${interactiveArgs} buzzingpixel-db bash -c "rm /dump.psql";
 
     return 0;
 }

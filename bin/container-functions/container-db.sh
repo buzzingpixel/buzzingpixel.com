@@ -5,13 +5,19 @@ function container-db-help() {
 }
 
 function container-db() {
+    if [ -t 0 ]; then
+        interactiveArgs='-it';
+    else
+        interactiveArgs='';
+    fi
+
     printf "${Yellow}You're working inside the 'Database' container of this project.${Reset}\n";
 
     if [[ -z "${allArgsExceptFirst}" ]]; then
         printf "${Yellow}Remember to 'exit' when you're done.${Reset}\n";
-        docker exec -it buzzingpixel-db bash;
+        docker exec ${interactiveArgs} buzzingpixel-db bash;
     else
-        docker exec -it buzzingpixel-db bash -c "${allArgsExceptFirst}";
+        docker exec ${interactiveArgs} buzzingpixel-db bash -c "${allArgsExceptFirst}";
     fi
 
     return 0;

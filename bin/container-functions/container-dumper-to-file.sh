@@ -5,7 +5,13 @@ function container-dumper-to-file-help() {
 }
 
 function container-dumper-to-file() {
-    docker exec -it -w /opt/project buzzingpixel-app bash -c "XDEBUG_MODE=off php cli server:dump --format=html > /opt/project/storage/dump.html";
+    if [ -t 0 ]; then
+        interactiveArgs='-it';
+    else
+        interactiveArgs='';
+    fi
+
+    docker exec ${interactiveArgs} -w /opt/project buzzingpixel-app bash -c "XDEBUG_MODE=off php cli server:dump --format=html > /opt/project/storage/dump.html";
 
     return 0;
 }

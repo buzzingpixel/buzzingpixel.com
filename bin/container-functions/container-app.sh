@@ -5,13 +5,19 @@ function container-app-help() {
 }
 
 function container-app() {
+    if [ -t 0 ]; then
+        interactiveArgs='-it';
+    else
+        interactiveArgs='';
+    fi
+
     printf "${Yellow}You're working inside the 'app' container of this project.${Reset}\n";
 
     if [[ -z "${allArgsExceptFirst}" ]]; then
         printf "${Yellow}Remember to 'exit' when you're done.${Reset}\n";
-        docker exec -it -e XDEBUG_MODE=off -w /opt/project buzzingpixel-app bash;
+        docker exec ${interactiveArgs} -e XDEBUG_MODE=off -w /opt/project buzzingpixel-app bash;
     else
-        docker exec -it -w /opt/project buzzingpixel-app bash -c "XDEBUG_MODE=off ${allArgsExceptFirst}";
+        docker exec ${interactiveArgs} -w /opt/project buzzingpixel-app bash -c "XDEBUG_MODE=off ${allArgsExceptFirst}";
     fi
 
     return 0;

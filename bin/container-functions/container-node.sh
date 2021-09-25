@@ -5,14 +5,20 @@ function container-node-help() {
 }
 
 function container-node() {
+    if [ -t 0 ]; then
+        interactiveArgs='-it';
+    else
+        interactiveArgs='';
+    fi
+
     if [[ -z "${allArgsExceptFirst}" ]]; then
         printf "${Yellow}Remember to 'exit' when you're done.${Reset}\n";
-        docker run -it \
+        docker run ${interactiveArgs} \
             -v ${PWD}:/app \
             -w /app \
             ${nodeDockerImage} bash;
     else
-        docker run -it \
+        docker run ${interactiveArgs} \
             -v ${PWD}:/app \
             -w /app \
             ${nodeDockerImage} bash -c "${allArgsExceptFirst}";
