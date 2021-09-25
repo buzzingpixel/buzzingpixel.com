@@ -108,6 +108,7 @@ use App\Http\Response\Software\CategoryConstruct\CategoryConstructChangelogActio
 use App\Http\Response\Software\CategoryConstruct\CategoryConstructChangelogItemAction;
 use App\Http\Response\Software\CategoryConstruct\Documentation\V2\CategoryConstructV2DocIndexAction;
 use App\Http\Response\Software\CategoryConstruct\Documentation\V2\CategoryConstructV2DocTemplateTagsAction;
+use App\Http\Response\Software\ChangelogFeed\ChangelogFeedAction;
 use App\Http\Response\Software\Construct\ConstructAction;
 use App\Http\Response\Software\Construct\ConstructChangelogAction;
 use App\Http\Response\Software\Construct\ConstructChangelogItemAction;
@@ -302,6 +303,8 @@ return static function (App $app): void {
      */
     $app->get('/software/ansel-craft', AnselCraftAction::class);
     $app->get('/software/ansel-craft/changelog', AnselCraftChangelogAction::class);
+    $app->get('/software/ansel-craft/changelog/feed', ChangelogFeedAction::class)
+        ->setArgument('for', 'ansel-craft');
     $app->get('/software/ansel-craft/changelog/{slug:[^\/]+}', AnselCraftChangelogItemAction::class);
 
     // Ansel for Craft Current Docs
@@ -321,6 +324,8 @@ return static function (App $app): void {
      */
     $app->get('/software/ansel-ee', AnselEEAction::class);
     $app->get('/software/ansel-ee/changelog', AnselEEChangelogAction::class);
+    $app->get('/software/ansel-ee/changelog/feed', ChangelogFeedAction::class)
+        ->setArgument('for', 'ansel-ee');
     $app->get('/software/ansel-ee/changelog/{slug:[^\/]+}', AnselEEChangelogItemAction::class);
     $app->get('/software/ansel-ee/download', AnselEEDownloadAction::class);
 
@@ -335,6 +340,8 @@ return static function (App $app): void {
      */
     $app->get('/software/treasury', TreasuryAction::class);
     $app->get('/software/treasury/changelog', TreasuryChangelogAction::class);
+    $app->get('/software/treasury/changelog/feed', ChangelogFeedAction::class)
+        ->setArgument('for', 'treasury');
     $app->get('/software/treasury/changelog/{slug:[^\/]+}', TreasuryChangelogItemAction::class);
 
     // Treasury docs
@@ -348,6 +355,8 @@ return static function (App $app): void {
      */
     $app->get('/software/construct', ConstructAction::class);
     $app->get('/software/construct/changelog', ConstructChangelogAction::class);
+    $app->get('/software/construct/changelog/feed', ChangelogFeedAction::class)
+        ->setArgument('for', 'construct');
     $app->get('/software/construct/changelog/{slug:[^\/]+}', ConstructChangelogItemAction::class);
 
     // Construct Docs
@@ -365,6 +374,8 @@ return static function (App $app): void {
      */
     $app->get('/software/category-construct', CategoryConstructAction::class);
     $app->get('/software/category-construct/changelog', CategoryConstructChangelogAction::class);
+    $app->get('/software/category-construct/changelog/feed', ChangelogFeedAction::class)
+        ->setArgument('for', 'category-construct');
     $app->get('/software/category-construct/changelog/{slug:[^\/]+}', CategoryConstructChangelogItemAction::class);
 
     // Category Construct Docs
