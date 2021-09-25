@@ -80,8 +80,6 @@ pipelineItems:
       ./dev container-app php cli migrations:migrate --no-ansi --no-interaction;
       ./dev container-app php cli cache:clear --no-ansi --no-interaction;
       ./dev container-app php cli orm:generate-proxies --no-ansi --no-interaction;
-      ./dev container-app php cli elastic-search:set-up-indices --no-ansi --no-interaction;
-      ./dev container-app php cli elastic-search:index-all --enqueue --no-ansi --no-interaction;
     runOnServers:
       - buzzingpixel-do-buzzingpixel-docker
 
