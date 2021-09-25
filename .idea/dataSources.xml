@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://127.0.0.1:14693/buzzingpixel</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="BuzzingPixel Production" uuid="28cc73d0-0dc5-431f-8b55-91f52dc059d8">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://127.0.0.1:14693/buzzingpixel</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
