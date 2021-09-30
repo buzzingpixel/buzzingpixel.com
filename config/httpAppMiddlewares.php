@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Globals;
 use App\Http\AppMiddleware\CsrfGuardMiddleware;
 use App\Http\AppMiddleware\CsrfInjectionMiddleware;
+use App\Http\AppMiddleware\EnforceExpectedHostMiddleware;
 use App\Http\AppMiddleware\HoneyPotMiddleware;
 use App\Http\AppMiddleware\MinifyMiddleware;
 use App\Http\AppMiddleware\StaticCacheMiddleware;
@@ -23,4 +24,5 @@ return static function (App $app): void {
 
     $app->add(CsrfGuardMiddleware::class);
     $app->add(CsrfInjectionMiddleware::class);
+    $app->add(EnforceExpectedHostMiddleware::class);
 };

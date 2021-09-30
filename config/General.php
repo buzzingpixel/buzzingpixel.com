@@ -34,6 +34,8 @@ class General
     private string $systemTimeZone = 'US/Central';
     private string $oldSiteUrl;
     private string $oldSiteTransferKey;
+    private string $expectedHost;
+    private string $expectedRedirect;
 
     public function __construct()
     {
@@ -76,6 +78,12 @@ class General
 
         /** @phpstan-ignore-next-line */
         $this->oldSiteTransferKey = (string) getenv('OLD_SITE_TRANSFER_KEY');
+
+        /** @phpstan-ignore-next-line */
+        $this->expectedHost = (string) getenv('EXPECTED_HOST');
+
+        /** @phpstan-ignore-next-line */
+        $this->expectedRedirect = (string) getenv('EXPECTED_REDIRECT');
 
         if (
             ! $this->devMode() ||
@@ -376,5 +384,15 @@ class General
     public function oldSiteTransferKey(): string
     {
         return $this->oldSiteTransferKey;
+    }
+
+    public function expectedHost(): string
+    {
+        return $this->expectedHost;
+    }
+
+    public function expectedRedirect(): string
+    {
+        return $this->expectedRedirect;
     }
 }
