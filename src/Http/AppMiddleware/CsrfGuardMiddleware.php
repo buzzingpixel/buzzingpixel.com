@@ -15,7 +15,10 @@ use function in_array;
 
 class CsrfGuardMiddleware implements MiddlewareInterface
 {
-    public const EXCLUDE = ['/stripe/webhook/checkout-session-completed'];
+    public const EXCLUDE = [
+        '/stripe/webhook/checkout-session-completed',
+        '/api/v1/check-license',
+    ];
 
     public function __construct(private CsrfGuard $csrfGuard)
     {
