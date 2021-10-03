@@ -86,7 +86,7 @@ pipelineItems:
   - description: "Enable scheduler and queue runners"
     script: |
       cd /root/buzzingpixel.com;
-      echo "" > /root/buzzingpixel.com/disableSchedule;
+      rm /root/buzzingpixel.com/disableSchedule;
       ./dev supervisor-start-queue
     runOnServers:
       - buzzingpixel-do-buzzingpixel-docker
