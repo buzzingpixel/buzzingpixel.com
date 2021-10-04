@@ -410,6 +410,10 @@
                                                     action="/support/issue/{{ issue.issueNumber }}/add-reply"
                                                     method="POST"
                                                 >
+                                                    <input type="hidden" name="{!--csrfTokenNameKey--}" value="{!--csrfTokenName--}">
+                                                    <input type="hidden" name="{!--csrfTokenValueKey--}" value="{!--csrfTokenValue--}">
+                                                    <input type="text" name="a_password" class="sr-only" tabindex="-1" autocomplete="nope">
+                                                    <input type="text" name="your_company" class="sr-only" tabindex="-1" autocomplete="nope">
                                                     <div>
                                                         <label for="comment" class="sr-only">Reply</label>
                                                         <textarea

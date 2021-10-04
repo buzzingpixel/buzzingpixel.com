@@ -57,6 +57,10 @@
                         {{ attr }}='{{ data|raw }}'
                         {% endfor %}
                     >
+                        <input type="hidden" name="{!--csrfTokenNameKey--}" value="{!--csrfTokenName--}">
+                        <input type="hidden" name="{!--csrfTokenValueKey--}" value="{!--csrfTokenValue--}">
+                        <input type="text" name="a_password" class="sr-only" tabindex="-1" autocomplete="nope">
+                        <input type="text" name="your_company" class="sr-only" tabindex="-1" autocomplete="nope">
                         <button
                             type="submit"
                             class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 text-white bg-light-red hover:bg-red focus:ring-light-red "
