@@ -45,6 +45,10 @@ services:
       - traefik.http.routers.buzzingpixel-secure-ngrok.tls=true
       - traefik.http.routers.buzzingpixel-secure-ngrok.rule=Host(`buzzingpixel.ngrok.io`)
 
+  db:
+    volumes:
+      - .:/opt/project
+
   bg-sync-vendor:
     container_name: buzzingpixel-bg-sync-vendor
     image: cweagans/bg-sync
