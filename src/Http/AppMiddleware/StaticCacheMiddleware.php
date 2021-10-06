@@ -11,6 +11,9 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Throwable;
 
+use function in_array;
+use function mb_strtolower;
+
 class StaticCacheMiddleware implements MiddlewareInterface
 {
     public function __construct(
@@ -26,7 +29,17 @@ class StaticCacheMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface {
-        if (! $this->staticCacheEnabled) {
+        if (
+            ! $this->staticCacheEnabled ||
+            ! in_array(
+                mb_strtolower($request->getMethod()),
+                [
+                    'get',
+                    'head',
+                ],
+                true,
+            )
+        ) {
             return $handler->handle(request: $request);
         }
 
