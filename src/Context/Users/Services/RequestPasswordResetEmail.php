@@ -32,7 +32,7 @@ class RequestPasswordResetEmail
 
         $this->emailApi->queueEmail(
             email: new Email(
-                subject: 'Reset your' . $this->config->siteName() . 'password',
+                subject: 'Reset your' . $this->config->siteName() . ' password',
                 recipients: new EmailRecipientCollection([
                     new EmailRecipient(emailAddress: $user->emailAddress()),
                 ]),
