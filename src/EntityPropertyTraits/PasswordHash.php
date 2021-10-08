@@ -71,4 +71,13 @@ trait PasswordHash
             PASSWORD_DEFAULT,
         ));
     }
+
+    public function withPasswordBypassValidation(string $password): self
+    {
+        /** @phpstan-ignore-next-line */
+        return $this->withPasswordHash((string) password_hash(
+            $password,
+            PASSWORD_DEFAULT,
+        ));
+    }
 }

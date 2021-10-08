@@ -43,7 +43,7 @@ class ValidateUserPassword
             return $user;
         }
 
-        $user = $user->withPassword($password);
+        $user = $user->withPasswordBypassValidation($password);
 
         $this->saveUser->save($user);
 
