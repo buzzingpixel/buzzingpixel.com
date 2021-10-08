@@ -33,7 +33,6 @@ class SetUpIndicesSchedule
                 ->withAddedQueueItem(
                     newQueueItem: new QueueItem(
                         className: SetUpIndicesQueueAction::class,
-                        methodName: 'sync',
                     ),
                 ),
         );
