@@ -6,11 +6,13 @@ namespace App\Context\Stripe\Services;
 
 use App\Context\Stripe\Factories\StripeFactory;
 use App\Context\Users\Entities\User;
+use App\Templating\TwigExtensions\SiteUrl;
 use Stripe\BillingPortal\Session;
 
 class CreateBillingPortalSession
 {
     public function __construct(
+        private SiteUrl $siteUrl,
         private StripeFactory $stripeFactory,
         private StripeFetchCustomers $stripeFetchCustomers,
     ) {
@@ -27,7 +29,7 @@ class CreateBillingPortalSession
             ->sessions
             ->create([
                 'customer' => $customerId,
-                'return_url' => 'https://buzzingpixel.localtest.me/account',
+                'return_url' => $this->siteUrl->siteUrl('/account'),
             ]);
     }
 }
