@@ -19,6 +19,7 @@ services:
     volumes:
       - log-volume:/var/log
       - storage-volume:/opt/project/storage
+      - files-volume:/opt/project/public/files
     networks:
       default:
         aliases:
@@ -40,3 +41,6 @@ networks:
   default:
     external:
       name: proxy
+
+volumes:
+  files-volume:
