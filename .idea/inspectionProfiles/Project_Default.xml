@@ -37,7 +37,7 @@
     </inspection_tool>
     <inspection_tool class="HtmlUnknownTarget" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="PhpArrayShapeAttributeCanBeAddedInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
-    <inspection_tool class="PhpCSFixerValidationInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+    <inspection_tool class="PhpCSFixerValidationInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false">
       <option name="CODING_STANDARD" value="Custom" />
       <option name="CUSTOM_RULESET_PATH" value="$PROJECT_DIR$/.php_cs" />
       <option name="ALLOW_RISKY_RULES" value="true" />
@@ -64,7 +64,7 @@
       <option name="level" value="8" />
       <option name="config" value="$PROJECT_DIR$/phpstan.neon" />
     </inspection_tool>
-    <inspection_tool class="PsalmGlobal" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+    <inspection_tool class="PsalmGlobal" enabled="false" level="WEAK WARNING" enabled_by_default="false">
       <option name="config" value="$PROJECT_DIR$/psalm.xml" />
       <option name="showInfo" value="true" />
       <option name="findUnusedCode" value="true" />
