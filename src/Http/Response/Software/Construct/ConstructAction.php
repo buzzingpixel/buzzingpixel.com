@@ -48,6 +48,7 @@ class ConstructAction
                             'type' => 'primary',
                         ],
                     ],
+                    'postCtaContent' => 'Comes with 1 year of support and updates. $20/year thereafter. Can be canceled at any time.',
                 ],
             ),
         );

@@ -1,6 +1,7 @@
 {% set heading = heading ?? block('heading') ?? '' %}
 {% set content = content ?? block('content') ?? '' %}
 {% set ctas = ctas ?? null %}
+{% set postCtaContent = postCtaContent ?? block('postCtaContent') ?? null %}
 
 <div class="bg-deep-sea">
     <div class="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
@@ -68,6 +69,11 @@
                     </div>
                 {% endfor %}
             </div>
+            {% if postCtaContent %}
+                <div class="max-w-lg text-sm text-gray-300 mt-4 mx-auto">
+                    {{ postCtaContent|smartypants|widont }}
+                </div>
+            {% endif %}
         {% endif %}
     </div>
 </div>

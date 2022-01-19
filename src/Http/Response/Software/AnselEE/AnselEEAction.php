@@ -54,6 +54,7 @@ class AnselEEAction
                             'type' => 'primary',
                         ],
                     ],
+                    'postCtaContent' => 'Comes with 1 year of support and updates. $39/year thereafter. Can be canceled at any time.',
                 ],
             ),
         );

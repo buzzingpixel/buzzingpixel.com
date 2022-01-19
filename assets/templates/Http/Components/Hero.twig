@@ -3,6 +3,7 @@
 {% set content = content ?? block('content') ?? null %}
 {% set image = image ?? null %}
 {% set ctas = ctas ?? null %}
+{% set postCtaContent = postCtaContent ?? block('postCtaContent') ?? null %}
 
 <div class="bg-gray-50">
     <div class="relative pt-2{% if image %} pb-10 sm:pb-14{% else %} pb-2{% endif %}">
@@ -85,6 +86,11 @@
                             </div>
                         {% endfor %}
                     </div>
+                    {% if postCtaContent %}
+                        <div class="max-w-lg text-sm text-gray-400 mt-4 mx-auto">
+                            {{ postCtaContent|smartypants|widont }}
+                        </div>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

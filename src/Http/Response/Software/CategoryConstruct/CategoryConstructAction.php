@@ -44,10 +44,11 @@ class CategoryConstructAction
                         [
                             'caret' => false,
                             'href' =>  $this->siteUrl->siteUrl('/software/category-construct/purchase'),
-                            'content' => 'Purchase License ($15)',
+                            'content' => 'Purchase License ($30)',
                             'type' => 'primary',
                         ],
                     ],
+                    'postCtaContent' => 'Comes with 1 year of support and updates. $15/year thereafter. Can be canceled at any time.',
                 ],
             ),
         );

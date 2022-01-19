@@ -1,4 +1,5 @@
 {# @var \App\Http\Response\Software\Construct\ConstructVariables::NAV navItems #}
+{# @var string postCtaContent #}
 
 {% extends 'Http/_Infrastructure/_Layout.twig' %}
 
@@ -16,6 +17,7 @@
             alt: 'Treasury Screenshot',
         },
         ctas: ctas,
+        postCtaContent: postCtaContent,
     } only %}
         {% block heading %}
             Construct
@@ -107,6 +109,7 @@
     {# CTA #}
     {% embed 'Http/Components/SimpleCtaSection.twig' with {
         ctas: ctas,
+        postCtaContent: postCtaContent,
     } only %}
         {% block heading %}
             Get Started with Construct
