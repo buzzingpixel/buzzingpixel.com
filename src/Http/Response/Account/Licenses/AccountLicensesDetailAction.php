@@ -26,6 +26,7 @@ use Twig\Environment as TwigEnvironment;
 use function array_map;
 use function array_merge;
 use function assert;
+use function base64_encode;
 use function floatval;
 use function implode;
 use function version_compare;
@@ -234,7 +235,7 @@ class AccountLicensesDetailAction
                                 'links' => [
                                     [
                                         'href' => $license->accountDeleteAuthorizedDomainLink(
-                                            $domain
+                                            base64_encode($domain),
                                         ),
                                         'content' => 'Remove',
                                     ],

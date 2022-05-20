@@ -24,6 +24,7 @@ use Twig\Environment as TwigEnvironment;
 
 use function array_map;
 use function assert;
+use function base64_encode;
 use function floatval;
 
 class ViewUserLicenseDetailAction
@@ -195,7 +196,7 @@ class ViewUserLicenseDetailAction
                             'links' => [
                                 [
                                     'href' => $license->adminDeleteAuthorizedDomainLink(
-                                        $domain
+                                        base64_encode($domain),
                                     ),
                                     'content' => 'Remove',
                                 ],

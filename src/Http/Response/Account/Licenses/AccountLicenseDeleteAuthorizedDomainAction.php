@@ -11,6 +11,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpNotFoundException;
 
+use function base64_decode;
+
 class AccountLicenseDeleteAuthorizedDomainAction
 {
     public function __construct(
@@ -36,7 +38,9 @@ class AccountLicenseDeleteAuthorizedDomainAction
             throw new HttpNotFoundException($request);
         }
 
-        $domainName = (string) $request->getAttribute('domainName');
+        $domainName = base64_decode(
+            (string) $request->getAttribute('domainName'),
+        );
 
         $license = $license->withRemovedAuthorizedDomain(
             $domainName
