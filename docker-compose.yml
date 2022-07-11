@@ -6,7 +6,7 @@ services:
       - .env
       - .env.local
     container_name: buzzingpixel-app
-    image: registry.digitalocean.com/buzzingpixel/buzzingpixel.com-app
+    image: ghcr.io/buzzingpixel/buzzingpixel.com-app
     environment:
       HOSTNAME: buzzingpixel-app
     expose:

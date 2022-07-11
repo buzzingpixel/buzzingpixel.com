@@ -37,11 +37,14 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )";
 
 cd ${SCRIPT_DIR};
 
-printf "${Cyan}Building registry.digitalocean.com/buzzingpixel/buzzingpixel.com-app${Reset}\n";
+printf "${Cyan}Building ghcr.io/buzzingpixel/buzzingpixel.com-app${Reset}\n";
 
-docker build ../../ \
-    --tag registry.digitalocean.com/buzzingpixel/buzzingpixel.com-app \
-    --file ../application/Dockerfile
+docker build \
+    --file ../application/Dockerfile \
+    --cache-from ghcr.io/buzzingpixel/buzzingpixel.com-app \
+    --build-arg BUILDKIT_INLINE_CACHE=1 \
+    --tag ghcr.io/buzzingpixel/buzzingpixel.com-app \
+    ../../
 
-printf "${Green}Finished registry.digitalocean.com/buzzingpixel/buzzingpixel.com-app${Reset}\n\n";
+printf "${Green}Finished ghcr.io/buzzingpixel/buzzingpixel.com-app${Reset}\n\n";
 
