@@ -27,8 +27,7 @@ class IForgotAction
      */
     public function __invoke(): ResponseInterface
     {
-        $response = $this->responseFactory->createResponse()
-            ->withHeader('EnableStaticCache', 'true');
+        $response = $this->responseFactory->createResponse();
 
         $response->getBody()->write($this->twig->render(
             '@app/Http/Response/IForgot/IForgot.twig',
