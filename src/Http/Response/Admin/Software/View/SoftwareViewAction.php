@@ -20,6 +20,7 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
 use function array_map;
+use function count;
 
 class SoftwareViewAction
 {
@@ -58,7 +59,7 @@ class SoftwareViewAction
 
         $bundledSoftware = new SoftwareCollection();
 
-        if ($software->bundledSoftware() > 0) {
+        if (count($software->bundledSoftware()) > 0) {
             $bundledSoftware = $this->softwareApi->fetchSoftware(
                 queryBuilder: (new SoftwareQueryBuilder())
                     ->withSlugsIn(value: $software->bundledSoftware()),
