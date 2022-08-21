@@ -18,6 +18,9 @@ class SearchUsersResultBuilderFactory
     ) {
     }
 
+    /**
+     * @param string[] $resultIds
+     */
     public function make(array $resultIds): SearchUsersResultBuilderContract
     {
         if (count($resultIds) < 1) {

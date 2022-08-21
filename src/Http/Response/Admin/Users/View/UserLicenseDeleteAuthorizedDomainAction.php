@@ -50,6 +50,7 @@ class UserLicenseDeleteAuthorizedDomainAction
             throw new HttpNotFoundException($request);
         }
 
+        /** @phpstan-ignore-next-line */
         $domainName = base64_decode(
             (string) $request->getAttribute('domainName'),
         );

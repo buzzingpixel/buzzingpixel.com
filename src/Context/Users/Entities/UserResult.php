@@ -19,6 +19,9 @@ class UserResult
         return $this->absoluteTotal;
     }
 
+    /**
+     * @phpstan-ignore-next-line
+     */
     public function users(): UserCollection
     {
         return $this->users;

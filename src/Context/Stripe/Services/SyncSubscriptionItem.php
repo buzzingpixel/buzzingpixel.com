@@ -7,7 +7,6 @@ namespace App\Context\Stripe\Services;
 use App\Context\Licenses\Entities\License;
 use App\Context\Licenses\Services\SaveLicense;
 use App\Context\Stripe\Contracts\SyncSubscriptionItem as SyncSubscriptionItemContract;
-use App\Utilities\SystemClock;
 use DateTimeImmutable;
 use DateTimeZone;
 use Stripe\Subscription;
@@ -20,11 +19,8 @@ use function assert;
 
 class SyncSubscriptionItem implements SyncSubscriptionItemContract
 {
-    public function __construct(
-        private SaveLicense $saveLicense,
-        private SystemClock $systemClock,
-        private StripeFetchInvoices $stripeFetchInvoices,
-    ) {
+    public function __construct(private SaveLicense $saveLicense)
+    {
     }
 
     public function sync(
