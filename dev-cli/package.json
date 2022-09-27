@@ -1,7 +1,7 @@
 {
     "name": "cli",
     "description": "CLI",
-    "author": "RxAnte Web Services",
+    "author": "TJ Draper",
     "bin": {
         "cli": "./bin/run"
     },
