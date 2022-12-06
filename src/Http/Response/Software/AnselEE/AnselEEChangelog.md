@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 2.3.2 - 2022-12-05
+### Fixed
+- Fixed an issue with getting the update feed
+- Fixed an issue in EE 7 where there was an API change that caused an error when Ansel would save images
+- Fixed deprecation notices being output by some of Ansel's code in PHP 8.1
+- Fixed an issue that can come up in Channel Form if the Ansel field is not part of the submission
+
 ## 2.3.1 - 2022-06-23
 ### Fixed
 - Fixed an issue where field type initialization may fail in Grid fields in EE 5

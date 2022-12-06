@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="MessDetectorOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCSFixerOptionsConfiguration">
+    <option name="allowRiskyRules" value="true" />
+    <option name="codingStandard" value="Custom" />
+    <option name="rulesetPath" value="$PROJECT_DIR$/.php_cs" />
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCodeSnifferOptionsConfiguration">
+    <option name="codingStandard" value="Custom" />
+    <option name="customRuleset" value="$PROJECT_DIR$/phpcs.xml" />
+    <option name="extensions" value="php" />
+    <option name="installedPaths" value="$PROJECT_DIR$/vendor/doctrine/coding-standard/lib/Doctrine" />
+    <option name="showSniffs" value="true" />
+    <option name="transferred" value="true" />
+  </component>
   <component name="PhpCSFixer">
     <phpcsfixer_settings>
       <PhpCSFixerConfiguration standards="PSR1;PSR2;Symfony;DoctrineAnnotation;PHP70Migration;PHP71Migration" />
@@ -242,6 +259,12 @@
       <PhpStanConfiguration tool_path="$PROJECT_DIR$/vendor/bin/phpstan" />
       <phpstan_by_interpreter interpreter_id="be8b5875-b8b3-42cb-81d9-8d83e4ca69f8" tool_path="/opt/project/vendor/bin/phpstan" timeout="60000" />
     </PhpStan_settings>
+  </component>
+  <component name="PhpStanOptionsConfiguration">
+    <option name="config" value="$PROJECT_DIR$/phpstan.neon" />
+    <option name="level" value="8" />
+    <option name="memoryLimit" value="4G" />
+    <option name="transferred" value="true" />
   </component>
   <component name="Psalm">
     <Psalm_settings>
