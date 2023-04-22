@@ -272,4 +272,11 @@
       <psalm_fixer_by_interpreter interpreter_id="be8b5875-b8b3-42cb-81d9-8d83e4ca69f8" tool_path="/opt/project/vendor/bin/psalm" timeout="60000" />
     </Psalm_settings>
   </component>
+  <component name="PsalmOptionsConfiguration">
+    <option name="config" value="$PROJECT_DIR$/psalm.xml" />
+    <option name="findUnusedCode" value="true" />
+    <option name="findUnusedSuppress" value="true" />
+    <option name="showInfo" value="true" />
+    <option name="transferred" value="true" />
+  </component>
 </project>
