@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 2.3.3 - 2023-04-22
+### Fixed
+- Fixed error `Undefined index: ansel_image_id` that could occur when cloning an entry
+- Fixed an issue where the JPEG image quality setting would be ignored if the environment uses Imagick
+- Fixed a deprecation notice that was occurring in PHP 8.1 because null would be passed to the `htmlentities` function
+
 ## 2.3.2 - 2022-12-05
 ### Fixed
 - Fixed an issue with getting the update feed
