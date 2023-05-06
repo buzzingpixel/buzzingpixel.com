@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 2.3.4 - 2023-05-06
+### Fixed
+- Ensured title and caption fields fill full available width
+
 ## 2.3.3 - 2023-04-22
 ### Fixed
 - Fixed error `Undefined index: ansel_image_id` that could occur when cloning an entry
