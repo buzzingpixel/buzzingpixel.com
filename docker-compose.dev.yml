@@ -1,0 +1,129 @@
+version: '3.7'
+
+services:
+  app:
+    restart: always
+    env_file:
+      - .env
+      - .env.local
+    image: ghcr.io/buzzingpixel/buzzingpixel.com-app
+    container_name: buzzingpixel-app
+    environment:
+      ENABLE_PHP_DEV_CONFIG: 1
+      HOSTNAME: buzzingpixel-app
+    ports:
+      - "14689:80"
+    volumes:
+      - .:/var/www:delegated
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-dev_default
+      - traefik.http.routers.buzzingpixel_local.entrypoints=web
+      - traefik.http.routers.buzzingpixel_local.rule=Host(`buzzingpixel.localtest.me`)
+      - traefik.http.routers.buzzingpixel_local.middlewares=https-redirect
+      - traefik.http.routers.buzzingpixel_local-secure.entrypoints=websecure
+      - traefik.http.routers.buzzingpixel_local-secure.tls=true
+      - traefik.http.routers.buzzingpixel_local-secure.rule=Host(`buzzingpixel.localtest.me`)
+    networks:
+      - traefik
+      - default
+
+  app-scheduled-task-runner:
+    restart: always
+    env_file:
+      - .env
+      - .env.local
+    image: ghcr.io/buzzingpixel/buzzingpixel.com-app-schedule-runner
+    container_name: buzzingpixel-app-scheduled-task-runner
+    environment:
+      ENABLE_PHP_DEV_CONFIG: 1
+      HOSTNAME: buzzingpixel-app-scheduled-task-runner
+    volumes:
+      - .:/var/www:delegated
+    healthcheck:
+      disable: true
+      test: "1"
+
+  app-queue-consumer-1:
+    restart: always
+    env_file:
+      - .env
+      - .env.local
+    image: ghcr.io/buzzingpixel/buzzingpixel.com-app
+    container_name: buzzingpixel-app-queue-consumer-1
+    environment:
+      - ENABLE_PHP_DEV_CONFIG=1
+      - HOSTNAME=buzzingpixel-app-queue-consumer-1
+    volumes:
+      - .:/var/www:delegated
+    healthcheck:
+      disable: true
+      test: "1"
+    entrypoint: >-
+      /bin/bash -c
+      "echo 'while /usr/local/bin/php /var/www/cli queue:run --quiet 2>&1; do sleep 0.2; done' > /runner.sh
+      && chmod +x /runner.sh
+      && /runner.sh"
+
+  db:
+    restart: always
+    env_file:
+      - .env
+      - .env.local
+    image: ghcr.io/buzzingpixel/buzzingpixel.com-db
+    container_name: buzzingpixel-db
+    environment:
+      HOSTNAME: buzzingpixel-db
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "14693:5432"
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+    networks:
+      traefik:
+      default:
+        aliases:
+          - buzzingpixel-db
+
+  redis:
+    restart: always
+    container_name: buzzingpixel-redis
+    image: redis:alpine3.14
+    volumes:
+      - redis-volume:/data
+    networks:
+      default:
+        aliases:
+          - buzzingpixel-redis
+
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
+    container_name: es01
+    environment:
+      - cluster.name=es-docker-cluster
+      - node.name=es01
+      - cluster.initial_master_nodes=es01
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch-data-volume:/usr/share/elasticsearch/data
+    expose:
+      - "9200"
+    networks:
+      default:
+        aliases:
+          - buzzingpixel-elasticsearch
+
+networks:
+  traefik:
+    name: traefik-dev_default
+    external: true
+
+volumes:
+  db-volume:
+  elasticsearch-data-volume:
+  redis-volume:
