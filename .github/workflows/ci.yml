@@ -64,3 +64,50 @@ jobs:
           --tag ghcr.io/buzzingpixel/buzzingpixel.com-utility
           --push
           .
+
+  deploy:
+    name: Deploy to production
+    runs-on: ubuntu-latest
+    needs: build
+    if: contains(github.ref, 'master')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Copy Files
+        uses: appleboy/scp-action@master
+        with:
+          username: ${{ vars.PROD_DEPLOY_SSH_USER }}
+          host: ${{ vars.PROD_DEPLOY_SSH_HOST }}
+          key: ${{ secrets.PROD_DEPLOY_SSH_PRIVATE_KEY }}
+          source: ".env, docker-compose.prod.yml"
+          target: "/root/buzzingpixel.com"
+
+      - name: Log in to production server pull images, and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          username: ${{ vars.PROD_DEPLOY_SSH_USER }}
+          host: ${{ vars.PROD_DEPLOY_SSH_HOST }}
+          key: ${{ secrets.PROD_DEPLOY_SSH_PRIVATE_KEY }}
+          script: |
+            cd /root/buzzingpixel.com;
+
+            # Log in to github docker registry
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin;
+
+            # Pull Images
+            docker pull ghcr.io/buzzingpixel/buzzingpixel.com-app;
+            docker pull ghcr.io/buzzingpixel/buzzingpixel.com-app-schedule-runner;
+            docker pull ghcr.io/buzzingpixel/buzzingpixel.com-db;
+            docker pull ghcr.io/buzzingpixel/buzzingpixel.com-utility;
+
+            # Docker can be weird about .env, make sure local is concat into .env
+            cat /root/buzzingpixel.com/.env.local >> /root/buzzingpixel.com/.env;
+
+            # Deploy new images
+            docker stack deploy \
+              --compose-file docker-compose.prod.yml \
+              --prune \
+              --with-registry-auth \
+              --resolve-image always \
+              buzzingpixel;
