@@ -160,6 +160,8 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 # Install composer dependencies
 RUN composer install --no-interaction --no-ansi --no-progress --no-dev --optimize-autoloader
 
+RUN php cli orm:generate-proxies --no-ansi --no-interaction
+
 # Copy the front-end build
 COPY --from=frontend-builder /var/www/public/assets/css public/assets/css
 COPY --from=frontend-builder /var/www/public/assets/js public/assets/js
