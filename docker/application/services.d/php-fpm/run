@@ -13,4 +13,9 @@ then
     mv ${PHP_INI_DIR}/disabled/xdebug.ini ${PHP_INI_DIR}/conf.d/
 fi
 
+if [ "$ENABLE_DI_COMPILATION" = "1" ]
+then
+    /usr/local/bin/php /var/www/cli orm:generate-proxies --no-ansi --no-interaction
+fi
+
 exec php-fpm -F

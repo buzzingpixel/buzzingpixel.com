@@ -63,6 +63,7 @@ services:
     image: ghcr.io/buzzingpixel/buzzingpixel.com-app
     environment:
       HOSTNAME: buzzingpixel-app
+      ENABLE_DI_COMPILATION: 1
     volumes:
       - files-volume:/var/www/public/files
       - storage-volume:/var/www/storage
