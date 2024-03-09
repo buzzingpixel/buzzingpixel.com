@@ -1,0 +1,66 @@
+name: Build images and deploy to production
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: Build images and push to registry
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Create buildx context
+        run: docker buildx create --use
+
+      - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+
+      - name: Build app image
+        run: >
+          docker buildx build
+          --platform=linux/amd64
+          --build-arg BUILDKIT_INLINE_CACHE=1
+          --cache-from ghcr.io/buzzingpixel/buzzingpixel.com-app
+          --file docker/application/Dockerfile
+          --tag ghcr.io/buzzingpixel/buzzingpixel.com-app
+          --push
+          .
+
+      - name: Build schedule-runner image
+        run: >
+          docker buildx build
+          --platform=linux/amd64
+          --build-arg BUILDKIT_INLINE_CACHE=1
+          --cache-from ghcr.io/buzzingpixel/buzzingpixel.com-app-schedule-runner
+          --file docker/schedule-runner/Dockerfile
+          --tag ghcr.io/buzzingpixel/buzzingpixel.com-app-schedule-runner
+          --push
+          .
+
+      - name: Build db image
+        run: >
+          docker buildx build
+          --platform=linux/amd64
+          --build-arg BUILDKIT_INLINE_CACHE=1
+          --cache-from ghcr.io/buzzingpixel/buzzingpixel.com-db
+          --file docker/db/Dockerfile
+          --tag ghcr.io/buzzingpixel/buzzingpixel.com-db
+          --push
+          .
+
+      - name: Build utility image
+        run: >
+          docker buildx build
+          --platform=linux/amd64
+          --build-arg BUILDKIT_INLINE_CACHE=1
+          --cache-from ghcr.io/buzzingpixel/buzzingpixel.com-utility
+          --file docker/utility/Dockerfile
+          --tag ghcr.io/buzzingpixel/buzzingpixel.com-utility
+          --push
+          .
