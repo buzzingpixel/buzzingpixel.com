@@ -65,6 +65,7 @@ services:
       HOSTNAME: buzzingpixel-app
       ENABLE_DI_COMPILATION: 1
     volumes:
+      - /root/certbot/var/www/letsencrypt:/var/www/letsencrypt
       - files-volume:/var/www/public/files
       - storage-volume:/var/www/storage
     networks:
