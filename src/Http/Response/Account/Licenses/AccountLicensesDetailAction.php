@@ -305,7 +305,7 @@ class AccountLicensesDetailAction
                 'keyValueCard' => [
                     'headline' => 'License for: ' . $software->name(),
                     'subHeadline' => $keyValueSubHeadline,
-                    'actionButtons' => $actionButtons,
+                    // 'actionButtons' => $actionButtons,
                     'items' => $keyValueItems,
                 ],
             ],
