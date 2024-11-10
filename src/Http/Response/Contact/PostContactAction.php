@@ -7,6 +7,7 @@ namespace App\Http\Response\Contact;
 use App\Http\Response\Contact\Entities\FormValues;
 use App\Http\Response\Contact\Responder\PostContactResponderFactory;
 use App\Http\Response\Contact\SendEmail\SendEmailFactory;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -23,6 +24,8 @@ class PostContactAction
 
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
+        throw new Exception('Contact form has been disabled');
+
         $requestData = $request->getParsedBody();
 
         assert(is_array($requestData));

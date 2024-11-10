@@ -8,7 +8,7 @@
 {% endif %}
 
 {% block content %}
-    <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+    {#<div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
         <h1 class="text-4xl text-center font-medium text-gray-900 mb-10">Get In Touch</h1>
         <div class="relative bg-white shadow-xl">
             <h2 class="sr-only">Contact me</h2>
@@ -47,9 +47,9 @@
                             </defs>
                         </svg>
                     </div>
-                    {#<h3 class="text-lg font-medium text-white">Contact me</h3>#}
-                    <p class="{# mt-6 #} text-base text-white max-w-3xl">Need to get in touch? I'd love to hear from you. Submit the form and I'll get back in touch with you as soon as I can.</p>
-                    {#<dl class="mt-8 space-y-6">
+                    #}{#<h3 class="text-lg font-medium text-white">Contact me</h3>#}{#
+                    <p class="#}{# mt-6 #}{# text-base text-white max-w-3xl">Need to get in touch? I'd love to hear from you. Submit the form and I'll get back in touch with you as soon as I can.</p>
+                    #}{#<dl class="mt-8 space-y-6">
                         <dt><span class="sr-only">Phone number</span></dt>
                         <dd class="flex text-base text-indigo-50">
                             <svg class="flex-shrink-0 w-6 h-6 text-indigo-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -90,7 +90,7 @@
                                 </svg>
                             </a>
                         </li>
-                    </ul>#}
+                    </ul>#}{#
                 </div>
                 <div class="py-10 px-6 sm:px-10 lg:col-span-2 xl:p-12">
                     {% if message['status'] is defined %}
@@ -102,7 +102,7 @@
                             } only %}
                         </div>
                     {% endif %}
-                    <form action="/contact" method="POST" class="{# mt-6 #} grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
+                    <form action="/contact" method="POST" class="#}{# mt-6 #}{# grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
                         <input type="hidden" name="{!--csrfTokenNameKey--}" value="{!--csrfTokenName--}">
                         <input type="hidden" name="{!--csrfTokenValueKey--}" value="{!--csrfTokenValue--}">
                         <input type="text" name="a_password" class="sr-only" tabindex="-1" autocomplete="nope">
@@ -122,7 +122,7 @@
                         <div class="sm:col-span-2">
                             <div class="flex justify-between">
                                 <label for="message" class="block text-sm font-medium text-gray-900">Message</label>
-                                {# <span id="message-max" class="text-sm text-gray-500">Max. 500 characters</span> #}
+                                #}{# <span id="message-max" class="text-sm text-gray-500">Max. 500 characters</span> #}{#
                             </div>
                             <div class="mt-1">
                                 <textarea id="message" name="message" rows="4" class="py-3 px-4 block w-full shadow-sm text-gray-900 focus:ring-meteor focus:border-meteor border border-gray-300 rounded-md" aria-describedby="message-max"></textarea>
@@ -137,5 +137,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>#}
 {% endblock %}
