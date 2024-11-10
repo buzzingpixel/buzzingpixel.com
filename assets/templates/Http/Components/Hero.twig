@@ -1,3 +1,4 @@
+{% set bgClass = bgClass ?? 'bg-gray-50' %}
 {% set heading = heading ?? block('heading') ?? null %}
 {% set subHeading = subHeading ?? block('subHeading') ?? null %}
 {% set content = content ?? block('content') ?? null %}
@@ -5,7 +6,7 @@
 {% set ctas = ctas ?? null %}
 {% set postCtaContent = postCtaContent ?? block('postCtaContent') ?? null %}
 
-<div class="bg-gray-50">
+<div class="{{ bgClass }}">
     <div class="relative pt-2{% if image %} pb-10 sm:pb-14{% else %} pb-2{% endif %}">
         <div class="mt-8 mx-auto max-w-4xl px-4 sm:mt-12 sm:px-6{% if not image %} mb-8{% endif %}">
             <div class="text-center">

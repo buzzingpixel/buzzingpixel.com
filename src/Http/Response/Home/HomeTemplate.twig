@@ -3,238 +3,25 @@
 {% block content %}
     {# Hero #}
     {% embed 'Http/Components/Hero.twig' with {
-        image: {
-            src: siteUrl('/assets/img/ansel-craft-desktop-2x.jpg'),
-            alt: 'Ansel Screenshot',
-        },
-        ctas: ctas,
+        bgClass: 'bg-gray-100',
+        ctas: [{
+            href: '/news/so-long-and-thanks-for-all-the-fish',
+            content: 'Read More',
+            caret: true,
+        }],
     } only %}
         {% block heading %}
-            Ansel
+            BuzzingPixel Add-Ons Era
         {% endblock %}
         {% block subHeading %}
-            for Craft CMS and ExpressionEngine
+            comes to a close
         {% endblock %}
         {% block content %}
-            Ansel puts the power of image manipulation in your hands. You can define constraints, widths, heights, aspect ratios, and more for each field so that anyone can edit images in entries with confidence all while using the manipulation tools to bring out the best in your site’s images!
+            You know it, and I know it: I have not at all been attending to my add-ons. Not even a little bit. It is long past time I admitted that to myself and to you all.
+            <br><br>
+            Ansel being by far my biggest and most sold add-on, I have arranged for it to live on under the care and guidance of Brian Litzinger
         {% endblock %}
     {% endembed %}
-
-    {# Three block pricing #}
-    <div class="pt-16 bg-gray-100 pb-12 lg:pt-20 lg:pb-20">
-        <div class="relative z-0">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="relative lg:grid lg:grid-cols-7">
-                    <div class="mx-auto max-w-md lg:mx-0 lg:max-w-none lg:col-start-1 lg:col-end-3 lg:row-start-2 lg:row-end-3">
-                        <div class="h-full flex flex-col rounded-lg shadow-lg overflow-hidden lg:rounded-none lg:rounded-l-lg">
-                            <div class="flex-1 flex flex-col">
-                                <div class="bg-white px-6 py-10">
-                                    <div>
-                                        <h3 class="text-center text-2xl font-medium text-gray-900" id="tier-hobby">
-                                            Treasury
-                                        </h3>
-                                        <div class="mt-4 flex items-center justify-center">
-                                            <span class="px-3 flex items-start text-6xl tracking-tight text-gray-900">
-                                                <span class="mt-2 mr-2 text-4xl font-medium">$</span>
-                                                <span class="font-extrabold">79</span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex-1 flex flex-col justify-between border-t-2 border-gray-100 p-6 bg-gray-50 sm:p-10 lg:p-6 xl:p-10">
-                                    <ul class="space-y-4">
-                                        <li class="flex items-start">
-                                            <div class="flex-shrink-0">
-                                                {{ include('Http/_Infrastructure/Svg/CheckMark.svg') }}
-                                            </div>
-                                            <p class="ml-3 text-base font-medium text-gray-500">
-                                                Store files on S3 or any (S)FTP location
-                                            </p>
-                                        </li>
-                                        <li class="flex items-start">
-                                            <div class="flex-shrink-0">
-                                                {{ include('Http/_Infrastructure/Svg/CheckMark.svg') }}
-                                            </div>
-                                            <p class="ml-3 text-base font-medium text-gray-500">
-                                                Simple, easy to use field type
-                                            </p>
-                                        </li>
-                                        <li class="flex items-start">
-                                            <div class="flex-shrink-0">
-                                                {{ include('Http/_Infrastructure/Svg/CheckMark.svg') }}
-                                            </div>
-                                            <p class="ml-3 text-base font-medium text-gray-500">
-                                                Integration with Ansel
-                                            </p>
-                                        </li>
-                                    </ul>
-                                    <div class="mt-8">
-                                        <div class="rounded-lg shadow-md">
-                                            <a
-                                                href="{{ siteUrl('/software/treasury') }}"
-                                                class="block w-full text-center rounded-lg border border-transparent bg-white px-6 py-3 text-base font-medium text-jade hover:bg-gray-100 hover:text-deep-sea"
-                                                aria-describedby="tier-hobby"
-                                            >
-                                                Treasury for EE
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-10 max-w-lg mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-start-3 lg:col-end-6 lg:row-start-1 lg:row-end-4">
-                        <div class="relative z-10 rounded-lg shadow-xl">
-                            <div class="pointer-events-none absolute inset-0 rounded-lg border-2 border-deep-sea" aria-hidden="true"></div>
-                            <div class="absolute inset-x-0 top-0 transform translate-y-px">
-                                <div class="flex justify-center transform -translate-y-1/2">
-                                    <span class="inline-flex rounded-full bg-deep-sea px-4 py-1 text-sm font-semibold tracking-wider uppercase text-white">
-                                        Flagship Add-on
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="bg-white rounded-t-lg px-6 pt-12 pb-10">
-                                <div>
-                                    <h3 class="text-center text-3xl font-semibold text-gray-900 sm:-mx-6" id="tier-growth">
-                                        Ansel
-                                    </h3>
-                                    <div class="mt-4 flex items-center justify-center">
-                                        <span class="px-3 flex items-start text-6xl tracking-tight text-gray-900 sm:text-6xl">
-                                            <span class="mt-2 mr-2 text-4xl font-medium">$</span>
-                                            <span class="font-extrabold">79</span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="border-t-2 border-gray-100 rounded-b-lg pt-10 pb-8 px-6 bg-gray-50 sm:px-10 sm:py-10">
-                                <ul class="space-y-4">
-                                    <li class="flex items-start">
-                                        <div class="flex-shrink-0">
-                                            {{ include('Http/_Infrastructure/Svg/CheckMark.svg') }}
-                                        </div>
-                                        <p class="ml-3 text-base font-medium text-gray-500">
-                                            Drag and drop uploading
-                                        </p>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <div class="flex-shrink-0">
-                                            {{ include('Http/_Infrastructure/Svg/CheckMark.svg') }}
-                                        </div>
-                                        <p class="ml-3 text-base font-medium text-gray-500">
-                                            User-friendly, non-destructive image manipulation
-                                        </p>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <div class="flex-shrink-0">
-                                            {{ include('Http/_Infrastructure/Svg/CheckMark.svg') }}
-                                        </div>
-                                        <p class="ml-3 text-base font-medium text-gray-500">
-                                            Min and max image size constraints
-                                        </p>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <div class="flex-shrink-0">
-                                            {{ include('Http/_Infrastructure/Svg/CheckMark.svg') }}
-                                        </div>
-                                        <p class="ml-3 text-base font-medium text-gray-500">
-                                            Aspect ratio constraints
-                                        </p>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <div class="flex-shrink-0">
-                                            {{ include('Http/_Infrastructure/Svg/CheckMark.svg') }}
-                                        </div>
-                                        <p class="ml-3 text-base font-medium text-gray-500">
-                                            Supports Grid (EE), Fluid (EE), Low Variables (EE), Matrix (Craft), and Super Table (Craft)
-                                        </p>
-                                    </li>
-                                </ul>
-                                <div class="mt-10 md:flex">
-                                    <div class="rounded-lg shadow-md mb-2 md:mb-0 md:width-1/2--space-right">
-                                        <a
-                                            href="{{ siteUrl('/software/ansel-ee') }}"
-                                            class="block w-full text-center rounded-lg border border-transparent bg-deep-sea px-6 py-4 text-xl leading-6 font-medium text-white hover:bg-aqua-deep"
-                                            aria-describedby="tier-growth"
-                                        >
-                                            Ansel for EE
-                                        </a>
-                                    </div>
-                                    <div class="rounded-lg shadow-md md:width-1/2--space-left">
-                                        <a
-                                            href="{{ siteUrl('/software/ansel-craft') }}"
-                                            class="block w-full text-center rounded-lg border border-transparent bg-deep-sea px-6 py-4 text-xl leading-6 font-medium text-white hover:bg-aqua-deep"
-                                            aria-describedby="tier-growth"
-                                        >
-                                            Ansel for Craft
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-10 mx-auto max-w-md lg:m-0 lg:max-w-none lg:col-start-6 lg:col-end-8 lg:row-start-2 lg:row-end-3">
-                        <div class="h-full flex flex-col rounded-lg shadow-lg overflow-hidden lg:rounded-none lg:rounded-r-lg">
-                            <div class="flex-1 flex flex-col">
-                                <div class="bg-white px-6 py-10">
-                                    <div>
-                                        <h3 class="text-center text-2xl font-medium text-gray-900" id="tier-scale">
-                                            Construct
-                                        </h3>
-                                        <div class="mt-4 flex items-center justify-center">
-                                            <span class="px-3 flex items-start text-6xl tracking-tight text-gray-900">
-                                                <span class="mt-2 mr-2 text-4xl font-medium">$</span>
-                                                <span class="font-extrabold">40</span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex-1 flex flex-col justify-between border-t-2 border-gray-100 p-6 bg-gray-50 sm:p-10 lg:p-6 xl:p-10">
-                                    <ul class="space-y-4">
-                                        <li class="flex items-start">
-                                            <div class="flex-shrink-0">
-                                                {{ include('Http/_Infrastructure/Svg/CheckMark.svg') }}
-                                            </div>
-                                            <p class="ml-3 text-base font-medium text-gray-500">
-                                                {{ 'Unlimited number of "trees" for menus and pages'|smartypants }}
-                                            </p>
-                                        </li>
-
-                                        <li class="flex items-start">
-                                            <div class="flex-shrink-0">
-                                                {{ include('Http/_Infrastructure/Svg/CheckMark.svg') }}
-                                            </div>
-                                            <p class="ml-3 text-base font-medium text-gray-500">
-                                                Easy to use template tags
-                                            </p>
-                                        </li>
-                                        <li class="flex items-start">
-                                            <div class="flex-shrink-0">
-                                                {{ include('Http/_Infrastructure/Svg/CheckMark.svg') }}
-                                            </div>
-                                            <p class="ml-3 text-base font-medium text-gray-500">
-                                                Easy custom configuration
-                                            </p>
-                                        </li>
-                                    </ul>
-                                    <div class="mt-8">
-                                        <div class="rounded-lg shadow-md">
-                                            <a
-                                                href="{{ siteUrl('/software/construct') }}"
-                                                class="block w-full text-center rounded-lg border border-transparent bg-white px-6 py-3 text-base font-medium text-jade hover:bg-gray-100 hover:text-deep-sea"
-                                                aria-describedby="tier-hobby"
-                                            >
-                                                Construct for EE
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     {# About Me #}
     <div class="relative py-16 bg-white overflow-hidden">
@@ -260,7 +47,7 @@
                     >
                     <figcaption>Rare photo of TJ captured in his unnatural habitat: the outdoors</figcaption>
                 </figure>
-                <p>{{ 'I write HTML, CSS, JavaScript, PHP, and C# to make great software and great websites. I also create great content management experiences and write great add-ons for great CMSes. In short, I enjoy building things that delight people.'|smartypants|widont }}</p>
+                <p>{{ 'I write HTML, CSS, JavaScript, and PHP to make great software and great websites. I also formerly created great content management experiences and wrote great add-ons for great CMSes. In short, I enjoy building things that delight people.'|smartypants|widont }}</p>
                 <p>{{ "When I'm not developing software, I'm probably spending time with my 4 children and/or my beautiful wife, watching a movie or TV show, or podcasting."|smartypants|widont }}</p>
             </div>
         </div>
