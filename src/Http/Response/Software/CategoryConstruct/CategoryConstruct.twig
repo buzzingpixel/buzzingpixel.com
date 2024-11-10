@@ -10,6 +10,10 @@
         navItems: navItems,
     } only %}
 
+    {% include 'Http/_Infrastructure/Banners/CenteredStrip.twig' with {
+        banner: {content: 'Category Construct has been discontinued and is no longer for sale.'},
+    } only %}
+
     {# Hero #}
     {% embed 'Http/Components/Hero.twig' with {
         ctas: ctas,
@@ -48,7 +52,7 @@
     {% endembed %}
 
     {# CTA #}
-    {% embed 'Http/Components/SimpleCtaSection.twig' with {
+    {#{% embed 'Http/Components/SimpleCtaSection.twig' with {
         ctas: ctas,
         postCtaContent: postCtaContent,
     } only %}
@@ -60,6 +64,6 @@
                 Get started with Category Construct today by purchasing a site license! Once you've purchased Category Construct, a license will be added to your account and you'll be able to download and use Category Construct right away.
             </p>
         {% endblock %}
-    {% endembed %}
+    {% endembed %}#}
 
 {% endblock %}

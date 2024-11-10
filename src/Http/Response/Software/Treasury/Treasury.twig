@@ -9,6 +9,10 @@
         navItems: navItems,
     } only %}
 
+    {% include 'Http/_Infrastructure/Banners/CenteredStrip.twig' with {
+        banner: {content: 'Treasury has been discontinued and is no longer for sale.'},
+    } only %}
+
     {# Hero #}
     {% embed 'Http/Components/Hero.twig' with {
         image: {
@@ -64,7 +68,7 @@
     </div>
 
     {# CTA #}
-    {% embed 'Http/Components/SimpleCtaSection.twig' with {
+    {#{% embed 'Http/Components/SimpleCtaSection.twig' with {
         ctas: ctas,
         postCtaContent: postCtaContent,
     } only %}
@@ -76,5 +80,5 @@
                 Get started with Treasury today by purchasing a site license! Once you've purchased Treasury, a license will be added to your account and you'll be able to download and use Treasury right away.
             </p>
         {% endblock %}
-    {% endembed %}
+    {% endembed %}#}
 {% endblock %}

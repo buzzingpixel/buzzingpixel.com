@@ -8,11 +8,15 @@
         navItems: navItems,
     } only %}
 
-    <div class="bg-gray-50 text-gray-500 text-sm">
+    {#<div class="bg-gray-50 text-gray-500 text-sm">
         <div class="max-w-xl mx-auto p-4 text-center">
             Special note: Ansel 2 is compatible with Craft 3. Craft 4 support is coming in Ansel 3. I’ve decided to devote all my Ansel development time to Ansel 3 rather than making Ansel 2 compatible with Craft 4.
         </div>
-    </div>
+    </div>#}
+
+    {% include 'Http/_Infrastructure/Banners/CenteredStrip.twig' with {
+        banner: {content: 'Ansel has been acquired by BoldMinded and is no longer for sale on BuzzingPixel.com'},
+    } only %}
 
 
     {# Hero #}
@@ -161,7 +165,7 @@
     </div>
 
     {# CTA #}
-    {% embed 'Http/Components/SimpleCtaSection.twig' with {
+    {#{% embed 'Http/Components/SimpleCtaSection.twig' with {
         ctas: ctas,
     } only %}
         {% block heading %}
@@ -175,5 +179,5 @@
                 Install Ansel right from the control panel in the plugin store in Craft. Or if you're into composer and the command line (and why wouldn't you? Composer is awesome!), you can install Ansel in a single composer command.
             </p>
         {% endblock %}
-    {% endembed %}
+    {% endembed %}#}
 {% endblock %}

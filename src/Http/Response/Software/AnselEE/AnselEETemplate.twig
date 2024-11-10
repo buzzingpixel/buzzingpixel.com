@@ -9,11 +9,15 @@
         navItems: navItems,
     } only %}
 
-    <div class="bg-gray-50 text-gray-500 text-sm">
+   {# <div class="bg-gray-50 text-gray-500 text-sm">
         <div class="max-w-xl mx-auto p-4 text-center">
             Special note: Ansel 2 is NOW compatible with EE 7!
         </div>
-    </div>
+    </div>#}
+
+    {% include 'Http/_Infrastructure/Banners/CenteredStrip.twig' with {
+        banner: {content: 'Ansel has been acquired by BoldMinded and is no longer for sale on BuzzingPixel.com'},
+    } only %}
 
     {# Hero #}
     {% embed 'Http/Components/Hero.twig' with {
@@ -161,7 +165,7 @@
     </div>
 
     {# CTA #}
-    {% embed 'Http/Components/SimpleCtaSection.twig' with {
+    {#{% embed 'Http/Components/SimpleCtaSection.twig' with {
         ctas: ctas,
         postCtaContent: postCtaContent,
     } only %}
@@ -173,5 +177,5 @@
                 So let's get you started with Ansel right now. You can download Ansel and try it for 30 days to see if it's a good fit for you. Or you can go ahead and buy it! When you've bought it, a license will show up in your account and you can add one authorized domain for that license to run on.
             </p>
         {% endblock %}
-    {% endembed %}
+    {% endembed %}#}
 {% endblock %}

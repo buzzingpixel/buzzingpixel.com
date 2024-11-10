@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Response\Software\Construct;
 
 use App\Http\Entities\Meta;
-use App\Templating\TwigExtensions\SiteUrl;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment as TwigEnvironment;
@@ -18,7 +17,7 @@ class ConstructAction
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
         private TwigEnvironment $twig,
-        private SiteUrl $siteUrl,
+        // private SiteUrl $siteUrl,
     ) {
     }
 
@@ -40,15 +39,17 @@ class ConstructAction
                         metaTitle: 'Construct for ExpressionEngine',
                     ),
                     'navItems' => ConstructVariables::NAV,
-                    'ctas' => [
-                        [
-                            'caret' => false,
-                            'href' =>  $this->siteUrl->siteUrl('/software/construct/purchase'),
-                            'content' => 'Purchase License ($40)',
-                            'type' => 'primary',
-                        ],
-                    ],
-                    'postCtaContent' => 'Comes with 1 year of support and updates. $20/year thereafter. Can be canceled at any time.',
+                    'ctas' => [],
+                    'postCtaContent' => '',
+                    // 'ctas' => [
+                    //     [
+                    //         'caret' => false,
+                    //         'href' =>  $this->siteUrl->siteUrl('/software/construct/purchase'),
+                    //         'content' => 'Purchase License ($40)',
+                    //         'type' => 'primary',
+                    //     ],
+                    // ],
+                    // 'postCtaContent' => 'Comes with 1 year of support and updates. $20/year thereafter. Can be canceled at any time.',
                 ],
             ),
         );
