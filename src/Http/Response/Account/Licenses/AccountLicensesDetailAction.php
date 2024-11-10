@@ -29,6 +29,7 @@ use function assert;
 use function base64_encode;
 use function floatval;
 use function implode;
+use function in_array;
 use function version_compare;
 
 class AccountLicensesDetailAction
@@ -260,6 +261,23 @@ class AccountLicensesDetailAction
             ];
         }
 
+        if (
+            in_array($software->slug(), [
+                'ansel-ee',
+                'ansel-craft',
+            ])
+        ) {
+            $licenseBanner = [
+                'content' => 'Ansel has been acquired by BoldMinded. Please manage your license at ',
+                'link' => [
+                    'href' => 'https://boldminded.com',
+                    'content' => 'boldminded.com',
+                ],
+            ];
+        } else {
+            $licenseBanner = ['content' => 'Sales and support for BuzzingPixel add-ons has been discontinued'];
+        }
+
         /** @noinspection PhpUnhandledExceptionInspection */
         $response->getBody()->write($this->twig->render(
             '@app/Http/Response/Account/AccountKeyValuePage.twig',
@@ -283,6 +301,7 @@ class AccountLicensesDetailAction
                     ],
                     ['content' => 'View'],
                 ],
+                'licenseBanner' => $licenseBanner,
                 'keyValueCard' => [
                     'headline' => 'License for: ' . $software->name(),
                     'subHeadline' => $keyValueSubHeadline,

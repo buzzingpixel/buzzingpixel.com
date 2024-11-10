@@ -1,7 +1,16 @@
 {# @var keyValueCard [] #}
 
+{% set licenseBanner = licenseBanner ?? null %}
+
 {% extends '@app/Http/Response/Account/_AccountLayout.twig' %}
 
 {% block accountContent %}
+    {% if licenseBanner %}
+        <div class="mt-4">
+            {% include 'Http/_Infrastructure/Banners/CenteredStrip.twig' with {
+                banner: licenseBanner,
+            } only %}
+        </div>
+    {% endif %}
     {% include 'Http/_Infrastructure/Display/KeyValueCard.twig' with keyValueCard only %}
 {% endblock %}
