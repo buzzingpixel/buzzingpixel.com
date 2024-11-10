@@ -10,6 +10,7 @@ return array_merge(
     require __DIR__ . '/Dependencies/Application.php',
     require __DIR__ . '/Dependencies/Cache.php',
     require __DIR__ . '/Dependencies/CliQuestion.php',
+    require __DIR__ . '/Dependencies/Content.php',
     require __DIR__ . '/Dependencies/CookieApi.php',
     require __DIR__ . '/Dependencies/CsrfGuard.php',
     require __DIR__ . '/Dependencies/ElasticSearch.php',

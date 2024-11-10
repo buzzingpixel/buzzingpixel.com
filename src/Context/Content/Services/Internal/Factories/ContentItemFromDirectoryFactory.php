@@ -13,12 +13,13 @@ class ContentItemFromDirectoryFactory
     public function __construct(
         private ContentItemsFromDirectoryCache $cached,
         private ContentItemsFromDirectoryFetchAndCache $fetch,
+        private bool $contentCacheEnabled,
     ) {
     }
 
     public function create(bool $hasCache): ContentItemsFromDirectory
     {
-        if ($hasCache) {
+        if ($hasCache && $this->contentCacheEnabled) {
             return $this->cached;
         }
 

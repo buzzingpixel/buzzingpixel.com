@@ -20,6 +20,7 @@ class ContentItemsFromDirectoryFetchAndCache implements ContentItemsFromDirector
         private Filesystem $filesystem,
         private CacheItemPoolInterface $cacheItemPool,
         private ProcessContentItemFromFileAttr $process,
+        private bool $contentCacheEnabled,
     ) {
     }
 
@@ -44,6 +45,10 @@ class ContentItemsFromDirectoryFetchAndCache implements ContentItemsFromDirector
             'dateString',
             'desc',
         );
+
+        if (! $this->contentCacheEnabled) {
+            return $collection;
+        }
 
         $this->cacheItemPool->save(new CacheItem(
             key: $cacheKey,
