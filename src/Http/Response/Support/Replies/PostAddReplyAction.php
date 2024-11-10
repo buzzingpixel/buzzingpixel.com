@@ -9,6 +9,7 @@ use App\Http\Response\Support\Factories\GetIssueFactory;
 use App\Http\Response\Support\Replies\Entities\IssueReplyFormValues;
 use App\Http\Response\Support\Replies\Factories\AddReplyFactory;
 use App\Http\Response\Support\Replies\Factories\PostAddReplyResponderFactory;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -27,6 +28,8 @@ class PostAddReplyAction
 
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
+        throw new Exception('Posting issues has been disabled');
+
         $issueNumber = (int) $request->getAttribute('issueNumber');
 
         $results = $this->getIssueFactory->getIssue(

@@ -8,6 +8,7 @@ use App\Context\Software\SoftwareApi;
 use App\Http\Response\Support\Entities\IssueFormValues;
 use App\Http\Response\Support\NewIssue\Factories\CreateNewIssueFactory;
 use App\Http\Response\Support\NewIssue\Factories\PostCreateNewIssueResponderFactory;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -25,6 +26,8 @@ class PostNewIssueAction
 
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
+        throw new Exception('Posting has have been disabled');
+
         $post = $request->getParsedBody();
 
         assert(is_array($post));

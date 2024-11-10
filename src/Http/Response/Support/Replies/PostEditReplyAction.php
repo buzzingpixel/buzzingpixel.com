@@ -29,6 +29,8 @@ class PostEditReplyAction
 
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
+        throw new Exception('Posting issues has been disabled');
+
         $issueNumber = (int) $request->getAttribute('issueNumber');
 
         $replyId = (string) $request->getAttribute('replyId');

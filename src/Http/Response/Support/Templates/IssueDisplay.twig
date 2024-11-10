@@ -17,6 +17,11 @@
 {% set statuses = constant('\\App\\Context\\Issues\\Entities\\Issue::HUMAN_READABLE_STATUS_MAP') %}
 
 <div class="pt-10 pb-10 px-4 sm:px-6 lg:pb-16 lg:px-8 max-w-screen-xl mx-auto">
+    <div class="mb-4">
+        {% include 'Http/_Infrastructure/Banners/CenteredStrip.twig' with {
+            banner: {content: 'Support has been discontinued. Issues remain available as an archive.'},
+        } only %}
+    </div>
     {% if searchAction %}
         <form
             class="mb-6"

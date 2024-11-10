@@ -193,6 +193,12 @@
 {% endset %}
 
 {% block supportContent %}
+    <br>
+    <div class="mb-4">
+        {% include 'Http/_Infrastructure/Banners/CenteredStrip.twig' with {
+            banner: {content: 'Support has been discontinued. Issues remain available as an archive.'},
+        } only %}
+    </div>
     <div class="flex-1 relative overflow-y-auto focus:outline-none">
         {% if issueMessage %}
             <div class="pt-6 xl:pt-10">
@@ -232,7 +238,7 @@
                                         {% endif %}
                                     </p>
                                 </div>
-                                {% if isEditable or isSubscribable %}
+                                {#{% if isEditable or isSubscribable %}
                                     <div class="mt-4 flex space-x-3 lg:mt-0">
                                         {% if isEditable %}
                                             <a
@@ -265,7 +271,7 @@
                                             </a>
                                         {% endif %}
                                     </div>
-                                {% endif %}
+                                {% endif %}#}
                             </div>
                             <aside class="mt-8 xl:hidden border-b border-gray-200 pb-6 space-b-8">
                                 <h2 class="sr-only">Details</h2>
@@ -363,7 +369,7 @@
                                                                     <div class="mt-2 text-sm text-gray-700 prose max-w-none">
                                                                         {{ reply.message|escape|markdownParse }}
                                                                     </div>
-                                                                    {% if LoggedInUser.hasUser %}
+                                                                    {#{% if LoggedInUser.hasUser %}
                                                                         {% if LoggedInUser.user.isAdmin or LoggedInUser.user.id == reply.user.id %}
                                                                             <div class="mt-4">
                                                                                 <a
@@ -381,7 +387,7 @@
                                                                                 </a>
                                                                             </div>
                                                                         {% endif %}
-                                                                    {% endif %}
+                                                                    {% endif %}#}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -402,7 +408,7 @@
                                                     </span>
                                                 </div>
                                             </div> #}
-                                            <div class="min-w-0 flex-1">
+                                            {#<div class="min-w-0 flex-1">
                                                 <div class="pb-2 pt-6">
                                                     <h3 id="activity-title" class="text-sm font-medium text-gray-900">Use <a href="https://daringfireball.net/projects/markdown/syntax">Markdown</a> for formatting</h3>
                                                 </div>
@@ -425,21 +431,21 @@
                                                         ></textarea>
                                                     </div>
                                                     <div class="mt-6 flex items-center justify-end space-x-4">
-                                                        {# TODO: close/open issue logic #}
-                                                        {# {% if LoggedInUser.hasUser and LoggedInUser.user.isAdmin %}
+                                                        #}{# TODO: close/open issue logic #}{#
+                                                        #}{# {% if LoggedInUser.hasUser and LoggedInUser.user.isAdmin %}
                                                             <button type="button" class="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
                                                                 <svg class="-ml-1 mr-2 h-5 w-5 text-green-500" x-description="Heroicon name: solid/check-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                                                                 </svg>
                                                                 <span>Close issue</span>
                                                             </button>
-                                                        {% endif %} #}
+                                                        {% endif %} #}{#
                                                         <button type="submit" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-900 hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
                                                             Reply
                                                         </button>
                                                     </div>
                                                 </form>
-                                            </div>
+                                            </div>#}
                                         </div>
                                     </div>
                                 </div>

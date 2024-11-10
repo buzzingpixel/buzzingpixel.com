@@ -10,6 +10,7 @@ use App\Http\Response\Support\EditIssue\Factories\PostIssueEditResponderFactory;
 use App\Http\Response\Support\EditIssue\Factories\SaveIssueEditsFactory;
 use App\Http\Response\Support\Entities\IssueFormValues;
 use App\Http\Response\Support\Factories\GetIssueFactory;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -29,6 +30,8 @@ class PostEditIssueAction
 
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
+        throw new Exception('Posting issues has been disabled');
+
         $issueNumber = (int) $request->getAttribute('issueNumber');
 
         $getIssueResults = $this->getIssueFactory->getIssue(
