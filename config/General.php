@@ -319,11 +319,11 @@ class General
     {
         return [
             'siteBanner' => 'filler',
-            'content-disabled' => 'This is a test of the emergency broadcasting system',
+            'content' => 'BoldMinded acquires Ansel, support ending for all add-ons.',
             'mobileContent-disabled' => 'Do stuff',
-            'link-disabled' => [
-                'href' => '#todo',
-                'content' => 'Go Here',
+            'link' => [
+                'href' => '/news/so-long-and-thanks-for-all-the-fish',
+                'content' => 'Read More',
             ],
         ];
     }
