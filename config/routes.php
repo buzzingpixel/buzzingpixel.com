@@ -27,6 +27,7 @@ use App\Http\Response\Account\Purchases\AccountPurchasesDetailAction;
 use App\Http\Response\Admin\AdminIndexAction;
 use App\Http\Response\Admin\Analytics\AnalyticsViewAction;
 use App\Http\Response\Admin\Exports\GetExportAnselLicenses;
+use App\Http\Response\Admin\Exports\GetExportAnselOrders;
 use App\Http\Response\Admin\Exports\GetExportsAction;
 use App\Http\Response\Admin\Licenses\LicenseListing\LicenseListingAction;
 use App\Http\Response\Admin\NewLicense\NewLicenseIndex\NewLicenseAction;
@@ -251,6 +252,7 @@ return static function (App $app): void {
         /** Exports */
         $r->get('/exports', GetExportsAction::class);
         $r->get('/exports/ansel-licenses', GetExportAnselLicenses::class);
+        $r->get('/exports/ansel-orders', GetExportAnselOrders::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 
