@@ -294,6 +294,11 @@ class General
             'content' => 'Analytics',
             'isActive' => false,
         ],
+        'exports' => [
+            'href' => '/admin/exports',
+            'content' => 'Exports',
+            'isActive' => false,
+        ],
     ];
 
     /**
