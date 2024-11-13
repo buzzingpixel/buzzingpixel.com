@@ -99,7 +99,7 @@ ARG NJS_VERSION=0.5.3
 ARG PKG_RELEASE=1~buster
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
+RUN curl -O https://nginx.org/keys/nginx_signing.key && apt-key add ./nginx_signing.key \
     && echo "deb http://nginx.org/packages/mainline/debian/ buster nginx" >> /etc/apt/sources.list \
     && apt-get update && apt-get install -y --no-install-recommends --no-install-suggests \
         ca-certificates \
