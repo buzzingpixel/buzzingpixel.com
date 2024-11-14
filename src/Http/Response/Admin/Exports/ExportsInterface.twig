@@ -3,6 +3,10 @@
 {% block accountContent %}
     <div class="py-6">
         {% include 'Http/_Infrastructure/Buttons/ActionButton.twig' with {
+            href: '/admin/exports/licenses-for-brian',
+            content: 'Export Licenses for Brian'
+        } only %}
+        {% include 'Http/_Infrastructure/Buttons/ActionButton.twig' with {
             href: '/admin/exports/ansel-licenses',
             content: 'Export Ansel Licenses'
         } only %}
