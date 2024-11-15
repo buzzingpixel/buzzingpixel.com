@@ -38,6 +38,7 @@
         "elasticsearch/elasticsearch": "^7.14",
         "html2text/html2text": "^4.3",
         "jawira/case-converter": "^3.4",
+        "league/csv": "^9.8",
         "league/flysystem": "^2.0",
         "league/iso3166": "^3.0",
         "league/mime-type-detection": "^1.7",
