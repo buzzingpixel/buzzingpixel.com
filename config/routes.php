@@ -28,7 +28,10 @@ use App\Http\Response\Admin\AdminIndexAction;
 use App\Http\Response\Admin\Analytics\AnalyticsViewAction;
 use App\Http\Response\Admin\Exports\GetExportAnselLicenses;
 use App\Http\Response\Admin\Exports\GetExportAnselOrders;
+use App\Http\Response\Admin\Exports\GetExportConstructLicenses;
+use App\Http\Response\Admin\Exports\GetExportConstructOrders;
 use App\Http\Response\Admin\Exports\GetExportLicensesForBrian;
+use App\Http\Response\Admin\Exports\GetExportLicensesForDoug;
 use App\Http\Response\Admin\Exports\GetExportsAction;
 use App\Http\Response\Admin\Licenses\LicenseListing\LicenseListingAction;
 use App\Http\Response\Admin\NewLicense\NewLicenseIndex\NewLicenseAction;
@@ -252,9 +255,12 @@ return static function (App $app): void {
 
         /** Exports */
         $r->get('/exports', GetExportsAction::class);
-        $r->get('/exports/ansel-licenses', GetExportAnselLicenses::class);
         $r->get('/exports/ansel-orders', GetExportAnselOrders::class);
+        $r->get('/exports/ansel-licenses', GetExportAnselLicenses::class);
         $r->get('/exports/licenses-for-brian', GetExportLicensesForBrian::class);
+        $r->get('/exports/construct-orders', GetExportConstructOrders::class);
+        $r->get('/exports/construct-licenses', GetExportConstructLicenses::class);
+        $r->get('/exports/licenses-for-doug', GetExportLicensesForDoug::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 
