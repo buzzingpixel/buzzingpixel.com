@@ -299,6 +299,11 @@ class General
             'content' => 'Exports',
             'isActive' => false,
         ],
+        'cancel-subs' => [
+            'href' => '/admin/cancel-subs',
+            'content' => 'Cancel Subs',
+            'isActive' => false,
+        ],
     ];
 
     /**

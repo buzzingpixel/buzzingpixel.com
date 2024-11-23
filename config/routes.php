@@ -26,6 +26,8 @@ use App\Http\Response\Account\Purchases\AccountPurchasesAction;
 use App\Http\Response\Account\Purchases\AccountPurchasesDetailAction;
 use App\Http\Response\Admin\AdminIndexAction;
 use App\Http\Response\Admin\Analytics\AnalyticsViewAction;
+use App\Http\Response\Admin\CancelSubs\GetCancelSubsAction;
+use App\Http\Response\Admin\CancelSubs\PostCancelSubsAction;
 use App\Http\Response\Admin\Exports\GetExportAnselLicenses;
 use App\Http\Response\Admin\Exports\GetExportAnselOrders;
 use App\Http\Response\Admin\Exports\GetExportConstructLicenses;
@@ -261,6 +263,10 @@ return static function (App $app): void {
         $r->get('/exports/construct-orders', GetExportConstructOrders::class);
         $r->get('/exports/construct-licenses', GetExportConstructLicenses::class);
         $r->get('/exports/licenses-for-doug', GetExportLicensesForDoug::class);
+
+        /** Cancel Subs */
+        $r->get('/cancel-subs', GetCancelSubsAction::class);
+        $r->post('/cancel-subs', PostCancelSubsAction::class);
     })->add(RequireAdminAction::class)
     ->add(RequireLogInAction::class);
 

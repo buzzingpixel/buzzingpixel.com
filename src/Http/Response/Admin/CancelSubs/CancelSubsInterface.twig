@@ -1,0 +1,25 @@
+{# @var \Stripe\Subscription[] activeSubscriptions #}
+{# @var \Stripe\Subscription[] canceledSubscriptions #}
+
+{% extends '@app/Http/Response/Account/_AccountLayout.twig' %}
+
+{% block accountContent %}
+    <div class="py-6">
+        <form method="POST">
+            {% include 'Http/_Infrastructure/Buttons/ActionButton.twig' with {
+                type: 'submit',
+                content: 'Cancel All Subs',
+            } only %}
+        </form>
+        <br><br><hr><br><br>
+        <strong>Active Subscriptions: {{ activeSubscriptions|length }}</strong><br>
+        {% for subscription in activeSubscriptions %}
+            {{ subscription.id }}<br>
+        {% endfor %}
+        <br><br><hr><br><br>
+        <strong>Canceled Subscriptions: {{ canceledSubscriptions|length }}</strong><br>
+        {% for subscription in canceledSubscriptions %}
+            {{ subscription.id }}<br>
+        {% endfor %}
+    </div>
+{% endblock %}

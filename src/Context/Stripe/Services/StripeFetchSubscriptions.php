@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Context\Stripe\Services;
 
-use App\Context\RequestCache\CacheItemPool as RequestCacheItemPool;
-use App\Context\RequestCache\Entities\SessionCacheItem;
 use App\Context\Stripe\Entities\StripeSubscriptionCollection;
 use App\Context\Stripe\Factories\StripeFactory;
 use Stripe\StripeClient;
@@ -13,8 +11,6 @@ use Stripe\Subscription;
 
 use function array_merge;
 use function assert;
-use function md5;
-use function serialize;
 
 class StripeFetchSubscriptions
 {
@@ -22,10 +18,8 @@ class StripeFetchSubscriptions
 
     private StripeClient $stripeClient;
 
-    public function __construct(
-        StripeFactory $stripeFactory,
-        private RequestCacheItemPool $cacheItemPool,
-    ) {
+    public function __construct(StripeFactory $stripeFactory)
+    {
         $this->stripeClient = $stripeFactory->createStripeClient();
     }
 
@@ -38,19 +32,19 @@ class StripeFetchSubscriptions
     {
         $params = array_merge(self::DEFAULT_PARAMS, $params);
 
-        $hash = md5(serialize($params));
+        // $hash = md5(serialize($params));
 
-        $cashKey = 'stripe_fetch_subscription_' . $hash;
+        // $cashKey = 'stripe_fetch_subscription_' . $hash;
 
-        /** @noinspection PhpUnhandledExceptionInspection */
-        if ($this->cacheItemPool->hasItem($cashKey)) {
-            /** @noinspection PhpUnhandledExceptionInspection */
-            $collection = $this->cacheItemPool->getItem($cashKey)->get();
-
-            assert($collection instanceof StripeSubscriptionCollection);
-
-            return $collection;
-        }
+        // /** @noinspection PhpUnhandledExceptionInspection */
+        // if ($this->cacheItemPool->hasItem($cashKey)) {
+        //     /** @noinspection PhpUnhandledExceptionInspection */
+        //     $collection = $this->cacheItemPool->getItem($cashKey)->get();
+        //
+        //     assert($collection instanceof StripeSubscriptionCollection);
+        //
+        //     return $collection;
+        // }
 
         $collection = new StripeSubscriptionCollection();
 
@@ -63,10 +57,10 @@ class StripeFetchSubscriptions
             $collection->add($item);
         }
 
-        $this->cacheItemPool->save(new SessionCacheItem(
-            $cashKey,
-            $collection,
-        ));
+        // $this->cacheItemPool->save(new SessionCacheItem(
+        //     $cashKey,
+        //     $collection,
+        // ));
 
         return $collection;
     }

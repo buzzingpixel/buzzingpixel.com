@@ -5,6 +5,7 @@
 {% set ref = ref ?? block('ref') ?? null %}
 {% set data = data ?? {} %}
 {% set download = download ?? false %}
+{% set type = type ?? block('type') ?? 'button' %}
 
 {% switch colorType %}
     {% case 'danger' %}
@@ -15,9 +16,11 @@
         {% set colorClasses = 'text-white bg-meteor hover:bg-pumpkin-skin focus:ring-whiskey border-transparent' %}
 {% endswitch %}
 
-<a
+<{% if type == 'submit' %}button{% else %}a{% endif %}
+    {% if href %}
     href="{{ href }}"
-    type="button"
+    {% endif %}
+    type="{{ type }}"
     class="inline-flex items-center px-4 py-2 border text-base font-medium rounded-md shadow-sm
     focus:outline-none focus:ring-2 focus:ring-offset-2 {{ colorClasses }} {{ additionalClasses }}"
     {% if ref %}
@@ -31,4 +34,4 @@
     {% endif %}
 >
     {{ content|smartypants }}
-</a>
+</{% if type == 'submit' %}button{% else %}a{% endif %}>
