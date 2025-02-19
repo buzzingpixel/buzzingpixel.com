@@ -109,7 +109,7 @@ services:
       disable: true
     entrypoint: >-
       /bin/bash -c
-      "echo 'while /usr/local/bin/php /var/www/cli queue:run --quiet 2>&1; do sleep 0.2; done' > /runner.sh
+      "echo 'while /usr/local/bin/php /var/www/cli queue:run --quiet 2>&1; do sleep 10; done' > /runner.sh
       && chmod +x /runner.sh
       && /runner.sh"
 
