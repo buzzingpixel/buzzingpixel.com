@@ -1,0 +1,22 @@
+# Architecture Review Checklist
+
+- Does this change improve or preserve locality of behavior?
+- Is the code grouped by user flow or use case rather than by technical concern?
+- Did we keep related UI, state, and behavior close together?
+- Was a new abstraction introduced because it represents a real feature boundary rather than generic reuse pressure?
+- Did we avoid creating or expanding vague buckets such as `Services`, `Managers`, `Helpers`, or `Utilities`?
+- If a large file was touched, did we consider extracting one or more small named collaborators instead of extending the file?
+- Are the names concrete and role-based?
+- If code was promoted upward, does at least one other distinct flow clearly need it?
+- Does the resulting structure make the feature easier to understand by reading a small nearby cluster of files?
+- Does any private method carry logic complex enough to warrant its own test, or a responsibility distinct from the rest of the class? If so, has it been extracted as an injected collaborator?
+- Where a boolean chain combines multiple conditions, does it represent one composite check — worth naming — or several distinct preconditions that should be split into separate guards with their own errors?
+- Are branches structured with early returns rather than trailing `else` or nested conditionals?
+- If a high-level test caught a bug, was a lower-level unit test added at the source of the failure?
+- Does any test extend a concrete production class with a `parent::__construct` call to override one of its methods? If so, the class needs an interface.
+- If PHP: does every file declare `strict_types=1`?
+- If PHP: are known value sets expressed as enums rather than magic strings?
+- If PHP: are raw arrays hidden behind typed collection classes at layer boundaries?
+- If PHP: are dependencies injected via constructor rather than resolved from a registry?
+- If React: is everything written in TypeScript with no `any` escape hatches that defeat the type system?
+- If React: does extracted behavior live as close as possible to where it's used — in the component's own feature directory, or the nearest common ancestor if it's genuinely shared — rather than in a distant cross-cutting location?
