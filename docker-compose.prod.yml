@@ -115,10 +115,11 @@ services:
 
   db:
     deploy:
+      # Two Postgres containers must never share the data volume, even briefly
       rollback_config:
-        order: start-first
+        order: stop-first
       update_config:
-        order: start-first
+        order: stop-first
     env_file:
       - .env
       - .env.local

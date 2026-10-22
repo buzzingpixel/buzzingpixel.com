@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Config\Logging;
 
+use Monolog\DateTimeImmutable;
+
 use function debug_backtrace;
 
 class Logger extends \Monolog\Logger
@@ -14,7 +16,8 @@ class Logger extends \Monolog\Logger
     public function addRecord(
         int $level,
         string $message,
-        array $context = []
+        array $context = [],
+        ?DateTimeImmutable $datetime = null
     ): bool {
         $trace = debug_backtrace();
 
@@ -28,7 +31,8 @@ class Logger extends \Monolog\Logger
         return parent::addRecord(
             $level,
             $message,
-            $context
+            $context,
+            $datetime
         );
     }
 }

@@ -10,14 +10,14 @@
             "homepage": "https://buzzingpixel.com"
         }
     ],
-    "repodsitories": [
+    "repositories": [
         {
             "type": "vcs",
             "url": "https://github.com/buzzingpixel/SlimValidation.git"
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.5",
         "ext-PDO": "^8.0",
         "ext-intl": "*",
         "awurth/slim-validation": "dev-allow-php-8",
@@ -33,13 +33,14 @@
         "crell/tukio": "^1.2",
         "daverandom/resume": "^0.0.3",
         "doctrine/annotations": "^1.11",
+        "doctrine/cache": "^1.13",
         "doctrine/migrations": "^3.1",
         "doctrine/orm": "^2.8",
         "elasticsearch/elasticsearch": "^7.14",
         "html2text/html2text": "^4.3",
         "jawira/case-converter": "^3.4",
         "league/csv": "^9.8",
-        "league/flysystem": "^2.0",
+        "league/flysystem": "^3.0",
         "league/iso3166": "^3.0",
         "league/mime-type-detection": "^1.7",
         "league/uri": "^6.5",
@@ -85,6 +86,10 @@
         }
     },
     "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "php-http/discovery": false
+        },
         "bin-compat": "full",
         "sort-packages": true
     }

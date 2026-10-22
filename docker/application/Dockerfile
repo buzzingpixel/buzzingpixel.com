@@ -18,7 +18,7 @@ RUN yarn build-prod
 ###################
 # application build
 ###################
-FROM --platform=$TARGETPLATFORM php:8.0.3-fpm
+FROM --platform=$TARGETPLATFORM php:8.5.12-fpm-trixie
 ARG TARGETPLATFORM
 ARG TARGETARCH
 ARG BUILDPLATFORM
@@ -37,34 +37,25 @@ RUN case ${TARGETARCH} in \
         "arm64")  S6_ARCH=aarch64  ;; \
     esac \
     && curl https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-${S6_ARCH}.tar.gz -L -s --output /tmp/s6-overlay-${S6_ARCH}.tar.gz \
-    && tar xvfz /tmp/s6-overlay-${S6_ARCH}.tar.gz -C / && rm /tmp/s6-overlay-${S6_ARCH}.tar.gz
+    # Debian's merged /usr makes /bin a symlink, which extracting the tarball's ./bin over / would replace
+    && tar xzf /tmp/s6-overlay-${S6_ARCH}.tar.gz -C / --exclude="./bin" \
+    && tar xzf /tmp/s6-overlay-${S6_ARCH}.tar.gz -C /usr ./bin \
+    && rm /tmp/s6-overlay-${S6_ARCH}.tar.gz
 
 # Install required packages
-RUN apt-get update && apt-get install -my --force-yes --no-install-recommends \
-    default-mysql-client \
-    dirmngr \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     gnupg \
+    libbz2-dev \
     libfreetype6-dev \
+    libicu-dev \
     libjpeg62-turbo-dev \
     libpng-dev \
-    libmagick++-dev \
-    libmagickwand-dev \
     libpq-dev \
-    libonig-dev \
-    libssl-dev \
     libwebp-dev \
-    libxml2 \
-    libxml2-dev \
     libxpm-dev \
     libzip-dev \
-    openssl \
-    postgresql \
-    postgresql-contrib \
-    zip \
     unzip \
-    libbz2-dev \
-    libcurl4 \
-    libcurl4-openssl-dev \
+    zip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -73,42 +64,28 @@ RUN apt-get update && apt-get install -my --force-yes --no-install-recommends \
 #
 
 RUN docker-php-ext-configure gd --with-jpeg --with-freetype --with-xpm --with-webp \
-    && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install bcmath \
-    && docker-php-ext-install bz2 \
-    && docker-php-ext-install exif \
-    && docker-php-ext-install iconv \
-    && docker-php-ext-install mbstring \
-    && docker-php-ext-install opcache \
-    && docker-php-ext-install pgsql \
-    && docker-php-ext-install pdo \
-    && docker-php-ext-install pdo_pgsql \
-    && docker-php-ext-install zip \
-    && docker-php-ext-install pcntl \
-    && docker-php-ext-install intl
+    && docker-php-ext-install -j$(nproc) \
+        bcmath \
+        bz2 \
+        exif \
+        gd \
+        intl \
+        pcntl \
+        pdo_pgsql \
+        pgsql \
+        zip
 
 #
 # Install and configure nginx
 #
 
-# Find at http://nginx.org/packages/mainline/debian/pool/nginx/n/nginx/
-# and http://nginx.org/packages/mainline/debian/pool/nginx/n/nginx-module-njs/
-ARG NGINX_VERSION=1.19.10
-ARG NJS_VERSION=0.5.3
-ARG PKG_RELEASE=1~buster
-ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
-
-RUN curl -O https://nginx.org/keys/nginx_signing.key && apt-key add ./nginx_signing.key \
-    && echo "deb http://nginx.org/packages/mainline/debian/ buster nginx" >> /etc/apt/sources.list \
+RUN curl -fsSL https://nginx.org/keys/nginx_signing.key \
+        | gpg --dearmor -o /usr/share/keyrings/nginx-archive-keyring.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/debian trixie nginx" \
+        > /etc/apt/sources.list.d/nginx.list \
     && apt-get update && apt-get install -y --no-install-recommends --no-install-suggests \
         ca-certificates \
-        nginx=${NGINX_VERSION}-${PKG_RELEASE} \
-        nginx-module-xslt=${NGINX_VERSION}-${PKG_RELEASE} \
-        nginx-module-geoip=${NGINX_VERSION}-${PKG_RELEASE} \
-        nginx-module-image-filter=${NGINX_VERSION}-${PKG_RELEASE} \
-        nginx-module-perl=${NGINX_VERSION}-${PKG_RELEASE} \
-        nginx-module-njs=${NGINX_VERSION}+${NJS_VERSION}-${PKG_RELEASE} \
+        nginx \
         gettext-base \
     # Cleanup
     && rm -rf /var/lib/apt/lists/*
@@ -126,10 +103,6 @@ RUN mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 COPY docker/application/php/php-fpm.conf /usr/local/etc/php-fpm.d/zzz-custom.conf
 COPY docker/application/php/php.ini $PHP_INI_DIR/conf.d/
 COPY docker/application/php/php-dev.ini $PHP_INI_DIR/
-
-# Install xdebug
-RUN pecl install xdebug-3.0.4
-COPY docker/application/php/xdebug.ini $PHP_INI_DIR/disabled/
 
 # Install redis
 RUN pecl install redis && docker-php-ext-enable redis
@@ -152,7 +125,7 @@ COPY ./docker/.profile /root/.profile
 COPY ./docker/.profile /root/.bashrc
 
 # Add composer
-COPY --from=composer:2.0.12 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Allow composer to run as root
 ENV COMPOSER_ALLOW_SUPERUSER=1

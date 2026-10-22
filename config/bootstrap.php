@@ -15,7 +15,8 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 if ((bool) getenv('DEV_MODE')) {
     ini_set('display_errors', '1');
     ini_set('display_startup_errors', '1');
-    error_reporting(E_ALL);
+    // Dependencies predate PHP 8.5 and emit deprecations on most requests
+    error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 }
 
 if (class_exists(WhoopsRun::class)) {
