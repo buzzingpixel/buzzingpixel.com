@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:26.04
 
 COPY docker/utility/prod.sh /var/www/docker/utility/prod.sh
 

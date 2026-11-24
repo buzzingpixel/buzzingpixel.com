@@ -135,7 +135,7 @@ services:
           - buzzingpixel-db
 
   redis:
-    image: redis:alpine3.14
+    image: redis:8.10.3-trixie
     volumes:
       - redis-volume:/data
     networks:
@@ -144,7 +144,7 @@ services:
           - buzzingpixel-redis
 
   es01:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.29
     environment:
       - cluster.name=es-docker-cluster
       - node.name=es01

@@ -7,16 +7,16 @@ on:
 jobs:
   build:
     name: Build images and push to registry
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Create buildx context
-        run: docker buildx create --use
+        run: docker buildx create --use --driver-opt image=moby/buildkit:v0.35.1
 
       - name: Log in to registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
@@ -72,10 +72,10 @@ jobs:
     if: contains(github.ref, 'master')
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Copy Files
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@ff85246acaad7bdce478db94a363cd2bf7c90345 # v1.0.0
         with:
           username: ${{ vars.PROD_DEPLOY_SSH_USER }}
           host: ${{ vars.PROD_DEPLOY_SSH_HOST }}
@@ -84,7 +84,7 @@ jobs:
           target: "/root/buzzingpixel.com"
 
       - name: Log in to production server pull images, and deploy
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@0ff4204d59e8e51228ff73bce53f80d53301dee2 # v1.2.5
         with:
           username: ${{ vars.PROD_DEPLOY_SSH_USER }}
           host: ${{ vars.PROD_DEPLOY_SSH_HOST }}

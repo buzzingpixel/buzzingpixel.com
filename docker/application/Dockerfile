@@ -1,7 +1,10 @@
 ##################
 # frontend-builder
 ##################
-FROM --platform=$TARGETPLATFORM node:15.8.0 AS frontend-builder
+FROM --platform=$TARGETPLATFORM node:26.13.1-trixie-slim AS frontend-builder
+
+# Node 26 images no longer bundle Yarn or Corepack
+RUN npm install --global yarn@1.22.22
 
 # Set our workdir
 WORKDIR /var/www
@@ -10,7 +13,7 @@ WORKDIR /var/www
 COPY . /var/www
 
 # Install dependencies
-RUN yarn
+RUN yarn install --frozen-lockfile
 
 # Run the frontend build
 RUN yarn build-prod
@@ -18,7 +21,7 @@ RUN yarn build-prod
 ###################
 # application build
 ###################
-FROM --platform=$TARGETPLATFORM php:8.5.12-fpm-trixie
+FROM --platform=$TARGETPLATFORM php:8.5.13-fpm-trixie
 ARG TARGETPLATFORM
 ARG TARGETARCH
 ARG BUILDPLATFORM
@@ -30,17 +33,21 @@ WORKDIR /var/www
 #
 # s6 overlay init and process supervisor
 #
-ARG S6_VERSION=v1.22.1.0
+ARG S6_VERSION=v3.2.3.2
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 RUN case ${TARGETARCH} in \
-        "amd64")  S6_ARCH=amd64  ;; \
+        "amd64")  S6_ARCH=x86_64  ;; \
         "arm64")  S6_ARCH=aarch64  ;; \
     esac \
-    && curl https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-${S6_ARCH}.tar.gz -L -s --output /tmp/s6-overlay-${S6_ARCH}.tar.gz \
-    # Debian's merged /usr makes /bin a symlink, which extracting the tarball's ./bin over / would replace
-    && tar xzf /tmp/s6-overlay-${S6_ARCH}.tar.gz -C / --exclude="./bin" \
-    && tar xzf /tmp/s6-overlay-${S6_ARCH}.tar.gz -C /usr ./bin \
-    && rm /tmp/s6-overlay-${S6_ARCH}.tar.gz
+    && cd /tmp \
+    && for TARBALL in s6-overlay-noarch s6-overlay-${S6_ARCH} s6-overlay-symlinks-noarch; do \
+        curl -fsSLO https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/${TARBALL}.tar.xz \
+        && curl -fsSLO https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/${TARBALL}.tar.xz.sha256 \
+        && sha256sum -c ${TARBALL}.tar.xz.sha256 \
+        && tar -C / -Jxpf ${TARBALL}.tar.xz \
+        && rm ${TARBALL}.tar.xz ${TARBALL}.tar.xz.sha256 \
+        || exit 1; \
+    done
 
 # Install required packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -85,7 +92,7 @@ RUN curl -fsSL https://nginx.org/keys/nginx_signing.key \
         > /etc/apt/sources.list.d/nginx.list \
     && apt-get update && apt-get install -y --no-install-recommends --no-install-suggests \
         ca-certificates \
-        nginx \
+        nginx=1.31.10-1~trixie \
         gettext-base \
     # Cleanup
     && rm -rf /var/lib/apt/lists/*
@@ -117,15 +124,15 @@ COPY ./docker/application/nginx/dhparam.pem /etc/nginx/ssl/dhparam.pem
 COPY . /var/www
 
 # Container configuration
-COPY docker/application/cont-init.d /etc/cont-init.d/
-COPY docker/application/services.d /etc/services.d/
+COPY --chmod=755 docker/application/cont-init.d /etc/cont-init.d/
+COPY --chmod=755 docker/application/services.d /etc/services.d/
 
 # Update bash profile
 COPY ./docker/.profile /root/.profile
 COPY ./docker/.profile /root/.bashrc
 
 # Add composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.11.2 /usr/bin/composer /usr/bin/composer
 
 # Allow composer to run as root
 ENV COMPOSER_ALLOW_SUPERUSER=1
@@ -136,5 +143,8 @@ RUN composer install --no-interaction --no-ansi --no-progress --no-dev --optimiz
 # Copy the front-end build
 COPY --from=frontend-builder /var/www/public/assets/css public/assets/css
 COPY --from=frontend-builder /var/www/public/assets/js public/assets/js
+
+# The php-fpm base image stops with SIGQUIT, which s6-overlay v3's /init ignores
+STOPSIGNAL SIGTERM
 
 ENTRYPOINT ["/init"]
